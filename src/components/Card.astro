@@ -1,0 +1,65 @@
+---
+// Card — Bild-Link-Karte (Figma V4: „Card Link" — Projekt / Blog / Kategorie / Service)
+// Bild oben (abgerundet, Hover-Zoom) + optionaler Textblock (Eyebrow + Titel).
+// Track-/Spaltenbreiten setzt die Seite (Grid/Scroll-Container), nicht die Karte.
+//
+// Props:
+//  - href:         Ziel-Link (Pflicht)
+//  - image, alt:   Bildquelle + Alt-Text
+//  - eyebrow:      kleines Label/Kategorie (links)
+//  - eyebrowRight: optionales rechtes Label (Feature-/Artikel-Karte)
+//  - title:        Karten-Titel
+//  - ratio:        "portrait" | "square" | "landscape" | "auto" (default "portrait")
+interface Props {
+  href: string;
+  image: string;
+  alt?: string;
+  eyebrow?: string;
+  eyebrowRight?: string;
+  title?: string;
+  ratio?: "portrait" | "square" | "landscape" | "auto";
+  class?: string;
+}
+const {
+  href,
+  image,
+  alt = "",
+  eyebrow,
+  eyebrowRight,
+  title,
+  ratio = "portrait",
+  class: cls = "",
+} = Astro.props;
+const hasBody = Boolean(eyebrow || eyebrowRight || title);
+---
+<a class:list={["card", `card--${ratio}`, cls]} href={href}>
+  <div class="card__media"><img src={image} alt={alt} loading="lazy" /></div>
+  {hasBody && (
+    <div class="card__body">
+      {(eyebrow || eyebrowRight) && (
+        <div class="card__head">
+          {eyebrow && <span class="t-small card__eyebrow">{eyebrow}</span>}
+          {eyebrowRight && <span class="t-small card__meta">{eyebrowRight}</span>}
+        </div>
+      )}
+      {title && <p class="t-h5 card__title">{title}</p>}
+    </div>
+  )}
+</a>
+
+<style>
+  .card { display: flex; flex-direction: column; gap: var(--gap-xs); color: var(--text); }
+  .card__media { overflow: hidden; }
+  .card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .card:hover .card__media img { transform: scale(1.03); }
+
+  .card--portrait .card__media { height: clamp(280px, 40vw, 600px); }
+  .card--square .card__media { aspect-ratio: 1 / 1; }
+  .card--landscape .card__media { aspect-ratio: 16 / 10; }
+  /* auto = natürliche Bildhöhe */
+
+  .card__body { display: flex; flex-direction: column; gap: 6px; }
+  .card__head { display: flex; justify-content: space-between; gap: 16px; }
+  .card__eyebrow, .card__meta { color: var(--grey); }
+  .card__title { color: var(--text); }
+</style>

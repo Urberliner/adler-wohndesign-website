@@ -1,0 +1,41 @@
+---
+// ReviewCard — Kundenstimme (Figma V4: „Card Review")
+// Sterne + Name + Quelle + Zitat. Als <li> für den Bewertungs-Track gedacht.
+//
+// Props:
+//  - name:   Name der Person (Pflicht)
+//  - source: Quelle (z. B. "Google", "ProvenExpert")
+//  - stars:  Anzahl Sterne (default 5)
+interface Props {
+  name: string;
+  source?: string;
+  stars?: number;
+  class?: string;
+}
+const { name, source, stars = 5, class: cls = "" } = Astro.props;
+const filled = "★★★★★".slice(0, Math.max(0, Math.min(5, stars)));
+---
+<li class:list={["rcard", cls]}>
+  <p class="rcard__stars" aria-label={`${stars} von 5 Sternen`}>{filled}</p>
+  <div class="rcard__person">
+    <p class="t-h5 rcard__name">{name}</p>
+    {source && <p class="t-small rcard__src">{source}</p>}
+  </div>
+  <p class="t-body rcard__text"><slot /></p>
+</li>
+
+<style>
+  .rcard {
+    flex: 0 0 clamp(280px, 30vw, 451px);
+    scroll-snap-align: start;
+    background: var(--nature);
+    padding: var(--gap-m) var(--gap-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+  }
+  .rcard__stars { color: var(--bronze); letter-spacing: 3px; font-size: 22px; line-height: 1; }
+  .rcard__name { color: var(--text); }
+  .rcard__src { color: var(--grey); }
+  .rcard__text { color: var(--text); }
+</style>

@@ -5,6 +5,9 @@ import Footer from "../components/Footer.astro";
 import Accordion from "../components/Accordion.astro";
 import Button from "../components/Button.astro";
 import Cta from "../components/Cta.astro";
+import Card from "../components/Card.astro";
+import ReviewCard from "../components/ReviewCard.astro";
+import Icon from "../components/Icon.astro";
 
 // Projekt-Aufbau — Akkordeon (Texte 2–5 folgen aus Figma)
 const aufbau = [
@@ -82,28 +85,12 @@ const reviews = [
       <!-- PROJEKT-VORSCHAU -->
       <section class="projects container" aria-label="Projekte">
         <div class="projects__row projects__row--a">
-          <a class="pcard" href="/projekte">
-            <div class="pcard__media"><img src={proj.img1} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
-            <p class="t-small pcard__cat">{proj.cat}</p>
-            <p class="t-h5 pcard__title">{proj.titel}</p>
-          </a>
-          <a class="pcard" href="/projekte">
-            <div class="pcard__media"><img src={proj.img2} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
-            <p class="t-small pcard__cat">{proj.cat}</p>
-            <p class="t-h5 pcard__title">{proj.titel}</p>
-          </a>
+          <Card href="/projekte" image={proj.img1} alt={`${proj.cat} – ${proj.titel}`} eyebrow={proj.cat} title={proj.titel} />
+          <Card href="/projekte" image={proj.img2} alt={`${proj.cat} – ${proj.titel}`} eyebrow={proj.cat} title={proj.titel} />
         </div>
         <div class="projects__row projects__row--b">
-          <a class="pcard" href="/projekte">
-            <div class="pcard__media"><img src={proj.img2} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
-            <p class="t-small pcard__cat">{proj.cat}</p>
-            <p class="t-h5 pcard__title">{proj.titel}</p>
-          </a>
-          <a class="pcard" href="/projekte">
-            <div class="pcard__media"><img src={proj.img1} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
-            <p class="t-small pcard__cat">{proj.cat}</p>
-            <p class="t-h5 pcard__title">{proj.titel}</p>
-          </a>
+          <Card href="/projekte" image={proj.img2} alt={`${proj.cat} – ${proj.titel}`} eyebrow={proj.cat} title={proj.titel} />
+          <Card href="/projekte" image={proj.img1} alt={`${proj.cat} – ${proj.titel}`} eyebrow={proj.cat} title={proj.titel} />
         </div>
       </section>
 
@@ -137,23 +124,16 @@ const reviews = [
           <div class="reviews__head">
             <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Kundenstimmen</p>
             <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
-            <p class="reviews__rating"><span class="rcard__stars" aria-hidden="true">★★★★★</span> <strong>4,95/5</strong> auf ProvenExpert · <strong>4,9/5</strong> auf Google</p>
+            <p class="reviews__rating"><span class="reviews__stars" aria-hidden="true">★★★★★</span> <strong>4,95/5</strong> auf ProvenExpert · <strong>4,9/5</strong> auf Google</p>
           </div>
           <div class="reviews__nav">
-            <button class="rev-btn" type="button" data-rev="prev" aria-label="Vorherige Bewertungen">‹</button>
-            <button class="rev-btn" type="button" data-rev="next" aria-label="Nächste Bewertungen">›</button>
+            <button class="rev-btn" type="button" data-rev="prev" aria-label="Vorherige Bewertungen"><Icon name="arrow-left" size={32} /></button>
+            <button class="rev-btn" type="button" data-rev="next" aria-label="Nächste Bewertungen"><Icon name="arrow-right" size={32} /></button>
           </div>
         </div>
         <ul class="reviews__track" id="reviewsTrack">
           {reviews.map((r) => (
-            <li class="rcard">
-              <p class="rcard__stars" aria-label="Fünf von fünf Sternen">★★★★★</p>
-              <div class="rcard__person">
-                <p class="t-h5 rcard__name">{r.name}</p>
-                <p class="t-small rcard__src">{r.quelle}</p>
-              </div>
-              <p class="t-body rcard__text">{r.text}</p>
-            </li>
+            <ReviewCard name={r.name} source={r.quelle}>{r.text}</ReviewCard>
           ))}
         </ul>
       </section>
@@ -237,12 +217,7 @@ const reviews = [
       .projects__row { display: grid; gap: var(--gutter); }
       .projects__row--a { grid-template-columns: 2fr 1fr; }
       .projects__row--b { grid-template-columns: 1fr 2fr; }
-      .pcard { display: flex; flex-direction: column; gap: 6px; color: var(--text); }
-      .pcard__media { height: clamp(280px, 40vw, 600px); overflow: hidden; }
-      .pcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-      .pcard:hover .pcard__media img { transform: scale(1.03); }
-      .pcard__cat { color: var(--grey); margin-top: 8px; }
-      .pcard__title { color: var(--text); }
+      /* Projekt-/Bild-Karten-Stil liegt in Card.astro */
 
       /* KUNDENSTIMMEN */
       .reviews { padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-m); }
@@ -250,18 +225,16 @@ const reviews = [
       .reviews__over { display: flex; align-items: center; gap: var(--gap-xs); }
       .reviews__title { color: var(--text); }
       .reviews__track { display: flex; gap: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
-      .rcard { flex: 0 0 clamp(280px, 30vw, 451px); scroll-snap-align: start; background: var(--nature); padding: var(--gap-m) var(--gap-sm); display: flex; flex-direction: column; gap: var(--gap-xs); }
-      .rcard__stars { color: var(--bronze); letter-spacing: 3px; font-size: 22px; line-height: 1; }
-      .rcard__name { color: var(--text); }
-      .rcard__src { color: var(--grey); }
-      .rcard__text { color: var(--text); }
+      /* Bewertungs-Karten-Stil liegt in ReviewCard.astro */
       .reviews__top { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--gap-m); }
       .reviews__rating { margin-top: var(--gap-xs); color: var(--text); font-size: 14px; }
-      .reviews__rating .rcard__stars { font-size: 16px; }
+      .reviews__stars { color: var(--bronze); letter-spacing: 3px; line-height: 1; }
+      .reviews__rating .reviews__stars { font-size: 16px; }
       .reviews__rating strong { font-weight: 600; }
-      .reviews__nav { display: flex; gap: 12px; flex: none; }
-      .rev-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--light-grey); color: var(--text); font-size: 24px; line-height: 1; display: grid; place-items: center; transition: background 0.2s, color 0.2s, border-color 0.2s; }
-      .rev-btn:hover { background: var(--bronze); color: var(--white); border-color: var(--bronze); }
+      .reviews__nav { display: flex; gap: var(--gap-xs); flex: none; }
+      /* Pfeil-Icons der Designerin (Linien-Pfeil), keine runden Buttons */
+      .rev-btn { color: var(--text); display: grid; place-items: center; padding: 4px; transition: color 0.2s ease; }
+      .rev-btn:hover { color: var(--bronze); }
       @media (max-width: 768px) { .reviews__nav { display: none; } }
 
       /* BLOG-VORSCHAU */
