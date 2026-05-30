@@ -1,6 +1,6 @@
 ---
-// Adler Wohndesign — Hero proof-of-concept
-// Built fresh from the Figma design tokens (colors, fonts, type scale, spacing).
+import "../styles/global.css";
+// Adler Wohndesign — Hero (Platzhalter-Startseite, wird später aus V4 neu gebaut)
 const nav = [
   { label: "Services", href: "#services" },
   { label: "Projekte", href: "#projekte" },
@@ -20,12 +20,8 @@ const nav = [
       name="description"
       content="ADLER Wohndesign — Meisterbetrieb seit 1939. Ganzheitliche Raumkonzepte aus Berlin-Charlottenburg: von der ersten Idee bis zum letzten Handgriff."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Schriften werden selbst gehostet (via global.css / @fontsource) -->
+    <link rel="icon" href="/favicon.svg" />
   </head>
   <body>
     <!-- Header -->

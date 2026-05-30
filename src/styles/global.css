@@ -1,26 +1,34 @@
 /* =========================================================
    ADLER Wohndesign — Design Tokens & Base
-   Werte aus Figma (Webdesign – Dev – Kunde, Stand 05/2026)
+   Werte aus Figma V4 (fileKey AryB7Db9AeJFgXmfBEsvpn), Stand 05/2026
    ========================================================= */
+
+/* Selbst-gehostete Schriften (kein Google-CDN → DSGVO) */
+@import "@fontsource/playfair-display/500.css";
+@import "@fontsource/montserrat/400.css";
+@import "@fontsource/montserrat/500.css";
+@import "@fontsource/montserrat/600.css";
+
 :root {
-  /* Farben */
+  /* Farben (in allen Figma-Versionen identisch) */
   --moos: #153032;
   --bronze: #bf8970;
   --nature: #f6f3f2;
   --text: #1f1f27;
   --grey: #8e8f93;
+  --light-grey: #d4d5d9;
   --white: #ffffff;
 
   /* Schriften */
   --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Montserrat", system-ui, -apple-system, sans-serif;
 
-  /* Layout */
+  /* Layout (V4: Rand 24/32/80, Gutter 16/24/32) */
   --layout-margin: clamp(24px, 6vw, 80px);
-  --gutter: clamp(20px, 2vw, 32px);
+  --gutter: clamp(16px, 2vw, 32px);
   --container-max: 1600px;
 
-  /* Vertikaler Rhythmus (Desktop-Werte als Maximum, responsiv skaliert) */
+  /* Vertikaler Rhythmus (Desktop-Werte als Maximum, responsiv) */
   --pad-section: clamp(72px, 13vw, 222px);
   --gap-xl: clamp(56px, 9vw, 142px);
   --gap-l: clamp(48px, 7vw, 104px);
@@ -55,12 +63,14 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   padding-inline: var(--layout-margin);
 }
 
-/* ---- Typografie-Stufen (Figma) ---- */
+/* =========================================================
+   Typografie-Stufen (Figma V4) — mobile-first, exakte Werte
+   Mobil < 768  ·  Tablet ≥ 768  ·  Desktop ≥ 1024
+   ========================================================= */
 .t-titel {
   font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 11px;
-  line-height: 1.9;
+  font-weight: 500;
+  font-size: 12px; line-height: 20px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grey);
@@ -68,49 +78,60 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 .t-h1 {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(2.125rem, 5.2vw, 3.75rem); /* 34 → 60px */
-  line-height: 1.2;
+  font-size: 36px; line-height: 50px;
   letter-spacing: 0;
 }
 .t-h2 {
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: clamp(1.625rem, 3.4vw, 2rem); /* 26 → 32px */
-  line-height: 1.45;
+  font-weight: 600;
+  font-size: 36px; line-height: 50px;
 }
 .t-h3 {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(1.75rem, 3.2vw, 2.25rem); /* 28 → 36px */
-  line-height: 1.35;
+  font-size: 28px; line-height: 40px;
 }
 .t-h4 {
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: clamp(1.25rem, 2vw, 1.5rem); /* 20 → 24px */
-  line-height: 1.42;
+  font-weight: 600;
+  font-size: 22px; line-height: 32px;
   letter-spacing: 0.03em;
 }
 .t-h5 {
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.55;
+  font-weight: 600;
+  font-size: 16px; line-height: 26px;
   letter-spacing: 0.03em;
 }
 .t-body {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 16px; line-height: 26px;
   letter-spacing: 0.03em;
 }
 .t-small {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.83;
+  font-size: 14px; line-height: 22px;
   letter-spacing: 0.01em;
+}
+
+@media (min-width: 768px) {
+  .t-h1 { font-size: 44px; line-height: 58px; }
+  .t-h2 { font-size: 44px; line-height: 58px; }
+  .t-h3 { font-size: 32px; line-height: 46px; }
+  .t-h4 { font-size: 24px; line-height: 36px; }
+}
+
+@media (min-width: 1024px) {
+  .t-titel { font-size: 14px; line-height: 24px; }
+  .t-h1 { font-size: 64px; line-height: 88px; }
+  .t-h2 { font-size: 64px; line-height: 88px; }
+  .t-h3 { font-size: 34px; line-height: 50px; }
+  .t-h4 { font-size: 28px; line-height: 40px; }
+  .t-h5 { font-size: 18px; line-height: 32px; }
+  .t-body { font-size: 18px; line-height: 32px; }
+  .t-small { font-size: 16px; line-height: 26px; }
 }
 
 /* Button */
@@ -120,6 +141,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   justify-content: center;
   background: var(--bronze);
   color: var(--white);
+  font-family: var(--font-body);
   font-size: 12px;
   letter-spacing: 0.01em;
   padding: 12px 30px;
@@ -129,7 +151,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .btn:hover { filter: brightness(1.07); }
 
-/* Accessibility: sichtbarer Fokus */
+/* Sichtbarer Fokus (Barrierefreiheit) */
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--bronze);
   outline-offset: 3px;
