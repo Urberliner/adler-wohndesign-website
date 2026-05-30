@@ -1,0 +1,44 @@
+---
+// Cta — wiederkehrender Kontakt-/Abschluss-Block (war auf Startseite & Komplettlösung dupliziert)
+// Zentrierter Stack: Titel · Headline · Lead · Button.
+//
+// Props:
+//  - over:        kleiner Titel oben (default "Kontakt")
+//  - heading:     Überschrift (Pflicht)
+//  - lead:        Fließtext (optional)
+//  - buttonLabel: default "Mein Projekt starten"
+//  - buttonHref:  default "/kontakt"
+//  - bg:          "default" | "moos" | "nature" (default "moos")
+//  - headingClass: Typo-Klasse der Headline (default "t-h3")
+import Section from "./Section.astro";
+import Button from "./Button.astro";
+interface Props {
+  over?: string;
+  heading: string;
+  lead?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+  bg?: "default" | "moos" | "nature";
+  headingClass?: string;
+}
+const {
+  over = "Kontakt",
+  heading,
+  lead,
+  buttonLabel = "Mein Projekt starten",
+  buttonHref = "/kontakt",
+  bg = "moos",
+  headingClass = "t-h3",
+} = Astro.props;
+---
+<Section bg={bg} center class="cta">
+  {over && <p class="t-titel cta__over">{over}</p>}
+  <h2 class:list={[headingClass, "cta__head"]}>{heading}</h2>
+  {lead && <p class="t-body cta__lead">{lead}</p>}
+  <Button href={buttonHref}>{buttonLabel}</Button>
+</Section>
+
+<style>
+  .cta :global(.cta__head) { max-width: 22ch; }
+  .cta :global(.cta__lead) { max-width: 60ch; }
+</style>

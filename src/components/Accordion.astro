@@ -1,0 +1,51 @@
+---
+// Accordion — aufklappbare Liste (Figma V4: Projekt-Aufbau auf der Startseite)
+// Nutzt natives <details name> (exklusiv aufklappend) — kein JS nötig.
+//
+// Props:
+//  - items:     [{ titel, text }]
+//  - name:      gemeinsamer Gruppen-Name (default "accordion")
+//  - openFirst: erstes Element offen (default true)
+import Icon from "./Icon.astro";
+interface Item {
+  titel: string;
+  text: string;
+}
+interface Props {
+  items: Item[];
+  name?: string;
+  openFirst?: boolean;
+}
+const { items, name = "accordion", openFirst = true } = Astro.props;
+---
+<div class="accordion">
+  {items.map((item, i) => (
+    <details name={name} open={openFirst && i === 0}>
+      <summary>
+        <span class="t-h4">{item.titel}</span>
+        <Icon name="chevron-down" size={28} class="acc-chev" />
+      </summary>
+      <div class="accordion__body"><p class="t-body">{item.text}</p></div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .accordion { display: flex; flex-direction: column; }
+  .accordion details { border-bottom: 1px solid var(--light-grey); }
+  .accordion summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-s);
+    padding-block: var(--gap-s);
+    color: var(--text);
+  }
+  .accordion summary::-webkit-details-marker { display: none; }
+  .accordion :global(.acc-chev) { color: var(--bronze); transition: transform 0.25s ease; }
+  .accordion details[open] summary :global(.acc-chev) { transform: rotate(180deg); }
+  .accordion__body { padding-bottom: var(--gap-s); }
+  .accordion__body .t-body { color: var(--text); max-width: 60ch; }
+</style>

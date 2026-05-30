@@ -2,6 +2,9 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Accordion from "../components/Accordion.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
 
 // Projekt-Aufbau — Akkordeon (Texte 2–5 folgen aus Figma)
 const aufbau = [
@@ -65,7 +68,7 @@ const reviews = [
         <div class="container hero__content">
           <p class="t-titel hero__over">Adler Wohndesign — Raumausstatter &amp; Innenarchitektur-Studio in Berlin</p>
           <h1 id="hero-title" class="t-h1">Wir kreieren Ihren Wohlfühlort – perfekt.</h1>
-          <a class="btn" href="/kontakt">Mein Projekt starten</a>
+          <Button href="/kontakt">Mein Projekt starten</Button>
         </div>
       </section>
 
@@ -73,7 +76,7 @@ const reviews = [
       <section class="services container">
         <p class="t-titel services__over">Unser Service</p>
         <p class="t-h3 services__text">Wir sind ADLER Wohndesign. Meisterbetrieb mit über 85 Jahren Erfahrung – für Wohnkonzepte, die wirklich passen. Für echtes Handwerk und bleibendes Wohlfühlen in Ihrem Zuhause. Wir begleiten Sie von der ersten Idee bis zum letzten Detail – wir übernehmen alles. Für Sie.</p>
-        <a class="btn" href="/komplettloesung">Mein Projekt starten</a>
+        <Button href="/komplettloesung">Mein Projekt starten</Button>
       </section>
 
       <!-- PROJEKT-VORSCHAU -->
@@ -111,15 +114,7 @@ const reviews = [
           <p class="t-h4 aufbau__lead">Wir bieten einen neuen Standard für Raumgestaltung in Berlin – persönlich, vielseitig und ohne Aufwand für Sie. Von einzelnen Leistungen wie Lichtkonzepten, Maßgardinen oder Bodengestaltung bis zum vollständigen Rundum-Paket. Was Sie beauftragen, liegt ganz bei Ihnen.</p>
         </div>
         <div class="aufbau__list">
-          {aufbau.map((item, i) => (
-            <details name="aufbau" open={i === 0}>
-              <summary>
-                <span class="t-h4">{item.titel}</span>
-                <svg class="chev" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
-              </summary>
-              <div class="aufbau__body"><p class="t-body">{item.text}</p></div>
-            </details>
-          ))}
+          <Accordion items={aufbau} name="aufbau" />
         </div>
       </section>
 
@@ -132,7 +127,7 @@ const reviews = [
           <p class="t-titel">Das sind wir</p>
           <h2 class="t-h3 team__head">Lernen Sie uns kennen</h2>
           <p class="t-body">Hinter jedem Projekt steht ein Team mit Leidenschaft und Expertise für Raumgestaltung. Lernen Sie die Menschen hinter ADLER kennen, besuchen Sie unseren Showroom in Charlottenburg – und entdecken Sie, was uns bis heute antreibt.</p>
-          <a class="btn" href="/ueber-uns">Mehr über uns</a>
+          <Button href="/ueber-uns">Mehr über uns</Button>
         </div>
       </section>
 
@@ -177,14 +172,10 @@ const reviews = [
       </script>
 
       <!-- KONTAKT -->
-      <section class="kontakt">
-        <div class="container kontakt__inner">
-          <p class="t-titel kontakt__over">Kontakt</p>
-          <h2 class="t-h3 kontakt__head">Ihr Wohlfühlort wartet – lassen Sie uns gemeinsam starten.</h2>
-          <p class="t-body kontakt__lead">Rufen Sie uns an oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
-          <a class="btn" href="/kontakt">Mein Projekt starten</a>
-        </div>
-      </section>
+      <Cta
+        heading="Ihr Wohlfühlort wartet – lassen Sie uns gemeinsam starten."
+        lead="Rufen Sie uns an oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten."
+      />
 
       <!-- BLOG-VORSCHAU -->
       <section class="blog" aria-label="Blog">
@@ -230,14 +221,7 @@ const reviews = [
       .aufbau__over { display: flex; align-items: center; gap: var(--gap-xs); }
       .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
       .aufbau__lead { color: var(--text); }
-      .aufbau__list { display: flex; flex-direction: column; }
-      .aufbau details { border-bottom: 1px solid var(--light-grey); }
-      .aufbau summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: var(--gap-s); padding-block: var(--gap-s); color: var(--text); }
-      .aufbau summary::-webkit-details-marker { display: none; }
-      .aufbau .chev { color: var(--bronze); flex: none; transition: transform 0.25s ease; }
-      .aufbau details[open] .chev { transform: rotate(180deg); }
-      .aufbau__body { padding-bottom: var(--gap-s); }
-      .aufbau__body .t-body { color: var(--text); max-width: 60ch; }
+      /* Akkordeon-Markup & -Stil liegen jetzt in Accordion.astro */
 
       /* DAS SIND WIR */
       .team { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-l); align-items: center; padding-block: var(--pad-section); padding-right: var(--layout-margin); }
@@ -246,13 +230,7 @@ const reviews = [
       .team__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 652px; }
       .team__head { color: var(--text); }
 
-      /* KONTAKT */
-      .kontakt { background: var(--moos); color: var(--white); padding-block: var(--pad-section); }
-      .kontakt__inner { display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; max-width: 760px; }
-      .kontakt__over { color: rgba(255,255,255,0.7); }
-      .kontakt__head, .kontakt__lead { color: var(--white); }
-      .kontakt__head { max-width: 22ch; }
-      .kontakt__lead { max-width: 56ch; }
+      /* KONTAKT-Block liegt jetzt in Cta.astro */
 
       /* PROJEKT-VORSCHAU */
       .projects { padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gutter); }

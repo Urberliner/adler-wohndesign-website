@@ -1,0 +1,37 @@
+---
+// Quote — Kunden-Zitat (Figma V4: „new category + zitat" / Card Review groß)
+// Zentriertes Blockzitat mit optionalen Pfeilen.
+//
+// Props:
+//  - author: Autor/Quelle (HTML erlaubt, z. B. "Name<br />Kunde")
+//  - arrows: Pfeile links/rechts anzeigen (default true)
+//  - bg:     "nature" (default) | "default" | "moos"
+import Section from "./Section.astro";
+interface Props {
+  author: string;
+  arrows?: boolean;
+  bg?: "default" | "moos" | "nature";
+}
+const { author, arrows = true, bg = "nature" } = Astro.props;
+---
+<Section bg={bg} class="quote">
+  <div class="quote__inner">
+    {arrows && <span class="quote__arrow" aria-hidden="true">‹</span>}
+    <blockquote class="quote__body">
+      <p class="t-titel quote__author" set:html={author} />
+      <p class="t-h3 quote__text"><slot /></p>
+    </blockquote>
+    {arrows && <span class="quote__arrow" aria-hidden="true">›</span>}
+  </div>
+</Section>
+
+<style>
+  .quote__inner { display: flex; align-items: center; gap: var(--gutter); justify-content: center; }
+  .quote__arrow { color: var(--grey); font-size: 40px; line-height: 1; flex: none; }
+  .quote__body { display: flex; flex-direction: column; gap: var(--gap-m); align-items: center; max-width: 1056px; text-align: center; }
+  .quote__author { text-align: center; }
+  .quote__text { color: var(--text); }
+  @media (max-width: 768px) {
+    .quote__arrow { display: none; }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+// Section — Standard-Abschnitt mit vertikalem Rhythmus (Figma V4)
+// Vereinheitlicht das überall wiederholte `padding-block: var(--pad-section)`
+// plus Hintergrund-Varianten und optionalen Container.
+//
+// Props:
+//  - bg:        "default" | "moos" | "nature"   Hintergrund (moos = dunkel, weißer Text)
+//  - container: boolean (default true)           Inhalt in .container zentrieren
+//  - center:    boolean (default false)          Inhalt als zentrierter Stack (Hero-Statement, CTA …)
+//  - flow:      boolean (default false)          Inhalt als vertikaler Stack mit --gap-m
+//  - pad:       "section" | "tight" | "none"     vertikales Padding (default "section")
+//  - class:     zusätzliche Klassen
+// Alle weiteren Attribute (aria-label, id …) werden an <section> durchgereicht.
+interface Props {
+  bg?: "default" | "moos" | "nature";
+  container?: boolean;
+  center?: boolean;
+  flow?: boolean;
+  pad?: "section" | "tight" | "none";
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  bg = "default",
+  container = true,
+  center = false,
+  flow = false,
+  pad = "section",
+  class: cls = "",
+  ...rest
+} = Astro.props;
+
+const inner = ["section__inner", (flow || center) && "section__inner--flow", center && "section__inner--center"]
+  .filter(Boolean)
+  .join(" ");
+---
+<section class:list={["section", `section--${bg}`, `section--pad-${pad}`, cls]} {...rest}>
+  {container ? <div class={`container ${inner}`}><slot /></div> : <slot />}
+</section>
+
+<style>
+  .section--pad-section { padding-block: var(--pad-section); }
+  .section--pad-tight { padding-block: var(--gap-xl); }
+  .section--pad-none { padding-block: 0; }
+
+  .section--moos { background: var(--moos); color: var(--white); }
+  .section--nature { background: var(--nature); }
+
+  /* Optionaler vertikaler Stack / zentrierte Variante */
+  .section__inner--flow { display: flex; flex-direction: column; gap: var(--gap-m); }
+  .section__inner--center { align-items: center; text-align: center; }
+</style>

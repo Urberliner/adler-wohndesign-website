@@ -1,0 +1,68 @@
+---
+// Button — Figma V4 „Button"-Komponente
+// Basis-Styles (bronze Pill) liegen in global.css (.btn); hier kommen Varianten,
+// Icon-Anordnung und Zustände (:active) dazu.
+//
+// Props:
+//  - href:         wenn gesetzt → <a>, sonst <button>
+//  - variant:      "primary" (bronze, default) | "ghost" (Umriss)
+//  - icon:         Icon-Name (siehe Icon.astro)
+//  - iconPosition: "left" | "right" (default "right")
+//  - iconOnly:     nur Icon (rund) — `label` für Barrierefreiheit nicht vergessen
+//  - type:         button | submit (nur ohne href)
+//  - label:        aria-label (Pflicht bei iconOnly)
+import Icon from "./Icon.astro";
+interface Props {
+  href?: string;
+  variant?: "primary" | "ghost";
+  icon?: string;
+  iconPosition?: "left" | "right";
+  iconOnly?: boolean;
+  type?: "button" | "submit";
+  label?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  href,
+  variant = "primary",
+  icon,
+  iconPosition = "right",
+  iconOnly = false,
+  type = "button",
+  label,
+  class: cls = "",
+  ...rest
+} = Astro.props;
+const Tag = href ? "a" : "button";
+---
+<Tag
+  class:list={["btn", `btn--${variant}`, { "btn--icon-only": iconOnly }, cls]}
+  href={href}
+  type={href ? undefined : type}
+  aria-label={iconOnly ? label : undefined}
+  {...rest}
+>
+  {icon && iconPosition === "left" && !iconOnly && <Icon name={icon} size={18} />}
+  {iconOnly && icon ? <Icon name={icon} size={20} /> : <span class="btn__label"><slot /></span>}
+  {icon && iconPosition === "right" && !iconOnly && <Icon name={icon} size={18} />}
+</Tag>
+
+<style>
+  .btn { gap: 10px; }
+  .btn:active { filter: brightness(0.94); }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--bronze);
+    border: 1px solid var(--bronze);
+  }
+  .btn--ghost:hover { background: var(--bronze); color: var(--white); filter: none; }
+
+  .btn--icon-only {
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+</style>

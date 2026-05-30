@@ -1,0 +1,19 @@
+---
+// Benefit — Icon + kurzer Vorteilstext (Figma V4: Fact „type=benefit")
+// Als <li> gedacht, innerhalb einer Liste/eines Grids.
+import Icon from "./Icon.astro";
+interface Props {
+  icon: string;
+}
+const { icon } = Astro.props;
+---
+<li class="benefit">
+  <span class="benefit__icon"><Icon name={icon} size={40} /></span>
+  <p class="t-h5"><slot /></p>
+</li>
+
+<style>
+  .benefit { display: flex; flex-direction: column; gap: var(--gap-s); }
+  .benefit__icon { color: var(--text); }
+  .benefit .t-h5 { color: var(--text); max-width: 22ch; }
+</style>

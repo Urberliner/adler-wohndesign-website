@@ -14,6 +14,7 @@
   --moos: #153032;
   --bronze: #bf8970;
   --nature: #f6f3f2;
+  --nature-75: rgba(246, 243, 242, 0.75);
   --text: #1f1f27;
   --grey: #8e8f93;
   --light-grey: #d4d5d9;
@@ -114,6 +115,13 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-weight: 400;
   font-size: 14px; line-height: 22px;
   letter-spacing: 0.01em;
+}
+/* „Facts" — große Kennzahl/Statistik (V4: 96/Auto, Semibold, alle Breakpoints) */
+.t-facts {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(72px, 14vw, 96px); line-height: 1;
+  letter-spacing: 0;
 }
 
 @media (min-width: 768px) {
