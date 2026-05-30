@@ -10,11 +10,12 @@ import Footer from "../components/Footer.astro";
 import Accordion from "../components/Accordion.astro";
 import Quote from "../components/Quote.astro";
 import Cta from "../components/Cta.astro";
-import Card from "../components/Card.astro";
+import Icon from "../components/Icon.astro";
 
 interface Step { titel: string; text: string; }
 interface Logo { name: string; img?: string; }
-interface RelatedItem { titel: string; img: string; href: string; eyebrow?: string; }
+// Related: erste Karte = dunkle „Alle …"-Karte; restliche = Bild + Titel + Text + Pfeil
+interface RelatedItem { titel: string; text: string; img: string; href: string; }
 interface Props {
   title: string;
   description?: string;
@@ -34,7 +35,10 @@ interface Props {
   quoteAuthor: string;               // "Friedbert Bleile, Kunde"
   quoteText: string;
   relatedTitle: string;              // "Das könnte Ihnen auch gefallen"
-  related: RelatedItem[];
+  relatedAllLabel: string;           // dunkle Karte Titel, z. B. "Alle Gardinen & Rollos"
+  relatedAllText: string;            // "Entdecken Sie unser gesamtes Angebot …"
+  relatedAllHref: string;
+  related: RelatedItem[];            // 3 Bild-Karten
   kontaktHeading: string;
   kontaktLead: string;
   kontaktButton?: string;
@@ -46,7 +50,7 @@ const {
   aufbauOver, aufbauTitle, steps,
   partnerOver, partnerTitle, partnerText, partnerLogos, partnerImage,
   quoteAuthor, quoteText,
-  relatedTitle, related,
+  relatedTitle, relatedAllLabel, relatedAllText, relatedAllHref, related,
   kontaktHeading, kontaktLead, kontaktButton = "Jetzt Beratung vereinbaren",
 } = Astro.props;
 ---
@@ -105,12 +109,28 @@ const {
       <!-- ZITAT -->
       <Quote author={quoteAuthor}>{quoteText}</Quote>
 
-      <!-- RELATED ARTICLES -->
+      <!-- RELATED (verwandte Teilleistungen) — Figma: nature-BG, dunkle „Alle …"-Karte + Bild-Karten -->
       <section class="el-related">
         <p class="t-titel el-eyebrow"><span class="dot" aria-hidden="true"></span>{relatedTitle}</p>
         <div class="el-related__track">
+          <a class="relcard relcard--all" href={relatedAllHref}>
+            <div class="relcard__body">
+              <p class="t-h4 relcard__title">{relatedAllLabel}</p>
+              <p class="t-body relcard__text">{relatedAllText}</p>
+            </div>
+            <span class="relcard__btn" aria-hidden="true"><Icon name="arrow-open" size={32} /></span>
+          </a>
           {related.map((r) => (
-            <Card href={r.href} image={r.img} alt={r.titel} eyebrow={r.eyebrow} title={r.titel} ratio="portrait" class="el-related__card" />
+            <a class="relcard" href={r.href}>
+              <div class="relcard__media"><img src={r.img} alt={r.titel} loading="lazy" /></div>
+              <div class="relcard__foot">
+                <div class="relcard__body">
+                  <p class="t-h4 relcard__title">{r.titel}</p>
+                  <p class="t-body relcard__text">{r.text}</p>
+                </div>
+                <span class="relcard__btn" aria-hidden="true"><Icon name="arrow-open" size={32} /></span>
+              </div>
+            </a>
           ))}
         </div>
       </section>
@@ -158,10 +178,24 @@ const {
       .el-partner__image { width: 100%; height: clamp(360px, 62vw, 1118px); }
       .el-partner__image img { width: 100%; height: 100%; object-fit: cover; }
 
-      /* ---- RELATED ---- (pt XXL / pb XL, 4 Karten) */
-      .el-related { padding-block: var(--gap-xxl) var(--gap-xl); padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--gap-l); }
-      .el-related__track { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
-      .el-related :global(.el-related__card .card__media) { height: clamp(280px, 24vw, 413px); }
+      /* ---- RELATED ---- (Figma 12272:28299: nature-BG, pt XXL / pb XL, 4 Spalten) */
+      .el-related { background: var(--nature); padding-block: var(--gap-xxl) var(--gap-xl); padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .el-related__track { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); align-items: stretch; }
+
+      .relcard { display: flex; flex-direction: column; gap: var(--gap-s); color: var(--text); justify-content: flex-end; }
+      .relcard__media { aspect-ratio: 342 / 228; overflow: hidden; }
+      .relcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+      .relcard:hover .relcard__media img { transform: scale(1.03); }
+      .relcard__foot { display: flex; flex-direction: column; gap: var(--gap-xxxs); }
+      .relcard__body { display: flex; flex-direction: column; gap: var(--gap-xxxs); }
+      .relcard__title { color: inherit; }
+      .relcard__text { color: inherit; }
+      .relcard__btn { display: inline-flex; color: var(--bronze); transition: transform 0.25s ease; }
+      .relcard:hover .relcard__btn { transform: translateX(4px); }
+
+      /* dunkle „Alle …"-Karte: moos-BG, weißer Text, Padding pt M / pb S / px S */
+      .relcard--all { background: var(--moos); color: var(--white); padding: var(--gap-m) var(--gap-s) var(--gap-s); gap: var(--gap-m); }
+      .relcard--all .relcard__btn { color: var(--white); }
 
       /* ---- Responsive ---- */
       @media (max-width: 991px) {

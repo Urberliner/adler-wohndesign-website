@@ -15,11 +15,11 @@ const partnerLogos = [
   { name: "Zimmer + Rohde" }, { name: "Christian Fischbacher" },
 ];
 
+// Related: verwandte Teilleistungen (Figma). Erste Karte = dunkle „Alle …", dann 3 Bild-Karten.
 const related = [
-  { titel: "Leichtes Raum & Licht Konzept", eyebrow: "Penthouse Berlin", img: "/images/home/project-1.jpg", href: "/projekte" },
-  { titel: "Klassische Eleganz", eyebrow: "Altbau Charlottenburg", img: "/images/home/project-2.jpg", href: "/projekte" },
-  { titel: "Warme Wohnatmosphäre", eyebrow: "Wohnung Grunewald", img: "/images/komplettloesung/card1.png", href: "/projekte" },
-  { titel: "Modernes Stadthaus", eyebrow: "Stadthaus Mitte", img: "/images/komplettloesung/card2.png", href: "/projekte" },
+  { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/home/project-1.jpg", href: "/services/gardinen-rollos#flaechenvorhaenge" },
+  { titel: "Raffrollos", text: "Praktische Kombination aus Stoff und Funktion – kompakt und elegant.", img: "/images/home/project-2.jpg", href: "/services/gardinen-rollos#raffrollos" },
+  { titel: "Rollos", text: "Schlichter, effektiver Sicht- und Sonnenschutz für jeden Raum.", img: "/images/komplettloesung/card1.png", href: "/services/gardinen-rollos#rollos" },
 ];
 ---
 <Einzelleistung
@@ -41,6 +41,9 @@ const related = [
   quoteAuthor="Friedbert Bleile,<br />Kunde"
   quoteText={'„Diese Firma kann ich bestens empfehlen. Klasse Team mit bester fachlicher Kompetenz. Gehen ganzheitlich auf die Wünsche von Kunden ein und finden immer eine passende Lösung."'}
   relatedTitle="Das könnte Ihnen auch gefallen"
+  relatedAllLabel="Alle Gardinen & Rollos"
+  relatedAllText="Entdecken Sie unser gesamtes Angebot und unseren passenden Service."
+  relatedAllHref="/services/gardinen-rollos"
   related={related}
   kontaktHeading="Sie haben Fragen oder sind sich nicht sicher, wo Sie anfangen sollen? Wir helfen Ihnen."
   kontaktLead="Manchmal weiß man, was man möchte – aber nicht genau wie. Genau dafür sind wir da. Wir nehmen uns die Zeit, Ihre Wünsche zu verstehen, und zeigen Ihnen, welche Leistungen wirklich zu Ihrem Raum und Ihrem Budget passen. Unverbindlich, persönlich und ohne Druck."
