@@ -1,6 +1,12 @@
 ---
-// Hauptnavigation (V4): Desktop-Mega-Menü + mobiles Vollbild-Overlay
-// Bereiche mit `panel` haben ein Untermenü; sonst direkter Link.
+// Hauptnavigation (V4) — 1:1 aus Figma (Frames 5152:4275 Bar, 5163:9757 Dropdown, 5658:12572 OnClick)
+// Desktop: Bar + Mega-Dropdown (Liste links, Bild rechts). Tablet/Mobil: Bar (Lupe+Telefon+Burger) + Vollbild-Overlay.
+// Motion: Bar versteckt beim Runterscrollen, erscheint beim Hochscrollen (weich).
+import Icon from "./Icon.astro";
+
+const tel = "+49 30 305 47 11";
+const telHref = "tel:+49303054711";
+
 const nav = [
   {
     id: "services",
@@ -51,45 +57,44 @@ const nav = [
   },
   { id: "blog", label: "Blog", href: "/blog" },
 ];
-const SearchIcon = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>`;
-const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
 ---
 
 <header class="site-header" id="siteHeader">
-  <div class="container nav-bar">
-    <a class="logo" href="/" aria-label="ADLER Wohndesign — Startseite">
-      <img src="/images/logo-white.png" alt="ADLER Wohndesign" width="2634" height="949" />
-    </a>
+  <div class="nav-bar">
+    <div class="nav-inner">
+      <a class="logo" href="/" aria-label="ADLER Wohndesign — Startseite">
+        <img src="/images/logo-white.png" alt="ADLER Wohndesign" width="2634" height="949" />
+      </a>
 
-    <nav class="desk-nav" aria-label="Hauptnavigation">
-      <ul>
-        {nav.map((item) => (
-          <li>
-            {item.panel ? (
-              <button type="button" class="t-titel nav-trigger" data-mega={item.id} aria-expanded="false" aria-controls={`mega-${item.id}`}>
-                {item.label}<span class="nav-chev" set:html={Chevron} />
-              </button>
-            ) : (
-              <a class="t-titel nav-link" href={item.href}>{item.label}</a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </nav>
+      <nav class="desk-nav" aria-label="Hauptnavigation">
+        <ul>
+          {nav.map((item) => (
+            <li>
+              {item.panel ? (
+                <button type="button" class="t-titel nav-trigger" data-mega={item.id} aria-expanded="false" aria-controls={`mega-${item.id}`}>
+                  {item.label}<Icon name="chevron-down" size={16} class="nav-chev" />
+                </button>
+              ) : (
+                <a class="t-titel nav-link" href={item.href}>{item.label}</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-    <div class="nav-actions">
-      <button class="icon-btn" type="button" aria-label="Suche" set:html={SearchIcon}></button>
-      <a class="btn" href="/kontakt">Mein Termin</a>
-      <button class="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" aria-label="Suche"><Icon name="search" size={24} /></button>
+        <a class="icon-btn nav-phone" href={telHref} aria-label={`Anrufen: ${tel}`}><Icon name="phone" size={24} /></a>
+        <a class="btn nav-cta" href="/kontakt">Mein Termin</a>
+        <button class="icon-btn burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav"><Icon name="burger" size={24} /></button>
+      </div>
     </div>
   </div>
 
   <!-- Desktop Mega-Menü-Panels -->
   {nav.filter((i) => i.panel).map((item) => (
     <div class="mega" id={`mega-${item.id}`} hidden>
-      <div class="container mega__inner">
+      <div class="nav-inner mega__inner">
         <ul class="mega__list">
           {item.panel.map((entry) => (
             entry.heading ? (
@@ -114,24 +119,22 @@ const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" str
 
 <!-- Mobiles Vollbild-Menü -->
 <div class="mobile-nav" id="mobileNav" hidden>
-  <div class="mobile-nav__bar container">
+  <div class="mobile-nav__bar">
     <span class="logo"><img src="/images/logo-white.png" alt="ADLER Wohndesign" width="2634" height="949" /></span>
-    <button class="icon-btn mobile-close" type="button" aria-label="Menü schließen">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
-    </button>
+    <button class="icon-btn mobile-close" type="button" aria-label="Menü schließen"><Icon name="close" size={26} /></button>
   </div>
-  <nav class="mobile-nav__body container" aria-label="Hauptnavigation mobil">
+  <nav class="mobile-nav__body" aria-label="Hauptnavigation mobil">
     {nav.map((item) => (
       item.panel ? (
         <details class="m-sec">
-          <summary><span class="t-h4">{item.label}</span><span class="m-chev" set:html={Chevron} /></summary>
+          <summary><span class="t-h4">{item.label}</span><Icon name="chevron-down" size={24} class="m-chev" /></summary>
           <div class="m-sec__body">
             {item.panel.map((entry) => (
               entry.heading ? (
                 <p class="m-heading t-small">{entry.label}</p>
               ) : entry.children ? (
                 <details class="m-sub">
-                  <summary><a href={entry.href} class="t-body">{entry.label}</a><span class="m-chev" set:html={Chevron} /></summary>
+                  <summary><a href={entry.href} class="t-body">{entry.label}</a><Icon name="chevron-down" size={22} class="m-chev" /></summary>
                   <div class="m-sub__body">
                     {entry.children.map((c) => (<a href={c.href} class="t-body">{c.label}</a>))}
                   </div>
@@ -152,43 +155,52 @@ const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" str
 </div>
 
 <style>
-  .site-header { background: var(--moos); position: sticky; top: 0; z-index: 50; }
+  .site-header { background: var(--moos); position: sticky; top: 0; z-index: 50; transition: transform 0.3s ease; }
+  .site-header.is-hidden { transform: translateY(-100%); }
   /* hidden-Attribut muss display-Regeln überschreiben (sonst bleibt das Overlay sichtbar) */
   [hidden] { display: none !important; }
-  .nav-bar { height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-  .logo img { height: 40px; width: auto; }
 
-  /* Desktop-Nav */
-  .desk-nav ul { display: flex; align-items: center; gap: 4px; }
-  .nav-trigger, .nav-link { display: inline-flex; align-items: center; gap: 4px; color: var(--white); padding: 8px; transition: color 0.2s ease; }
+  /* Bar: volle Breite, eigenes Seiten-Padding (Figma margin/horizontal); innen zentrierter Container max 1600 */
+  .nav-bar { padding-inline: 24px; }
+  .nav-inner { width: 100%; max-width: 1600px; margin-inline: auto; }
+  .nav-bar .nav-inner { height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .logo img { height: 44px; width: auto; }
+
+  /* Desktop-Nav: 5 Tabs gleichmäßig in 560–640px-Gruppe */
+  .desk-nav { flex: 1 1 auto; display: flex; justify-content: center; }
+  .desk-nav ul { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; max-width: 640px; min-width: 560px; }
+  .nav-trigger, .nav-link { display: inline-flex; align-items: center; gap: 4px; color: var(--white); padding: 8px; position: relative; transition: color 0.2s ease; }
+  /* Hover/aktiv: bronze + Unterstrich (Figma Navigation Tab) */
+  .nav-trigger::after, .nav-link::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 4px; height: 1px; background: var(--bronze); transform: scaleX(0); transition: transform 0.2s ease; }
   .nav-trigger:hover, .nav-link:hover, .nav-trigger[aria-expanded="true"] { color: var(--bronze); }
-  .nav-chev :global(svg) { width: 16px; height: 16px; transition: transform 0.25s ease; }
+  .nav-trigger:hover::after, .nav-link:hover::after, .nav-trigger[aria-expanded="true"]::after { transform: scaleX(1); }
+  .nav-chev :global(svg) { transition: transform 0.25s ease; }
   .nav-trigger[aria-expanded="true"] .nav-chev :global(svg) { transform: rotate(180deg); }
 
-  .nav-actions { display: flex; align-items: center; gap: 8px; }
-  .icon-btn { display: grid; place-items: center; width: 40px; height: 40px; color: var(--white); }
+  .nav-actions { display: flex; align-items: center; gap: var(--gap-xs); }
+  .icon-btn { display: grid; place-items: center; width: 40px; height: 40px; color: var(--white); transition: color 0.2s ease; }
+  .icon-btn:hover { color: var(--bronze); }
+  .nav-phone, .burger { display: none; } /* nur Tablet/Mobil */
 
-  /* Mega-Menü */
-  .mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--moos); border-top: 1px solid rgba(255,255,255,0.12); box-shadow: 0 24px 40px rgba(0,0,0,0.25); }
-  .mega__inner { display: flex; gap: var(--gutter); align-items: flex-start; padding-block: var(--gap-m) var(--gap-l); }
-  .mega__list { flex: 1 1 0; display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
+  /* Mega-Menü (Desktop): Liste links + Bild rechts */
+  .mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--moos); box-shadow: 0 24px 40px rgba(0,0,0,0.25); }
+  .mega__inner { display: flex; gap: var(--gutter); align-items: stretch; padding-block: var(--gap-xl); }
+  .mega__list { flex: 1 1 0; display: flex; flex-direction: column; gap: var(--gap-m); }
   .mega__heading { color: var(--grey); text-transform: none; }
-  .mega__item { color: var(--white); font-size: 15px; letter-spacing: 0.03em; transition: color 0.2s ease; }
+  .mega__item { color: var(--white); font-size: 18px; letter-spacing: 0.03em; transition: color 0.2s ease; }
   .mega__item:hover { color: var(--bronze); }
-  .mega__sub { display: flex; flex-direction: column; gap: 6px; padding-left: 32px; margin-top: 6px; }
-  .mega__sub a { color: rgba(255,255,255,0.82); font-size: 14px; transition: color 0.2s ease; }
+  .mega__sub { display: flex; flex-direction: column; gap: 8px; padding-left: 32px; margin-top: 12px; }
+  .mega__sub a { color: rgba(255,255,255,0.82); font-size: 15px; transition: color 0.2s ease; }
   .mega__sub a:hover { color: var(--bronze); }
-  .mega__media { flex: 1 1 0; height: clamp(260px, 26vw, 420px); align-self: center; border-radius: 4px; overflow: hidden; }
+  .mega__media { flex: 1 1 0; max-width: 652px; min-height: 360px; overflow: hidden; }
   .mega__media img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* Burger nur mobil */
-  .burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; }
-  .burger span { display: block; width: 24px; height: 2px; background: var(--white); margin-inline: auto; transition: transform 0.25s, opacity 0.2s; }
+  /* Burger-Icon-Strichstärke (echtes Figma-Icon) */
 
   /* Mobiles Overlay */
-  .mobile-nav { position: fixed; inset: 0; background: var(--moos); color: var(--white); z-index: 60; overflow-y: auto; display: flex; flex-direction: column; }
+  .mobile-nav { position: fixed; inset: 0; background: var(--moos); color: var(--white); z-index: 60; overflow-y: auto; display: flex; flex-direction: column; padding-inline: 24px; }
   .mobile-nav__bar { height: 96px; display: flex; align-items: center; justify-content: space-between; }
-  .mobile-nav__bar .logo img { height: 32px; }
+  .mobile-nav__bar .logo img { height: 44px; }
   .mobile-close { color: var(--white); }
   .mobile-nav__body { display: flex; flex-direction: column; gap: var(--gap-s); padding-bottom: var(--gap-l); }
   .m-toplink, .m-sec > summary { color: var(--white); }
@@ -204,12 +216,13 @@ const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" str
   .m-sub__body { display: flex; flex-direction: column; gap: 10px; padding: 8px 0 4px 24px; }
   .mobile-cta { align-self: flex-start; margin-top: var(--gap-s); }
 
-  /* Umschaltpunkt */
+  /* Breakpoints (Figma-Grid): Tablet/Mobil ≤991, Desktop ≥992 */
+  @media (min-width: 701px) { .nav-bar { padding-inline: 32px; } .mobile-nav { padding-inline: 32px; } }
+  @media (min-width: 992px) { .nav-bar { padding-inline: 40px; } }
   @media (max-width: 991px) {
-    .desk-nav, .nav-actions .icon-btn, .nav-actions .btn { display: none; }
-    .burger { display: flex; }
-    .nav-bar { height: 72px; }
-    .logo img { height: 32px; }
+    .desk-nav, .nav-cta { display: none; }
+    .nav-phone, .burger { display: grid; }
+    .nav-bar .nav-inner { height: 96px; }
   }
   body.nav-open { overflow: hidden; }
 </style>
@@ -220,20 +233,19 @@ const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" str
   const triggers = Array.from(document.querySelectorAll("[data-mega]"));
   const closeAll = () => triggers.forEach((t) => {
     t.setAttribute("aria-expanded", "false");
-    const p = document.getElementById("mega-" + t.dataset.mega);
-    if (p) p.hidden = true;
+    const p = document.getElementById("mega-" + (t as HTMLElement).dataset.mega);
+    if (p) (p as HTMLElement).hidden = true;
   });
   triggers.forEach((t) => {
     t.addEventListener("click", (e) => {
       e.stopPropagation();
-      const panel = document.getElementById("mega-" + t.dataset.mega);
+      const panel = document.getElementById("mega-" + (t as HTMLElement).dataset.mega);
       const isOpen = t.getAttribute("aria-expanded") === "true";
       closeAll();
       if (!isOpen && panel) { t.setAttribute("aria-expanded", "true"); panel.hidden = false; }
     });
   });
-  document.addEventListener("click", (e) => { if (header && !header.contains(e.target)) closeAll(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeAll(); closeMobile(); } });
+  document.addEventListener("click", (e) => { if (header && !header.contains(e.target as Node)) closeAll(); });
 
   // Mobiles Menü
   const burger = document.querySelector(".burger");
@@ -242,4 +254,22 @@ const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" str
   const closeMobile = () => { if (!mobileNav) return; mobileNav.hidden = true; document.body.classList.remove("nav-open"); burger?.setAttribute("aria-expanded", "false"); };
   burger?.addEventListener("click", openMobile);
   document.querySelector(".mobile-close")?.addEventListener("click", closeMobile);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeAll(); closeMobile(); } });
+
+  // Scroll-Motion: Bar versteckt beim Runterscrollen, erscheint beim Hochscrollen
+  let lastY = window.scrollY;
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if (header) {
+        if (y > lastY && y > 120) { header.classList.add("is-hidden"); closeAll(); }
+        else { header.classList.remove("is-hidden"); }
+      }
+      lastY = y;
+      ticking = false;
+    });
+  }, { passive: true });
 </script>
