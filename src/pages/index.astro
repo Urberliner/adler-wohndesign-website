@@ -18,13 +18,26 @@ const aufbau = [
 // Projekt-Vorschau (Platzhalter-Inhalte aus Figma)
 const proj = { img1: "/images/home/project-1.jpg", img2: "/images/home/project-2.jpg", cat: "Penthouse Berlin", titel: "Leichtes Raum & Licht Konzept" };
 
-// Kundenstimmen — echt (Quelle: ProvenExpert, 4,95/5 aus 190 Bewertungen)
+// Kundenstimmen — echt (Quelle: ProvenExpert, 4,95/5 aus 190 Bewertungen), kuratiert für die Startseite
 const reviews = [
-  { name: "Christoph Rotstein", quelle: "ProvenExpert", text: "Der gesamte Ablauf, von der Beratung bei der Auswahl des Stoffs und der Farbe bis zur anschließenden Montage vor Ort: Alles perfekt." },
-  { name: "Frau Feuerherdt", quelle: "ProvenExpert", text: "Wir sind „Wiederholungstäter“ und schätzen die klare, zielorientierte Fachberatung. Das gesamte Team ist sehr freundlich." },
+  { name: "Christoph Rotstein", quelle: "ProvenExpert", text: "Der gesamte Ablauf, von der Beratung bei der Auswahl des Stoffs und der Farbe bis zur anschließenden Montage vor Ort: Alles perfekt und so wie man sich als Kunde es wünscht!" },
+  { name: "Frau Feuerherdt", quelle: "ProvenExpert", text: "Wir sind „Wiederholungstäter“ und schätzen die klare, zielorientierte Fachberatung. Das gesamte Team ist sehr freundlich, die Umsetzung erfolgt zügig und professionell." },
   { name: "Saskia Langner", quelle: "ProvenExpert", text: "ADLER ist eine Gefahr für unsere Reisepläne. Wir wollen lieber zu Hause bleiben, weil es so schön geworden ist." },
-  { name: "Frau von Weiler", quelle: "ProvenExpert", text: "Kompetente Beratung, sehr professionelles Team, und dazu auch noch nett, zugänglich, offen und freundlich!" },
+  { name: "Frau von Weiler", quelle: "ProvenExpert", text: "Eine rundum zufriedenstellende Erfahrung, vom Erstkontakt im Laden bis zum Aufhängen der Vorhänge zu Hause. Kompetente Beratung, sehr professionelles Team." },
+  { name: "Frau Heinelt", quelle: "ProvenExpert", text: "Ich bin SEHR zufrieden und werde auch zukünftig sehr gerne meine Wünsche perfekt von ADLER Wohndesign umsetzen lassen. Besser geht es nicht." },
+  { name: "Familie Schürer", quelle: "ProvenExpert", text: "Die Beratung ist hervorragend. Sehr gute Ideen und zuverlässige Umsetzung." },
+  { name: "Frau Specht", quelle: "ProvenExpert", text: "Alle, die mich besuchen, sprechen mich auf die wunderschönen Gardinen an – es fällt sofort auf, dass hier Designer tolle Handarbeit geleistet haben." },
+  { name: "Frau Steinicke", quelle: "ProvenExpert", text: "Hat alles wunderbar geklappt und durch die Beratung sieht es wirklich toll aus." },
+  { name: "Frau L.", quelle: "ProvenExpert", text: "Man kümmert sich sehr um die individuellen Wünsche und Vorstellungen von Kunden und setzt dann sorgfältig um." },
+  { name: "Frau Meisenzahl", quelle: "ProvenExpert", text: "Sehr nette Beratung und Betreuung – jederzeit wieder!" },
+  { name: "Herr Bebernick", quelle: "ProvenExpert", text: "Wir wurden von Frau Vogt beraten und sind mit allem super zufrieden." },
+  { name: "Frau Bergmann-Daumke", quelle: "ProvenExpert", text: "Sehr zufrieden mit der persönlichen Beratung und auch mit der Umsetzung vor Ort." },
+  { name: "Anonym", quelle: "ProvenExpert", text: "Kompetente und professionelle Beratung, sehr guter Service, exzellente handwerkliche Ausführung, hoch-qualitatives Produktangebot." },
+  { name: "Anonym", quelle: "ProvenExpert", text: "Sehr gute Auswahl und eine umsichtige Beratung mit einer geschmeidigen Umsetzung. Ich werde bei der nächsten Gardine sicher wieder zu ADLER gehen." },
+  { name: "Anonym", quelle: "ProvenExpert", text: "Hohe Kompetenz in der Beratung und Umsetzung!" },
+  { name: "Anonym", quelle: "ProvenExpert", text: "Sehr freundliches und kompetentes Personal." },
 ];
+
 ---
 
 <!doctype html>
@@ -120,14 +133,21 @@ const reviews = [
 
       <!-- KUNDENSTIMMEN -->
       <section class="reviews container" aria-label="Kundenstimmen">
-        <div class="reviews__head">
-          <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Services</p>
-          <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
+        <div class="reviews__top">
+          <div class="reviews__head">
+            <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Kundenstimmen</p>
+            <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
+            <p class="reviews__rating"><span class="rcard__stars" aria-hidden="true">★★★★★</span> <strong>4,95 / 5</strong> · 190 Bewertungen</p>
+          </div>
+          <div class="reviews__nav">
+            <button class="rev-btn" type="button" data-rev="prev" aria-label="Vorherige Bewertungen">‹</button>
+            <button class="rev-btn" type="button" data-rev="next" aria-label="Nächste Bewertungen">›</button>
+          </div>
         </div>
-        <ul class="reviews__track">
+        <ul class="reviews__track" id="reviewsTrack">
           {reviews.map((r) => (
             <li class="rcard">
-              <p class="rcard__stars" aria-label="5 von 5 Sternen">★★★★★</p>
+              <p class="rcard__stars" aria-label="Fünf von fünf Sternen">★★★★★</p>
               <div class="rcard__person">
                 <p class="t-h5 rcard__name">{r.name}</p>
                 <p class="t-small rcard__src">{r.quelle}</p>
@@ -137,6 +157,19 @@ const reviews = [
           ))}
         </ul>
       </section>
+      <script>
+        // Kundenstimmen-Karussell: Pfeile scrollen den Track
+        const revTrack = document.getElementById("reviewsTrack");
+        if (revTrack) {
+          const step = () => Math.min(revTrack.clientWidth * 0.85, 480);
+          document.querySelectorAll("[data-rev]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const dir = btn.getAttribute("data-rev") === "next" ? 1 : -1;
+              revTrack.scrollBy({ left: dir * step(), behavior: "smooth" });
+            });
+          });
+        }
+      </script>
 
       <!-- KONTAKT -->
       <section class="kontakt">
@@ -239,6 +272,14 @@ const reviews = [
       .rcard__name { color: var(--text); }
       .rcard__src { color: var(--grey); }
       .rcard__text { color: var(--text); }
+      .reviews__top { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--gap-m); }
+      .reviews__rating { margin-top: var(--gap-xs); color: var(--text); font-size: 14px; }
+      .reviews__rating .rcard__stars { font-size: 16px; }
+      .reviews__rating strong { font-weight: 600; }
+      .reviews__nav { display: flex; gap: 12px; flex: none; }
+      .rev-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--light-grey); color: var(--text); font-size: 24px; line-height: 1; display: grid; place-items: center; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+      .rev-btn:hover { background: var(--bronze); color: var(--white); border-color: var(--bronze); }
+      @media (max-width: 768px) { .reviews__nav { display: none; } }
 
       /* BLOG-VORSCHAU */
       .blog { background: #f9f6f5; padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-l); }
