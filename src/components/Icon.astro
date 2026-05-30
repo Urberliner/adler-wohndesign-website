@@ -1,10 +1,11 @@
 ---
-// Icon — zentrale Icon-Registry (Figma V4: „fine line", Material-Symbols-Stil + Marken-Icons)
-// Konsolidiert die bisher in Header/Footer/Seiten verstreuten Inline-SVGs an einer Stelle.
-// Verwendung: <Icon name="search" size={22} />  ·  dekorativ ist Standard (aria-hidden).
+// Icon — echte Designer-SVGs aus Figma V4 (Material-Symbols-Stil, Export via REST-API).
+// Quelle: src/icons/<name>.svg, inline eingebunden (currentColor → einfärbbar, kein Extra-Request).
+// Verwendung: <Icon name="search" size={36} />  ·  dekorativ ist Standard (aria-hidden).
 // Für bedeutungstragende Icons `label` setzen → role="img" + aria-label.
 //
-// SVGs ohne width/height (viewBox only) — Größe steuert die CSS-Variable --icon-size.
+// Figma-Größenstufen (Variablen): XS 22 · small 32 · medium 36 · large 40.
+// Default 36 (Icon-medium). SVGs tragen viewBox; width/height werden entfernt, CSS steuert die Größe.
 interface Props {
   name: string;
   size?: number;
@@ -12,64 +13,46 @@ interface Props {
   class?: string;
   [key: string]: unknown;
 }
-const { name, size = 24, label, class: cls = "", ...rest } = Astro.props;
+const { name, size = 36, label, class: cls = "", ...rest } = Astro.props;
 
-// type: "fill" = Flächen-Icon (fill=currentColor) · sonst Linien-Icon (stroke=currentColor)
-const ICONS: Record<string, { fill?: boolean; body: string }> = {
-  // — Marken / Social —
-  pinterest: { fill: true, body: `<path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.64 7.86 6.36 9.32-.09-.79-.17-2 .03-2.86.18-.78 1.17-4.97 1.17-4.97s-.3-.6-.3-1.48c0-1.39.8-2.42 1.8-2.42.85 0 1.26.64 1.26 1.4 0 .85-.54 2.13-.82 3.31-.24.99.5 1.8 1.48 1.8 1.77 0 3.13-1.87 3.13-4.57 0-2.39-1.72-4.06-4.17-4.06-2.84 0-4.5 2.13-4.5 4.33 0 .86.33 1.78.74 2.28.08.1.09.19.07.29-.08.32-.25 1-.28 1.14-.04.18-.15.22-.34.13-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.47 0 6.16 2.47 6.16 5.77 0 3.45-2.17 6.22-5.19 6.22-1.01 0-1.97-.53-2.29-1.15l-.62 2.37c-.23.86-.83 1.94-1.24 2.6.94.29 1.92.44 2.95.44 5.52 0 10-4.48 10-10S17.52 2 12 2z"/>` },
-  instagram: { body: `<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>` },
-  facebook: { fill: true, body: `<path d="M14 9h3V6h-3c-1.66 0-3 1.34-3 3v2H9v3h2v7h3v-7h2.5l.5-3H14V9.5c0-.28.22-.5.5-.5z"/>` },
-  linkedin: { fill: true, body: `<path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"/>` },
+// Alle echten SVGs zur Build-Zeit als Rohtext einlesen.
+const files = import.meta.glob<string>("../icons/*.svg", { query: "?raw", import: "default", eager: true });
+const registry: Record<string, string> = {};
+for (const path in files) {
+  const key = path.split("/").pop()!.replace(/\.svg$/, "");
+  registry[key] = files[path];
+}
 
-  // — UI / Navigation —
-  search: { body: `<circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>` },
-  "chevron-down": { body: `<polyline points="6 9 12 15 18 9"/>` },
-  "chevron-up": { body: `<polyline points="18 15 12 9 6 15"/>` },
-  close: { body: `<line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>` },
-  check: { body: `<polyline points="4 12 10 18 20 6"/>` },
-  "arrow-up": { body: `<line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/>` },
-  "arrow-down": { body: `<line x1="12" y1="4" x2="12" y2="20"/><polyline points="6 14 12 20 18 14"/>` },
-  "arrow-right": { body: `<line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/>` },
-  "arrow-left": { body: `<line x1="20" y1="12" x2="4" y2="12"/><polyline points="10 6 4 12 10 18"/>` },
-  phone: { body: `<path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5 5l1.5-2 5 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5a2 2 0 0 1 2-2z"/>` },
-  star: { fill: true, body: `<path d="M12 2.5l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 18.6 6.1 21.3l1.2-6.6L2.5 9.5l6.6-.9z"/>` },
-
-  // — Benefit / Feature (Komplettlösung) —
-  dashboard: { body: `<rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="4.5" rx="1"/><rect x="13.5" y="10.5" width="7.5" height="10.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/>` },
-  bulb: { body: `<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.5.5.8 1.2.8 1.9v.5h6v-.5c0-.7.3-1.4.8-1.9A6 6 0 0 0 12 3z"/>` },
-  person: { body: `<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>` },
-  settings: { body: `<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3.2M12 18.3v3.2M21.5 12h-3.2M5.7 12H2.5M18.7 5.3l-2.3 2.3M7.6 16.4l-2.3 2.3M18.7 18.7l-2.3-2.3M7.6 7.6 5.3 5.3"/>` },
-  "grid-4": { body: `<rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1"/>` },
-  "grid-16": { body: `<rect x="3" y="3" width="3.5" height="3.5"/><rect x="8.5" y="3" width="3.5" height="3.5"/><rect x="14" y="3" width="3.5" height="3.5"/><rect x="3" y="8.5" width="3.5" height="3.5"/><rect x="8.5" y="8.5" width="3.5" height="3.5"/><rect x="14" y="8.5" width="3.5" height="3.5"/><rect x="3" y="14" width="3.5" height="3.5"/><rect x="8.5" y="14" width="3.5" height="3.5"/><rect x="14" y="14" width="3.5" height="3.5"/>` },
+// Alias: im Code genutzte Namen → echte Datei (nur wo eindeutig).
+const ALIAS: Record<string, string> = {
+  "chevron-down": "arrow-down", // Aufklapp-Chevron = Figma keyboard_arrow_down
+  "chevron-up": "arrow-up",
 };
+const resolved = ALIAS[name] ?? name;
+let raw = registry[resolved];
 
-const def = ICONS[name];
-if (!def && import.meta.env.DEV) console.warn(`[Icon] Unbekanntes Icon: "${name}"`);
+if (!raw && import.meta.env.DEV) {
+  console.warn(`[Icon] Unbekanntes Icon: "${name}" (aufgelöst: "${resolved}"). Verfügbar: ${Object.keys(registry).sort().join(", ")}`);
+}
+
+// width/height aus dem <svg> entfernen → Größe kommt aus CSS (--icon-size).
+let svg = raw ? raw.replace(/<svg([^>]*?)\s(width|height)="[^"]*"/g, "<svg$1").replace(/<svg([^>]*?)\s(width|height)="[^"]*"/g, "<svg$1") : "";
+
 const isLabelled = Boolean(label);
 ---
-{def && (
+{svg && (
   <span
     class:list={["icon", cls]}
     style={`--icon-size:${size}px`}
     role={isLabelled ? "img" : undefined}
     aria-label={isLabelled ? label : undefined}
     aria-hidden={isLabelled ? undefined : "true"}
+    set:html={svg}
     {...rest}
-  >
-    <svg
-      viewBox="0 0 24 24"
-      fill={def.fill ? "currentColor" : "none"}
-      stroke={def.fill ? "none" : "currentColor"}
-      stroke-width={def.fill ? undefined : 1.5}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      set:html={def.body}
-    />
-  </span>
+  />
 )}
 
 <style>
-  .icon { display: inline-flex; flex: none; line-height: 0; }
-  .icon > svg { width: var(--icon-size); height: var(--icon-size); display: block; }
+  .icon { display: inline-flex; flex: none; line-height: 0; color: inherit; }
+  .icon :global(svg) { width: var(--icon-size); height: var(--icon-size); display: block; }
 </style>

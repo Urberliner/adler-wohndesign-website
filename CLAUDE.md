@@ -15,13 +15,15 @@ Sprache: **Deutsch (Sie-Form)**. Design: Franzi (Figma). Umsetzung: **Astro**, H
   Es existieren veraltete Varianten (V2, „ohne Version") → ignorieren.
 - **Figma ist die alleinige Wahrheit. 1:1 umsetzen. Keine eigenen Design-Entscheidungen.** Abweichung nur, wenn absolut technisch notwendig — und dann ansagen.
 - **Tokens (Typo/Spacing/Farben) NUR aus `get_design_context`/`get_variable_defs`-Variablen des jeweiligen Seiten-Frames.** NICHT aus der „Typography"-Style-Guide-Tafel und NICHT von Screenshots ablesen — die Tafel widerspricht den echten Seiten-Variablen.
+- **BEI KONFLIKT GEWINNT IMMER DER ECHTE SEITEN-FRAME / das echte Figma-Design — niemals die Stil-Tafel.** (Bestätigt vom Inhaber 2026-05-30.) Beispiel: Desktop-Typo = Seitenwerte (H1 60/82, Body 15/27, klein), NICHT die Tafel (64/88, 18/32, groß). Im Zweifel den Seiten-Frame als Quelle nehmen, nicht den Style-Guide.
+- **Breakpoints (aus Figma-Grid-Frames, verbindlich):** Mobil **320–700** · Tablet **701–991** · Desktop responsiv **992–1760** · Desktop fix **ab 1760**. CSS-Grenzen: `max-width:700` / `min-width:701` und `max-width:991` / `min-width:992`. (NICHT 768/1024.)
 - **Maßgebliche Typo — alle aus Seiten-Variablen verifiziert (2026-05-30):**
-  - Desktop (≥1024): H1/H2 60/82 · H3 36/52 · H4 24/34 · H5 16/25 · Body 15/27 · Titel 11/21 · Small 12/22
-  - Tablet (768–1023): H1/H2 44/58 · H3 32/46 · H4 22/32 · H5 15/24 · Body 14/25 · Titel 10/18 · Small 11/19
-  - Mobil (<768): H1/H2 36/50 · H3 28/40 · H4 20/30 · H5 14/23 · Body 13/24 · Titel 9/17 · Small 10/18
+  - Desktop (≥992): H1/H2 60/82 · H3 36/52 · H4 24/34 · H5 16/25 · Body 15/27 · Titel 11/21 · Small 12/22
+  - Tablet (701–991): H1/H2 44/58 · H3 32/46 · H4 22/32 · H5 15/24 · Body 14/25 · Titel 10/18 · Small 11/19
+  - Mobil (≤700): H1/H2 36/50 · H3 28/40 · H4 20/30 · H5 14/23 · Body 13/24 · Titel 9/17 · Small 10/18
   - Schriften: **Playfair Display** (H1–H3 Medium) + **Montserrat** (Rest). H4/H5 weight 500.
 - **Sektions-Padding ist im Design asymmetrisch** (Desktop-Standardsektion: oben `XXL` 222, unten `XL` 142; Tablet 164/104; Mobil 120/72) — nicht blind symmetrisch bauen.
-- **Layout-Stufen je Breakpoint (Variablen):** Margin Desktop 80 / Tablet 32 / Mobil 24 · Gutter 32/24/16. (Aktuell global per `clamp()` — exakte Stufen ggf. nachziehen.)
+- **Layout-Stufen je Breakpoint (verbindliche Spacing-Vorgabe, diskret — KEIN `clamp`):** Margin Desktop **96** / Tablet 32 / Mobil 24 · Gutter 32/24/16. Festes Desktop-Layout: Breite **1792**, margin 96 → Content **1600**. Ab 1760 unverändert; darunter schrumpft der Content, Abstände bleiben.
 
 ## So baust du eine neue Seite (Playbook)
 

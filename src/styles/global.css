@@ -20,6 +20,11 @@
   --light-grey: #d4d5d9;
   --white: #ffffff;
 
+  /* Bild-Overlays — Figma „gradient/overlay-…" (#1F1F27 mit Alpha) */
+  --overlay-0: rgba(31, 31, 39, 0);
+  --overlay-25: rgba(31, 31, 39, 0.25);
+  --overlay-50: rgba(31, 31, 39, 0.5);
+
   /* Schriften */
   --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Montserrat", system-ui, -apple-system, sans-serif;
@@ -44,8 +49,8 @@
   --gap-xxxs: 4px;
 }
 
-/* Tablet (768–1023) — exakte Figma-Variablen Frame 12242:22501 */
-@media (min-width: 768px) {
+/* Tablet (701–991) — exakte Figma-Variablen Frame 12242:22501 */
+@media (min-width: 701px) {
   :root {
     --text-max: 927px;
     --layout-margin: 32px;
@@ -64,11 +69,12 @@
   }
 }
 
-/* Desktop (≥1024) — exakte Figma-Variablen Frame 12242:22419 */
-@media (min-width: 1024px) {
+/* Desktop (≥992) — exakte Figma-Variablen Frame 12242:22419 */
+@media (min-width: 992px) {
   :root {
     --text-max: 1056px;
-    --layout-margin: 80px;
+    /* margin Large = 96px (verbindliche Spacing-Vorgabe: festes Layout 1792px, 2×96 → Content 1600) */
+    --layout-margin: 96px;
     --gutter: 32px;
     --pad-section: 222px;
     --gap-xxl: 222px;
@@ -167,8 +173,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   letter-spacing: 0;
 }
 
-@media (min-width: 768px) {
-  /* Exakte Figma-V4-Tablet-Variablen (Frame 12242:22501, 768–1023px) */
+@media (min-width: 701px) {
+  /* Exakte Figma-V4-Tablet-Variablen (Frame 12242:22501, 701–991px) */
   .t-titel { font-size: 10px; line-height: 18px; }
   .t-h1 { font-size: 44px; line-height: 58px; }
   .t-h2 { font-size: 44px; line-height: 58px; }
@@ -179,7 +185,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   .t-small { font-size: 11px; line-height: 19px; }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
   /* Exakte Figma-V4-Seiten-Variablen (Desktop-Frame 12242:22419), nicht die Style-Guide-Tafel */
   .t-titel { font-size: 11px; line-height: 21px; }
   .t-h1 { font-size: 60px; line-height: 82px; }

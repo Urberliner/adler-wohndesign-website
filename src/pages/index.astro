@@ -236,7 +236,7 @@ const reviews = [
       /* Pfeil-Icons der Designerin (Linien-Pfeil), keine runden Buttons */
       .rev-btn { color: var(--text); display: grid; place-items: center; padding: 4px; transition: color 0.2s ease; }
       .rev-btn:hover { color: var(--bronze); }
-      @media (max-width: 768px) { .reviews__nav { display: none; } }
+      @media (max-width: 700px) { .reviews__nav { display: none; } }
 
       /* BLOG-VORSCHAU */
       .blog { background: #f9f6f5; padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-l); }
@@ -256,7 +256,7 @@ const reviews = [
       .bcard__title { color: var(--text); }
 
       /* Responsive */
-      @media (max-width: 768px) {
+      @media (max-width: 700px) {
         .projects__row--a, .projects__row--b { grid-template-columns: 1fr; }
         .aufbau { grid-template-columns: 1fr; gap: var(--gap-l); }
         .team { grid-template-columns: 1fr; padding-right: 0; gap: var(--gap-m); }
