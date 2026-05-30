@@ -1,0 +1,193 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const icons: Record<string, string> = {
+  dashboard: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="4.5" rx="1"/><rect x="13.5" y="10.5" width="7.5" height="10.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/></svg>`,
+  bulb: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.5.5.8 1.2.8 1.9v.5h6v-.5c0-.7.3-1.4.8-1.9A6 6 0 0 0 12 3z"/></svg>`,
+  person: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3.2M12 18.3v3.2M21.5 12h-3.2M5.7 12H2.5M18.7 5.3l-2.3 2.3M7.6 16.4l-2.3 2.3M18.7 18.7l-2.3-2.3M7.6 7.6 5.3 5.3"/></svg>`,
+  grid4: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1"/></svg>`,
+  grid16: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="3.5" height="3.5"/><rect x="8.5" y="3" width="3.5" height="3.5"/><rect x="14" y="3" width="3.5" height="3.5"/><rect x="3" y="8.5" width="3.5" height="3.5"/><rect x="8.5" y="8.5" width="3.5" height="3.5"/><rect x="14" y="8.5" width="3.5" height="3.5"/><rect x="3" y="14" width="3.5" height="3.5"/><rect x="8.5" y="14" width="3.5" height="3.5"/><rect x="14" y="14" width="3.5" height="3.5"/></svg>`,
+};
+
+const benefits = [
+  { icon: "dashboard", text: "Ganzheitliche Planung und Umsetzung." },
+  { icon: "bulb", text: "Einheitliches Designkonzept aus einer Hand." },
+  { icon: "person", text: "Persönliche Beratung und feste Ansprechpartner." },
+  { icon: "settings", text: "Präzise Abstimmung aller Arbeitsschritte." },
+  { icon: "grid4", text: "Effizienter Ablauf mit optimaler Zeitplanung." },
+  { icon: "grid16", text: "Verwendung hochwertiger, langlebiger Materialien." },
+];
+
+const cards = [
+  { img: "/images/komplettloesung/card1.png", side: "left",  title: "Sprechen Sie mit unseren Experten", text: "Wir analysieren Ihre Wünsche und Anforderungen, um die Basis für ein passendes Raumkonzept zu schaffen." },
+  { img: "/images/komplettloesung/card2.png", side: "right", title: "Entdecken Sie das Potenzial Ihrer Räume", text: "Wir prüfen Licht, Akustik, Materialien und Nutzung – für Räume, die funktionieren und begeistern." },
+  { img: "/images/komplettloesung/card3.png", side: "left",  title: "Sprechen Sie mit unseren Experten", text: "Wir analysieren Ihre Wünsche und Anforderungen, um die Basis für ein passendes Raumkonzept zu schaffen." },
+  { img: "/images/komplettloesung/card4.png", side: "right", title: "Entdecken Sie das Potenzial Ihrer Räume", text: "Wir prüfen Licht, Akustik, Materialien und Nutzung – für Räume, die funktionieren und begeistern." },
+  { img: "/images/komplettloesung/card5.png", side: "left",  title: "Sprechen Sie mit unseren Experten", text: "Wir analysieren Ihre Wünsche und Anforderungen, um die Basis für ein passendes Raumkonzept zu schaffen." },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Komplettlösung — Alles aus einer Hand | ADLER Wohndesign</title>
+    <meta name="description" content="Komplettlösung von ADLER Wohndesign: von der Idee über die Planung bis zur handwerklich präzisen Umsetzung – ein stimmiges Gesamtkonzept aus einer Hand." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container hero__text">
+          <p class="t-titel breadcrumb"><span class="bc-muted">Services</span> &nbsp;&gt;&nbsp; Komplettlösung</p>
+          <h1 class="t-h1">Alles aus einer Hand – von der Idee bis zur Umsetzung</h1>
+          <p class="t-body hero__lead">Wir begleiten Sie durch den gesamten Gestaltungsprozess: von der Beratung und Planung bis zur handwerklich präzisen Ausführung. Unser Ziel ist ein stimmiges Gesamtkonzept, das Design, Funktion und Qualität vereint – individuell auf Sie und Ihren Raum abgestimmt.</p>
+        </div>
+        <div class="hero__image">
+          <img src="/images/komplettloesung/hero.png" alt="Fertige Komplettlösung von ADLER Wohndesign" fetchpriority="high" />
+        </div>
+      </section>
+
+      <!-- BENEFITS -->
+      <section class="benefits container">
+        <p class="t-titel benefits__title"><span class="dot" aria-hidden="true"></span>Aus diesen Gründen wählen Sie eine Komplettlösung</p>
+        <ul class="benefits__grid">
+          {benefits.map((b) => (
+            <li class="benefit">
+              <span class="benefit__icon" aria-hidden="true" set:html={icons[b.icon]} />
+              <p class="t-h5">{b.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="services container">
+        <div class="services__intro">
+          <p class="t-titel">Rundum-Service</p>
+          <h2 class="t-h2">Ihr Weg zum perfekten Wohlfühlort</h2>
+          <div class="services__lead">
+            <p class="t-body">Sie möchten einzelne Räume gezielt verändern oder ein konkretes Element neu gestalten? Sie wünschen sich klare Abläufe, transparente Angebote und eine fachlich fundierte Beratung?</p>
+            <p class="t-body">Wir begleiten Sie von der ersten Anfrage bis zur präzisen Umsetzung – strukturiert, zuverlässig und abgestimmt auf Ihr Projekt.</p>
+          </div>
+        </div>
+
+        <div class="cards">
+          {cards.map((c) => (
+            <article class={`card card--${c.side}`}>
+              <div class="card__media">
+                <img src={c.img} alt={c.title} loading="lazy" />
+              </div>
+              <div class="card__body">
+                <p class="t-titel">Services</p>
+                <h3 class="t-h4 card__heading">{c.title}</h3>
+                <p class="t-body">{c.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ZITAT -->
+      <section class="quote">
+        <div class="container quote__inner">
+          <span class="quote__arrow" aria-hidden="true">‹</span>
+          <blockquote class="quote__body">
+            <p class="t-titel quote__author">Friedbert Bleile,<br />Kunde</p>
+            <p class="t-h3 quote__text">„Diese Firma kann ich bestens empfehlen. Klasse Team mit bester fachlicher Kompetenz. Gehen ganzheitlich auf die Wünsche von Kunden ein und finden immer eine passende Lösung."</p>
+          </blockquote>
+          <span class="quote__arrow" aria-hidden="true">›</span>
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <section class="kontakt container">
+        <p class="t-titel">Kontakt</p>
+        <h2 class="t-h3 kontakt__head">Lassen Sie sich jetzt von unserem Expertenteam beraten.</h2>
+        <p class="t-body kontakt__lead">Rufen Sie uns an oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign.</p>
+        <a class="btn" href="/kontakt">Mein Projekt starten</a>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      .hero { padding-top: var(--pad-section); }
+      .hero__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 1136px; }
+      .breadcrumb { color: var(--text); }
+      .bc-muted { color: var(--grey); }
+      .hero__lead { max-width: 70ch; }
+      .hero__image { margin-top: var(--gap-ml); width: 100%; height: clamp(240px, 40vw, 700px); }
+      .hero__image img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ---- BENEFITS ---- */
+      .benefits { padding-block: var(--pad-section) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); }
+      .benefits__title { display: flex; align-items: center; gap: var(--gap-xs); }
+      .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
+      .benefits__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: var(--gap-m);
+        row-gap: var(--gap-l);
+      }
+      .benefit { display: flex; flex-direction: column; gap: var(--gap-s); }
+      .benefit__icon { color: var(--text); }
+      .benefit__icon :global(svg) { width: 40px; height: 40px; }
+      .benefit .t-h5 { color: var(--text); max-width: 22ch; }
+
+      /* ---- SERVICES ---- */
+      .services { padding-block: var(--pad-section) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); }
+      .services__intro { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: 1136px; }
+      .services__intro .t-h2 { color: var(--text); margin-bottom: var(--gap-xs); }
+      .services__lead { display: flex; flex-direction: column; gap: 8px; }
+
+      .cards { display: flex; flex-direction: column; gap: var(--gap-ml); }
+      .card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gutter);
+        align-items: center;
+        min-height: clamp(340px, 46vw, 640px);
+      }
+      .card__media { height: 100%; }
+      .card__media img { width: 100%; height: 100%; object-fit: cover; }
+      .card__body { display: flex; flex-direction: column; gap: var(--gap-xs); padding-inline: clamp(0px, 4vw, 56px); }
+      .card__heading { color: var(--text); }
+      /* Bild rechts: Reihenfolge tauschen */
+      .card--right .card__media { order: 2; }
+
+      /* ---- ZITAT ---- */
+      .quote { background: var(--nature); padding-block: var(--pad-section); }
+      .quote__inner { display: flex; align-items: center; gap: var(--gutter); justify-content: center; }
+      .quote__arrow { color: var(--grey); font-size: 40px; line-height: 1; flex: none; }
+      .quote__body { display: flex; flex-direction: column; gap: var(--gap-m); align-items: center; max-width: 1056px; text-align: center; }
+      .quote__author { text-align: center; }
+      .quote__text { color: var(--text); }
+
+      /* ---- KONTAKT ---- */
+      .kontakt { padding-block: var(--pad-section); display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; }
+      .kontakt__head { color: var(--text); max-width: 22ch; }
+      .kontakt__lead { max-width: 60ch; }
+
+      /* ---- Responsive ---- */
+      @media (max-width: 768px) {
+        .benefits__grid { grid-template-columns: 1fr; row-gap: var(--gap-m); }
+        .card { grid-template-columns: 1fr; min-height: 0; gap: var(--gap-s); }
+        .card__media { height: clamp(220px, 60vw, 360px); }
+        .card--right .card__media { order: 0; }
+        .card__body { padding-inline: 0; }
+        .quote__arrow { display: none; }
+      }
+    </style>
+  </body>
+</html>
