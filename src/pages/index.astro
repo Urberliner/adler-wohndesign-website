@@ -1,12 +1,18 @@
 ---
 import "../styles/global.css";
-// Adler Wohndesign — Hero (Platzhalter-Startseite, wird später aus V4 neu gebaut)
-const nav = [
-  { label: "Services", href: "#services" },
-  { label: "Projekte", href: "#projekte" },
-  { label: "Farrow & Ball", href: "#farrow-ball" },
-  { label: "Das sind wir", href: "#ueber-uns" },
-  { label: "Blog", href: "#blog" },
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+// Projekt-Aufbau — Akkordeon (Texte 2–5 folgen aus Figma)
+const aufbau = [
+  {
+    titel: "1. Beratung",
+    text: "In unserem ersten Schritt im Projekt mit Ihnen suchen wir alle Informationen zusammen. Wir lernen Sie und Ihre Wünsche und Vorstellungen im Projekt kennen und was Sie erreichen wollen. Wir beziehen in die Überlegungen den Stil, technische und gestalterische Möglichkeiten, bauliche Änderungen, funktionale Anforderungen und das Budget mit ein.",
+  },
+  { titel: "2. Raumanalyse", text: "Inhalt folgt." },
+  { titel: "3. Design- und Raumkonzeption", text: "Inhalt folgt." },
+  { titel: "4. Angebot", text: "Inhalt folgt." },
+  { titel: "5. Umsetzung", text: "Inhalt folgt." },
 ];
 ---
 
@@ -15,229 +21,133 @@ const nav = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Raumausstatter Berlin | ADLER Wohndesign Charlottenburg</title>
-    <meta
-      name="description"
-      content="ADLER Wohndesign — Meisterbetrieb seit 1939. Ganzheitliche Raumkonzepte aus Berlin-Charlottenburg: von der ersten Idee bis zum letzten Handgriff."
-    />
-    <!-- Schriften werden selbst gehostet (via global.css / @fontsource) -->
+    <title>ADLER Wohndesign — Raumausstatter & Innenarchitektur in Berlin-Charlottenburg</title>
+    <meta name="description" content="ADLER Wohndesign: Meisterbetrieb seit über 85 Jahren. Ganzheitliche Raumkonzepte aus Berlin-Charlottenburg – von der ersten Idee bis zum letzten Detail." />
     <link rel="icon" href="/favicon.svg" />
   </head>
   <body>
-    <!-- Header -->
-    <header class="site-header">
-      <a class="logo" href="/" aria-label="ADLER Wohndesign — Startseite">
-        <img src="/images/logo-white.png" alt="ADLER Wohndesign" width="2634" height="949" />
-      </a>
+    <Header />
 
-      <nav class="main-nav" aria-label="Hauptnavigation">
-        <ul>
-          {nav.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
-          ))}
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <button class="icon-btn" type="button" aria-label="Suche">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-          </svg>
-        </button>
-        <a class="btn-cta" href="#kontakt">Mein Beratungstermin</a>
-      </div>
-    </header>
-
-    <!-- Hero -->
     <main>
+      <!-- HERO -->
       <section class="hero" aria-labelledby="hero-title">
-        <img
-          class="hero__img"
-          src="/images/hero-beratung.jpg"
-          alt="ADLER Wohndesign Showroom mit Beratungssituation"
-          fetchpriority="high"
-        />
+        <img class="hero__img" src="/images/home/hero.jpg" alt="ADLER Wohndesign Showroom in Berlin-Charlottenburg" fetchpriority="high" />
         <div class="hero__overlay" aria-hidden="true"></div>
-        <div class="hero__content">
-          <p class="overline">Raumausstatter &amp; Innenarchitektur-Studio in Berlin</p>
-          <h1 id="hero-title">
-            Räume, die sich anfühlen wie nach Hause kommen — nur schöner.
-          </h1>
-          <p class="hero__sub">
-            Meisterbetrieb seit 1939. Ganzheitliche Raumkonzepte aus Charlottenburg
-            — von der ersten Idee bis zum letzten Handgriff.
-          </p>
+        <div class="container hero__content">
+          <p class="t-titel hero__over">Adler Wohndesign — Raumausstatter &amp; Innenarchitektur-Studio in Berlin</p>
+          <h1 id="hero-title" class="t-h1">Wir kreieren Ihren Wohlfühlort – perfekt.</h1>
+          <a class="btn" href="/kontakt">Mein Projekt starten</a>
         </div>
       </section>
+
+      <!-- SERVICES (Statement) -->
+      <section class="services container">
+        <p class="t-titel services__over">Unser Service</p>
+        <p class="t-h3 services__text">Wir sind ADLER Wohndesign. Meisterbetrieb mit über 85 Jahren Erfahrung – für Wohnkonzepte, die wirklich passen. Für echtes Handwerk und bleibendes Wohlfühlen in Ihrem Zuhause. Wir begleiten Sie von der ersten Idee bis zum letzten Detail – wir übernehmen alles. Für Sie.</p>
+        <a class="btn" href="/komplettloesung">Mein Projekt starten</a>
+      </section>
+
+      <!-- TODO: Project Preview (Projekt-Vorschau-Karten) -->
+
+      <!-- PROJEKT AUFBAU -->
+      <section class="aufbau container">
+        <div class="aufbau__intro">
+          <p class="t-titel aufbau__over"><span class="dot" aria-hidden="true"></span>Unsere Expertise</p>
+          <p class="t-h4 aufbau__lead">Wir bieten einen neuen Standard für Raumgestaltung in Berlin – persönlich, vielseitig und ohne Aufwand für Sie. Von einzelnen Leistungen wie Lichtkonzepten, Maßgardinen oder Bodengestaltung bis zum vollständigen Rundum-Paket. Was Sie beauftragen, liegt ganz bei Ihnen.</p>
+        </div>
+        <div class="aufbau__list">
+          {aufbau.map((item, i) => (
+            <details name="aufbau" open={i === 0}>
+              <summary>
+                <span class="t-h4">{item.titel}</span>
+                <svg class="chev" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+              </summary>
+              <div class="aufbau__body"><p class="t-body">{item.text}</p></div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- DAS SIND WIR -->
+      <section class="team">
+        <div class="team__media">
+          <img src="/images/home/team.jpg" alt="Das Team von ADLER Wohndesign im Showroom" loading="lazy" />
+        </div>
+        <div class="team__text">
+          <p class="t-titel">Das sind wir</p>
+          <h2 class="t-h3 team__head">Lernen Sie uns kennen</h2>
+          <p class="t-body">Hinter jedem Projekt steht ein Team mit Leidenschaft und Expertise für Raumgestaltung. Lernen Sie die Menschen hinter ADLER kennen, besuchen Sie unseren Showroom in Charlottenburg – und entdecken Sie, was uns bis heute antreibt.</p>
+          <a class="btn" href="/ueber-uns">Mehr über uns</a>
+        </div>
+      </section>
+
+      <!-- TODO: Review (Kundenstimmen-Karussell) -->
+
+      <!-- KONTAKT -->
+      <section class="kontakt">
+        <div class="container kontakt__inner">
+          <p class="t-titel kontakt__over">Kontakt</p>
+          <h2 class="t-h3 kontakt__head">Ihr Wohlfühlort wartet – lassen Sie uns gemeinsam starten.</h2>
+          <p class="t-body kontakt__lead">Rufen Sie uns an oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
+          <a class="btn" href="/kontakt">Mein Projekt starten</a>
+        </div>
+      </section>
+
+      <!-- TODO: Blog Categorie Preview -->
     </main>
 
+    <Footer />
+
     <style>
-      /* ---- Design Tokens (aus Figma) ---- */
-      :root {
-        --moos: #153032;
-        --bronze: #bf8970;
-        --nature: #f6f3f2;
-        --grey-dark: #1f1f27;
-        --grey: #8e8f93;
-        --light-grey: #d4d5d9;
-        --white: #ffffff;
+      /* HERO */
+      .hero { position: relative; min-height: clamp(540px, 86vh, 900px); display: flex; align-items: flex-end; overflow: hidden; }
+      .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+      .hero__overlay { position: absolute; inset: 0; background:
+        linear-gradient(180deg, rgba(31,31,39,0.28) 0%, rgba(31,31,39,0.10) 30%, rgba(31,31,39,0.30) 60%, rgba(31,31,39,0.66) 100%); }
+      .hero__content { position: relative; z-index: 1; padding-block: clamp(40px, 7vh, 96px); display: flex; flex-direction: column; gap: var(--gap-m); align-items: flex-start; color: var(--white); }
+      .hero__over { color: rgba(255,255,255,0.82); max-width: 52ch; }
+      .hero .t-h1 { color: var(--white); max-width: 18ch; }
 
-        --font-display: "Playfair Display", Georgia, serif;
-        --font-body: "Montserrat", system-ui, -apple-system, sans-serif;
+      /* SERVICES */
+      .services { padding-block: var(--pad-section); display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; }
+      .services__text { color: var(--text); max-width: 30ch; }
 
-        /* Spacing (mobile-first) */
-        --page-margin: 24px;
-        --header-h: 64px;
+      /* PROJEKT AUFBAU */
+      .aufbau { padding-block: var(--pad-section); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl); align-items: start; }
+      .aufbau__intro { display: flex; flex-direction: column; gap: var(--gap-s); max-width: 652px; }
+      .aufbau__over { display: flex; align-items: center; gap: var(--gap-xs); }
+      .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
+      .aufbau__lead { color: var(--text); }
+      .aufbau__list { display: flex; flex-direction: column; }
+      .aufbau details { border-bottom: 1px solid var(--light-grey); }
+      .aufbau summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: var(--gap-s); padding-block: var(--gap-s); color: var(--text); }
+      .aufbau summary::-webkit-details-marker { display: none; }
+      .aufbau .chev { color: var(--bronze); flex: none; transition: transform 0.25s ease; }
+      .aufbau details[open] .chev { transform: rotate(180deg); }
+      .aufbau__body { padding-bottom: var(--gap-s); }
+      .aufbau__body .t-body { color: var(--text); max-width: 60ch; }
 
-        /* Type scale (mobile) */
-        --fs-h1: 36px;   --lh-h1: 50px;
-        --fs-over: 12px; --lh-over: 20px; --ls-over: 0.12em;
-        --fs-body: 16px; --lh-body: 26px;
-      }
+      /* DAS SIND WIR */
+      .team { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-l); align-items: center; padding-block: var(--pad-section); padding-right: var(--layout-margin); }
+      .team__media { height: clamp(320px, 40vw, 700px); }
+      .team__media img { width: 100%; height: 100%; object-fit: cover; }
+      .team__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 652px; }
+      .team__head { color: var(--text); }
 
-      @media (min-width: 768px) {
-        :root {
-          --page-margin: 32px;
-          --header-h: 72px;
-          --fs-h1: 44px;   --lh-h1: 58px;
-          --fs-body: 16px; --lh-body: 26px;
-        }
-      }
+      /* KONTAKT */
+      .kontakt { background: var(--moos); color: var(--white); padding-block: var(--pad-section); }
+      .kontakt__inner { display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; max-width: 760px; }
+      .kontakt__over { color: rgba(255,255,255,0.7); }
+      .kontakt__head, .kontakt__lead { color: var(--white); }
+      .kontakt__head { max-width: 22ch; }
+      .kontakt__lead { max-width: 56ch; }
 
-      @media (min-width: 1024px) {
-        :root {
-          --page-margin: 80px;
-          --header-h: 88px;
-          --fs-h1: 64px;   --lh-h1: 88px;
-          --fs-over: 14px; --lh-over: 24px;
-          --fs-body: 18px; --lh-body: 32px;
-        }
-      }
-
-      /* ---- Reset ---- */
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      html { -webkit-font-smoothing: antialiased; }
-      body { font-family: var(--font-body); color: var(--grey-dark); }
-      img { display: block; max-width: 100%; }
-      ul { list-style: none; }
-      a { text-decoration: none; color: inherit; }
-
-      /* ---- Header ---- */
-      .site-header {
-        position: fixed;
-        inset: 0 0 auto 0;
-        height: var(--header-h);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        padding-inline: var(--page-margin);
-        background: var(--moos);
-        z-index: 10;
-      }
-      .logo img { height: 28px; width: auto; }
-      @media (min-width: 1024px) { .logo img { height: 40px; } }
-
-      .main-nav ul { display: flex; gap: 32px; }
-      .main-nav a {
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--white);
-        opacity: 0.92;
-        transition: opacity 0.2s, color 0.2s;
-      }
-      .main-nav a:hover { color: var(--bronze); opacity: 1; }
-      /* Nav versteckt auf kleinen Screens (Burger-Menü käme im echten Bau dazu) */
-      @media (max-width: 1023px) { .main-nav { display: none; } }
-
-      .header-actions { display: flex; align-items: center; gap: 16px; }
-      .icon-btn {
-        display: grid; place-items: center;
-        width: 40px; height: 40px;
-        background: none; border: none; cursor: pointer;
-        color: var(--white);
-      }
-      @media (max-width: 1023px) { .icon-btn { display: none; } }
-
-      .btn-cta {
-        display: inline-flex; align-items: center;
-        height: 44px;
-        padding-inline: 24px;
-        border-radius: 999px;
-        background: var(--bronze);
-        color: var(--white);
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        white-space: nowrap;
-        transition: filter 0.2s;
-      }
-      .btn-cta:hover { filter: brightness(1.07); }
-
-      /* ---- Hero ---- */
-      .hero {
-        position: relative;
-        min-height: 100svh;
-        display: flex;
-        align-items: flex-end;
-        overflow: hidden;
-      }
-      .hero__img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center 35%;
-      }
-      .hero__overlay {
-        position: absolute;
-        inset: 0;
-        /* Stärkerer Verlauf unten, damit Text über hellem Bildbereich
-           lesbar bleibt (WCAG-Kontrast). */
-        background: linear-gradient(
-          180deg,
-          rgba(31, 31, 39, 0.32) 0%,
-          rgba(31, 31, 39, 0.08) 22%,
-          rgba(31, 31, 39, 0.38) 50%,
-          rgba(31, 31, 39, 0.82) 100%
-        );
-      }
-      .hero__content {
-        position: relative;
-        z-index: 1;
-        max-width: 1000px;
-        padding: var(--page-margin);
-        padding-bottom: clamp(40px, 8vh, 96px);
-        color: var(--white);
-      }
-      .overline {
-        font-size: var(--fs-over);
-        line-height: var(--lh-over);
-        letter-spacing: var(--ls-over);
-        text-transform: uppercase;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.82);
-        margin-bottom: 20px;
-      }
-      h1 {
-        font-family: var(--font-display);
-        font-weight: 500;
-        font-size: var(--fs-h1);
-        line-height: var(--lh-h1);
-        letter-spacing: -0.01em;
-        max-width: 16ch;
-      }
-      .hero__sub {
-        margin-top: 24px;
-        font-size: var(--fs-body);
-        line-height: var(--lh-body);
-        font-weight: 400;
-        color: rgba(255, 255, 255, 0.88);
-        max-width: 46ch;
+      /* Responsive */
+      @media (max-width: 768px) {
+        .aufbau { grid-template-columns: 1fr; gap: var(--gap-l); }
+        .team { grid-template-columns: 1fr; padding-right: 0; gap: var(--gap-m); }
+        .team__media { height: clamp(240px, 60vw, 360px); order: -1; }
+        .team__text { padding-inline: var(--layout-margin); }
       }
     </style>
   </body>
