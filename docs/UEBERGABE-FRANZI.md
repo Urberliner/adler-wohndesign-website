@@ -52,4 +52,12 @@ bevor du neue anlegst.
 3. **Lokal prüfen** (Desktop + Mobil), dann committen/pushen.
 4. Deploy: `npm run build && npx wrangler pages deploy dist --project-name=adler-wohndesign-website --branch=main`
 
+## Bekannte Feinschliff-Punkte (bewusst offen — für Franzi)
+Diese Dinge sind als Platzhalter/„nah dran" gebaut und warten auf deinen Designer-Blick:
+- **Icons** (z. B. die 6 Benefit-Icons in `komplettloesung.astro`): aktuell generische Inline-SVGs. Figma nutzt **Material-Symbols-Stil, „fine line", Weight 100–200**. → Durch den echten Icon-Satz ersetzen (Material Symbols einbinden oder aus Figma exportieren).
+- **Beispielseite `/komplettloesung`** wurde aus einer **anderen Figma-Datei** (kleinere Typo-Skala) gebaut. Mit den jetzt kanonischen **V4-Tokens** wirkt ihre `.t-h2` („Ihr Weg…") groß. Für die echte Seite aus V4 neu ziehen oder Überschriften-Level anpassen.
+- **Mobiles Burger-Menü** im Header ist noch nicht gebaut (nur Logo + Button auf Mobil).
+- **Bild-Text-Karten:** Hochformat-Bilder werden formatfüllend beschnitten (`object-fit: cover`) — Figma zeigt sie teils schmaler/zentriert.
+- **Schriften:** bereits selbst gehostet (DSGVO ✅). Beim Hinzufügen weiterer Schnitte: `@fontsource`-Import in `global.css` ergänzen, **nicht** das Google-CDN nutzen.
+
 Details & Pre-Launch-Checkliste: `CLAUDE.md` und `README.md`.
