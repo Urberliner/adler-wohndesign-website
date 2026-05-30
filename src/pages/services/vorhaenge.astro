@@ -1,0 +1,47 @@
+---
+// Einzelleistung „Vorhänge nach Maß" — Inhalt 1:1 aus Figma (12272:28264), gerendert über die Vorlage.
+import Einzelleistung from "../../layouts/Einzelleistung.astro";
+
+const steps = [
+  { titel: "1. Beratung vor Ort", text: "Wir kommen zu Ihnen nach Hause, schauen uns Ihre Räume an und hören genau zu. Was Sie sich wünschen, was Sie stört, wo Sie bleiben sollen – wir nehmen uns die Zeit und finden gemeinsam die beste Lösung für Ihren Raum." },
+  { titel: "2. Maße nehmen", text: "Wir messen alles exakt aus – Fenster, Wände, Nischen. So sitzt am Ende jeder Vorhang perfekt." },
+  { titel: "3. Stoffauswahl", text: "Aus einer großen Auswahl hochwertiger Stoffe finden wir gemeinsam den, der zu Ihrem Raum und Stil passt." },
+  { titel: "4. Fertigung", text: "Ihre Vorhänge werden in unserer Werkstatt maßgenau und sorgfältig angefertigt." },
+  { titel: "5. Montage", text: "Wir montieren alles sauber und professionell bei Ihnen zu Hause – Sie müssen sich um nichts kümmern." },
+];
+
+const partnerLogos = [
+  { name: "RUBELLI" }, { name: "JAB ANSTOETZ" }, { name: "Création Baumann" },
+  { name: "Zimmer + Rohde" }, { name: "Christian Fischbacher" },
+];
+
+const related = [
+  { titel: "Leichtes Raum & Licht Konzept", eyebrow: "Penthouse Berlin", img: "/images/home/project-1.jpg", href: "/projekte" },
+  { titel: "Klassische Eleganz", eyebrow: "Altbau Charlottenburg", img: "/images/home/project-2.jpg", href: "/projekte" },
+  { titel: "Warme Wohnatmosphäre", eyebrow: "Wohnung Grunewald", img: "/images/komplettloesung/card1.png", href: "/projekte" },
+  { titel: "Modernes Stadthaus", eyebrow: "Stadthaus Mitte", img: "/images/komplettloesung/card2.png", href: "/projekte" },
+];
+---
+<Einzelleistung
+  title="Vorhänge nach Maß | ADLER Wohndesign"
+  description="Maßgefertigte Vorhänge von ADLER Wohndesign: persönliche Beratung vor Ort, exaktes Aufmaß, hochwertige Stoffe, Fertigung in eigener Werkstatt und saubere Montage."
+  breadcrumbParent="Gardinen & Rollos"
+  breadcrumbParentHref="/services/gardinen-rollos"
+  heroHeadline="Vorhänge nach Maß – für jeden Raum die richtige Lösung."
+  heroSubline="Ob Sonnenschutz, Sichtschutz oder reine Atmosphäre – Vorhänge verändern einen Raum mehr als man denkt. Wir beraten Sie persönlich, fertigen alles maßgenau an und montieren bei Ihnen zu Hause. Sie müssen sich um nichts kümmern."
+  heroImage="/images/home/project-1.jpg"
+  aufbauOver="Das ist unser Service für Sie"
+  aufbauTitle="So entsteht Ihr maßgeschneiderter Vorhang – Schritt für Schritt"
+  steps={steps}
+  partnerOver="Qualität, die man fühlt"
+  partnerTitle="Ausgewählte Marken & Materialien"
+  partnerText="Hinter jedem guten Ergebnis stecken die richtigen Materialien. Wir arbeiten mit ausgewählten Marken und Partnern zusammen, die unsere Ansprüche an Qualität und Verarbeitung teilen – damit Ihr Wohlfühlort auch in zehn Jahren noch überzeugt."
+  partnerLogos={partnerLogos}
+  partnerImage="/images/home/hero.jpg"
+  quoteAuthor="Friedbert Bleile,<br />Kunde"
+  quoteText="„Diese Firma kann ich bestens empfehlen. Klasse Team mit bester fachlicher Kompetenz. Gehen ganzheitlich auf die Wünsche von Kunden ein und finden immer eine passende Lösung.""
+  relatedTitle="Das könnte Ihnen auch gefallen"
+  related={related}
+  kontaktHeading="Sie haben Fragen oder sind sich nicht sicher, wo Sie anfangen sollen? Wir helfen Ihnen."
+  kontaktLead="Manchmal weiß man, was man möchte – aber nicht genau wie. Genau dafür sind wir da. Wir nehmen uns die Zeit, Ihre Wünsche zu verstehen, und zeigen Ihnen, welche Leistungen wirklich zu Ihrem Raum und Ihrem Budget passen. Unverbindlich, persönlich und ohne Druck."
+/>

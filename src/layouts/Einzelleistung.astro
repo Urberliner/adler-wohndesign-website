@@ -1,0 +1,177 @@
+---
+// Einzelleistung — wiederverwendbare Seitenvorlage (Figma V4: 002-Services/Einzelleistungen, Frame 12272:28264)
+// 1:1-Struktur: Hero · Aufbau (Accordion) · Partner (Marken + Logo-Karussell) · Zitat · Related Articles · Kontakt.
+// Alle Sektionen weiß. Werte aus get_design_context (Hero-Bild 700 randlos, Aufbau pt XXL/pb XL, etc.).
+//
+// Eine konkrete Einzelleistung übergibt nur Daten via Props.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Accordion from "../components/Accordion.astro";
+import Quote from "../components/Quote.astro";
+import Cta from "../components/Cta.astro";
+import Card from "../components/Card.astro";
+
+interface Step { titel: string; text: string; }
+interface Logo { name: string; img?: string; }
+interface RelatedItem { titel: string; img: string; href: string; eyebrow?: string; }
+interface Props {
+  title: string;
+  description?: string;
+  breadcrumbParent: string;          // z. B. "Gardinen & Rollos"
+  breadcrumbParentHref?: string;
+  heroHeadline: string;
+  heroSubline: string;
+  heroImage: string;
+  aufbauOver: string;                // "Das ist unser Service für Sie"
+  aufbauTitle: string;               // "So entsteht Ihr maßgeschneiderter Vorhang – Schritt für Schritt"
+  steps: Step[];
+  partnerOver: string;               // "Qualität, die man fühlt"
+  partnerTitle: string;              // "Ausgewählte Marken & Materialien"
+  partnerText: string;
+  partnerLogos: Logo[];
+  partnerImage: string;
+  quoteAuthor: string;               // "Friedbert Bleile, Kunde"
+  quoteText: string;
+  relatedTitle: string;              // "Das könnte Ihnen auch gefallen"
+  related: RelatedItem[];
+  kontaktHeading: string;
+  kontaktLead: string;
+  kontaktButton?: string;
+}
+const {
+  title, description,
+  breadcrumbParent, breadcrumbParentHref = "#",
+  heroHeadline, heroSubline, heroImage,
+  aufbauOver, aufbauTitle, steps,
+  partnerOver, partnerTitle, partnerText, partnerLogos, partnerImage,
+  quoteAuthor, quoteText,
+  relatedTitle, related,
+  kontaktHeading, kontaktLead, kontaktButton = "Jetzt Beratung vereinbaren",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <!-- HERO -->
+      <section class="el-hero">
+        <div class="el-hero__text">
+          <p class="t-titel breadcrumb">
+            <a href={breadcrumbParentHref} class="bc-muted">{breadcrumbParent}</a> &nbsp;&gt;&nbsp; {heroHeadline ? "" : ""}<span class="bc-current">{title.split("—")[0].trim()}</span>
+          </p>
+          <h1 class="t-h1">{heroHeadline}</h1>
+          <p class="t-body el-hero__sub">{heroSubline}</p>
+        </div>
+        <div class="el-hero__image"><img src={heroImage} alt={heroHeadline} fetchpriority="high" /></div>
+      </section>
+
+      <!-- AUFBAU (Accordion) -->
+      <section class="el-aufbau">
+        <div class="el-aufbau__intro">
+          <p class="t-titel el-eyebrow"><span class="dot" aria-hidden="true"></span>{aufbauOver}</p>
+          <p class="t-h4 el-aufbau__title">{aufbauTitle}</p>
+        </div>
+        <div class="el-aufbau__list">
+          <Accordion items={steps} name="el-aufbau" dividers={false} />
+        </div>
+      </section>
+
+      <!-- PARTNER / MARKEN -->
+      <section class="el-partner">
+        <div class="el-partner__text">
+          <p class="t-titel el-eyebrow"><span class="dot" aria-hidden="true"></span>{partnerOver}</p>
+          <h2 class="t-h3 el-partner__title">{partnerTitle}</h2>
+          <p class="t-body">{partnerText}</p>
+        </div>
+        <div class="el-logos" aria-label="Marken & Partner">
+          <div class="el-logos__track">
+            {[...partnerLogos, ...partnerLogos].map((l) => (
+              <span class="el-logo">{l.img ? <img src={l.img} alt={l.name} /> : l.name}</span>
+            ))}
+          </div>
+        </div>
+        <div class="el-partner__image"><img src={partnerImage} alt={partnerTitle} loading="lazy" /></div>
+      </section>
+
+      <!-- ZITAT -->
+      <Quote author={quoteAuthor}>{quoteText}</Quote>
+
+      <!-- RELATED ARTICLES -->
+      <section class="el-related">
+        <p class="t-titel el-eyebrow"><span class="dot" aria-hidden="true"></span>{relatedTitle}</p>
+        <div class="el-related__track">
+          {related.map((r) => (
+            <Card href={r.href} image={r.img} alt={r.titel} eyebrow={r.eyebrow} title={r.titel} ratio="portrait" class="el-related__card" />
+          ))}
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <Cta bg="default" heading={kontaktHeading} lead={kontaktLead} buttonLabel={kontaktButton} />
+    </main>
+    <Footer />
+
+    <style>
+      /* Eyebrow mit Bronze-Punkt (Figma Title/Breadcrumps „Titel + dot") */
+      .el-eyebrow { display: flex; align-items: center; gap: var(--gap-xs); color: var(--grey); }
+      .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--bronze); flex: none; }
+
+      /* ---- HERO ---- (pt XXL, Text max 1056, Bild 700 randlos unten) */
+      .el-hero { padding-top: var(--gap-xxl); display: flex; flex-direction: column; gap: var(--gap-ml); }
+      .el-hero__text { max-width: 1056px; padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .breadcrumb { color: var(--text); }
+      .bc-muted { color: var(--grey); transition: color 0.2s ease; }
+      .bc-muted:hover { color: var(--bronze); }
+      .bc-current { color: var(--text); }
+      .el-hero__sub { color: var(--text); }
+      .el-hero__image { width: 100%; height: 700px; }
+      .el-hero__image img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ---- AUFBAU ---- (pt XXL / pb XL, 2 Spalten: Text links, Accordion rechts) */
+      .el-aufbau { padding-block: var(--gap-xxl) var(--gap-xl); padding-inline: var(--layout-margin); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: start; }
+      .el-aufbau__intro { display: flex; flex-direction: column; gap: var(--gap-s); max-width: 784px; padding: var(--gap-xs) var(--gap-sm); }
+      .el-aufbau__title { color: var(--text); }
+
+      /* ---- PARTNER ---- (pt XXL, Text max 1056, Logo-Karussell auto, Bild randlos) */
+      .el-partner { padding-top: var(--gap-xxl); display: flex; flex-direction: column; gap: var(--gap-xxl); }
+      .el-partner__text { max-width: 1056px; padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .el-partner__title { color: var(--text); }
+      .el-partner__text .t-body { color: var(--text); }
+
+      /* Logo-Karussell: automatisch nach links scrollend (Annotation: „Logo Karussell – dreht sich automatisch, nach links") */
+      .el-logos { overflow: hidden; padding-inline: var(--layout-margin); }
+      .el-logos__track { display: flex; align-items: center; gap: var(--gap-xl); width: max-content; animation: el-logo-scroll 32s linear infinite; }
+      .el-logo { color: var(--grey); font-family: var(--font-display); font-size: 28px; letter-spacing: 0.02em; white-space: nowrap; opacity: 0.7; }
+      .el-logo img { height: 48px; width: auto; object-fit: contain; }
+      @keyframes el-logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      @media (prefers-reduced-motion: reduce) { .el-logos__track { animation: none; } }
+
+      .el-partner__image { width: 100%; height: clamp(360px, 62vw, 1118px); }
+      .el-partner__image img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ---- RELATED ---- (pt XXL / pb XL, 4 Karten) */
+      .el-related { padding-block: var(--gap-xxl) var(--gap-xl); padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--gap-l); }
+      .el-related__track { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
+      .el-related :global(.el-related__card .card__media) { height: clamp(280px, 24vw, 413px); }
+
+      /* ---- Responsive ---- */
+      @media (max-width: 991px) {
+        .el-related__track { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 700px) {
+        .el-hero__image { height: 585px; }
+        .el-aufbau { grid-template-columns: 1fr; gap: var(--gap-l); }
+        .el-related__track { grid-template-columns: 1fr; }
+      }
+    </style>
+  </body>
+</html>
