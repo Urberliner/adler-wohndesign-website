@@ -1,11 +1,13 @@
 ---
-// Accordion — aufklappbare Liste (Figma V4: Projekt-Aufbau auf der Startseite)
+// Accordion — aufklappbare Liste (Figma V4: „Card Information")
 // Nutzt natives <details name> (exklusiv aufklappend) — kein JS nötig.
+// Innenabstand 1:1 aus Figma: px = spacing/sm, py = spacing/xs.
 //
 // Props:
 //  - items:     [{ titel, text }]
 //  - name:      gemeinsamer Gruppen-Name (default "accordion")
 //  - openFirst: erstes Element offen (default true)
+//  - dividers:  Trennlinien zwischen Einträgen (default true; Startseite: false)
 import Icon from "./Icon.astro";
 interface Item {
   titel: string;
@@ -15,10 +17,11 @@ interface Props {
   items: Item[];
   name?: string;
   openFirst?: boolean;
+  dividers?: boolean;
 }
-const { items, name = "accordion", openFirst = true } = Astro.props;
+const { items, name = "accordion", openFirst = true, dividers = true } = Astro.props;
 ---
-<div class="accordion">
+<div class:list={["accordion", { "accordion--dividers": dividers }]}>
   {items.map((item, i) => (
     <details name={name} open={openFirst && i === 0}>
       <summary>
@@ -32,7 +35,7 @@ const { items, name = "accordion", openFirst = true } = Astro.props;
 
 <style>
   .accordion { display: flex; flex-direction: column; }
-  .accordion details { border-bottom: 1px solid var(--light-grey); }
+  .accordion--dividers details { border-bottom: 1px solid var(--light-grey); }
   .accordion summary {
     list-style: none;
     cursor: pointer;
@@ -40,12 +43,12 @@ const { items, name = "accordion", openFirst = true } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: var(--gap-s);
-    padding-block: var(--gap-s);
+    padding: var(--gap-xs) var(--gap-sm);
     color: var(--text);
   }
   .accordion summary::-webkit-details-marker { display: none; }
-  .accordion :global(.acc-chev) { color: var(--bronze); transition: transform 0.25s ease; }
+  .accordion :global(.acc-chev) { color: var(--bronze); transition: transform 0.25s ease; flex: none; }
   .accordion details[open] summary :global(.acc-chev) { transform: rotate(180deg); }
-  .accordion__body { padding-bottom: var(--gap-s); }
-  .accordion__body .t-body { color: var(--text); max-width: 60ch; }
+  .accordion__body { padding: 0 var(--gap-sm) var(--gap-xs); }
+  .accordion__body .t-body { color: var(--text); }
 </style>

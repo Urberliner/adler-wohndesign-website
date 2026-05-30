@@ -79,7 +79,7 @@ const reviews = [
       <section class="services container">
         <p class="t-titel services__over">Unser Service</p>
         <p class="t-h3 services__text">Wir sind ADLER Wohndesign. Meisterbetrieb mit über 85 Jahren Erfahrung – für Wohnkonzepte, die wirklich passen. Für echtes Handwerk und bleibendes Wohlfühlen in Ihrem Zuhause. Wir begleiten Sie von der ersten Idee bis zum letzten Detail – wir übernehmen alles. Für Sie.</p>
-        <Button href="/komplettloesung">Mein Projekt starten</Button>
+        <Button href="/komplettloesung">Mehr erfahren</Button>
       </section>
 
       <!-- PROJEKT-VORSCHAU -->
@@ -101,7 +101,7 @@ const reviews = [
           <p class="t-h4 aufbau__lead">Wir bieten einen neuen Standard für Raumgestaltung in Berlin – persönlich, vielseitig und ohne Aufwand für Sie. Von einzelnen Leistungen wie Lichtkonzepten, Maßgardinen oder Bodengestaltung bis zum vollständigen Rundum-Paket. Was Sie beauftragen, liegt ganz bei Ihnen.</p>
         </div>
         <div class="aufbau__list">
-          <Accordion items={aufbau} name="aufbau" />
+          <Accordion items={aufbau} name="aufbau" dividers={false} />
         </div>
       </section>
 
@@ -197,7 +197,7 @@ const reviews = [
 
       /* PROJEKT AUFBAU */
       .aufbau { padding-block: var(--gap-xxl) var(--gap-xl); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl); align-items: start; }
-      .aufbau__intro { display: flex; flex-direction: column; gap: var(--gap-s); max-width: 652px; }
+      .aufbau__intro { display: flex; flex-direction: column; gap: var(--gap-s); max-width: 1056px; padding: var(--gap-xs) var(--gap-sm); }
       .aufbau__over { display: flex; align-items: center; gap: var(--gap-xs); }
       .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
       .aufbau__lead { color: var(--text); }
