@@ -192,11 +192,11 @@ const reviews = [
       .hero .t-h1 { color: var(--white); max-width: 18ch; }
 
       /* SERVICES */
-      .services { padding-block: var(--pad-section); display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; }
+      .services { padding-block: var(--gap-xxl) 0; display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; }
       .services__text { color: var(--text); max-width: 30ch; }
 
       /* PROJEKT AUFBAU */
-      .aufbau { padding-block: var(--pad-section); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl); align-items: start; }
+      .aufbau { padding-block: var(--gap-xxl) var(--gap-xl); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl); align-items: start; }
       .aufbau__intro { display: flex; flex-direction: column; gap: var(--gap-s); max-width: 652px; }
       .aufbau__over { display: flex; align-items: center; gap: var(--gap-xs); }
       .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
@@ -204,7 +204,7 @@ const reviews = [
       /* Akkordeon-Markup & -Stil liegen jetzt in Accordion.astro */
 
       /* DAS SIND WIR */
-      .team { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-l); align-items: center; padding-block: var(--pad-section); padding-right: var(--layout-margin); }
+      .team { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-l); align-items: center; padding-block: var(--gap-xxl) var(--gap-xl); padding-right: var(--layout-margin); }
       .team__media { height: clamp(320px, 40vw, 700px); }
       .team__media img { width: 100%; height: 100%; object-fit: cover; }
       .team__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 652px; }
@@ -213,14 +213,14 @@ const reviews = [
       /* KONTAKT-Block liegt jetzt in Cta.astro */
 
       /* PROJEKT-VORSCHAU */
-      .projects { padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gutter); }
+      .projects { padding-block: var(--gap-xxl) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gutter); }
       .projects__row { display: grid; gap: var(--gutter); }
       .projects__row--a { grid-template-columns: 2fr 1fr; }
       .projects__row--b { grid-template-columns: 1fr 2fr; }
       /* Projekt-/Bild-Karten-Stil liegt in Card.astro */
 
       /* KUNDENSTIMMEN */
-      .reviews { padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-m); }
+      .reviews { padding-block: var(--gap-xxl) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-m); }
       .reviews__head { display: flex; flex-direction: column; gap: var(--gap-xs); }
       .reviews__over { display: flex; align-items: center; gap: var(--gap-xs); }
       .reviews__title { color: var(--text); }

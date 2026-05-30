@@ -16,7 +16,9 @@ interface Props {
   container?: boolean;
   center?: boolean;
   flow?: boolean;
-  pad?: "section" | "tight" | "none";
+  // "section" = Figma-Standard-Inhaltssektion (oben XXL, unten XL, asymmetrisch)
+  // "even"    = symmetrisch oben+unten XXL (z. B. Kontakt, Blog)
+  pad?: "section" | "even" | "tight" | "none";
   class?: string;
   [key: string]: unknown;
 }
@@ -39,7 +41,10 @@ const inner = ["section__inner", (flow || center) && "section__inner--flow", cen
 </section>
 
 <style>
-  .section--pad-section { padding-block: var(--pad-section); }
+  /* Figma-Standard: Inhaltssektion oben XXL, unten XL (asymmetrisch) */
+  .section--pad-section { padding-block: var(--gap-xxl) var(--gap-xl); }
+  /* Symmetrisch (Kontakt, Blog): oben+unten XXL */
+  .section--pad-even { padding-block: var(--gap-xxl); }
   .section--pad-tight { padding-block: var(--gap-xl); }
   .section--pad-none { padding-block: 0; }
 

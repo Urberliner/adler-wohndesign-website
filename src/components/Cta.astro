@@ -31,7 +31,7 @@ const {
   headingClass = "t-h3",
 } = Astro.props;
 ---
-<Section bg={bg} center class="cta">
+<Section bg={bg} center pad="even" class="cta">
   {over && <p class="t-titel cta__over">{over}</p>}
   <h2 class:list={[headingClass, "cta__head"]}>{heading}</h2>
   {lead && <p class="t-body cta__lead">{lead}</p>}
