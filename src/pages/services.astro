@@ -1,0 +1,211 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import Cta from "../components/Cta.astro";
+
+// Hero-Filter (Schnellsprung-Chips) — Reihenfolge wie im Figma-Hero
+const chips = [
+  { label: "Komplettes Wohnkonzept", href: "#komplettloesung" },
+  { label: "Gardinen & Rollos", href: "#gardinen-rollos" },
+  { label: "Stoffe", href: "#stoffe" },
+  { label: "Boden", href: "#boden" },
+  { label: "Wand", href: "#wand" },
+  { label: "Einrichtung", href: "#einrichtung" },
+];
+
+// Einzelleistungen — 5 Kategorien (Bild + Linkliste), Reihenfolge & Texte aus Figma V4.
+// Hinweis: Nur „Gardinen & Rollos" hat im Design echte Unterpunkte; die übrigen
+// Listen waren in Figma Platzhalter → hier je ein „Alle … anzeigen"-Link.
+// Bilder sind Platzhalter (vorhandene Assets), bis echte Kategorie-Bilder vorliegen.
+const kategorien = [
+  {
+    id: "gardinen-rollos",
+    titel: "Gardinen & Rollos",
+    text: "Ob dekorative Schmuckvorhänge, effektive Verdunkelung oder schnelle Designs – wir fertigen maßgeschneiderte Gardinen und Vorhänge, die Ihren Raum perfekt ergänzen.",
+    img: "/images/home/project-1.jpg",
+    links: [
+      { label: "Alle Gardinen & Rollos anzeigen", href: "/services/gardinen-rollos" },
+      { label: "Vorhänge", href: "/services/gardinen-rollos#vorhaenge" },
+      { label: "Raffrollos", href: "/services/gardinen-rollos#raffrollos" },
+      { label: "Flächenvorhänge", href: "/services/gardinen-rollos#flaechenvorhaenge" },
+      { label: "Gardinenstangen", href: "/services/gardinen-rollos#gardinenstangen" },
+      { label: "Rollos", href: "/services/gardinen-rollos#rollos" },
+      { label: "Lamellenvorhänge", href: "/services/gardinen-rollos#lamellenvorhaenge" },
+    ],
+  },
+  {
+    id: "einrichtung",
+    titel: "Einrichtung",
+    text: "Von Möbel bis Dekoration – wir gestalten individuelle Einrichtungskonzepte, die Ästhetik und Funktion perfekt vereinen.",
+    img: "/images/komplettloesung/card1.png",
+    links: [{ label: "Alle Einrichtung anzeigen", href: "/services/einrichtung" }],
+  },
+  {
+    id: "stoffe",
+    titel: "Stoffe",
+    text: "Hochwertige Stoffe setzen Akzente, verleihen Räumen Wärme und unterstreichen Ihre persönliche Einrichtung.",
+    img: "/images/komplettloesung/card2.png",
+    links: [{ label: "Alle Stoffe anzeigen", href: "/services/stoffe" }],
+  },
+  {
+    id: "boden",
+    titel: "Boden",
+    text: "Ob Parkett, Teppich oder Designbelag – wir finden passenden Bodenbelag, der Optik und Komfort verbindet.",
+    img: "/images/home/project-2.jpg",
+    links: [{ label: "Alle Bodenbeläge anzeigen", href: "/services/boden" }],
+  },
+  {
+    id: "wand",
+    titel: "Wand",
+    text: "Farben, Tapeten oder kreative Techniken – wir gestalten Wände, die Räume aufwerten und Atmosphäre schaffen.",
+    img: "/images/komplettloesung/card3.png",
+    links: [{ label: "Alle Wandgestaltungen anzeigen", href: "/services/wand" }],
+  },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Services — Maßgeschneiderte Raumgestaltung | ADLER Wohndesign</title>
+    <meta name="description" content="Die Leistungen von ADLER Wohndesign: von der Komplettlösung bis zu Einzelleistungen – Gardinen & Rollos, Stoffe, Einrichtung, Boden und Wand. Passgenau für Ihre Räume." />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container hero__text">
+          <p class="t-titel hero__over">Services</p>
+          <h1 class="t-h1">Maßgeschneiderte Raumgestaltung – flexibel und professionell</h1>
+          <p class="t-body hero__lead">Wir gestalten Räume, die wirklich zu Ihnen passen – vom ersten Gespräch bis zur fertigen Umsetzung. Ob einzelne Leistung oder komplettes Raumkonzept, ob Gardinen, Boden, Wand oder Einrichtung – wir bieten Ihnen passgenaue Konzepte für Ihre Räume. Sie entscheiden den Umfang, wir kümmern uns um die perfekte Ausführung. Mit Fachwissen, handwerklicher Präzision und über 85 Jahren Erfahrung. Perfekt.</p>
+          <ul class="chips">
+            {chips.map((c) => (<li><a class="chip t-small" href={c.href}>{c.label}</a></li>))}
+          </ul>
+        </div>
+        <div class="hero__image">
+          <img src="/images/home/hero.jpg" alt="Maßgeschneiderte Raumgestaltung von ADLER Wohndesign" fetchpriority="high" />
+        </div>
+      </section>
+
+      <!-- KOMPLETTLÖSUNG -->
+      <section class="block container" id="komplettloesung">
+        <p class="t-titel block__over">Komplettlösung</p>
+        <h2 class="t-h2 block__head">Ganzheitliche Wohnkonzepte – Alles aus einer Hand</h2>
+        <p class="t-body block__lead">Ob einzelnes Zimmer, ganze Wohnung oder komplettes Haus – wir gestalten Ihre Räume von der ersten Idee bis zur letzten Handbewegung. Mit unserer Komplettlösung übernehmen wir alles: Beratung, Planung, Materialauswahl und Umsetzung. Ein Team, ein Ansprechpartner, ein perfektes Ergebnis. Sie lehnen sich zurück – wir machen den Rest.</p>
+        <p class="t-body block__hint">So sieht unser Rundum-Service aus:</p>
+        <Button href="/komplettloesung">Komplettlösung entdecken</Button>
+      </section>
+
+      <!-- EINZELLEISTUNGEN -->
+      <section class="block block--einzel container" id="einzelleistungen">
+        <div class="block__intro">
+          <p class="t-titel block__over">Teilleistungen</p>
+          <h2 class="t-h2 block__head">Individuelle Einzelleistungen</h2>
+          <p class="t-body block__lead">Nicht immer ist eine Komplettlösung erforderlich. Sie benötigen eine Farbberatung, neue Vorhänge oder einen effektiven Sicht- und Sonnenschutz? Wir bieten Ihnen gezielte Einzelleistungen, die sich exakt an Ihren Wünschen orientieren. Ob kleines Detail oder gezielte Anpassung – Sie entscheiden, wir setzen es fachgerecht um.</p>
+        </div>
+
+        <div class="kategorien">
+          {kategorien.map((k) => (
+            <article class="kat" id={k.id}>
+              <div class="kat__head">
+                <h3 class="t-h3 kat__title">{k.titel}</h3>
+                <p class="t-body kat__text">{k.text}</p>
+              </div>
+              <div class="kat__body">
+                <div class="kat__media"><img src={k.img} alt={k.titel} loading="lazy" /></div>
+                <ul class="linklist">
+                  {k.links.map((l) => (
+                    <li>
+                      <a class="linkrow" href={l.href}>
+                        <span class="t-h5 linkrow__label">{l.label}</span>
+                        <Icon name="arrow-right" size={24} class="linkrow__arrow" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <Cta
+        heading="Sie haben Fragen oder sind sich nicht sicher, wo Sie anfangen sollen? Wir helfen Ihnen."
+        lead="Manchmal weiß man, was man möchte – aber nicht genau wie. Genau dafür sind wir da. Wir nehmen uns die Zeit, Ihre Wünsche zu verstehen, und zeigen Ihnen, welche Leistungen wirklich zu Ihrem Raum und Ihrem Budget passen. Unverbindlich, persönlich und ohne Druck."
+        buttonLabel="Jetzt Beratung vereinbaren"
+      />
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      .hero { padding-top: var(--pad-section); }
+      .hero__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 1136px; }
+      .hero__over { color: var(--grey); }
+      .hero__lead { max-width: 75ch; }
+      .chips { display: flex; flex-wrap: wrap; gap: var(--gap-xs); }
+      .chip {
+        display: inline-flex; align-items: center;
+        border: 1px solid var(--light-grey);
+        border-radius: 40px;
+        padding: 10px 22px;
+        color: var(--text);
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      .chip:hover { background: var(--moos); color: var(--white); border-color: var(--moos); }
+      .hero__image { margin-top: var(--gap-ml); width: 100%; height: clamp(240px, 40vw, 700px); }
+      .hero__image img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ---- BLOCK (Komplettlösung / Einzelleistungen) ---- */
+      .block { padding-block: var(--pad-section) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xs); max-width: 1136px; }
+      .block--einzel { max-width: none; }
+      .block__over { color: var(--grey); }
+      .block__head { color: var(--text); margin-bottom: var(--gap-xs); }
+      .block__lead { color: var(--text); max-width: 88ch; }
+      .block__hint { color: var(--grey); margin-top: var(--gap-s); }
+      .block .btn { align-self: flex-start; margin-top: var(--gap-s); }
+      .block__intro { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: 1136px; }
+      .block__intro .block__head { margin-bottom: var(--gap-xs); }
+
+      /* ---- KATEGORIEN ---- */
+      .kategorien { display: flex; flex-direction: column; gap: var(--gap-xl); margin-top: var(--gap-xl); }
+      .kat { display: flex; flex-direction: column; gap: var(--gap-m); scroll-margin-top: 120px; }
+      .kat__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: 88ch; }
+      .kat__title { color: var(--text); }
+      .kat__text { color: var(--text); }
+      .kat__body { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter) var(--gap-xl); align-items: start; }
+      .kat__media { height: clamp(280px, 34vw, 532px); }
+      .kat__media img { width: 100%; height: 100%; object-fit: cover; }
+
+      .linklist { display: flex; flex-direction: column; }
+      .linkrow {
+        display: flex; align-items: center; justify-content: space-between; gap: var(--gap-s);
+        padding-block: var(--gap-s);
+        border-bottom: 1px solid var(--light-grey);
+        color: var(--text);
+        transition: color 0.2s ease;
+      }
+      .linklist li:first-child .linkrow { border-top: 1px solid var(--light-grey); }
+      .linkrow__label { color: var(--text); transition: color 0.2s ease; }
+      .linkrow :global(.linkrow__arrow) { color: var(--bronze); transition: transform 0.25s ease; }
+      .linkrow:hover .linkrow__label { color: var(--bronze); }
+      .linkrow:hover :global(.linkrow__arrow) { transform: translateX(4px); }
+
+      /* ---- Responsive ---- */
+      @media (max-width: 768px) {
+        .kat__body { grid-template-columns: 1fr; gap: var(--gap-m); }
+        .kat__media { height: clamp(200px, 56vw, 300px); }
+      }
+    </style>
+  </body>
+</html>
