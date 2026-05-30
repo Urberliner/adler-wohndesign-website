@@ -28,6 +28,7 @@
      Basis = Mobil (<768); Overrides bei 768 (Tablet) und 1024 (Desktop) unten.
      Werte 1:1 aus den Seiten-Variablen (margin/gutter/spacing-Skala). */
   --container-max: 1600px;
+  --text-max: 652px; /* Figma component/width/text-container-max (Mobil) */
   --layout-margin: 24px;
   --gutter: 16px;
   --pad-section: 120px; /* XXL (Sektions-Oberkante) */
@@ -46,6 +47,7 @@
 /* Tablet (768–1023) — exakte Figma-Variablen Frame 12242:22501 */
 @media (min-width: 768px) {
   :root {
+    --text-max: 927px;
     --layout-margin: 32px;
     --gutter: 24px;
     --pad-section: 164px;
@@ -65,6 +67,7 @@
 /* Desktop (≥1024) — exakte Figma-Variablen Frame 12242:22419 */
 @media (min-width: 1024px) {
   :root {
+    --text-max: 1056px;
     --layout-margin: 80px;
     --gutter: 32px;
     --pad-section: 222px;

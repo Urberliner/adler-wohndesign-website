@@ -193,7 +193,7 @@ const reviews = [
 
       /* SERVICES */
       .services { padding-block: var(--gap-xxl) 0; display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; }
-      .services__text { color: var(--text); max-width: 30ch; }
+      .services__text { color: var(--text); max-width: var(--text-max); }
 
       /* PROJEKT AUFBAU */
       .aufbau { padding-block: var(--gap-xxl) var(--gap-xl); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl); align-items: start; }
@@ -208,6 +208,7 @@ const reviews = [
       .team__media { height: clamp(320px, 40vw, 700px); }
       .team__media img { width: 100%; height: 100%; object-fit: cover; }
       .team__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 652px; }
+      .team__text :global(.btn) { align-self: flex-start; }
       .team__head { color: var(--text); }
 
       /* KONTAKT-Block liegt jetzt in Cta.astro */
