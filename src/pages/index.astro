@@ -14,6 +14,18 @@ const aufbau = [
   { titel: "4. Angebot", text: "Inhalt folgt." },
   { titel: "5. Umsetzung", text: "Inhalt folgt." },
 ];
+
+// Projekt-Vorschau (Platzhalter-Inhalte aus Figma)
+const proj = { img1: "/images/home/project-1.jpg", img2: "/images/home/project-2.jpg", cat: "Penthouse Berlin", titel: "Leichtes Raum & Licht Konzept" };
+
+// Kundenstimmen (Platzhalter; nur P. Baumann real)
+const reviewText = "Durch und durch begeistert von dem sympathischen und sehr professionellen Team! Von der ersten Beratung bis hin zur Umsetzung wurden alle meine Vorstellungen und Wünsche berücksichtigt und professionell …";
+const reviews = [
+  { name: "P. Baumann", quelle: "Gelbe Seiten Review", text: reviewText },
+  { name: "Vor- Nachname", quelle: "Jobtitel", text: reviewText },
+  { name: "Vor- Nachname", quelle: "Jobtitel", text: reviewText },
+  { name: "Vor- Nachname", quelle: "Jobtitel", text: reviewText },
+];
 ---
 
 <!doctype html>
@@ -47,7 +59,33 @@ const aufbau = [
         <a class="btn" href="/komplettloesung">Mein Projekt starten</a>
       </section>
 
-      <!-- TODO: Project Preview (Projekt-Vorschau-Karten) -->
+      <!-- PROJEKT-VORSCHAU -->
+      <section class="projects container" aria-label="Projekte">
+        <div class="projects__row projects__row--a">
+          <a class="pcard" href="/projekte">
+            <div class="pcard__media"><img src={proj.img1} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
+            <p class="t-small pcard__cat">{proj.cat}</p>
+            <p class="t-h5 pcard__title">{proj.titel}</p>
+          </a>
+          <a class="pcard" href="/projekte">
+            <div class="pcard__media"><img src={proj.img2} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
+            <p class="t-small pcard__cat">{proj.cat}</p>
+            <p class="t-h5 pcard__title">{proj.titel}</p>
+          </a>
+        </div>
+        <div class="projects__row projects__row--b">
+          <a class="pcard" href="/projekte">
+            <div class="pcard__media"><img src={proj.img2} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
+            <p class="t-small pcard__cat">{proj.cat}</p>
+            <p class="t-h5 pcard__title">{proj.titel}</p>
+          </a>
+          <a class="pcard" href="/projekte">
+            <div class="pcard__media"><img src={proj.img1} alt={`${proj.cat} – ${proj.titel}`} loading="lazy" /></div>
+            <p class="t-small pcard__cat">{proj.cat}</p>
+            <p class="t-h5 pcard__title">{proj.titel}</p>
+          </a>
+        </div>
+      </section>
 
       <!-- PROJEKT AUFBAU -->
       <section class="aufbau container">
@@ -81,7 +119,25 @@ const aufbau = [
         </div>
       </section>
 
-      <!-- TODO: Review (Kundenstimmen-Karussell) -->
+      <!-- KUNDENSTIMMEN -->
+      <section class="reviews container" aria-label="Kundenstimmen">
+        <div class="reviews__head">
+          <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Services</p>
+          <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
+        </div>
+        <ul class="reviews__track">
+          {reviews.map((r) => (
+            <li class="rcard">
+              <p class="rcard__stars" aria-label="5 von 5 Sternen">★★★★★</p>
+              <div class="rcard__person">
+                <p class="t-h5 rcard__name">{r.name}</p>
+                <p class="t-small rcard__src">{r.quelle}</p>
+              </div>
+              <p class="t-body rcard__text">{r.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <!-- KONTAKT -->
       <section class="kontakt">
@@ -93,7 +149,26 @@ const aufbau = [
         </div>
       </section>
 
-      <!-- TODO: Blog Categorie Preview -->
+      <!-- BLOG-VORSCHAU -->
+      <section class="blog" aria-label="Blog">
+        <div class="container blog__head">
+          <p class="t-titel blog__over">Blog</p>
+          <h2 class="t-h3 blog__title">Wissen, Erfahrung und Inspiration – entdecken Sie Tipps und Neuigkeiten aus unserer Welt der Raumgestaltung.</h2>
+        </div>
+        <div class="blog__track">
+          <a class="bcard bcard--sq" href="/blog"><img src="/images/home/blog-wassertage.jpg" alt="Wassertage" loading="lazy" /></a>
+          <a class="bcard bcard--sq" href="/blog"><img src="/images/home/blog-akustik.jpg" alt="Akustikstoffe" loading="lazy" /></a>
+          <a class="bcard bcard--feature" href="/blog">
+            <div class="bcard__media"><img src="/images/home/blog-thumbnail.jpg" alt="Gesellenprüfung zur Raumausstatterin Kimberly Fischer" loading="lazy" /></div>
+            <div class="bcard__link">
+              <div class="bcard__header"><span class="t-titel">Aktuelles</span><span class="t-small">Aktueller Artikel</span></div>
+              <p class="t-h5 bcard__title">Gesellenprüfung zur Raumausstatterin Kimberly Fischer</p>
+            </div>
+          </a>
+          <a class="bcard bcard--sq" href="/blog"><img src="/images/home/blog-wassertage.jpg" alt="Wassertage" loading="lazy" /></a>
+          <a class="bcard bcard--sq" href="/blog"><img src="/images/home/blog-akustik.jpg" alt="Akustikstoffe" loading="lazy" /></a>
+        </div>
+      </section>
     </main>
 
     <Footer />
@@ -142,8 +217,50 @@ const aufbau = [
       .kontakt__head { max-width: 22ch; }
       .kontakt__lead { max-width: 56ch; }
 
+      /* PROJEKT-VORSCHAU */
+      .projects { padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gutter); }
+      .projects__row { display: grid; gap: var(--gutter); }
+      .projects__row--a { grid-template-columns: 2fr 1fr; }
+      .projects__row--b { grid-template-columns: 1fr 2fr; }
+      .pcard { display: flex; flex-direction: column; gap: 6px; color: var(--text); }
+      .pcard__media { height: clamp(280px, 40vw, 600px); overflow: hidden; }
+      .pcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+      .pcard:hover .pcard__media img { transform: scale(1.03); }
+      .pcard__cat { color: var(--grey); margin-top: 8px; }
+      .pcard__title { color: var(--text); }
+
+      /* KUNDENSTIMMEN */
+      .reviews { padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-m); }
+      .reviews__head { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .reviews__over { display: flex; align-items: center; gap: var(--gap-xs); }
+      .reviews__title { color: var(--text); }
+      .reviews__track { display: flex; gap: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+      .rcard { flex: 0 0 clamp(280px, 30vw, 451px); scroll-snap-align: start; background: var(--nature); padding: var(--gap-m) var(--gap-sm); display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .rcard__stars { color: var(--bronze); letter-spacing: 3px; font-size: 22px; line-height: 1; }
+      .rcard__name { color: var(--text); }
+      .rcard__src { color: var(--grey); }
+      .rcard__text { color: var(--text); }
+
+      /* BLOG-VORSCHAU */
+      .blog { background: #f9f6f5; padding-block: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-l); }
+      .blog__head { display: flex; flex-direction: column; align-items: center; gap: var(--gap-m); text-align: center; }
+      .blog__over { color: var(--grey); }
+      .blog__title { color: var(--text); max-width: 32ch; }
+      .blog__track { display: flex; gap: var(--gap-l); overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: var(--layout-margin); padding-bottom: 12px; align-items: start; }
+      .bcard { flex: none; scroll-snap-align: center; color: var(--text); }
+      .bcard--sq { width: clamp(220px, 22vw, 360px); }
+      .bcard--sq img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+      .bcard--feature { width: clamp(300px, 44vw, 744px); display: flex; flex-direction: column; gap: var(--gap-s); }
+      .bcard__media { height: clamp(240px, 28vw, 420px); overflow: hidden; }
+      .bcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+      .bcard--feature:hover .bcard__media img { transform: scale(1.03); }
+      .bcard__header { display: flex; justify-content: space-between; gap: 16px; }
+      .bcard__header .t-titel, .bcard__header .t-small { color: var(--grey); }
+      .bcard__title { color: var(--text); }
+
       /* Responsive */
       @media (max-width: 768px) {
+        .projects__row--a, .projects__row--b { grid-template-columns: 1fr; }
         .aufbau { grid-template-columns: 1fr; gap: var(--gap-l); }
         .team { grid-template-columns: 1fr; padding-right: 0; gap: var(--gap-m); }
         .team__media { height: clamp(240px, 60vw, 360px); order: -1; }
