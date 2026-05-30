@@ -182,17 +182,19 @@ const nav = [
   .icon-btn:hover { color: var(--bronze); }
   .nav-phone, .burger { display: none; } /* nur Tablet/Mobil */
 
-  /* Mega-Menü (Desktop): Liste links + Bild rechts */
+  /* Mega-Menü (Desktop) — exakt aus Figma (5659:13071): Liste links + Bild rechts.
+     Dropdown px=layout-margin, pt=spacing/m 56, pb=spacing/l 104, gap=gutter 32. */
   .mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--moos); box-shadow: 0 24px 40px rgba(0,0,0,0.25); }
-  .mega__inner { display: flex; gap: var(--gutter); align-items: stretch; padding-block: var(--gap-xl); }
-  .mega__list { flex: 1 1 0; display: flex; flex-direction: column; gap: var(--gap-m); }
-  .mega__heading { color: var(--grey); text-transform: none; }
-  .mega__item { color: var(--white); font-size: 18px; letter-spacing: 0.03em; transition: color 0.2s ease; }
+  .mega__inner { display: flex; gap: var(--gutter); align-items: center; padding-block: var(--gap-m) var(--gap-l); }
+  .mega__list { flex: 1 1 0; display: flex; flex-direction: column; gap: var(--gap-s); }
+  .mega__list > li { padding-left: var(--gap-sm); } /* spacing/sm 44 */
+  .mega__heading { color: var(--grey); text-transform: none; padding-left: 0 !important; font-size: 15px; letter-spacing: 0.03em; }
+  .mega__item { color: var(--white); font-size: 15px; letter-spacing: 0.03em; transition: color 0.2s ease; }
   .mega__item:hover { color: var(--bronze); }
-  .mega__sub { display: flex; flex-direction: column; gap: 8px; padding-left: 32px; margin-top: 12px; }
-  .mega__sub a { color: rgba(255,255,255,0.82); font-size: 15px; transition: color 0.2s ease; }
+  .mega__sub { display: flex; flex-direction: column; padding-left: var(--gap-m); } /* spacing/m 56 */
+  .mega__sub a { color: var(--white); font-size: 15px; line-height: 27px; letter-spacing: 0.03em; transition: color 0.2s ease; }
   .mega__sub a:hover { color: var(--bronze); }
-  .mega__media { flex: 1 1 0; max-width: 652px; min-height: 360px; overflow: hidden; }
+  .mega__media { flex: 1 1 0; min-width: 0; aspect-ratio: 600 / 400; overflow: hidden; }
   .mega__media img { width: 100%; height: 100%; object-fit: cover; }
 
   /* Burger-Icon-Strichstärke (echtes Figma-Icon) */
