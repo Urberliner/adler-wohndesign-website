@@ -70,8 +70,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
    ========================================================= */
 .t-titel {
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 12px; line-height: 20px;
+  font-weight: 400;
+  font-size: 9px; line-height: 17px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--grey);
@@ -94,26 +94,26 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 .t-h4 {
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 22px; line-height: 32px;
+  font-weight: 500;
+  font-size: 20px; line-height: 30px;
   letter-spacing: 0.03em;
 }
 .t-h5 {
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 16px; line-height: 26px;
+  font-weight: 500;
+  font-size: 14px; line-height: 23px;
   letter-spacing: 0.03em;
 }
 .t-body {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 16px; line-height: 26px;
+  font-size: 13px; line-height: 24px;
   letter-spacing: 0.03em;
 }
 .t-small {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 14px; line-height: 22px;
+  font-size: 10px; line-height: 18px;
   letter-spacing: 0.01em;
 }
 /* „Facts" — große Kennzahl/Statistik (V4: 96/Auto, Semibold, alle Breakpoints) */
@@ -125,21 +125,27 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
 }
 
 @media (min-width: 768px) {
+  /* Exakte Figma-V4-Tablet-Variablen (Frame 12242:22501, 768–1023px) */
+  .t-titel { font-size: 10px; line-height: 18px; }
   .t-h1 { font-size: 44px; line-height: 58px; }
   .t-h2 { font-size: 44px; line-height: 58px; }
   .t-h3 { font-size: 32px; line-height: 46px; }
-  .t-h4 { font-size: 24px; line-height: 36px; }
+  .t-h4 { font-size: 22px; line-height: 32px; }
+  .t-h5 { font-size: 15px; line-height: 24px; }
+  .t-body { font-size: 14px; line-height: 25px; }
+  .t-small { font-size: 11px; line-height: 19px; }
 }
 
 @media (min-width: 1024px) {
-  .t-titel { font-size: 14px; line-height: 24px; }
-  .t-h1 { font-size: 64px; line-height: 88px; }
-  .t-h2 { font-size: 64px; line-height: 88px; }
-  .t-h3 { font-size: 34px; line-height: 50px; }
-  .t-h4 { font-size: 28px; line-height: 40px; }
-  .t-h5 { font-size: 18px; line-height: 32px; }
-  .t-body { font-size: 18px; line-height: 32px; }
-  .t-small { font-size: 16px; line-height: 26px; }
+  /* Exakte Figma-V4-Seiten-Variablen (Desktop-Frame 12242:22419), nicht die Style-Guide-Tafel */
+  .t-titel { font-size: 11px; line-height: 21px; }
+  .t-h1 { font-size: 60px; line-height: 82px; }
+  .t-h2 { font-size: 60px; line-height: 82px; }
+  .t-h3 { font-size: 36px; line-height: 52px; }
+  .t-h4 { font-size: 24px; line-height: 34px; }
+  .t-h5 { font-size: 16px; line-height: 25px; }
+  .t-body { font-size: 15px; line-height: 27px; }
+  .t-small { font-size: 12px; line-height: 22px; }
 }
 
 /* Button */

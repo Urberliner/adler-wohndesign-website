@@ -1,0 +1,171 @@
+---
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Card from "../../components/Card.astro";
+import Accordion from "../../components/Accordion.astro";
+import Cta from "../../components/Cta.astro";
+
+// 6 Teilleistungen (Service-Karten) — Titel + Beschreibung aus Figma V4.
+// Bilder sind Platzhalter (vorhandene Assets), bis echte Bilder vorliegen.
+const leistungen = [
+  { id: "vorhaenge", titel: "Vorhänge", text: "Maßgefertigte Stofflösungen für Sicht- und Sonnenschutz.", img: "/images/home/project-1.jpg" },
+  { id: "raffrollos", titel: "Raffrollos", text: "Praktische Kombination aus Stoff und Funktion – kompakt, elegant und vielseitig einsetzbar.", img: "/images/home/project-2.jpg" },
+  { id: "flaechenvorhaenge", titel: "Flächenvorhänge", text: "Moderne, grafische Lösung für große Fenster und als Raumteiler.", img: "/images/komplettloesung/card1.png" },
+  { id: "gardinenstangen", titel: "Gardinenstangen", text: "Funktionale und dekorative Aufhängung – passend zu jedem Stil.", img: "/images/komplettloesung/card2.png" },
+  { id: "rollos", titel: "Rollos", text: "Schlichter, effektiver Sicht- und Sonnenschutz für jeden Raum.", img: "/images/komplettloesung/card3.png" },
+  { id: "lamellenvorhaenge", titel: "Lamellenvorhänge", text: "Flexible Lösung für Büro und Wohnraum – lichtregulierend und modern.", img: "/images/komplettloesung/card4.png" },
+];
+
+// Expertise-Block — Accordion „Kompetenz & Erfahrung", Texte aus Figma V4.
+const expertise = [
+  { titel: "Tradition", text: "Seit 1939 sind wir Meisterbetrieb in Berlin-Charlottenburg. Drei Generationen Erfahrung – in jedem Projekt spürbar." },
+  { titel: "Handwerk", text: "Was aus unseren Werkstätten kommt, ist echtes Handwerk. Jede Gardine wird maßgenau, sorgfältig und individuell für Ihren Raum gefertigt." },
+  { titel: "Termingerecht", text: "Ihre Zeit ist wertvoll. Wir halten unsere Termine – zuverlässig, pünktlich und ohne Überraschungen." },
+  { titel: "Persönliche Beratung", text: "Wir kommen zu Ihnen nach Hause, hören genau zu und finden gemeinsam die beste Lösung für Ihren Raum." },
+  { titel: "Auch in Zukunft für Sie da", text: "Ob Reinigung, Reparatur oder Anpassung nach einem Umzug – wir bleiben Ihr Ansprechpartner. Auch Jahre nach der ersten Umsetzung." },
+];
+
+// Projekt-Vorschau (Platzhalter)
+const projekte = [
+  { titel: "Penthouse Berlin", img: "/images/home/project-1.jpg" },
+  { titel: "Altbau Charlottenburg", img: "/images/home/project-2.jpg" },
+  { titel: "Wohnung Grunewald", img: "/images/komplettloesung/card5.png" },
+  { titel: "Stadthaus Mitte", img: "/images/komplettloesung/hero.png" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gardinen & Rollos — Maßgefertigt für jeden Raum | ADLER Wohndesign</title>
+    <meta name="description" content="Gardinen & Rollos von ADLER Wohndesign: Vorhänge, Raffrollos, Flächenvorhänge, Gardinenstangen, Rollos und Lamellenvorhänge – maßgefertigt, persönlich beraten und vor Ort montiert." />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO -->
+      <section class="hero container">
+        <p class="t-titel breadcrumb"><a href="/services" class="bc-muted">Services</a> &nbsp;&gt;&nbsp; Gardinen &amp; Rollos</p>
+        <h1 class="t-h1">Gardinen &amp; Rollos – für jeden Raum die richtige Lösung.</h1>
+        <p class="t-body hero__lead">Ob Sonnenschutz, Sichtschutz oder reine Atmosphäre – Gardinen und Rollos verändern einen Raum mehr als man denkt. Wir beraten Sie persönlich, fertigen alles maßgenau an und montieren bei Ihnen zu Hause. Sie müssen sich um nichts kümmern.</p>
+      </section>
+
+      <!-- SERVICE-KARTEN -->
+      <section class="services container" aria-label="Teilleistungen">
+        <div class="services__grid">
+          {leistungen.map((l) => (
+            <Card href={`#${l.id}`} image={l.img} alt={l.titel} eyebrow={l.titel} title={l.text} ratio="landscape" />
+          ))}
+        </div>
+      </section>
+
+      <!-- GROSSES BILD -->
+      <section class="feature container">
+        <div class="feature__media"><img src="/images/home/hero.jpg" alt="Maßgefertigte Gardinen von ADLER Wohndesign" loading="lazy" /></div>
+      </section>
+
+      <!-- EXPERTISE (Accordion) -->
+      <section class="expertise container">
+        <div class="expertise__intro">
+          <p class="t-titel expertise__over"><span class="dot" aria-hidden="true"></span>Kompetenz &amp; Erfahrung</p>
+          <p class="t-h4 expertise__lead">Seit über 85 Jahren gestalten wir Berliner Räume – mit Leidenschaft, Präzision und einem Team, das weiß was es tut. Wenn Sie uns beauftragen, müssen Sie sich um nichts kümmern. Wir übernehmen alles – perfekt gemacht.</p>
+        </div>
+        <div class="expertise__list">
+          <Accordion items={expertise} name="expertise" />
+        </div>
+      </section>
+
+      <!-- PROJEKTE -->
+      <section class="projekte container" aria-label="Projekte">
+        <div class="projekte__head">
+          <p class="t-titel projekte__over"><span class="dot" aria-hidden="true"></span>Projekte</p>
+          <h2 class="t-h3 projekte__title">Einblicke in unsere Arbeit</h2>
+        </div>
+        <div class="projekte__track">
+          {projekte.map((p) => (
+            <Card href="/projekte" image={p.img} alt={p.titel} title={p.titel} ratio="square" class="projekte__card" />
+          ))}
+        </div>
+      </section>
+
+      <!-- DAS SIND WIR -->
+      <section class="team">
+        <div class="team__media">
+          <img src="/images/home/team.jpg" alt="Das Team von ADLER Wohndesign" loading="lazy" />
+        </div>
+        <div class="team__text">
+          <p class="t-titel">Das sind wir</p>
+          <h2 class="t-h3 team__head">Tradition, die man sieht – Handwerk, das bleibt.</h2>
+          <p class="t-body">Hinter jedem Projekt steht ein Team mit Leidenschaft und Expertise für Raumgestaltung. Lernen Sie die Menschen hinter ADLER kennen, besuchen Sie unseren Showroom in Charlottenburg – und entdecken Sie, was uns bis heute antreibt.</p>
+          <a class="btn" href="/ueber-uns">Mehr über uns</a>
+        </div>
+      </section>
+
+      <!-- KONTAKT -->
+      <Cta
+        bg="default"
+        heading="Sie haben Fragen oder sind sich nicht sicher, wo Sie anfangen sollen? Wir helfen Ihnen."
+        lead="Manchmal weiß man, was man möchte – aber nicht genau wie. Genau dafür sind wir da. Wir nehmen uns die Zeit, Ihre Wünsche zu verstehen, und zeigen Ihnen, welche Leistungen wirklich zu Ihrem Raum und Ihrem Budget passen. Unverbindlich, persönlich und ohne Druck."
+        buttonLabel="Jetzt Beratung vereinbaren"
+      />
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      .hero { padding-block: var(--pad-section) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-m); max-width: 1136px; }
+      .breadcrumb { color: var(--text); }
+      .bc-muted { color: var(--grey); transition: color 0.2s ease; }
+      .bc-muted:hover { color: var(--bronze); }
+      .hero__lead { max-width: 70ch; }
+
+      /* ---- SERVICE-KARTEN ---- */
+      .services { padding-bottom: var(--gap-xl); }
+      .services__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-l) var(--gutter); }
+
+      /* ---- GROSSES BILD ---- */
+      .feature { padding-bottom: var(--pad-section); }
+      .feature__media { width: 100%; height: clamp(280px, 40vw, 700px); }
+      .feature__media img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ---- EXPERTISE ---- */
+      .expertise { padding-bottom: var(--pad-section); display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-xl); align-items: start; }
+      .expertise__intro { display: flex; flex-direction: column; gap: var(--gap-s); max-width: 652px; }
+      .expertise__over { display: flex; align-items: center; gap: var(--gap-xs); }
+      .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
+      .expertise__lead { color: var(--text); }
+
+      /* ---- PROJEKTE ---- */
+      .projekte { padding-bottom: var(--pad-section); display: flex; flex-direction: column; gap: var(--gap-l); }
+      .projekte__head { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .projekte__over { display: flex; align-items: center; gap: var(--gap-xs); }
+      .projekte__title { color: var(--text); }
+      .projekte__track { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gutter); }
+
+      /* ---- DAS SIND WIR ---- */
+      .team { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-l); align-items: center; padding-block: var(--pad-section); padding-right: var(--layout-margin); }
+      .team__media { height: clamp(320px, 40vw, 700px); }
+      .team__media img { width: 100%; height: 100%; object-fit: cover; }
+      .team__text { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 652px; }
+      .team__head { color: var(--text); }
+
+      /* ---- Responsive ---- */
+      @media (max-width: 1023px) {
+        .projekte__track { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 768px) {
+        .services__grid { grid-template-columns: 1fr; gap: var(--gap-m); }
+        .expertise { grid-template-columns: 1fr; gap: var(--gap-l); }
+        .team { grid-template-columns: 1fr; padding-right: 0; gap: var(--gap-m); }
+        .team__media { height: clamp(240px, 60vw, 360px); order: -1; }
+        .team__text { padding-inline: var(--layout-margin); }
+      }
+    </style>
+  </body>
+</html>
