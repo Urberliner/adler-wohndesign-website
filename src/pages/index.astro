@@ -18,27 +18,29 @@ const aufbau = [
 // Projekt-Vorschau (Platzhalter-Inhalte aus Figma)
 const proj = { img1: "/images/home/project-1.jpg", img2: "/images/home/project-2.jpg", cat: "Penthouse Berlin", titel: "Leichtes Raum & Licht Konzept" };
 
-// Kundenstimmen — echt (Quellen: Google 4,9★/48 + ProvenExpert 4,95★/190), kuratiert für die Startseite
+// Kundenstimmen — echt, von marco kuratiert & sortiert (Quellen: Google 4,9★/48 + ProvenExpert 4,95★/190)
+// Lange Bewertungen für den Slider auf einen wortgetreuen Auszug gekürzt; Volltexte: /Bewertungen/Schoenste_Bewertungen_sortiert.md (später ins CMS)
 const reviews = [
-  { name: "Melissa Pond", quelle: "Google", text: "Vielen herzlichen Dank an das wunderbare Team von Adler Wohndesign. Mit viel Geduld, Hingabe, Professionalität und Feingefühl wurde mein Projekt über die letzten Jahre realisiert. Das Ergebnis sind Räume, die zum Wohnen einladen. Uneingeschränkt empfehlenswert!" },
-  { name: "Jan Asmus", quelle: "Google", text: "Meine Frau und ich haben eine schöne neue Penthouse-Wohnung in Berlin gekauft und Adler Wohndesign hat uns dabei geholfen, diese in unsere persönliche Traumwohnung zu verwandeln." },
-  { name: "Paul Purrmann", quelle: "Google", text: "Wir sind absolut begeistert von der Arbeit von Adler Wohndesign! Bei uns wurde im Schlafzimmer ein neuer Vorhang eingebaut und das Ergebnis ist einfach perfekt." },
-  { name: "Christoph Rotstein", quelle: "ProvenExpert", text: "Der gesamte Ablauf, von der Beratung bei der Auswahl des Stoffs und der Farbe bis zur anschließenden Montage vor Ort: Alles perfekt und so wie man sich als Kunde es wünscht!" },
-  { name: "Frau Feuerherdt", quelle: "ProvenExpert", text: "Wir sind „Wiederholungstäter“ und schätzen die klare, zielorientierte Fachberatung. Das gesamte Team ist sehr freundlich, die Umsetzung erfolgt zügig und professionell." },
-  { name: "Saskia Langner", quelle: "ProvenExpert", text: "ADLER ist eine Gefahr für unsere Reisepläne. Wir wollen lieber zu Hause bleiben, weil es so schön geworden ist." },
-  { name: "Frau von Weiler", quelle: "ProvenExpert", text: "Eine rundum zufriedenstellende Erfahrung, vom Erstkontakt im Laden bis zum Aufhängen der Vorhänge zu Hause. Kompetente Beratung, sehr professionelles Team." },
-  { name: "Frau Heinelt", quelle: "ProvenExpert", text: "Ich bin SEHR zufrieden und werde auch zukünftig sehr gerne meine Wünsche perfekt von ADLER Wohndesign umsetzen lassen. Besser geht es nicht." },
-  { name: "Familie Schürer", quelle: "ProvenExpert", text: "Die Beratung ist hervorragend. Sehr gute Ideen und zuverlässige Umsetzung." },
-  { name: "Frau Specht", quelle: "ProvenExpert", text: "Alle, die mich besuchen, sprechen mich auf die wunderschönen Gardinen an – es fällt sofort auf, dass hier Designer tolle Handarbeit geleistet haben." },
-  { name: "Frau Steinicke", quelle: "ProvenExpert", text: "Hat alles wunderbar geklappt und durch die Beratung sieht es wirklich toll aus." },
-  { name: "Frau L.", quelle: "ProvenExpert", text: "Man kümmert sich sehr um die individuellen Wünsche und Vorstellungen von Kunden und setzt dann sorgfältig um." },
-  { name: "Frau Meisenzahl", quelle: "ProvenExpert", text: "Sehr nette Beratung und Betreuung – jederzeit wieder!" },
-  { name: "Herr Bebernick", quelle: "ProvenExpert", text: "Wir wurden von Frau Vogt beraten und sind mit allem super zufrieden." },
-  { name: "Frau Bergmann-Daumke", quelle: "ProvenExpert", text: "Sehr zufrieden mit der persönlichen Beratung und auch mit der Umsetzung vor Ort." },
-  { name: "Anonym", quelle: "ProvenExpert", text: "Kompetente und professionelle Beratung, sehr guter Service, exzellente handwerkliche Ausführung, hoch-qualitatives Produktangebot." },
-  { name: "Anonym", quelle: "ProvenExpert", text: "Sehr gute Auswahl und eine umsichtige Beratung mit einer geschmeidigen Umsetzung. Ich werde bei der nächsten Gardine sicher wieder zu ADLER gehen." },
-  { name: "Anonym", quelle: "ProvenExpert", text: "Hohe Kompetenz in der Beratung und Umsetzung!" },
-  { name: "Anonym", quelle: "ProvenExpert", text: "Sehr freundliches und kompetentes Personal." },
+  { name: "Christine Wohs", quelle: "Google", text: "Wir sind rundum begeistert von ADLER Wohndesign! Besonders hervorheben möchten wir die großartige Beratung durch Frau Vogt, die uns mit ihrem feinen Gespür für Farben und Design perfekt unterstützt hat. Ein tolles Team, das mit viel Kompetenz und Herzblut arbeitet. Klare Empfehlung!" },
+  { name: "Andrea Hofmeier", quelle: "Google", text: "Wir sind vollends begeistert über die Zusammenarbeit mit der Firma Adler. Freundlich, kompetent, zuverlässig und eine hervorragende Umsetzung des Auftrags. Von der Beratung bis zum Verlassen des Objekts: perfekt." },
+  { name: "Raphael Terium", quelle: "Google", text: "Der perfekte Ort, um Ihren Traum zu verwirklichen. Die Mitarbeiter sind alle sehr freundlich und hochqualifiziert und haben ein ausgezeichnetes Auge fürs Detail, das die Wünsche der Kunden widerspiegelt. Die Montage der Vorhänge verlief schnell, freundlich und sauber." },
+  { name: "Sabine Widera", quelle: "Google", text: "Einfach nur atemberaubend und absolut empfehlenswert!! Die Stoffauswahl ist großartig, hochwertig und inspirierend. Das Ergebnis ist einfach nur wunderschön und die Räume nicht mehr wiederzukennen." },
+  { name: "Paul Purrmann", quelle: "Google", text: "Wir sind absolut begeistert von der Arbeit von Adler Wohndesign! Bei uns wurde im Schlafzimmer ein neuer Vorhang eingebaut und das Ergebnis ist einfach perfekt. Man merkt sofort, dass hier jemand mit Leidenschaft und Kompetenz am Werk ist." },
+  { name: "Frau Heinelt", quelle: "ProvenExpert", text: "Ich bin SEHR zufrieden und werde auch zukünftig sehr gerne meine Wünsche perfekt von ADLER Wohndesign umsetzen lassen. Besser geht es nicht: persönliche Beratung, perfekte Umsetzung und sehr saubere, professionelle Arbeit." },
+  { name: "Carmen Ernst", quelle: "Google", text: "Ich bin begeistert. Was das für eine tolle Veränderung in unserem Wohnzimmer ist! Das hätte ich nicht gedacht, dass es so cool wirkt. Vielen Dank für die nette und vor allem profimäßige Beratung sowie Ausführung." },
+  { name: "Familie Albrecht", quelle: "Google", text: "Der Chef, Herr Drewitz, hat ein Auge für Schönheit und hat uns toll beraten. Die Montage war ausgezeichnet und sehr sorgfältig. Wir sind sehr zufrieden – unsere neue Wohnung sieht mit den Vorhängen sehr hochwertig aus." },
+  { name: "Carina Olszewski", quelle: "Google", text: "Wir sind absolut begeistert von den Maler- und Tapezierarbeiten in unserem Wohnzimmer. Jedes Detail wurde mit größter Sorgfalt und Präzision ausgeführt. Wir können Adler Wohndesign wärmstens weiterempfehlen!" },
+  { name: "Jan Asmus", quelle: "Google", text: "Meine Frau und ich haben eine neue Penthouse-Wohnung gekauft und Adler Wohndesign hat uns geholfen, diese in unsere persönliche Traumwohnung zu verwandeln. Wir freuen uns jeden Tag, wie schön wir es haben, und unsere Gäste betonen die angenehme Atmosphäre." },
+  { name: "Melissa Pond", quelle: "Google", text: "Vielen herzlichen Dank an das wunderbare Team von Adler Wohndesign. Mit viel Geduld, Hingabe, Professionalität und Feingefühl wurde mein Projekt realisiert. Das Ergebnis sind Räume, die zum Wohnen einladen. Uneingeschränkt empfehlenswert!" },
+  { name: "J. Bojarski", quelle: "Google", text: "Ein „Raumausstatter“ für alle Belange, zu 100 % empfehlenswert! Von hervorragender Beratung bis zu handwerklichem Geschick war alles dabei. Schön, dass es noch solche Handwerksbetriebe gibt mit solch einem breiten Portfolio." },
+  { name: "Jean-Pierre Andreae", quelle: "ProvenExpert", text: "Man fühlt sich von der ersten Idee bis zur Abnahme der Leistung perfekt aufgehoben. Die Akkuratesse bei der Umsetzung, die Sauberkeit und das Endergebnis – alles Grund genug, das Adler-Team weiterzuempfehlen!" },
+  { name: "Frau von Weiler", quelle: "ProvenExpert", text: "Eine rundum zufriedenstellende Erfahrung, vom Erstkontakt im Laden bis zum Aufhängen der Vorhänge zu Hause. Kompetente Beratung, sehr professionelles Team, und dazu auch noch nett, zugänglich, offen und freundlich!" },
+  { name: "Jennifer Kirschke", quelle: "Google", text: "Kompetente, überaus freundliche Beratung. Wunderschöne Materialien, jahrelange Erfahrung, ein sehr hilfsbereites, sympathisches Team. 100 % Weiterempfehlung. Vielen Dank!" },
+  { name: "Eike Garbers", quelle: "Google", text: "Ich kann mein Glück kaum in Worte fassen! Fünf Sterne reichen nicht! Frau Vogt hat unglaublich schnell verstanden, was ich mir wünsche, und ein Farbkonzept entwickelt, das mich vollkommen von den Socken haut. 1000 Dank für diesen perfekten Job!" },
+  { name: "Christine Schramm", quelle: "Google", text: "Die Kommunikation ist verlässlich, die Qualität herausragend – und trotzdem umfängt einen sofort ein familiäres Gefühl, als sei man zu Hause. Ich freue mich jeden Tag an dem durchdachten Design. 6 von 5 Sternen ♥️" },
+  { name: "Barbara Platzer", quelle: "Google", text: "Fantastische, freundliche und effiziente Beratung. Kimberly und ihr gesamtes Team sind sehr engagiert und sorgen für einen reibungslosen Ablauf! Absolut empfehlenswert." },
+  { name: "Christoph Rotstein", quelle: "ProvenExpert", text: "Wir haben für unser Wohnzimmer Vorhänge anfertigen lassen. Der gesamte Ablauf, von der Beratung bei der Auswahl des Stoffs und der Farbe bis zur anschließenden Montage vor Ort: Alles perfekt und so wie man sich als Kunde es wünscht!" },
+  { name: "Frau Feuerherdt", quelle: "ProvenExpert", text: "Wir sind „Wiederholungstäter“ und schätzen die klare, zielorientierte Fachberatung. Das gesamte Team ist sehr freundlich, die Umsetzung erfolgt zügig und professionell. Wir wüssten nicht, was besser gehen sollte!" },
 ];
 
 ---
@@ -140,7 +142,7 @@ const reviews = [
           <div class="reviews__head">
             <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Kundenstimmen</p>
             <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
-            <p class="reviews__rating"><span class="rcard__stars" aria-hidden="true">★★★★★</span> <strong>4,95 / 5</strong> · 190 Bewertungen</p>
+            <p class="reviews__rating"><span class="rcard__stars" aria-hidden="true">★★★★★</span> <strong>4,95/5</strong> auf ProvenExpert · <strong>4,9/5</strong> auf Google</p>
           </div>
           <div class="reviews__nav">
             <button class="rev-btn" type="button" data-rev="prev" aria-label="Vorherige Bewertungen">‹</button>
