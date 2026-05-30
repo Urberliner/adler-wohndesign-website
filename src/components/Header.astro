@@ -1,76 +1,245 @@
 ---
+// Hauptnavigation (V4): Desktop-Mega-Menü + mobiles Vollbild-Overlay
+// Bereiche mit `panel` haben ein Untermenü; sonst direkter Link.
 const nav = [
-  { label: "Services", href: "/services" },
-  { label: "Projekte", href: "/projekte" },
-  { label: "Farrow & Ball", href: "/farrow-ball" },
-  { label: "Das sind wir", href: "/ueber-uns" },
-  { label: "Blog", href: "/blog" },
+  {
+    id: "services",
+    label: "Services",
+    href: "/services",
+    image: "/images/home/project-1.jpg",
+    panel: [
+      { label: "Komplettlösung", href: "/komplettloesung" },
+      { label: "Einzelleistungen", heading: true },
+      { label: "Gardinen & Rollos", href: "/services/gardinen-rollos", children: [
+        { label: "Vorhänge", href: "/services/gardinen-rollos#vorhaenge" },
+        { label: "Raffrollos", href: "/services/gardinen-rollos#raffrollos" },
+        { label: "Flächenvorhänge", href: "/services/gardinen-rollos#flaechenvorhaenge" },
+        { label: "Gardinenstangen", href: "/services/gardinen-rollos#gardinenstangen" },
+        { label: "Rollos", href: "/services/gardinen-rollos#rollos" },
+        { label: "Lamellenvorhänge", href: "/services/gardinen-rollos#lamellenvorhaenge" },
+      ] },
+      { label: "Stoffe", href: "/services/stoffe" },
+      { label: "Einrichtung", href: "/services/einrichtung" },
+      { label: "Boden", href: "/services/boden" },
+      { label: "Wand", href: "/services/wand" },
+    ],
+  },
+  { id: "projekte", label: "Projekte", href: "/projekte" },
+  {
+    id: "farrow-ball",
+    label: "Farrow & Ball",
+    href: "/farrow-ball",
+    image: "/images/home/project-2.jpg",
+    panel: [
+      { label: "Übersicht", href: "/farrow-ball" },
+      { label: "Farben", href: "/farrow-ball/farben" },
+      { label: "Farbkonzepte", href: "/farrow-ball/farbkonzepte" },
+      { label: "Tapeten", href: "/farrow-ball/tapeten" },
+    ],
+  },
+  {
+    id: "dassindwir",
+    label: "Das sind wir",
+    href: "/ueber-uns",
+    image: "/images/home/team.jpg",
+    panel: [
+      { label: "Unser Team", href: "/team" },
+      { label: "Karriere", href: "/karriere" },
+      { label: "Historie", href: "/historie" },
+      { label: "Partner", href: "/partner" },
+    ],
+  },
+  { id: "blog", label: "Blog", href: "/blog" },
 ];
+const SearchIcon = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>`;
+const Chevron = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
 ---
 
-<header class="site-header">
-  <div class="container site-header__inner">
+<header class="site-header" id="siteHeader">
+  <div class="container nav-bar">
     <a class="logo" href="/" aria-label="ADLER Wohndesign — Startseite">
       <img src="/images/logo-white.png" alt="ADLER Wohndesign" width="2634" height="949" />
     </a>
 
-    <nav class="main-nav" aria-label="Hauptnavigation">
+    <nav class="desk-nav" aria-label="Hauptnavigation">
       <ul>
         {nav.map((item) => (
-          <li><a class="t-titel" href={item.href}>{item.label}</a></li>
+          <li>
+            {item.panel ? (
+              <button type="button" class="t-titel nav-trigger" data-mega={item.id} aria-expanded="false" aria-controls={`mega-${item.id}`}>
+                {item.label}<span class="nav-chev" set:html={Chevron} />
+              </button>
+            ) : (
+              <a class="t-titel nav-link" href={item.href}>{item.label}</a>
+            )}
+          </li>
         ))}
       </ul>
     </nav>
 
-    <div class="header-actions">
-      <button class="icon-btn" type="button" aria-label="Suche">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-        </svg>
-      </button>
+    <div class="nav-actions">
+      <button class="icon-btn" type="button" aria-label="Suche" set:html={SearchIcon}></button>
       <a class="btn" href="/kontakt">Mein Termin</a>
+      <button class="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+
+  <!-- Desktop Mega-Menü-Panels -->
+  {nav.filter((i) => i.panel).map((item) => (
+    <div class="mega" id={`mega-${item.id}`} hidden>
+      <div class="container mega__inner">
+        <ul class="mega__list">
+          {item.panel.map((entry) => (
+            entry.heading ? (
+              <li class="mega__heading t-small">{entry.label}</li>
+            ) : (
+              <li>
+                <a class="mega__item" href={entry.href}>{entry.label}</a>
+                {entry.children && (
+                  <ul class="mega__sub">
+                    {entry.children.map((c) => (<li><a href={c.href}>{c.label}</a></li>))}
+                  </ul>
+                )}
+              </li>
+            )
+          ))}
+        </ul>
+        <div class="mega__media"><img src={item.image} alt="" loading="lazy" /></div>
+      </div>
+    </div>
+  ))}
 </header>
 
+<!-- Mobiles Vollbild-Menü -->
+<div class="mobile-nav" id="mobileNav" hidden>
+  <div class="mobile-nav__bar container">
+    <span class="logo"><img src="/images/logo-white.png" alt="ADLER Wohndesign" width="2634" height="949" /></span>
+    <button class="icon-btn mobile-close" type="button" aria-label="Menü schließen">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav__body container" aria-label="Hauptnavigation mobil">
+    {nav.map((item) => (
+      item.panel ? (
+        <details class="m-sec">
+          <summary><span class="t-h4">{item.label}</span><span class="m-chev" set:html={Chevron} /></summary>
+          <div class="m-sec__body">
+            {item.panel.map((entry) => (
+              entry.heading ? (
+                <p class="m-heading t-small">{entry.label}</p>
+              ) : entry.children ? (
+                <details class="m-sub">
+                  <summary><a href={entry.href} class="t-body">{entry.label}</a><span class="m-chev" set:html={Chevron} /></summary>
+                  <div class="m-sub__body">
+                    {entry.children.map((c) => (<a href={c.href} class="t-body">{c.label}</a>))}
+                  </div>
+                </details>
+              ) : (
+                <a href={entry.href} class="t-body m-link">{entry.label}</a>
+              )
+            ))}
+          </div>
+        </details>
+      ) : (
+        <a href={item.href} class="t-h4 m-toplink">{item.label}</a>
+      )
+    ))}
+    <a href="/kontakt" class="t-h4 m-toplink">Kontakt</a>
+    <a class="btn mobile-cta" href="/kontakt">Mein Termin</a>
+  </nav>
+</div>
+
 <style>
-  .site-header {
-    background: var(--moos);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .site-header__inner {
-    height: 96px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
+  .site-header { background: var(--moos); position: sticky; top: 0; z-index: 50; }
+  /* hidden-Attribut muss display-Regeln überschreiben (sonst bleibt das Overlay sichtbar) */
+  [hidden] { display: none !important; }
+  .nav-bar { height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
   .logo img { height: 40px; width: auto; }
 
-  .main-nav ul { display: flex; align-items: center; gap: 8px; }
-  .main-nav a {
-    color: var(--white);
-    padding: 8px;
-    transition: color 0.2s ease;
-  }
-  .main-nav a:hover { color: var(--bronze); }
+  /* Desktop-Nav */
+  .desk-nav ul { display: flex; align-items: center; gap: 4px; }
+  .nav-trigger, .nav-link { display: inline-flex; align-items: center; gap: 4px; color: var(--white); padding: 8px; transition: color 0.2s ease; }
+  .nav-trigger:hover, .nav-link:hover, .nav-trigger[aria-expanded="true"] { color: var(--bronze); }
+  .nav-chev :global(svg) { width: 16px; height: 16px; transition: transform 0.25s ease; }
+  .nav-trigger[aria-expanded="true"] .nav-chev :global(svg) { transform: rotate(180deg); }
 
-  .header-actions { display: flex; align-items: center; gap: 6px; }
-  .icon-btn {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    color: var(--white);
-  }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn { display: grid; place-items: center; width: 40px; height: 40px; color: var(--white); }
 
-  /* Unter 1024px: Nav + Suche aus (Burger-Menü = To-do im echten Bau) */
+  /* Mega-Menü */
+  .mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--moos); border-top: 1px solid rgba(255,255,255,0.12); box-shadow: 0 24px 40px rgba(0,0,0,0.25); }
+  .mega__inner { display: flex; gap: var(--gutter); align-items: flex-start; padding-block: var(--gap-m) var(--gap-l); }
+  .mega__list { flex: 1 1 0; display: flex; flex-direction: column; gap: 18px; padding-top: 8px; }
+  .mega__heading { color: var(--grey); text-transform: none; }
+  .mega__item { color: var(--white); font-size: 15px; letter-spacing: 0.03em; transition: color 0.2s ease; }
+  .mega__item:hover { color: var(--bronze); }
+  .mega__sub { display: flex; flex-direction: column; gap: 6px; padding-left: 32px; margin-top: 6px; }
+  .mega__sub a { color: rgba(255,255,255,0.82); font-size: 14px; transition: color 0.2s ease; }
+  .mega__sub a:hover { color: var(--bronze); }
+  .mega__media { flex: 1 1 0; height: clamp(260px, 26vw, 420px); align-self: center; border-radius: 4px; overflow: hidden; }
+  .mega__media img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Burger nur mobil */
+  .burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; }
+  .burger span { display: block; width: 24px; height: 2px; background: var(--white); margin-inline: auto; transition: transform 0.25s, opacity 0.2s; }
+
+  /* Mobiles Overlay */
+  .mobile-nav { position: fixed; inset: 0; background: var(--moos); color: var(--white); z-index: 60; overflow-y: auto; display: flex; flex-direction: column; }
+  .mobile-nav__bar { height: 96px; display: flex; align-items: center; justify-content: space-between; }
+  .mobile-nav__bar .logo img { height: 32px; }
+  .mobile-close { color: var(--white); }
+  .mobile-nav__body { display: flex; flex-direction: column; gap: var(--gap-s); padding-bottom: var(--gap-l); }
+  .m-toplink, .m-sec > summary { color: var(--white); }
+  .m-sec { border: 0; }
+  .m-sec > summary, .m-sub > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 6px; }
+  .m-sec > summary::-webkit-details-marker, .m-sub > summary::-webkit-details-marker { display: none; }
+  .m-chev :global(svg) { color: var(--bronze); transition: transform 0.25s ease; flex: none; }
+  details[open] > summary .m-chev :global(svg) { transform: rotate(180deg); }
+  .m-sec__body { display: flex; flex-direction: column; gap: 14px; padding: 10px 0 18px 16px; }
+  .m-sec__body a, .m-sub__body a { color: rgba(255,255,255,0.85); }
+  .m-heading { color: var(--grey); }
+  .m-sub > summary { padding-block: 2px; }
+  .m-sub__body { display: flex; flex-direction: column; gap: 10px; padding: 8px 0 4px 24px; }
+  .mobile-cta { align-self: flex-start; margin-top: var(--gap-s); }
+
+  /* Umschaltpunkt */
   @media (max-width: 1023px) {
-    .site-header__inner { height: 72px; }
-    .main-nav, .icon-btn { display: none; }
+    .desk-nav, .nav-actions .icon-btn, .nav-actions .btn { display: none; }
+    .burger { display: flex; }
+    .nav-bar { height: 72px; }
     .logo img { height: 32px; }
   }
+  body.nav-open { overflow: hidden; }
 </style>
+
+<script>
+  // Desktop Mega-Menü
+  const header = document.getElementById("siteHeader");
+  const triggers = Array.from(document.querySelectorAll("[data-mega]"));
+  const closeAll = () => triggers.forEach((t) => {
+    t.setAttribute("aria-expanded", "false");
+    const p = document.getElementById("mega-" + t.dataset.mega);
+    if (p) p.hidden = true;
+  });
+  triggers.forEach((t) => {
+    t.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const panel = document.getElementById("mega-" + t.dataset.mega);
+      const isOpen = t.getAttribute("aria-expanded") === "true";
+      closeAll();
+      if (!isOpen && panel) { t.setAttribute("aria-expanded", "true"); panel.hidden = false; }
+    });
+  });
+  document.addEventListener("click", (e) => { if (header && !header.contains(e.target)) closeAll(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { closeAll(); closeMobile(); } });
+
+  // Mobiles Menü
+  const burger = document.querySelector(".burger");
+  const mobileNav = document.getElementById("mobileNav");
+  const openMobile = () => { if (!mobileNav) return; mobileNav.hidden = false; document.body.classList.add("nav-open"); burger?.setAttribute("aria-expanded", "true"); };
+  const closeMobile = () => { if (!mobileNav) return; mobileNav.hidden = true; document.body.classList.remove("nav-open"); burger?.setAttribute("aria-expanded", "false"); };
+  burger?.addEventListener("click", openMobile);
+  document.querySelector(".mobile-close")?.addEventListener("click", closeMobile);
+</script>
