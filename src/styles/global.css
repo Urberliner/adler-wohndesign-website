@@ -24,21 +24,61 @@
   --font-display: "Playfair Display", Georgia, serif;
   --font-body: "Montserrat", system-ui, -apple-system, sans-serif;
 
-  /* Layout (V4: Rand 24/32/80, Gutter 16/24/32) */
-  --layout-margin: clamp(24px, 6vw, 80px);
-  --gutter: clamp(16px, 2vw, 32px);
+  /* Layout & Spacing — diskrete Figma-V4-Werte je Breakpoint (mobile-first).
+     Basis = Mobil (<768); Overrides bei 768 (Tablet) und 1024 (Desktop) unten.
+     Werte 1:1 aus den Seiten-Variablen (margin/gutter/spacing-Skala). */
   --container-max: 1600px;
+  --layout-margin: 24px;
+  --gutter: 16px;
+  --pad-section: 120px; /* XXL (Sektions-Oberkante) */
+  --gap-xxl: 120px;
+  --gap-xl: 72px;
+  --gap-l: 56px;
+  --gap-ml: 40px;
+  --gap-m: 32px;
+  --gap-sm: 24px;
+  --gap-s: 22px;
+  --gap-xs: 14px;
+  --gap-xxs: 8px;
+  --gap-xxxs: 4px;
+}
 
-  /* Vertikaler Rhythmus (Desktop-Werte als Maximum, responsiv) */
-  --pad-section: clamp(72px, 13vw, 222px);
-  --gap-xl: clamp(56px, 9vw, 142px);
-  --gap-l: clamp(48px, 7vw, 104px);
-  --gap-ml: clamp(40px, 5vw, 78px);
-  --gap-m: clamp(28px, 3.5vw, 56px);
-  --gap-sm: 44px;
-  --gap-s: 32px;
-  --gap-xs: 20px;
-  --gap-xxs: 14px;
+/* Tablet (768–1023) — exakte Figma-Variablen Frame 12242:22501 */
+@media (min-width: 768px) {
+  :root {
+    --layout-margin: 32px;
+    --gutter: 24px;
+    --pad-section: 164px;
+    --gap-xxl: 164px;
+    --gap-xl: 104px;
+    --gap-l: 80px;
+    --gap-ml: 56px;
+    --gap-m: 44px;
+    --gap-sm: 32px;
+    --gap-s: 24px;
+    --gap-xs: 18px;
+    --gap-xxs: 10px;
+    --gap-xxxs: 4px;
+  }
+}
+
+/* Desktop (≥1024) — exakte Figma-Variablen Frame 12242:22419 */
+@media (min-width: 1024px) {
+  :root {
+    --layout-margin: 80px;
+    --gutter: 32px;
+    --pad-section: 222px;
+    --gap-xxl: 222px;
+    --gap-xl: 142px;
+    --gap-l: 104px;
+    --gap-ml: 78px;
+    --gap-m: 56px;
+    --gap-sm: 44px;
+    --gap-s: 32px;
+    --gap-xs: 20px;
+    --gap-xxs: 14px;
+    --gap-xxxs: 6px;
+  }
 }
 
 /* Reset */
