@@ -21,28 +21,29 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Button from "../components/Button.astro";
 import FilterMenu from "../components/FilterMenu.astro";
+import projekteJson from "../data/projekte.json";
 
-// PLATZHALTER-Projekte. Reihenfolge/Mischung der Karten-Höhen wie im Figma-Masonry.
-// ratio steuert nur die Bildhöhe der Karte (tall = hochformat, wide = querformat).
-// Bilder: vorhandene Site-Assets als Platzhalter, bis echte Projektbilder vorliegen.
+// Echte Projektdaten aus src/data/projekte.json (26 Projekte).
+// Bilder lokal heruntergeladen nach /public/images/projekte/<slug>.webp (slug = letzter href-Pfad).
 // Karten im 12-Spalten-Grid (Franzi-Annotation Card Container: „grid grid-cols-12 gap-sm …
-// Cards sind flexibel ins grid eingebaut"). span = Spaltenbreite (12er-Raster), aus der echten
-// Frame-Geometrie abgeleitet: voll ≈ 6 Spalten (768px), schmal ≈ 4 (~500px), mittel ≈ 5 (~633px).
-// ratio = Bild-Seitenverhältnis (wide/tall). Muster wiederholt sich → beliebig viele Projekte.
+// Cards sind flexibel ins grid eingebaut"). span = Spaltenbreite (12er-Raster).
+// ratio = Bild-Seitenverhältnis (wide/tall). COLS-Muster wiederholt sich zyklisch.
 const COLS = [
   { span: 6, ratio: "wide" }, { span: 4, ratio: "tall" }, { span: 4, ratio: "tall" }, { span: 6, ratio: "wide" },
   { span: 6, ratio: "wide" }, { span: 4, ratio: "tall" }, { span: 5, ratio: "wide" }, { span: 4, ratio: "tall" },
 ];
-const projektDaten = [
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/project-1.jpg", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/project-2.jpg", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/team.jpg", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/komplettloesung/card1.png", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/komplettloesung/card2.png", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/komplettloesung/card3.png", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/blog-akustik.jpg", href: "#" },
-  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/hero-beratung.jpg", href: "#" },
-];
+// slug aus href ableiten (letzter Pfad-Teil) → lokaler Bildpfad; href auf lokale Route kürzen.
+const slugFromHref = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
+const localPath = (href: string) => {
+  const i = href.indexOf("/projekte/");
+  return i >= 0 ? href.slice(i) : href;
+};
+const projektDaten = projekteJson.map((p) => ({
+  eyebrow: p.kategorie,
+  title: p.titel,
+  href: localPath(p.href),
+  img: `/images/projekte/${slugFromHref(p.href)}.webp`,
+}));
 const projekte = projektDaten.map((p, i) => ({ ...p, ...COLS[i % COLS.length] }));
 ---
 
