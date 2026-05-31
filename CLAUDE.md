@@ -23,7 +23,7 @@ Sprache: **Deutsch (Sie-Form)**. Design: Franzi (Figma). Umsetzung: **Astro**, H
   - Mobil (≤700): H1/H2 36/50 · H3 28/40 · H4 20/30 · H5 14/23 · Body 13/24 · Titel 9/17 · Small 10/18
   - Schriften: **Playfair Display** (H1–H3 Medium) + **Montserrat** (Rest). H4/H5 weight 500.
 - **Sektions-Padding ist im Design asymmetrisch** (Desktop-Standardsektion: oben `XXL` 222, unten `XL` 142; Tablet 164/104; Mobil 120/72) — nicht blind symmetrisch bauen.
-- **Layout-Stufen je Breakpoint (verbindliche Spacing-Vorgabe, diskret — KEIN `clamp`):** Margin Desktop **96** / Tablet 32 / Mobil 24 · Gutter 32/24/16. Festes Desktop-Layout: Breite **1792**, margin 96 → Content **1600**. Ab 1760 unverändert; darunter schrumpft der Content, Abstände bleiben.
+- **Layout-Stufen je Breakpoint (diskret — KEIN `clamp`):** Margin Desktop **80** / Tablet 32 / Mobil 24 · Gutter 32/24/16 · Content-max **1600**. (Margin 80 aus echten Frames+Variablen gemessen; Franzis handschriftliche 96-Notiz verworfen 2026-05-31 — Regel „Frame gewinnt".)
 
 ## So baust du eine neue Seite (Playbook)
 

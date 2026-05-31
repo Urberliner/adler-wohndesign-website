@@ -73,8 +73,8 @@
 @media (min-width: 992px) {
   :root {
     --text-max: 1056px;
-    /* margin Large = 96px (verbindliche Spacing-Vorgabe: festes Layout 1792px, 2×96 → Content 1600) */
-    --layout-margin: 96px;
+    /* margin Desktop = 80px (echte Seiten-Frames + Variablen; Franzis 96-Notiz verworfen 2026-05-31) */
+    --layout-margin: 80px;
     --gutter: 32px;
     --pad-section: 222px;
     --gap-xxl: 222px;
