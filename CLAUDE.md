@@ -27,13 +27,14 @@ Sprache: **Deutsch (Sie-Form)**. Design: Franzi (Figma). Umsetzung: **Astro**, H
 
 ## So baust du eine neue Seite (Playbook)
 
-### ⛔ GATE 0 — Design-Quelle klären, BEVOR gebaut wird (Pflicht, kein stilles Ausweichen)
-**Standardweg ist IMMER `get_design_context`. Der Inhaber wählt den Frame gern aus — also aktiv darum bitten, nicht darauf verzichten.** Screenshot-Modus ist die seltene Ausnahme, nie der Default.
-1. Inhaber aktiv bitten: **Seiten-Frame in Figma-Desktop (V4) auswählen.** (Ist für ihn kein Aufwand.)
-2. **`get_design_context` (+ `get_variable_defs`) ZUERST aufrufen** → echte Tokens, Farben, Spacing, Asset-Export-URLs.
-3. Fehler **„nothing selected"** → **STOPP. Erneut um Auswahl bitten**, NICHT heimlich auf Screenshot umsteigen.
-   Auf diesem Seat brauchen `get_design_context`/`get_variable_defs` eine **Live-Auswahl** (siehe Memory `figma-connector-limitations`).
-4. Screenshot-Modus (`get_screenshot` + `get_metadata`) NUR, wenn der Inhaber ihn **ausdrücklich** wählt — und vorher laut ansagen, was dadurch ungenau wird (Bilder = Platzhalter · Farben/Spacing evtl. ab).
+### ⛔ GATE 0 — Design-Quelle: immer echter Frame-Kontext, nie Screenshot-Schätzen
+**Seit Full/Pro-Seat (2026-05-31) KEINE Auswahl-Pflicht mehr.** `get_design_context` + `get_variable_defs`
+liefern für jeden `nodeId` Daten — der Inhaber muss **nichts** in Figma auswählen.
+1. Inhaber gibt nur **node-id / Figma-Link**.
+2. **`get_variable_defs` + `get_design_context` ZUERST** auf den Frame → echte Tokens, Farben, Spacing, Texte, Asset-Export-URLs. Das ist die **höchstwertige Quelle** — immer nutzen.
+3. **NIE** auf Screenshot-Schätzen ausweichen. `get_screenshot`/`get_metadata` nur als Ergänzung (visuelle Kontrolle, Struktur-Überblick), nicht als Wert-Quelle.
+4. **Assets** (Icons/Bilder) per **REST-API** exportieren (`/v1/images?format=svg|png`, Token) — echte Vektoren/Dateien statt Platzhalter.
+5. Jeden kritischen Wert nach dem Bauen im Browser gegen Figma **verifizieren, BEVOR „fertig" gesagt wird.**
 
 ### Bauen
 5. Assets nach `public/images/<seite>/` laden (echte Exporte aus design_context; im Screenshot-Modus Platzhalter + als solche benennen).
