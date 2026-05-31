@@ -30,9 +30,9 @@
 //   · Filter tab „Einsatz" (5770:27437): „Wand, Boden, Holz, Metall, …" / „Eigenschaft" (12298:34342):
 //     „Robust, matt, …" → Inhalts-Hinweise für künftige Filterwerte (Folgeaufgabe), als Default-Tabs gesetzt.
 //
-// Inhalte = PLATZHALTER (Farbnamen/Nummern wie Figma „Dibber Nr. 312" etc.); Bilder = vorhandene
-// Site-Assets als benannte Platzhalter, bis echte F&B-Farb-Swatches vorliegen (siehe Flags).
-// Echte Filter-/Sortier-/Favoriten-Logik (Persistenz, Daten) = Folgeaufgabe mit echten Farbdaten.
+// Inhalte = ECHTE Farrow-&-Ball-Farbdaten aus src/data/farben.json (302 Einträge).
+// Swatch = CSS-Farbfläche aus `hex` (kein Bild). Layout/Markup/CSS unverändert (V4-Frame).
+// Filter „Filter nach Farbe" = client-seitiges Ein-/Ausblenden über `data-farbwelt` (presentational).
 import "../../styles/global.css";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
@@ -42,31 +42,32 @@ import FilterTab from "../../components/FilterTab.astro";
 import FilterSort from "../../components/FilterSort.astro";
 import ColorListItem from "../../components/ColorListItem.astro";
 import FavoriteButton from "../../components/FavoriteButton.astro";
+import farbenData from "../../data/farben.json";
 
-// PLATZHALTER-Farben (Namen/Nummern wie im Figma-Frame). Bilder = vorhandene Site-Assets als
-// benannte Platzhalter (echte F&B-Farb-Swatches als public/images/farrow-ball/* nachliefern → Flags).
-const PLATZHALTER_BILD = [
-  "/images/komplettloesung/card1.png",
-  "/images/komplettloesung/card2.png",
-  "/images/komplettloesung/card3.png",
-  "/images/komplettloesung/card4.png",
-  "/images/komplettloesung/card5.png",
+// Echte F&B-Farben. Karte: Swatch (hex) + Name + „Nr. XXX".
+const farben = (farbenData as Array<{
+  name: string; nummer: string; hex: string; farbwelt: string; archiviert: boolean; href: string;
+}>).map((c) => ({
+  name: c.name,
+  nr: `Nr. ${c.nummer}`,
+  hex: c.hex,
+  farbwelt: c.farbwelt,
+  archiviert: c.archiviert,
+  href: c.href,
+}));
+
+// Farbwelten (Sub-Filter „Filter nach Farbe") aus den echten `farbwelt`-Werten, in fester Reihenfolge.
+const FARBWELT_ORDER = ["Neutral", "Blau", "Grün", "Rot", "Gelb", "Dunkel"];
+const farbwelten = FARBWELT_ORDER.filter((w) => farben.some((f) => f.farbwelt === w));
+// Sub-Filter-Chips: „Alle" (Default aktiv) + je Farbwelt + „Archiv" (archivierte Farben).
+const farbUnterTabs = [
+  { label: "Alle", value: "alle", active: true },
+  ...farbwelten.map((w) => ({ label: w, value: w, active: false })),
+  { label: "Archiv", value: "archiv", active: false },
 ];
-const farben = [
-  { name: "Dibber", nr: "Nr. 312" },
-  { name: "Marmelo", nr: "Nr. 316" },
-  { name: "Scallop", nr: "Nr. 311" },
-  { name: "Calamine", nr: "Nr. 230" },
-  { name: "Setting Plaster", nr: "Nr. 231" },
-  { name: "Stiffkey Blue", nr: "Nr. 281" },
-  { name: "Hague Blue", nr: "Nr. 30" },
-  { name: "Pigeon", nr: "Nr. 25" },
-  { name: "Cromarty", nr: "Nr. 285" },
-  { name: "Card Room Green", nr: "Nr. 79" },
-].map((c, i) => ({ ...c, img: PLATZHALTER_BILD[i % PLATZHALTER_BILD.length] }));
 
-// Desktop-Filtergruppen (Frame: „Filter Nach" offen mit Sub-Filter „Filter NAch Farbe").
-// Tabs = Platzhalterwerte; echte Filterwerte/-logik Folgeaufgabe.
+// Desktop-Filter-Hauptgruppe (Frame: „Filter Nach" offen mit Sub-Filter „Filter nach Farbe").
+// Übrige Tabs = Platzhalter-Kategorien (echte Filterwerte/-logik Folgeaufgabe).
 const farbTabs = [
   { label: "Alles" },
   { label: "Farbe", active: true, icon: "add" as const },
@@ -75,13 +76,6 @@ const farbTabs = [
   { label: "Farbreihe", icon: "add" as const },
   { label: "Einsatz", icon: "add" as const },
   { label: "Eigenschaft", icon: "add" as const },
-];
-const farbUnterTabs = [
-  { label: "Blautöne" },
-  { label: "Grüntöne", active: true },
-  { label: "Handwerk" },
-  { label: "Firma" },
-  { label: "Verantwortung" },
 ];
 const sortTabs = [
   { label: "Alles", active: true },
@@ -150,7 +144,7 @@ const sortTabs = [
               </FilterMenu>
               <FilterMenu label="Filter nach Farbe" layout="wrap" open={true} name="farben-unterfilter">
                 {farbUnterTabs.map((t) => (
-                  <FilterTab label={t.label} active={t.active} name={t.label} />
+                  <FilterTab label={t.label} active={t.active} name={t.value} class="js-farbwelt" />
                 ))}
               </FilterMenu>
             </div>
@@ -172,11 +166,14 @@ const sortTabs = [
              Karte: quadratisches Bild + Favoriten-Herz (oben rechts) + Titel (H5) + Nr. (Small). -->
         <ul class="colors">
           {farben.map((c) => (
-            <li class="colorcard">
-              <a class="colorcard__link" href="#">
-                <div class="colorcard__media">
-                  <img src={c.img} alt={`Farbmuster ${c.name} ${c.nr} (Platzhalter)`} loading="lazy" />
-                </div>
+            <li class="colorcard" data-farbwelt={c.farbwelt} data-archiviert={c.archiviert ? "true" : "false"}>
+              <a class="colorcard__link" href={c.href}>
+                <div
+                  class="colorcard__media"
+                  style={`background:${c.hex}`}
+                  role="img"
+                  aria-label={`Farbmuster ${c.name} ${c.nr}`}
+                />
                 <div class="colorcard__text">
                   <p class="t-h5 colorcard__title">{c.name}</p>
                   <p class="t-small colorcard__nr">{c.nr}</p>
@@ -197,12 +194,41 @@ const sortTabs = [
     <FilterSort
       title="Filter & Sortierung"
       groups={[
-        { label: "Filter nach Farbe", tabs: farbUnterTabs.map((t) => ({ label: t.label, active: t.active })) },
+        { label: "Filter nach Farbe", tabs: farbUnterTabs.map((t) => ({ label: t.label, active: t.active, name: t.value })) },
         { label: "Filter Nach", tabs: farbTabs.filter((t) => t.icon).map((t) => ({ label: t.label, icon: t.icon })) },
       ]}
       sortLabel="Sortierung"
       sorts={sortTabs.map((t) => ({ label: t.label, active: t.active }))}
     />
+
+    <!-- Presentational Farbwelt-Filter: blendet Karten per data-farbwelt / data-archiviert ein/aus.
+         Single-Select (wie Figma-Chips); „Alle" = alles, „Archiv" = nur archivierte. Echte Filter-/
+         Sortier-Logik (Persistenz, Mehrfachauswahl) = Folgeaufgabe. -->
+    <script is:inline>
+      (() => {
+        const cards = Array.from(document.querySelectorAll(".colors .colorcard"));
+        const apply = (value) => {
+          for (const card of cards) {
+            let show;
+            if (value === "archiv") show = card.dataset.archiviert === "true";
+            else if (!value || value === "alle") show = true;
+            else show = card.dataset.farbwelt === value;
+            card.hidden = !show;
+          }
+        };
+        document.querySelectorAll(".js-farbwelt").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const value = tab.getAttribute("data-filter") || "alle";
+            document.querySelectorAll(".js-farbwelt").forEach((t) => {
+              const on = t === tab;
+              t.classList.toggle("is-active", on);
+              t.setAttribute("aria-pressed", String(on));
+            });
+            apply(value);
+          });
+        });
+      })();
+    </script>
 
     <style>
       /* ---- HERO ---- (Frame: pt XXL, px margin, gap M Breadcrumb→Textblock, gap SM H1→Lead.
