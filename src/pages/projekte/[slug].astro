@@ -1,0 +1,315 @@
+---
+// /projekte/[slug] — dynamische Projekt-Detailroute.
+// Struktur/Layout/Tokens 1:1 aus dem verifizierten Muster „projekte/beispiel.astro"
+// (Figma V4 AryB7Db9AeJFgXmfBEsvpn, Section 5660:17423), aber mit den ECHTEN Projektdaten
+// aus src/data/projekte.json (26) gefüllt: Titel, Kategorie (Breadcrumb/Eyebrow),
+// Hero-/Galeriebild = lokaler Pfad /images/projekte/<slug>.webp (slug = letzter Pfadteil der href).
+// „Zur Übersicht"/Breadcrumb → /projekte.
+//
+// PLATZHALTER (Flag): Beschreibungstext, Spec-Werte (Jahr/Ort/Leistungen) und weitere
+//   Galeriebilder stehen NICHT in der JSON → benannte Platzhalter, bis echte Inhalte (CMS) vorliegen.
+//
+// GALERIE BILD-ANZAHL-FLEXIBEL: Die Bild-Reihe rendert eine variable `galerie`-Liste
+//   (3 bis 50 Bilder sauber) über einen horizontalen Scroll-Streifen mit fester Höhe —
+//   KEIN Hardcode auf feste Anzahl. Aktuell liegt je Projekt nur 1 echtes Bild vor; die Liste
+//   wird mit dem echten Bild + benannten Platzhaltern aufgefüllt, das Grid skaliert automatisch.
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Carousel from "../../components/Carousel.astro";
+import Card from "../../components/Card.astro";
+import Cta from "../../components/Cta.astro";
+import projekteData from "../../data/projekte.json";
+
+type Projekt = {
+  titel: string; kategorie: string; href: string; bildUrl: string; beschreibung: string;
+};
+
+const href2slug = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
+
+export function getStaticPaths() {
+  const liste = projekteData as Projekt[];
+  const slug = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
+  return liste.map((projekt, i) => {
+    // Related = die jeweils folgenden drei Projekte (zyklisch).
+    const related = [1, 2, 3].map((d) => {
+      const r = liste[(i + d) % liste.length];
+      return { titel: r.titel, kategorie: r.kategorie, href: `/projekte/${slug(r.href)}`, slug: slug(r.href) };
+    });
+    return {
+      params: { slug: slug(projekt.href) },
+      props: { projekt, slug: slug(projekt.href), related },
+    };
+  });
+}
+
+interface RelatedItem { titel: string; kategorie: string; href: string; slug: string; }
+interface Props { projekt: Projekt; slug: string; related: RelatedItem[]; }
+const { projekt, slug, related } = Astro.props as Props;
+
+const heroBild = `/images/projekte/${slug}.webp`;
+
+// Information Overview — Kategorie ist echt; Jahr/Ort/Leistungen = PLATZHALTER (nicht in JSON).
+const specs = [
+  { label: "Kategorie", value: [projekt.kategorie], tone: "moos" },
+  { label: "Jahr", value: ["2024"], placeholder: true },
+  { label: "Ort", value: ["Berlin"], placeholder: true },
+  { label: "Leistungen", value: ["Beratung", "Umsetzung"], placeholder: true },
+];
+
+// Intro-Text — PLATZHALTER (Beschreibung steht nicht in der JSON).
+const introParas = [
+  "Ausführliche Projektbeschreibung folgt. An dieser Stelle erläutern wir die Ausgangslage, die Anforderungen unserer Kundschaft und das von ADLER Wohndesign entwickelte Raumkonzept im Detail.",
+  "Bis die redaktionellen Inhalte vorliegen, dient dieser Abschnitt als Platzhalter und zeigt bereits das fertige Layout der Projekt-Detailseite.",
+];
+
+// GALERIE — bild-anzahl-flexibel (3 bis 50 Bilder). Aktuell 1 echtes Bild je Projekt;
+// mit benannten Platzhaltern auf eine kleine Reihe aufgefüllt. Sobald echte Galeriebilder
+// (CMS) vorliegen, einfach die Liste erweitern — Grid/Streifen skaliert ohne Code-Änderung.
+const PLATZHALTER_BILDER = [
+  "/images/projekte/strip-1.jpg",
+  "/images/projekte/strip-2.jpg",
+  "/images/projekte/strip-3.jpg",
+];
+const galerie = [
+  { src: heroBild, alt: projekt.titel, ratio: "360 / 240" },
+  ...PLATZHALTER_BILDER.map((src, i) => ({
+    src,
+    alt: `${projekt.titel} – Eindruck ${i + 1} (Platzhalter)`,
+    ratio: i % 2 === 0 ? "160 / 240" : "360 / 240",
+  })),
+];
+
+// Abschluss-Textblock — PLATZHALTER.
+const resultBlock = {
+  heading: "Das Ergebnis",
+  body: "Eine Zusammenfassung des Projektergebnisses folgt mit den redaktionellen Inhalten. Sprechen Sie uns gern an, wenn Sie ein vergleichbares Vorhaben planen.",
+  placeholder: "right",
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{projekt.titel} — Projekte | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content={`Projekt „${projekt.titel}" (${projekt.kategorie}) von ADLER Wohndesign – maßgeschneidertes Design und Handwerkskunst aus Berlin-Charlottenburg.`}
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 6423:41672 / 6423:41659 / 5660:19673 -->
+      <section class="hero">
+        <div class="container hero__intro">
+          <div class="hero__text">
+            <Breadcrumb
+              items={[{ label: "Projekte", href: "/projekte" }, { label: projekt.titel }]}
+              class="hero__crumb"
+            />
+            <h1 class="t-h1">{projekt.titel}</h1>
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src={heroBild} alt={projekt.titel} fetchpriority="high" />
+        </div>
+      </section>
+
+      <!-- ARTIKEL — Frame „Artikel" 6410:37062 / 6319:53885 / 5660:19672 -->
+      <article class="artikel">
+        <!-- 1. Info Overview + Intro (Desktop 2-spaltig, sonst gestapelt) -->
+        <section class="container intro-block">
+          <dl class="info-overview">
+            {specs.map((s) => (
+              <div class="info-overview__row">
+                <dt class="t-titel info-overview__label">{s.label}</dt>
+                <dd class:list={["t-titel", "info-overview__value", { "info-overview__value--moos": s.tone === "moos" }]}>
+                  {s.value.map((line) => <span class="info-overview__line">{line}</span>)}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <div class="intro-text">
+            {introParas.map((p) => <p class="t-body">{p}</p>)}
+          </div>
+        </section>
+
+        <!-- 2. Bild-Reihe (bild-anzahl-flexibel: variable `galerie`-Liste, Streifen skaliert) -->
+        <section class="strip">
+          <Carousel tone="dark" label="Projekt-Bildergalerie" class="strip__carousel">
+            {galerie.map((img) => (
+              <li class="strip__item" style={`--ratio:${img.ratio}`}>
+                <img src={img.src} alt={img.alt} loading="lazy" />
+              </li>
+            ))}
+          </Carousel>
+        </section>
+
+        <!-- 3. Abschluss-Textblock (Platzhalter) -->
+        <section class="container text-block" data-placeholder={resultBlock.placeholder}>
+          <div class="text-block__text">
+            <h2 class="t-h4 text-block__heading">{resultBlock.heading}</h2>
+            <p class="t-body">{resultBlock.body}</p>
+          </div>
+          <div class="text-block__placeholder" aria-hidden="true"></div>
+        </section>
+      </article>
+
+      <!-- RELATED ARTICLES — Frame 6410:37158 / 6410:37217 / 6319:53693 (nature) -->
+      <section class="related">
+        <div class="container related__inner">
+          <p class="t-titel related__title">
+            <span class="related__dot" aria-hidden="true"></span>Das könnte Ihnen auch gefallen
+          </p>
+          <Carousel tone="dark" label="Verwandte Projekte" perMobile={1} perTablet={2} perDesktop={3} class="related__carousel">
+            {related.map((r) => (
+              <li>
+                <Card href={r.href} image={`/images/projekte/${r.slug}.webp`} alt={r.titel} eyebrow={r.kategorie} title={r.titel} ratio="landscape" />
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
+      <!-- KONTAKT — Frame „Kontakt" 6410:37100 / 6319:53923 / 5660:19707 (Cta, weiß) -->
+      <Cta
+        bg="default"
+        over="Services"
+        heading="Sie haben eine Vision für Ihr individuelles Raumkonzept?"
+      />
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ============ HERO ============ */
+      /* Frame: pt XXL, gap ML zwischen Intro-Text und Bild; Bild full-bleed. */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml);
+        padding-top: var(--gap-xxl);
+        background: var(--white);
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        max-width: var(--text-max); /* 652 / 927 / 1056 */
+      }
+      .hero__crumb { color: var(--text); }
+      .hero__image { width: 100%; height: 585px; } /* image-vertical Mobil 585 */
+      .hero__image img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ============ ARTIKEL ============ */
+      /* Frame: pt XXL, pb XL, gap XL zwischen den Blöcken. */
+      .artikel {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        background: var(--white);
+      }
+
+      /* 1. Info Overview + Intro — Mobil/Tablet gestapelt, gap ML. */
+      .intro-block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml);
+      }
+      .info-overview {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: 550px; /* component/width/text-small-max-Bezug, Frame max 550 */
+      }
+      .info-overview__row { display: flex; flex-direction: column; }
+      .info-overview__label { color: var(--grey); }
+      .info-overview__value { color: var(--text); display: flex; flex-direction: column; }
+      .info-overview__value--moos { color: var(--moos); }
+      .info-overview__line { display: block; }
+      .intro-text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .intro-text .t-body { color: var(--text); }
+
+      /* 2. Bild-Reihe — horizontaler Scroll-Streifen, feste Höhe 240 (bild-anzahl-flexibel). */
+      .strip__item {
+        flex: 0 0 auto;
+        height: 240px;
+        aspect-ratio: var(--ratio);
+      }
+      .strip__item img { width: 100%; height: 100%; object-fit: cover; }
+      .strip__carousel :global(.carousel__track) { align-items: center; }
+
+      /* 3. H4-Textblock — Mobil/Tablet nur Text (Bildspalte aus). */
+      .text-block {
+        display: flex;
+        align-items: center;
+        gap: var(--gutter);
+      }
+      .text-block__text {
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .text-block__heading { color: var(--text); }
+      .text-block .t-body { color: var(--text); }
+      /* Leere Bild-Platzhalterspalte: nur Desktop sichtbar. */
+      .text-block__placeholder { display: none; }
+
+      /* ============ RELATED ARTICLES (nature) ============ */
+      /* Frame: nature-BG, pt XXL, pb XL; Titel mit Punkt; 3 Karten + Punkte-Nav. */
+      .related {
+        background: var(--nature);
+        padding-block: var(--gap-xxl) var(--gap-xl);
+      }
+      .related__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+      }
+      .related__title { display: flex; align-items: center; gap: var(--gap-xs); color: var(--grey); }
+      .related__dot { width: 16px; height: 16px; border-radius: 50%; background: var(--bronze); flex: none; }
+      /* Figma Related-Karte: Bild-Seitenverhältnis 400/300 (4:3), nicht Card-Default 16:10. */
+      .related__carousel :global(.card--landscape .card__media) { aspect-ratio: 4 / 3; }
+      /* Karten-Titel im Carousel als H4 (Frame: Montserrat Medium 20/30), Card nutzt t-h5. */
+      .related__carousel :global(.card__title) { font-size: 20px; line-height: 30px; }
+
+      /* ============ Breakpoints (kanonisch 701 / 992) ============ */
+      @media (min-width: 701px) {
+        .hero__image { height: 500px; }      /* image-vertical Tablet 500 */
+      }
+
+      @media (min-width: 992px) {
+        .hero__image { height: 700px; }       /* image-vertical Desktop 700 */
+
+        /* Info Overview + Intro: zwei fillende Spalten (gap ML). */
+        .intro-block { flex-direction: row; align-items: flex-start; gap: var(--gap-ml); }
+        .info-overview { flex: 1 1 0; max-width: none; }
+        .intro-text { flex: 1 1 0; }
+
+        /* H4-Textblock: Text + leere Bildspalte (alternierend), gap gutter. */
+        .text-block__placeholder {
+          display: block;
+          flex: 1 1 0;
+          align-self: stretch;
+          background: var(--nature);
+        }
+        .text-block[data-placeholder="left"] .text-block__text { order: 2; }
+        .text-block[data-placeholder="left"] .text-block__placeholder { order: 1; }
+      }
+    </style>
+  </body>
+</html>
