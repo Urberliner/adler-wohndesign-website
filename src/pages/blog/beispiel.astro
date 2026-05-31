@@ -1,0 +1,368 @@
+---
+// /blog/beispiel — Blog-Artikel-DETAILSEITE (Platzhalter/Template).
+// VORLAGE für die spätere dynamische Route src/pages/blog/[slug].astro mit CMS (Sanity).
+//   → FLAG: Inhalte (Texte/Bilder/Autor/Related) hier als Platzhalter fest verdrahtet; beim
+//     CMS-Schritt aus dem Datensatz speisen (Astro.params.slug → getStaticPaths).
+//
+// 1:1 aus Figma V4 (fileKey AryB7Db9AeJFgXmfBEsvpn), Section „006-Blog/001-Artikel".
+// Drei Breakpoint-Frames (Inhalt):
+//   L 6416:18052 (≥992) · M 6416:18095 (701–991) · S 6416:18138 (≤700)
+// Werte/Texte/Tokens AUSSCHLIESSLICH aus get_design_context + get_variable_defs der drei Frames.
+//
+// Annotationen (alle 3 BP):
+//   Text Container (6416:18075 / …18118 / …18166): „Blog Artikel sind immer in Text Container
+//     Breite · Links bündig – bessere Lesbarkeit" → alle Artikel-Blöcke max. text-container-Breite
+//     (1056/771/652), linksbündig.
+//   Subline (12138:18742 / …18785 / …): „Subline is changing with centered image. Image carousel
+//     = infinite slide, animation 42s linear" → Bild-Streifen als endlose Auto-Slide-Schleife (42s
+//     linear), bei prefers-reduced-motion angehalten.
+//
+// Layout-Aufbau (alle BP, eigene Blog-Frames — KEIN Projekt-Detail-Klon):
+//   Hero (Breadcrumb + H1 + Lead, dann full-bleed Bild + Bild-Caption) →
+//   Article Container (H4-Textblock · Bild-Streifen(Auto-Slide)+Caption · Interview-Text ·
+//     Abschluss-Text · Artikel-Info[Autor+Datum]) →
+//   Related „Weitere Artikel" (nature, Card-Carousel) → Back-to-top.
+//   KEIN Kontakt/Cta-Block in diesen Frames.
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Carousel from "../../components/Carousel.astro";
+import Card from "../../components/Card.astro";
+import BackToTop from "../../components/BackToTop.astro";
+
+// HERO — Frame 6416:18066 / …18109 / …18157
+const article = {
+  category: "Mode meets Raumausstatter",
+  title: "Mode meets Raumausstattung",
+  lead: "Es ist immer eine Freude, junge Talente dabei zu beobachten, wie sie ihre Fähigkeiten entdecken und entfalten. In diesem Sinne sind wir stolz, den erfolgreichen Abschluss der Gesellenprüfung unserer Auszubildenden Kimberly Fischer verkünden zu können.",
+};
+
+const heroImage = {
+  src: "/images/blog/mode-meets-raumausstattung-kimberly-fischer-portrait.jpg",
+  alt: "Porträt der Auszubildenden Kimberly Fischer",
+  caption: "Kimberly Fischer",
+};
+
+// Erster Artikel-Textblock (H4 + mehrere Absätze) — Frame 6416:18076 / …18119 / …18167
+const introBlock = {
+  heading: "Mehr als nur Prüfungserfolg",
+  paragraphs: [
+    "Diese Geschichte ist mehr als nur die eines Prüfungserfolgs. Sie ist die Geschichte einer jungen Frau, die ihre Leidenschaft für Mode und Design mit dem Raumausstatterhandwerk vereint hat. Lassen Sie uns diesen Weg gemeinsam betrachten.",
+    "Mehr als eine Momentaufnahme – dieses Bild ist das Erzeugnis von gegenseitiger Unterstützung, Inspiration und harter Arbeit, die das Fundament von Frau Fischers Ausbildungserfolg bilden. Jedes Mitglied des Adler Wohndesign Teams hat auf irgendeine Weise zu diesem Moment beigetragen.",
+    "Hier sehen Sie einen Einblick in die Vollständigkeit von Kimberly Fischers Fähigkeiten, die sie während ihrer Ausbildung entwickelt hat. Die präzise gestaltete Prüfungskabine, von der Wandbespannung bis zur Fensterdekoration, zeigt nicht nur ihre technischen Fähigkeiten, sondern auch ihre Fähigkeit, eine Atmosphäre zu schaffen. Die Harmonie der Farben und Muster, der geschickte Einsatz von Materialien, und die Liebe zum Detail offenbaren eine Handwerkerin, die ihr Metier versteht.",
+    "Im Zentrum der Arbeit stand ein smaragdgrünes Abendkleid, das sowohl Ausgangspunkt als auch Inspiration für ihre Abschlussarbeit darstellte – die Einrichtung einer Damenboutique.",
+  ],
+};
+
+// Bild-Streifen — „Image Carousel" 12138:18747 / …18774 / …
+// Seitenverhältnisse 160/240 · 360/240 · 160/240 (Höhe 700 Desktop / 240 Tablet+Mobil).
+const strip = [
+  { src: "/images/blog/kimberly-fischer-gesellenstueck-abendkleid.jpg", alt: "Smaragdgrünes Abendkleid als Ausgangspunkt der Abschlussarbeit", ratio: "160 / 240" },
+  { src: "/images/blog/kimberly-fischer-gesellenstueck-pruefungskabine.jpg", alt: "Gestaltete Prüfungskabine mit Wandbespannung und Fensterdekoration", ratio: "360 / 240" },
+  { src: "/images/blog/kimberly-fischer-gesellenstueck-detail.jpg", alt: "Detailaufnahme aus dem Gesellenstück von Kimberly Fischer", ratio: "160 / 240" },
+];
+const stripCaption = "Kimberly Fischer Raumausstatter Gesellenstück";
+
+// Interview-Textblock (Frage/Antwort) — Frame 6416:18079 / …18122 / …18170.
+// Fragen sind im Figma Montserrat Medium 14px (H5-Gewicht), Antworten Body.
+const interview = [
+  { role: "question", text: "Kimberly, es ist eine Freude, heute hier an Ihrem großen Tag zu sein. Vielen Dank, dass Sie sich die Zeit nehmen, um Ihre Erfahrungen und Inspirationen trotz der Aufregung mit uns zu teilen. Lassen Sie uns mit dem Abendkleid beginnen. War das sozusagen der Startpunkt für Ihre Designidee?" },
+  { role: "answer", text: "Genau, das Kleid war definitiv der Startpunkt. Es hat etwas Aufregendes und Dynamisches, das ich unbedingt in mein Design einfließen lassen wollte." },
+  { role: "question", text: "Das ist wirklich Ihr Kleid, nicht wahr? Es ist unglaublich schön und scheint Ihre Persönlichkeit widerzuspiegeln." },
+  { role: "answer", text: "Ja, das ist tatsächlich mein Kleid. Ich liebe es sehr und es inspiriert mich immer wieder." },
+  { role: "question", text: "Das ist faszinierend. Und wie sind Sie auf die Idee gekommen, eine Damenboutique zum Thema zu nehmen?" },
+  { role: "answer", text: "Tatsächlich habe ich einfach ein Faible für Kleidung und Fashion. Das ist eine Leidenschaft von mir. Also dachte ich, warum nicht das Beste aus beiden Welten kombinieren und eine Boutique kreieren? Die Kombination von Mode und Innenarchitektur hat für mich einfach gut gepasst. Und das ist es, was ich in meiner Prüfungskabine zum Ausdruck bringen wollte." },
+];
+
+// Abschluss-Textblock — Frame 6416:18081 / …18124 / …18172
+const outroParagraph =
+  "Kimberly Fischer hat uns mit ihrer unerschöpflichen Kreativität und ihrem unvergleichlichen Antrieb, jenseits des Gewöhnlichen zu denken, während ihrer Ausbildung stets beeindruckt. Bei Adler Wohndesign glauben wir, dass eine Ausbildung alles andere als langweilig sein sollte. Wir sind stolz darauf, dass wir Kimberly in ihrer Entwicklung begleiten durften und freuen uns darauf, zukünftigen Auszubildenden eine ebenso inspirierende und dynamische Ausbildungserfahrung zu ermöglichen.";
+
+// Artikel-Info (Autor) — Frame 6416:18083 / …18126 / …18174
+const author = {
+  avatar: "/images/blog/autor-marco-adler.jpg",
+  name: "Marco Adler, 05 Juli 2023",
+};
+
+// Related „Weitere Artikel" — Frame 6416:18087 / …18130 / …18178 (4 Karten, Platzhalter).
+const related = [
+  { category: "Blog", date: "05 Juli 2023", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/blog/related-1.jpg", href: "/blog/beispiel" },
+  { category: "Blog", date: "05 Juli 2023", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/blog/related-2.jpg", href: "/blog/beispiel" },
+  { category: "Blog", date: "05 Juli 2023", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/blog/related-3.jpg", href: "/blog/beispiel" },
+  { category: "Blog", date: "05 Juli 2023", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/blog/related-4.jpg", href: "/blog/beispiel" },
+];
+
+// Bild-Streifen für die Auto-Slide-Schleife doppelt ausgeben (nahtlose Endlos-Animation).
+const stripLoop = [...strip, ...strip];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{article.title} | ADLER Wohndesign</title>
+    <meta name="description" content={article.lead} />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame 6416:18066 / 6416:18109 / 6416:18157 -->
+      <section class="hero">
+        <div class="container hero__head">
+          <div class="hero__text">
+            <Breadcrumb
+              items={[{ label: "Blog", href: "/blog" }, { label: article.category }]}
+              class="hero__crumb"
+            />
+            <div class="hero__title">
+              <h1 class="t-h1">{article.title}</h1>
+              <p class="t-body hero__lead">{article.lead}</p>
+            </div>
+          </div>
+        </div>
+        <figure class="hero__figure">
+          <div class="hero__image">
+            <img src={heroImage.src} alt={heroImage.alt} fetchpriority="high" />
+          </div>
+          <figcaption class="container hero__caption">
+            <span class="t-small">{heroImage.caption}</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- ARTICLE — Frame 6416:18074 / 6416:18117 / 6416:18165 -->
+      <article class="article">
+        <!-- 1. Einleitungs-Textblock (H4 + Absätze) -->
+        <section class="container text-block">
+          <h2 class="t-h4 text-block__heading">{introBlock.heading}</h2>
+          <div class="text-block__body">
+            {introBlock.paragraphs.map((p) => <p class="t-body">{p}</p>)}
+          </div>
+        </section>
+
+        <!-- 2. Bild-Streifen (Auto-Slide, 42s linear) + Caption -->
+        <section class="strip">
+          <div class="strip__viewport" aria-label="Bilder zum Gesellenstück">
+            <ul class="strip__track" role="list">
+              {stripLoop.map((img, i) => (
+                <li class="strip__item" style={`--ratio:${img.ratio}`}>
+                  <img src={img.src} alt={i < strip.length ? img.alt : ""} aria-hidden={i >= strip.length ? "true" : undefined} loading="lazy" />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p class="container strip__caption">
+            <span class="t-small">{stripCaption}</span>
+          </p>
+        </section>
+
+        <!-- 3. Interview-Textblock (Frage/Antwort) -->
+        <section class="container text-block">
+          <div class="text-block__body interview">
+            {interview.map((line) => (
+              <p class:list={["t-body", { "interview__q": line.role === "question" }]}>{line.text}</p>
+            ))}
+          </div>
+        </section>
+
+        <!-- 4. Abschluss-Textblock -->
+        <section class="container text-block">
+          <div class="text-block__body">
+            <p class="t-body">{outroParagraph}</p>
+          </div>
+        </section>
+
+        <!-- 5. Artikel-Info (Autor + Datum) -->
+        <section class="container article-info">
+          <div class="article-info__inner">
+            <span class="article-info__avatar">
+              <img src={author.avatar} alt="" loading="lazy" />
+            </span>
+            <p class="article-info__meta">
+              <span class="t-small article-info__label">Veröffentlicht</span>
+              <span class="t-small article-info__name">{author.name}</span>
+            </p>
+          </div>
+        </section>
+      </article>
+
+      <!-- RELATED „Weitere Artikel" — Frame 6416:18084 / 6416:18127 / 6416:18175 (nature) -->
+      <section class="related">
+        <div class="container related__inner">
+          <p class="t-titel related__title">Weitere Artikel</p>
+          <Carousel
+            tone="dark"
+            label="Weitere Artikel"
+            perMobile={1}
+            perTablet={2}
+            perDesktop={3}
+            class="related__carousel"
+          >
+            {related.map((r) => (
+              <li>
+                <Card
+                  href={r.href}
+                  image={r.img}
+                  alt={r.title}
+                  eyebrow={r.category}
+                  eyebrowRight={r.date}
+                  title={r.title}
+                  ratio="landscape"
+                />
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+    <BackToTop />
+
+    <style>
+      /* ============ HERO ============ */
+      /* Frame: pt XXL, gap ML zwischen Text-Container und Bild+Subline. */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml);
+        padding-top: var(--gap-xxl);
+        background: var(--white);
+      }
+      /* Text-Container: gap M zwischen Breadcrumb und Titelblock; max text-container-Breite. */
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        max-width: var(--text-max); /* 652 / 771(927) / 1056 */
+      }
+      .hero__crumb { color: var(--text); }
+      /* gap sm zwischen H1 und Lead. */
+      .hero__title {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+      }
+      .hero__lead { color: var(--text); }
+
+      /* Bild + Subline: gap xs. */
+      .hero__figure {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        margin: 0;
+      }
+      .hero__image { width: 100%; height: 585px; } /* image-vertical Mobil 585 */
+      .hero__image img { width: 100%; height: 100%; object-fit: cover; }
+      .hero__caption { color: var(--grey); }
+      /* Caption auf Text-Container-Breite begrenzt (linksbündig). */
+      .hero__caption .t-small,
+      .strip__caption .t-small { color: var(--grey); display: block; max-width: var(--text-max); }
+
+      /* ============ ARTICLE ============ */
+      /* Frame: pt XXL, pb XL, gap XL zwischen den Blöcken. */
+      .article {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        background: var(--white);
+      }
+
+      /* Annotation: alle Textblöcke max. Text-Container-Breite, linksbündig.
+         gap xs zwischen H4-Heading und Body. */
+      .text-block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+      }
+      .text-block__heading { color: var(--text); max-width: var(--text-max); }
+      .text-block__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .text-block__body .t-body { color: var(--text); }
+      /* Interview: Fragen Montserrat Medium (H5-Gewicht), Antworten Body. */
+      .interview__q { font-weight: 500; }
+
+      /* Bild-Streifen — Auto-Slide (Annotation: infinite slide, 42s linear) + Caption (gap xs). */
+      .strip {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+      }
+      .strip__viewport { width: 100%; overflow: hidden; }
+      .strip__track {
+        display: flex;
+        gap: var(--gutter);       /* 16 / 16 / 32 (Frame: M+S 16, Desktop 32) */
+        width: max-content;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        animation: strip-slide 42s linear infinite;
+      }
+      .strip__item {
+        flex: 0 0 auto;
+        height: 240px;             /* image-horizontal Mobil/Tablet 240 */
+        aspect-ratio: var(--ratio);
+      }
+      .strip__item img { width: 100%; height: 100%; object-fit: cover; }
+      .strip__caption { color: var(--grey); }
+      /* Verschiebung um die halbe (= eine Einheits-) Schleifenbreite inkl. eines Gutters. */
+      @keyframes strip-slide {
+        from { transform: translateX(0); }
+        to   { transform: translateX(calc(-50% - (var(--gutter) / 2))); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .strip__track { animation: none; }
+      }
+
+      /* Artikel-Info (Autor) — Avatar 60px Kreis + Label/Name, gap sm (24). */
+      .article-info__inner { display: flex; align-items: center; gap: var(--gap-sm); }
+      .article-info__avatar {
+        flex: none;
+        width: 60px; height: 60px; border-radius: 50%;
+        overflow: hidden; background: var(--nature);
+      }
+      .article-info__avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .article-info__meta { display: flex; flex-direction: column; }
+      .article-info__label { color: var(--grey); }
+      .article-info__name { color: var(--text); }
+
+      /* ============ RELATED (nature) ============ */
+      /* Frame: nature-BG, py XXL, gap sm; Titel + Card-Carousel + Punkte (rechtsbündig). */
+      .related {
+        background: var(--nature);
+        padding-block: var(--gap-xxl);
+      }
+      .related__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+      }
+      .related__title { color: var(--text); }
+      /* Figma Related-Karte: Bild 342.5/228 ≈ 3:2; Titel als H5 (passt zu Card-Default). */
+      .related__carousel :global(.card--landscape .card__media) { aspect-ratio: 3 / 2; }
+
+      /* ============ Breakpoints (kanonisch 701 / 992) ============ */
+      @media (min-width: 701px) {
+        .hero__image { height: 500px; }   /* image-vertical Tablet 500 */
+        /* Bild-Streifen Tablet: Höhe 240, Gutter bleibt 16 (Frame). */
+        .strip__track { gap: 16px; }
+      }
+
+      @media (min-width: 992px) {
+        .hero__image { height: 700px; }   /* image-vertical Desktop 700 */
+        /* Bild-Streifen Desktop: Höhe 700, Gutter 32 (Frame). */
+        .strip__item { height: 700px; }
+        .strip__track { gap: var(--gutter); } /* 32 */
+      }
+    </style>
+  </body>
+</html>
