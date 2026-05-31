@@ -101,7 +101,8 @@ const reviews = [
           <p class="t-h4 aufbau__lead">Wir bieten einen neuen Standard für Raumgestaltung in Berlin – persönlich, vielseitig und ohne Aufwand für Sie. Von einzelnen Leistungen wie Lichtkonzepten, Maßgardinen oder Bodengestaltung bis zum vollständigen Rundum-Paket. Was Sie beauftragen, liegt ganz bei Ihnen.</p>
         </div>
         <div class="aufbau__list">
-          <Accordion items={aufbau} name="aufbau" dividers={false} />
+          {/* Franzi: Start – alle Cards geschlossen; Öffnen schließt die vorherige (nativ via name) */}
+          <Accordion items={aufbau} name="aufbau" dividers={false} openFirst={false} />
         </div>
       </section>
 
@@ -163,8 +164,9 @@ const reviews = [
     <Footer />
 
     <style>
-      /* HERO */
-      .hero { position: relative; min-height: clamp(540px, 86vh, 900px); display: flex; align-items: flex-end; overflow: hidden; }
+      /* HERO — Franzi: "Header und Bildschirm füllend" → Hero + (sticky) Header füllen genau einen Viewport.
+         Header ist auf ALLEN Breakpoints 96px hoch (Header.astro: .nav-inner height:96px, auch <992px). */
+      .hero { position: relative; min-height: calc(100vh - 96px); display: flex; align-items: flex-end; overflow: hidden; }
       .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
       .hero__overlay { position: absolute; inset: 0; background:
         linear-gradient(180deg, rgba(31,31,39,0.28) 0%, rgba(31,31,39,0.10) 30%, rgba(31,31,39,0.30) 60%, rgba(31,31,39,0.66) 100%); }
@@ -226,8 +228,10 @@ const reviews = [
       .blog__title { color: var(--text); max-width: var(--text-max); }
       .blog__track { display: flex; gap: var(--gap-l); overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: var(--layout-margin); padding-bottom: 12px; align-items: start; }
       .bcard { flex: none; scroll-snap-align: center; color: var(--text); }
-      .bcard--sq { width: clamp(220px, 22vw, 360px); }
-      .bcard--sq img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+      .bcard--sq { width: clamp(220px, 22vw, 360px); overflow: hidden; }
+      /* Franzi Motion: Hover-Zoom innerhalb des Bild-Rahmens (auch quadratische Karten) */
+      .bcard--sq img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; transition: transform 0.6s ease; }
+      .bcard--sq:hover img { transform: scale(1.03); }
       .bcard--feature { width: clamp(300px, 44vw, 744px); display: flex; flex-direction: column; gap: var(--gap-s); }
       .bcard__media { height: clamp(240px, 28vw, 420px); overflow: hidden; }
       .bcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
