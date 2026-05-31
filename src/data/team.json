@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Marco Adler",
+    "role": "Raumausstattermeister, Maler- und Lackierermeister",
+    "img": "/images/team/marco-adler.jpg",
+    "imgPlaceholder": false,
+    "quote": "„Brenne für deinen Job - oder lass ihn bleiben.“",
+    "bio": [
+      "Inhaber in dritter Generation. Marco versteht seine Aufgabe als Führungskraft vor allem darin, seine Mitarbeiterinnen und Mitarbeiter zu befähigen, ihre Talente voll zu entfalten – und setzt auf kreative Zusammenarbeit auf Augenhöhe."
+    ],
+    "color": "Meine Farbe: Stone Blue, Nr. 86"
+  },
+  {
+    "name": "Norman Drewitz",
+    "role": "Kreativchef, Gesellschafter, Geschäftsführer",
+    "img": "/images/team/norman-drewitz.jpg",
+    "imgPlaceholder": false,
+    "quote": "„Design und Handwerk in Vollendung!“",
+    "bio": [
+      "Seit über 15 Jahren Mitinhaber und Kreativchef. Norman kuratiert ein einzigartiges Sortiment und entwickelt Designkonzepte, die Klassisches mit modernen Formen verbinden."
+    ],
+    "color": "Meine Farbe: Plummet, Nr. 26"
+  },
+  {
+    "name": "Angela Vogt",
+    "role": "Raumausstatterin",
+    "img": "/images/team/angela-vogt.jpg",
+    "imgPlaceholder": false,
+    "quote": "„Es ist ein Vertrauensverhältnis.“",
+    "bio": [
+      "Über 30 Jahre Erfahrung in der Raumausstattung. Angela legt größten Wert auf das Vertrauensverhältnis zu ihren Kundinnen und Kunden und auf eine persönliche, nachhaltige Umsetzung jedes Projekts."
+    ],
+    "color": "Meine Farbe: Purbeck Stone, Nr. 275"
+  },
+  {
+    "name": "Aleksej Spiger",
+    "role": "Maler und Lackierer",
+    "img": "/images/team/aleksej-spiger.jpg",
+    "imgPlaceholder": false,
+    "quote": "„Unsere Kunden kommen wieder, weil sie zufrieden waren.“",
+    "bio": [
+      "Maler und Lackierer mit Anspruch an hochwertige Oberflächen und vielfältige Verarbeitungstechniken. Aleksej schätzt die Einbindung in vollständige Projekte – und die Zufriedenheit der Kundschaft."
+    ],
+    "color": "Meine Farbe: Card Room Green, Nr. 79"
+  }
+]

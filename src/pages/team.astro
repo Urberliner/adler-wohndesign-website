@@ -22,42 +22,19 @@
 // Breadcrumb: Frame-Text lautet „Service" — offensichtlicher Copy-Paste-Fehler aus der
 //   Service-Vorlage (diese Seite gehört zu „Das sind wir"). Korrigiert zu „Das sind wir" (Flag).
 //
-// Team-Inhalte (Name/Rolle/Bild/Bio) = PLATZHALTER (wie Figma: „Vor- Nachname / Jobtitel");
-//   Bilder = vorhandene Site-Assets als benannte Platzhalter, bis echte Team-Fotos vorliegen.
+// Team-Inhalte (Name/Rolle/Bild/Bio/Zitat/Farbe) = ECHTE Daten der Live-Seite
+//   (adler-wohndesign.de/wirueberuns/team/), gepflegt in src/data/team.json.
+//   „Kimberly Hart" ist aus dem Team ausgeschieden und bewusst NICHT enthalten.
+//   Layout/Overlay/Tokens unverändert — nur Inhalt & Anzahl der Karten.
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FilterMenu from "../components/FilterMenu.astro";
 import Icon from "../components/Icon.astro";
+import teamData from "../data/team.json";
 
-// PLATZHALTER-Team. Reihenfolge wie Figma (6 Karten). Bio/Zitat/Farbe nur beim ersten Beispiel
-// (= S-OnClick-Frame „Kimberly Hart"); restliche mit benannten Default-Platzhaltern.
-// Bilder: vorhandene Assets als Portrait-Platzhalter (aspect 200/300 schneidet zu).
-const PLATZHALTER_IMG = [
-  "/images/home/team.jpg",
-  "/images/home/project-1.jpg",
-  "/images/home/project-2.jpg",
-  "/images/hero-beratung.jpg",
-  "/images/home/blog-akustik.jpg",
-  "/images/home/hero.jpg",
-];
-const team = [
-  {
-    name: "Kimberly Hart",
-    role: "Raumausstatterin",
-    quote: "„Ich sorge gern dafür, dass es läuft.“",
-    bio: [
-      "Mein Abschluss ist jetzt schon fünf Jahre her und ich merke, wie sehr sich meine Arbeit und auch meine Art zu arbeiten verändert haben. Die Leidenschaft mit der man ein Projekt verfolgt, das Brennen für die bestmögliche Lösung, das einen oft auch in den Feierabend begleitet, das ist geblieben.",
-      "Was sich komplett geändert hat, ist der Umgang mit Verantwortung. Im Team von Adler Wohndesign bekommen auch Auszubildende richtig verantwortungsvolle Aufgaben, denn nur dadurch lernt man, damit umzugehen – aber aus einer völlig anderen Perspektive. Kaum war die Ausbildung beendet, musste ich nochmals den Umgang mit der neuen Verantwortung lernen, sprich sie auch mal abzugeben, um der jetzigen Auszubildenden das zu ermöglichen, was mir ermöglicht wurde.",
-    ],
-    color: "Meine Farbe: Fruit Fool Nr. 9911",
-  },
-  { name: "Vor- Nachname", role: "Jobtitel", quote: "", bio: [], color: "" },
-  { name: "Vor- Nachname", role: "Jobtitel", quote: "", bio: [], color: "" },
-  { name: "Vor- Nachname", role: "Jobtitel", quote: "", bio: [], color: "" },
-  { name: "Vor- Nachname", role: "Jobtitel", quote: "", bio: [], color: "" },
-  { name: "Vor- Nachname", role: "Jobtitel", quote: "", bio: [], color: "" },
-].map((m, i) => ({ ...m, img: PLATZHALTER_IMG[i % PLATZHALTER_IMG.length] }));
+// Echte Team-Mitglieder. Felder Zitat/Bio/Farbe stammen aus der Live-Seite; Foto = lokaler Pfad.
+const team = teamData;
 ---
 
 <!doctype html>
