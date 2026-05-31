@@ -31,8 +31,10 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
         <div class="kontakt__inner">
           <div class="kontakt__head">
             <p class="t-titel kontakt__over">Service</p>
-            <h1 class="t-h1 kontakt__title">Weil wir Ihnen gefallen,<br />vereinbaren Sie einen Termin!</h1>
-            <p class="t-body kontakt__lead"><a href="tel:+49303054711" class="kontakt__link">Rufen Sie uns an</a> oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
+            <div class="kontakt__headtext">
+              <h1 class="t-h1 kontakt__title">Weil wir Ihnen gefallen,<br />vereinbaren Sie einen Termin!</h1>
+              <p class="t-body kontakt__lead"><a href="tel:+49303054711" class="kontakt__link">Rufen Sie uns an</a> oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
+            </div>
           </div>
 
           <form class="form" id="kontaktForm" action="https://api.web3forms.com/submit" method="POST">
@@ -79,7 +81,7 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
       <!-- STANDORT (weiß) -->
       <section class="standort">
         <p class="t-titel standort__over">Unser Standort</p>
-        <div class="standort__media"><img src="/images/home/hero.jpg" alt="Ladengeschäft ADLER Wohndesign in Berlin-Charlottenburg" loading="lazy" /></div>
+        <div class="standort__media"><img src="/images/kontakt/standort.jpg" alt="Ladengeschäft ADLER Wohndesign in Berlin-Charlottenburg" loading="lazy" /></div>
         <div class="standort__text">
           <div class="standort__cols">
             <div class="standort__col">
@@ -108,22 +110,22 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
       /* ===== INTRO: HERO + FORMULAR (moos) ===== */
       .kontakt { background: var(--moos); color: var(--white); }
       .kontakt__inner { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--layout-margin); padding-block: var(--gap-xxl) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); }
-      .kontakt__head { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 1056px; }
+      .kontakt__head { display: flex; flex-direction: column; gap: var(--gap-m); max-width: var(--text-max); }
+      .kontakt__headtext { display: flex; flex-direction: column; gap: var(--gap-sm); }
       .kontakt__over { color: var(--white); }
       .kontakt__title, .kontakt__lead { color: var(--white); }
-      .kontakt__lead { max-width: 70ch; }
       .kontakt__link { color: #f9f6f4; text-decoration: underline; text-underline-offset: 3px; }
 
-      /* Chips (Figma Filter tab) */
+      /* Chips (Figma Filter tab) — Größen je Breakpoint aus Seiten-Frames */
       .chips { display: flex; flex-wrap: wrap; gap: var(--gap-s); }
-      .chip { border: 1.2px solid var(--light-grey); border-radius: 40px; padding: 12px 30px; color: var(--white); font-size: 12px; letter-spacing: 0.01em; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+      .chip { border: 1.2px solid var(--light-grey); border-radius: 40px; padding: 10px 28px; color: var(--white); font-family: var(--font-body); font-size: 10px; line-height: 18px; letter-spacing: 0.01em; transition: background 0.2s, color 0.2s, border-color 0.2s; }
       .chip:hover { border-color: var(--bronze); }
       .chip--active { background: var(--bronze); border-color: var(--bronze); }
 
       /* Formular */
       .form { display: flex; flex-direction: column; gap: var(--gap-l); }
       .form__fields { display: flex; flex-direction: column; gap: var(--gap-m); }
-      .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-m) 62px; }
+      .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-s) 62px; }
       .form__col { display: flex; flex-direction: column; gap: var(--gap-s); }
       .form__hint { color: var(--nature-75); }
       .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
@@ -149,12 +151,19 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
 
       /* ===== Responsive ===== */
       @media (max-width: 991px) {
-        .form__grid { grid-template-columns: 1fr; gap: var(--gap-l); }
+        .form__grid { grid-template-columns: 1fr; gap: 62px; }
         .standort__cols { grid-template-columns: 1fr; gap: var(--gap-m); }
         .standort__media { height: 500px; }
       }
       @media (max-width: 700px) {
         .standort__media { height: 585px; }
+      }
+      /* Filter-Chips: Größen aus Tablet- (701–991) und Desktop-Frame (≥992) */
+      @media (min-width: 701px) {
+        .chip { font-size: 11px; line-height: 19px; }
+      }
+      @media (min-width: 992px) {
+        .chip { padding: 12px 30px; font-size: 12px; line-height: 22px; }
       }
     </style>
 
