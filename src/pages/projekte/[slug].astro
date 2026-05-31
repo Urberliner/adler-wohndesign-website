@@ -9,10 +9,14 @@
 // PLATZHALTER (Flag): Beschreibungstext, Spec-Werte (Jahr/Ort/Leistungen) und weitere
 //   Galeriebilder stehen NICHT in der JSON → benannte Platzhalter, bis echte Inhalte (CMS) vorliegen.
 //
-// GALERIE BILD-ANZAHL-FLEXIBEL: Die Bild-Reihe rendert eine variable `galerie`-Liste
-//   (3 bis 50 Bilder sauber) über einen horizontalen Scroll-Streifen mit fester Höhe —
-//   KEIN Hardcode auf feste Anzahl. Aktuell liegt je Projekt nur 1 echtes Bild vor; die Liste
-//   wird mit dem echten Bild + benannten Platzhaltern aufgefüllt, das Grid skaliert automatisch.
+// GALERIE FLEXIBEL (Inhaber-Vorgabe, BEWUSSTE Abweichung vom Figma-Frame):
+//   Statt einer starren Reihe gleich hoher Querformat-Thumbnails rendert die Galerie eine
+//   variable `galerie`-Liste (3 bis 50 Bilder) mit GEMISCHTEN FORMATEN (hoch/quer/quadratisch)
+//   editorial/aufgelockert in einem 12-Spalten-Mixed-Span-Grid (analog zum Muster in
+//   projekte.astro): per-Bild variable Spaltenbreite + natürliches Seitenverhältnis,
+//   object-fit cover. Mobil gestapelt. KEINE feste Anzahl, KEIN erzwungenes Einheitsformat.
+//   Aktuell liegt je Projekt 1 echtes Bild vor + benannte Platzhalter; die Liste ist beliebig
+//   erweiterbar (CMS) — das Grid skaliert ohne Code-Änderung von 3 bis 50 Bildern.
 import "../../styles/global.css";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
@@ -64,22 +68,35 @@ const introParas = [
   "Bis die redaktionellen Inhalte vorliegen, dient dieser Abschnitt als Platzhalter und zeigt bereits das fertige Layout der Projekt-Detailseite.",
 ];
 
-// GALERIE — bild-anzahl-flexibel (3 bis 50 Bilder). Aktuell 1 echtes Bild je Projekt;
-// mit benannten Platzhaltern auf eine kleine Reihe aufgefüllt. Sobald echte Galeriebilder
-// (CMS) vorliegen, einfach die Liste erweitern — Grid/Streifen skaliert ohne Code-Änderung.
+// GALERIE — flexibel (3 bis 50 Bilder), GEMISCHTE Formate. Aktuell 1 echtes Bild je Projekt;
+// mit benannten Platzhaltern aufgefüllt. Sobald echte Galeriebilder (CMS) vorliegen, einfach
+// die Liste erweitern — das Mixed-Span-Grid skaliert ohne Code-Änderung.
+// Pro Bild: `span` (12er-Raster, Spaltenbreite) + `ratio` (natürliches Seitenverhältnis).
+// Das Muster wiederholt sich zyklisch, sodass beliebig viele Bilder editorial/aufgelockert
+// (quer/hoch/quadratisch in wechselnden Größen) angeordnet werden. Mobil: gestapelt.
 const PLATZHALTER_BILDER = [
   "/images/projekte/strip-1.jpg",
   "/images/projekte/strip-2.jpg",
   "/images/projekte/strip-3.jpg",
+  "/images/projekte/strip-4.jpg",
 ];
-const galerie = [
-  { src: heroBild, alt: projekt.titel, ratio: "360 / 240" },
+// Editorial-Muster: gemischte Spaltenbreiten + Formate (quer 3/2, hoch 2/3, quadratisch 1/1).
+const GALERIE_MUSTER = [
+  { span: 7, ratio: "3 / 2" },   // groß quer
+  { span: 5, ratio: "2 / 3" },   // schmal hoch
+  { span: 4, ratio: "1 / 1" },   // quadratisch
+  { span: 8, ratio: "16 / 9" },  // breit quer
+  { span: 5, ratio: "4 / 5" },   // hoch
+  { span: 7, ratio: "3 / 2" },   // quer
+];
+const galerieQuellen = [
+  { src: heroBild, alt: projekt.titel },
   ...PLATZHALTER_BILDER.map((src, i) => ({
     src,
     alt: `${projekt.titel} – Eindruck ${i + 1} (Platzhalter)`,
-    ratio: i % 2 === 0 ? "160 / 240" : "360 / 240",
   })),
 ];
+const galerie = galerieQuellen.map((img, i) => ({ ...img, ...GALERIE_MUSTER[i % GALERIE_MUSTER.length] }));
 
 // Abschluss-Textblock — PLATZHALTER.
 const resultBlock = {
@@ -140,15 +157,15 @@ const resultBlock = {
           </div>
         </section>
 
-        <!-- 2. Bild-Reihe (bild-anzahl-flexibel: variable `galerie`-Liste, Streifen skaliert) -->
-        <section class="strip">
-          <Carousel tone="dark" label="Projekt-Bildergalerie" class="strip__carousel">
+        <!-- 2. Galerie (FLEXIBEL: variable `galerie`-Liste, 12-Spalten-Mixed-Span, mobil gestapelt) -->
+        <section class="container gallery" aria-label="Projekt-Bildergalerie">
+          <ul class="gallery__grid" role="list">
             {galerie.map((img) => (
-              <li class="strip__item" style={`--ratio:${img.ratio}`}>
+              <li class="gallery__item" style={`--span:${img.span}; --ratio:${img.ratio}`}>
                 <img src={img.src} alt={img.alt} loading="lazy" />
               </li>
             ))}
-          </Carousel>
+          </ul>
         </section>
 
         <!-- 3. Abschluss-Textblock (Platzhalter) -->
@@ -242,14 +259,27 @@ const resultBlock = {
       }
       .intro-text .t-body { color: var(--text); }
 
-      /* 2. Bild-Reihe — horizontaler Scroll-Streifen, feste Höhe 240 (bild-anzahl-flexibel). */
-      .strip__item {
-        flex: 0 0 auto;
-        height: 240px;
-        aspect-ratio: var(--ratio);
+      /* 2. Galerie — FLEXIBEL. Mobil (≤700): gestapelt (1 Spalte), Bilder behalten ihr
+         natürliches Seitenverhältnis. Ab 701: 12-Spalten-Mixed-Span-Grid (editorial,
+         gemischte Formate), Gutter = layout/gutter. Keine runden Ecken. */
+      .gallery__grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
       }
-      .strip__item img { width: 100%; height: 100%; object-fit: cover; }
-      .strip__carousel :global(.carousel__track) { align-items: center; }
+      .gallery__item {
+        aspect-ratio: var(--ratio);
+        overflow: hidden; /* keine runden Ecken, sauberer cover-Zuschnitt */
+      }
+      .gallery__item img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
 
       /* 3. H4-Textblock — Mobil/Tablet nur Text (Bildspalte aus). */
       .text-block {
@@ -290,6 +320,19 @@ const resultBlock = {
       /* ============ Breakpoints (kanonisch 701 / 992) ============ */
       @media (min-width: 701px) {
         .hero__image { height: 500px; }      /* image-vertical Tablet 500 */
+
+        /* Galerie: 12-Spalten-Grid, per-Bild --span (zyklisches Editorial-Muster),
+           dense-Flow füllt Lücken auf. Bilder behalten ihr natürliches Seitenverhältnis. */
+        .gallery__grid {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: var(--gap-sm);
+          grid-auto-flow: row dense;
+          align-items: start;
+        }
+        .gallery__item {
+          grid-column: span var(--span, 6);
+        }
       }
 
       @media (min-width: 992px) {

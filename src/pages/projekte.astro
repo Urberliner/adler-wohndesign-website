@@ -191,6 +191,18 @@ const projekte = projektDaten.map((p, i) => ({ ...p, ...COLS[i % COLS.length] })
       }
 
       /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      /* Mobil (≤700): Card-Captions an Figma S angleichen — zentriert + luftigerer Abstand
+         (Bild→Text spacing/sm statt xxs). Ab 701 wieder linksbündig/kompakt (s. u.). */
+      @media (max-width: 700px) {
+        .pcard {
+          gap: var(--gap-sm);
+        }
+        .pcard__body {
+          align-items: center;
+          text-align: center;
+        }
+      }
+
       @media (min-width: 701px) {
         .projects {
           display: grid;
