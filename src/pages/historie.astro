@@ -1,0 +1,268 @@
+---
+// /historie — „Das sind wir > Historie" (V4 Historie VARIATION 1, ohne Animation)
+// Frames: S 5671:43324 · M 5671:43378 · L 5671:43431 (fileKey AryB7Db9AeJFgXmfBEsvpn)
+// Werte 1:1 aus get_design_context + get_variable_defs aller drei Breakpoints.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import Carousel from "../components/Carousel.astro";
+
+// Historie-Bilder = benannte Platzhalter (echte Scans/Urkunden noch nicht geliefert).
+// Dateinamen entsprechen den Figma-Layer-Namen, damit die Zuordnung später eindeutig ist.
+const gallery = [
+  { src: "/images/historie/1949_bestallungsurkunde-meisterpruefungsausschuss-hans-adler.jpg", alt: "Bestallungsurkunde des Meisterprüfungsausschusses für Hans Adler, 1949", type: "square" },
+  { src: "/images/historie/1939_zeitungsanzeige-eroeffnung-malerwerkstatt.jpg", alt: "Zeitungsanzeige zur Eröffnung der Malerwerkstatt von Hans Adler, 1939", srcB: "/images/historie/adler-historie-2.jpg", altB: "Historische Aufnahme der Malerwerkstatt ADLER", type: "pair" },
+  { src: "/images/historie/1939_meisterpruefungszeugnis-hans-adler.jpg", alt: "Meisterprüfungszeugnis von Hans Adler, 1939", type: "square" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Historie — Eine lange Tradition seit 1939 | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Die Geschichte von ADLER Wohndesign: von der Malerwerkstatt 1939 über drei Generationen bis heute – eine lange Tradition exklusiver Raumausstattung in Berlin."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO image-text -->
+      <section class="hero">
+        <div class="hero__overlay" aria-hidden="true"></div>
+        <div class="container hero__inner">
+          <p class="t-titel breadcrumb">
+            Das sind wir <span class="bc-sep">&gt;</span> Historie
+          </p>
+          <div class="hero__text">
+            <h1 class="t-h1">Eine lange Tradition</h1>
+            <p class="t-body hero__lead">
+              Die Geschichte von ADLER Wohndesign ist eng mit der Vision und dem
+              Engagement seiner Gründer verbunden.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEXT (moos) -->
+      <section class="story story--moos">
+        <div class="container">
+          <div class="story__text">
+            <p class="t-body">
+              Seit 1939 wird unser Unternehmen von Generationen erfahrener
+              Raumausstatter mit Meistertitel geführt. Unser Anspruch, jede
+              Herausforderung kreativ und zuverlässig zu meistern, prägt uns bis
+              heute.
+            </p>
+            <p class="t-body">
+              Im Jahr 1939 legte Malermeister Hans Adler den Grundstein für unser
+              Unternehmen, als er in der Künstlerkolonie Eden in Oranienburg bei
+              Berlin eine Malerwerkstatt eröffnete. Während des Krieges musste der
+              Betrieb ruhen, wurde jedoch nach Kriegsende am selben Standort wieder
+              aufgenommen.
+            </p>
+            <p class="t-body">
+              Aufgrund der politischen Entwicklungen entschied sich die Familie 1950
+              zur Umsiedlung nach Westberlin-Zehlendorf, wo das Unternehmen neu
+              aufgebaut wurde.
+            </p>
+            <p class="t-body">
+              1966 erweiterte Gerhard Adler, der Sohn von Hans Adler, das Geschäft
+              und eröffnete drei Ladengeschäfte in Berlin. Der Fokus lag zunächst
+              auf dem Verkauf von Farben und Lacken, wurde jedoch ab 1968 um den
+              Bereich der textilen Raumausstattung ergänzt. In den 1980er Jahren
+              wurden zwei der Filialen geschlossen, um sich verstärkt auf hochwertige
+              Raumgestaltung zu konzentrieren.
+            </p>
+            <p class="t-body">
+              2006 übernahm Marco Adler die Geschäftsführung von seinem Vater Gerhard
+              Adler und führt das Unternehmen seither mit derselben Leidenschaft und
+              dem hohen Qualitätsanspruch weiter, die ADLER Wohndesign seit
+              Jahrzehnten auszeichnen.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- BILD-GALERIE (weiß) -->
+      <section class="gallery">
+        <div class="container">
+          <Carousel tone="dark" label="Historische Dokumente" class="gallery__carousel">
+            {gallery.map((g) => (
+              g.type === "pair" ? (
+                <li class="gallery__pair">
+                  <img class="gallery__pair-top" src={g.src} alt={g.alt} loading="lazy" />
+                  <img class="gallery__pair-bottom" src={g.srcB} alt={g.altB} loading="lazy" />
+                </li>
+              ) : (
+                <li class="gallery__square">
+                  <img src={g.src} alt={g.alt} loading="lazy" />
+                </li>
+              )
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
+      <!-- ZITAT (moos) -->
+      <section class="claim claim--moos">
+        <div class="container claim__inner">
+          <p class="t-titel claim__over">Services</p>
+          <p class="t-h3 claim__text">
+            „Mein Weg und meine Idee zum neuen Laden für exklusive Raumausstattung
+            in Berlin"
+          </p>
+        </div>
+      </section>
+
+      <!-- BILD + KONTAKT (weiß) -->
+      <section class="closing">
+        <div class="closing__image">
+          <img
+            src="/images/historie/atelier-adler-wohndesign.jpg"
+            alt="Schaufenster des Ateliers von ADLER Wohndesign in Berlin-Charlottenburg"
+            loading="lazy"
+          />
+        </div>
+        <div class="container closing__contact">
+          <div class="closing__text">
+            <p class="t-titel closing__over">Kontakt</p>
+            <div class="closing__head">
+              <h2 class="t-h3">Sie finden uns interessant?</h2>
+              <p class="t-body">
+                Rufen Sie uns an oder schreiben Sie uns, und wir vereinbaren einen
+                Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.
+              </p>
+            </div>
+          </div>
+          <Button href="/kontakt">Mein Projekt starten</Button>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---------- HERO image-text ---------- */
+      .hero {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        min-height: 694px;
+        padding-block: var(--gap-xl) var(--gap-l);
+        background: var(--moos) url("/images/historie/hero.jpg") center / cover no-repeat;
+        color: var(--white);
+        overflow: clip;
+      }
+      .hero__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, var(--overlay-0), var(--overlay-50));
+        pointer-events: none;
+      }
+      .hero__inner {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        max-width: calc(1056px + 2 * var(--layout-margin));
+      }
+      .breadcrumb { color: var(--white); }
+      .bc-sep { margin-inline: 0.4em; }
+      .hero__text { display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .hero__lead { color: var(--white); }
+      .t-h1 { color: var(--white); }
+
+      /* ---------- TEXT (moos) ---------- */
+      .story { padding-block: var(--gap-xxl) var(--gap-xl); }
+      .story--moos { background: var(--moos); color: var(--white); }
+      .story__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: 1056px;
+      }
+
+      /* ---------- BILD-GALERIE (weiß) ---------- */
+      .gallery { padding-block: var(--gap-xxl); background: var(--white); }
+      .gallery__carousel :global(.carousel__track) {
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .gallery__square {
+        flex: 0 0 auto;
+        width: 400px;
+        height: 400px;
+      }
+      .gallery__square img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .gallery__pair {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+        width: 293px;
+      }
+      .gallery__pair-top { width: 293px; height: 145px; object-fit: cover; }
+      .gallery__pair-bottom { width: 290px; height: 191px; object-fit: cover; }
+
+      /* ---------- ZITAT (moos) ---------- */
+      .claim { padding-block: var(--gap-xxl); }
+      .claim--moos { background: var(--moos); color: var(--white); }
+      .claim__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m);
+        text-align: center;
+      }
+      .claim__over { color: var(--white); }
+      .claim__text { color: var(--white); max-width: 1056px; }
+
+      /* ---------- BILD + KONTAKT (weiß) ---------- */
+      .closing {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+        padding-bottom: var(--gap-xxl);
+        background: var(--white);
+      }
+      .closing__image { width: 100%; height: 700px; }
+      .closing__image img { width: 100%; height: 100%; object-fit: cover; }
+      .closing__contact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m);
+        text-align: center;
+      }
+      .closing__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m);
+        max-width: 1056px;
+      }
+      .closing__over { color: var(--grey); }
+      .closing__head { display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .closing__head .t-h3 { color: var(--text); }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 991px) {
+        .closing__image { height: 500px; }
+      }
+      @media (max-width: 700px) {
+        .closing__image { height: 585px; }
+      }
+    </style>
+  </body>
+</html>
