@@ -1,0 +1,79 @@
+---
+// Filter-/Sortier-Overlay (V4) — 1:1 aus Figma 000-MISC/002-Filter+Sortierung (5659:14329).
+// Mobil/Tablet „page overlay": Scrim + Vollbild-Panel mit gestapelten Filtergruppen + Sortierung,
+// Kopf (Titel + X) und „Anwenden"-Button. Tokens aus get_design_context/variable_defs + Metadata.
+// Geöffnet via [data-filtersort-toggle]; X/Esc/Scrim schließt. ⚠ Filter-/Sortier-LOGIK = Folgeaufgabe.
+import FilterMenu from "./FilterMenu.astro";
+import FilterTab from "./FilterTab.astro";
+import Icon from "./Icon.astro";
+
+interface Group { label: string; tabs: { label: string; active?: boolean; icon?: "add" | null }[]; }
+interface Props { groups?: Group[]; sortLabel?: string; sorts?: { label: string; active?: boolean }[]; title?: string; }
+const {
+  title = "Filter & Sortierung",
+  groups = [
+    { label: "Filter nach Farbe", tabs: [{ label: "Blautöne" }, { label: "Grüntöne", active: true }, { label: "Rottöne" }, { label: "Gelbtöne" }] },
+    { label: "Finish", tabs: [{ label: "Matt" }, { label: "Seidenmatt" }, { label: "Glänzend" }] },
+    { label: "Intensität", tabs: [{ label: "Hell" }, { label: "Mittel" }, { label: "Dunkel" }] },
+  ],
+  sortLabel = "Sortierung",
+  sorts = [{ label: "Farbnamen", active: true }, { label: "Farbnummern" }, { label: "Position im Fächer" }],
+} = Astro.props;
+---
+<div class="fs-overlay" id="filterSortOverlay" hidden>
+  <div class="fs-overlay__scrim" data-filtersort-close></div>
+  <div class="fs-overlay__panel" role="dialog" aria-modal="true" aria-label={title}>
+    <div class="fs-overlay__head">
+      <p class="t-titel">{title}</p>
+      <button type="button" class="fs-overlay__close" data-filtersort-close aria-label="Schließen"><Icon name="close" size={24} /></button>
+    </div>
+    <div class="fs-overlay__body">
+      {groups.map((g) => (
+        <FilterMenu label={g.label} layout="wrap" name={g.label}>
+          {g.tabs.map((t) => <FilterTab label={t.label} active={t.active} icon={t.icon ?? null} name={t.label} />)}
+        </FilterMenu>
+      ))}
+      <FilterMenu label={sortLabel} layout="stack" name="sort">
+        {sorts.map((s) => <FilterTab label={s.label} active={s.active} name={s.label} />)}
+      </FilterMenu>
+    </div>
+    <button type="button" class="btn fs-overlay__apply" data-filtersort-close>Anwenden</button>
+  </div>
+</div>
+
+<style>
+  .fs-overlay { position: fixed; inset: 0; z-index: 70; }
+  .fs-overlay[hidden] { display: none !important; }
+  .fs-overlay__scrim { position: absolute; inset: 0; background: var(--overlay-50); }
+  .fs-overlay__panel {
+    position: absolute; inset: 0; background: var(--white);
+    display: flex; flex-direction: column;
+    padding: var(--gap-ml) var(--layout-margin);
+    overflow-y: auto;
+  }
+  .fs-overlay__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--gap-m); }
+  .fs-overlay__close { display: grid; place-items: center; width: 40px; height: 40px; color: var(--text); }
+  .fs-overlay__close:hover { color: var(--bronze); }
+  .fs-overlay__body { display: flex; flex-direction: column; gap: var(--gap-m); flex: 1 1 auto; }
+  .fs-overlay__apply { align-self: stretch; margin-top: var(--gap-m); }
+  /* Ab Desktop: Filter sind inline in der Bar → Overlay nicht nötig */
+  @media (min-width: 992px) { .fs-overlay { display: none !important; } }
+  /* Tablet: Panel als zentrierte Box statt Vollbild */
+  @media (min-width: 701px) and (max-width: 991px) {
+    .fs-overlay__panel { inset: auto 0 0 0; max-height: 85vh; }
+  }
+</style>
+
+<script>
+  const ov = document.getElementById("filterSortOverlay");
+  const open = () => { if (!ov) return; ov.hidden = false; document.body.classList.add("nav-open"); };
+  const close = () => { if (!ov) return; ov.hidden = true; document.body.classList.remove("nav-open"); };
+  document.querySelectorAll("[data-filtersort-toggle]").forEach((b) => b.addEventListener("click", open));
+  ov?.querySelectorAll("[data-filtersort-close]").forEach((b) => b.addEventListener("click", close));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  ov?.querySelectorAll(".filter-tab").forEach((tab) => tab.addEventListener("click", () => {
+    const p = tab.getAttribute("aria-pressed") === "true";
+    tab.setAttribute("aria-pressed", String(!p));
+    tab.classList.toggle("is-active", !p);
+  }));
+</script>
