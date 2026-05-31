@@ -40,6 +40,7 @@ liegen zentral in `src/styles/global.css`. Icons als echte SVG-Exporte in `src/i
 | `Quote.astro` | Zentriertes Kundenzitat mit Pfeilen | `author`, `arrows`, `bg` | 12272:28295 | ✅ in Nutzung |
 | `Accordion.astro` | Aufklappliste (natives `<details>`, kein JS) | `items`, `name`, `openFirst`, `dividers` | Card Information | ✅ in Nutzung |
 | `Cta.astro` | Kontakt-/Abschluss-Block (Titel · Headline · Lead · Button) | `over`, `heading`, `lead`, `buttonLabel`, `buttonHref`, `bg` | 12242:22473 | ✅ in Nutzung |
+| `Carousel.astro` | Horizontales Scroll-Snap-Karussell + Punkte-Navigation (Punkte auto-aus wenn alles passt). Per-view 1/2/4 | `tone` (dark/light), `perMobile/Tablet/Desktop`, `label` | Navigation Display 2907:7130 | ✅ Startseite-Reviews, Einzelleistung-Related |
 
 ## Navigation
 
@@ -62,5 +63,4 @@ Erst im Seitenkontext bauen, nicht auf Vorrat raten.
 - **List My Color** (12506:20106) — Merkliste öffnen/hinzufügen → F&B
 - **Filter menu** (2238:3677) + **Filter tab** (5333:8693) — Filter für Projekte/Blog
 - **Button-function** (12416:36802) — Favorit/Add → F&B
-- **Navigation Display** (2907:7130) — Karussell-Punkte (Review-/Related-Karussell)
 

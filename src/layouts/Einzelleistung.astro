@@ -112,27 +112,31 @@ const {
       <!-- RELATED (verwandte Teilleistungen) — Figma: nature-BG, dunkle „Alle …"-Karte + Bild-Karten -->
       <section class="el-related">
         <p class="t-titel el-eyebrow"><span class="dot" aria-hidden="true"></span>{relatedTitle}</p>
-        <div class="el-related__track">
-          <a class="relcard relcard--all" href={relatedAllHref}>
-            <div class="relcard__body">
-              <p class="t-h4 relcard__title">{relatedAllLabel}</p>
-              <p class="t-body relcard__text">{relatedAllText}</p>
-            </div>
-            <span class="relcard__btn" aria-hidden="true"><Icon name="arrow-open" size={32} /></span>
-          </a>
-          {related.map((r) => (
-            <a class="relcard" href={r.href}>
-              <div class="relcard__media"><img src={r.img} alt={r.titel} loading="lazy" /></div>
-              <div class="relcard__foot">
-                <div class="relcard__body">
-                  <p class="t-h4 relcard__title">{r.titel}</p>
-                  <p class="t-body relcard__text">{r.text}</p>
-                </div>
-                <span class="relcard__btn" aria-hidden="true"><Icon name="arrow-open" size={32} /></span>
+        <Carousel tone="dark" label="Verwandte Leistungen" perMobile={1} perTablet={2} perDesktop={4} class="el-related__carousel">
+          <li class="el-related__item">
+            <a class="relcard relcard--all" href={relatedAllHref}>
+              <div class="relcard__body">
+                <p class="t-h4 relcard__title">{relatedAllLabel}</p>
+                <p class="t-body relcard__text">{relatedAllText}</p>
               </div>
+              <span class="relcard__btn" aria-hidden="true"><Icon name="arrow-open" size={32} /></span>
             </a>
+          </li>
+          {related.map((r) => (
+            <li class="el-related__item">
+              <a class="relcard" href={r.href}>
+                <div class="relcard__media"><img src={r.img} alt={r.titel} loading="lazy" /></div>
+                <div class="relcard__foot">
+                  <div class="relcard__body">
+                    <p class="t-h4 relcard__title">{r.titel}</p>
+                    <p class="t-body relcard__text">{r.text}</p>
+                  </div>
+                  <span class="relcard__btn" aria-hidden="true"><Icon name="arrow-open" size={32} /></span>
+                </div>
+              </a>
+            </li>
           ))}
-        </div>
+        </Carousel>
       </section>
 
       <!-- KONTAKT -->

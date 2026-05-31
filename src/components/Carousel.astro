@@ -1,0 +1,92 @@
+---
+// Carousel — horizontales Scroll-Snap-Karussell + Punkte-Navigation (Figma „Navigation Display").
+// Franzi-Vorgaben: Punkte (kein Pfeil), rechtsbündig; Punkte auto-ausblenden, wenn alles passt
+// (z. B. Desktop wenn n Karten = n sichtbar). Aktiver Punkt bronze, 9px, gap 12.
+//
+// Props:
+//  - tone:       "dark" (Punkte dunkel, für helle BG) | "light" (für moos/Bild-BG)
+//  - perMobile/perTablet/perDesktop: sichtbare Karten je Breakpoint (setzt Kartenbreite).
+//    Ohne diese Props behalten die Slot-Kinder ihre eigene Breite (z. B. ReviewCard).
+//  - label:      aria-Label der Punkt-Navigation
+// Slot: die Karten (als <li>).
+interface Props {
+  tone?: "dark" | "light";
+  label?: string;
+  perMobile?: number;
+  perTablet?: number;
+  perDesktop?: number;
+  class?: string;
+}
+const { tone = "dark", label = "Karussell", perMobile, perTablet, perDesktop, class: cls = "" } = Astro.props;
+const sized = Boolean(perMobile || perTablet || perDesktop);
+const style = sized
+  ? `--per-mobile:${perMobile ?? 1}; --per-tablet:${perTablet ?? perMobile ?? 2}; --per-desktop:${perDesktop ?? perTablet ?? 3};`
+  : undefined;
+---
+<div class:list={["carousel", `carousel--${tone}`, { "carousel--sized": sized }, cls]} data-carousel style={style}>
+  <ul class="carousel__track" role="list"><slot /></ul>
+  <div class="carousel__dots" role="tablist" aria-label={label} hidden></div>
+</div>
+
+<style>
+  .carousel { display: flex; flex-direction: column; gap: var(--gap-sm); }
+  .carousel__track {
+    display: flex; gap: var(--gutter); list-style: none; margin: 0; padding: 0;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .carousel__track::-webkit-scrollbar { display: none; }
+  .carousel__track > :global(*) { scroll-snap-align: start; }
+
+  /* per-view-Breiten (z. B. 1/2/4). Ohne carousel--sized behalten Kinder ihre eigene Breite. */
+  .carousel--sized { --per: var(--per-mobile, 1); }
+  .carousel--sized .carousel__track > :global(*) {
+    flex: 0 0 calc((100% - (var(--per) - 1) * var(--gutter)) / var(--per));
+  }
+  @media (min-width: 701px) { .carousel--sized { --per: var(--per-tablet, 2); } }
+  @media (min-width: 992px) { .carousel--sized { --per: var(--per-desktop, 3); } }
+
+  /* Navigation Display (Punkte) — rechtsbündig */
+  .carousel__dots { display: flex; gap: 12px; align-self: flex-end; }
+  .carousel__dot { width: 9px; height: 9px; border-radius: 50%; padding: 0; border: 0; cursor: pointer; transition: background 0.2s ease; }
+  .carousel--dark .carousel__dot { background: rgba(31, 31, 39, 0.2); }   /* picture-dot-dark */
+  .carousel--light .carousel__dot { background: rgba(255, 255, 255, 0.4); } /* picture-dot-light */
+  .carousel__dot[aria-selected="true"] { background: var(--bronze); }      /* picture-dot-active */
+
+  @media (prefers-reduced-motion: reduce) { .carousel__track { scroll-behavior: auto; } }
+</style>
+
+<script>
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector(".carousel__track");
+    const dotsWrap = root.querySelector(".carousel__dots");
+    if (!track || !dotsWrap) return;
+
+    const build = () => {
+      const overflow = track.scrollWidth - track.clientWidth > 2;
+      const pages = Math.max(1, Math.ceil(track.scrollWidth / track.clientWidth));
+      if (!overflow || pages <= 1) { dotsWrap.hidden = true; dotsWrap.textContent = ""; return; }
+      dotsWrap.hidden = false;
+      dotsWrap.textContent = "";
+      for (let i = 0; i < pages; i++) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "carousel__dot";
+        b.setAttribute("role", "tab");
+        b.setAttribute("aria-label", "Seite " + (i + 1));
+        b.addEventListener("click", () => track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" }));
+        dotsWrap.append(b);
+      }
+      update();
+    };
+    const update = () => {
+      const active = Math.round(track.scrollLeft / track.clientWidth);
+      dotsWrap.querySelectorAll(".carousel__dot").forEach((d, i) =>
+        d.setAttribute("aria-selected", i === active ? "true" : "false"));
+    };
+    track.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
+    let rt;
+    window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(build, 150); });
+    build();
+  });
+</script>

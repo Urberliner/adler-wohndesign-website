@@ -7,7 +7,7 @@ import Button from "../components/Button.astro";
 import Cta from "../components/Cta.astro";
 import Card from "../components/Card.astro";
 import ReviewCard from "../components/ReviewCard.astro";
-import Icon from "../components/Icon.astro";
+import Carousel from "../components/Carousel.astro";
 
 // Projekt-Aufbau — Akkordeon (Texte 2–5 folgen aus Figma)
 const aufbau = [
@@ -120,36 +120,17 @@ const reviews = [
 
       <!-- KUNDENSTIMMEN -->
       <section class="reviews container" aria-label="Kundenstimmen">
-        <div class="reviews__top">
-          <div class="reviews__head">
-            <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Kundenstimmen</p>
-            <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
-            <p class="reviews__rating"><span class="reviews__stars" aria-hidden="true">★★★★★</span> <strong>4,95/5</strong> auf ProvenExpert · <strong>4,9/5</strong> auf Google</p>
-          </div>
-          <div class="reviews__nav">
-            <button class="rev-btn" type="button" data-rev="prev" aria-label="Vorherige Bewertungen"><Icon name="arrow-left" size={32} /></button>
-            <button class="rev-btn" type="button" data-rev="next" aria-label="Nächste Bewertungen"><Icon name="arrow-right" size={32} /></button>
-          </div>
+        <div class="reviews__head">
+          <p class="t-titel reviews__over"><span class="dot" aria-hidden="true"></span>Kundenstimmen</p>
+          <h2 class="t-h4 reviews__title">Das sagen unsere Kunden zu uns</h2>
+          <p class="reviews__rating"><span class="reviews__stars" aria-hidden="true">★★★★★</span> <strong>4,95/5</strong> auf ProvenExpert · <strong>4,9/5</strong> auf Google</p>
         </div>
-        <ul class="reviews__track" id="reviewsTrack">
+        <Carousel tone="dark" label="Kundenstimmen">
           {reviews.map((r) => (
             <ReviewCard name={r.name} source={r.quelle}>{r.text}</ReviewCard>
           ))}
-        </ul>
+        </Carousel>
       </section>
-      <script>
-        // Kundenstimmen-Karussell: Pfeile scrollen den Track
-        const revTrack = document.getElementById("reviewsTrack");
-        if (revTrack) {
-          const step = () => Math.min(revTrack.clientWidth * 0.85, 480);
-          document.querySelectorAll("[data-rev]").forEach((btn) => {
-            btn.addEventListener("click", () => {
-              const dir = btn.getAttribute("data-rev") === "next" ? 1 : -1;
-              revTrack.scrollBy({ left: dir * step(), behavior: "smooth" });
-            });
-          });
-        }
-      </script>
 
       <!-- KONTAKT -->
       <Cta
