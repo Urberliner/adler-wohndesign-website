@@ -42,6 +42,19 @@ liegen zentral in `src/styles/global.css`. Icons als echte SVG-Exporte in `src/i
 | `Cta.astro` | Kontakt-/Abschluss-Block (Titel · Headline · Lead · Button) | `over`, `heading`, `lead`, `buttonLabel`, `buttonHref`, `bg` | 12242:22473 | ✅ in Nutzung |
 | `Carousel.astro` | Horizontales Scroll-Snap-Karussell + Punkte-Navigation (Punkte auto-aus wenn alles passt). Per-view 1/2/4 | `tone` (dark/light), `perMobile/Tablet/Desktop`, `label` | Navigation Display 2907:7130 | ✅ Startseite-Reviews, Einzelleistung-Related |
 
+## Seiten-Sektionen (V4 „NEW CATEGORY – SECTIONS" 6319:53160 + „Hero Sections" 6319:51925)
+
+Sektions-Bausteine für Kategorie-/Farrow-&-Ball-Seiten. Alle 3 Breakpoints aus `get_design_context`
+gebaut und im Browser (eval/inspect) gegen die Figma-Werte verifiziert. ⚠️ Noch nicht in einer echten
+Seite verbaut — offene Design-Rückfragen in `RUECKFRAGEN-FRANZI.md`.
+
+| Komponente | Zweck | Wichtige Props | Figma | Status |
+|---|---|---|---|---|
+| `Hero.astro` | Seiten-Hero, 3 Varianten autom. abgeleitet: `text` · `cards` (Benefit-Grid 1/2/3-sp.) · `image` (randlose Bilder 585/240 + Caption) | `title`, `eyebrow`, `body` (string\|[]), `benefits[{icon,title}]`, `images[{src,alt}]`, `caption`, `bg`, `bgColor` (F&B-Tint) | 6319:51925 / 6416:20957 | 🧩 gebaut |
+| `ImageText.astro` | „image-text"-Teaser: full-bleed Bild (585) + zentrierter Text + Button | `image`, `alt`, `title`, `eyebrow`, `body`, `buttonLabel`, `buttonHref`, `as`, `bg`, `pad` | 6319:53199 | 🧩 gebaut |
+| `ServiceCards.astro` | Service-Karten: Kopf + Karten-Grid (1px-Moos-Rahmen, kein Radius). Spalten mobil 1 / tablet+desktop 2 ⚠️ (Tablet-Konflikt, s. Rückfragen) | `title`, `eyebrow`, `intro`, `cards[{icon,lead,body,linkLabel,linkHref}]`, `as`, `bg`, `pad` | 6319:53214 / 6319:53243 | 🧩 gebaut |
+| `Overview.astro` | F&B-Spezifikation: Spec-Liste (`<dl>`) + Beschreibung. Desktop 2-sp., mobil/tablet gestapelt | `title`, `specs[{label,value:string\|[]}]`, `body`, `as`, `bg`, `pad` | 6416:21314 / 6416:21276 | 🧩 gebaut |
+
 ## Navigation
 
 | Komponente | Zweck | Figma | Status |

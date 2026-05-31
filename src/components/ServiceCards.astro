@@ -1,0 +1,155 @@
+---
+// ServiceCards.astro — "text-cards" Service-Karten-Sektion (Figma V4 6319:53214 mobil / 6319:53243 tablet+desktop).
+// Zentrierter Kopf (eyebrow + H3 + intro) + Karten-Grid mit bordierten Info-Karten.
+// Karte (Figma 6319:53246): 1px moos-Rahmen (KEIN Radius), transparent gefüllt.
+//   Inhalt: Icon(40) + H4-Leadtext (Montserrat Medium) + optionaler Body + rechtsbündiger
+//   Textlink "Das erwartet Sie" → (dunkel, .t-small, Pfeil). Padding pt ML / pb M / px SM.
+//   Card-Gaps: Inhalt XS · Inhalt→Link S.
+//
+// Spalten: mobil 1 · tablet+desktop 2 (Frame 6319:53243 „tablet, desktop" = 2-spaltig).
+//   ⚠️ Dev-Annotation am Card-Frame sagt „mobil+tablet vertikal" — Konflikt; Frame gewinnt
+//      (CLAUDE.md). Bei Bedarf Tablet-Breakpoint unten auf 1 Spalte umstellen.
+import Icon from './Icon.astro';
+
+interface CardItem {
+  icon: string;
+  /** Prominenter Leadtext der Karte (H4-Optik, Montserrat Medium). */
+  lead: string;
+  /** Optionale Folgeabsätze (Fließtext). */
+  body?: string | string[];
+  linkLabel?: string;
+  linkHref?: string;
+}
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  intro?: string;
+  cards: CardItem[];
+  as?: 'h2' | 'h3';
+  bg?: 'default' | 'moos' | 'nature';
+  pad?: 'section' | 'related' | 'none';
+  id?: string;
+  class?: string;
+}
+
+const {
+  title, eyebrow, intro, cards, as: Heading = 'h2',
+  bg = 'default', pad = 'section', id, class: className = '',
+} = Astro.props;
+---
+
+<section class:list={['svc', `svc--bg-${bg}`, `svc--pad-${pad}`, className]} id={id}>
+  <div class="svc__inner container">
+    <header class="svc__head">
+      {eyebrow && <p class="t-titel svc__eyebrow">{eyebrow}</p>}
+      <div class="svc__headtext">
+        <Heading class="t-h3">{title}</Heading>
+        {intro && <p class="t-body" set:html={intro} />}
+      </div>
+    </header>
+
+    <ul class="svc__grid">
+      {cards.map((c) => {
+        const paras = c.body == null ? [] : Array.isArray(c.body) ? c.body : [c.body];
+        return (
+          <li class="svc-card">
+            <div class="svc-card__content">
+              <span class="svc-card__icon"><Icon name={c.icon} size={40} /></span>
+              <div class="svc-card__text">
+                <p class="t-h4 svc-card__lead">{c.lead}</p>
+                {paras.map((p) => <p class="t-body" set:html={p} />)}
+              </div>
+            </div>
+            <a class="svc-card__link" href={c.linkHref ?? '#'}>
+              <span class="t-small">{c.linkLabel ?? 'Das erwartet Sie'}</span>
+              <Icon name="arrow-open-small" size={20} />
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .svc--bg-default { background: var(--white); }
+  .svc--bg-moos    { background: var(--moos); color: var(--white); }
+  .svc--bg-nature  { background: var(--nature); }
+
+  .svc--pad-section { padding-block: var(--gap-xxl) var(--gap-xl); }
+  .svc--pad-related { padding-block: var(--gap-l); }
+  .svc--pad-none    { padding-block: 0; }
+
+  .svc__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-l);                  /* Kopf → Karten-Grid (spacing/L) */
+  }
+
+  /* Zentrierter Kopf: eyebrow → (Heading + Intro) = M; Heading → Intro = sm */
+  .svc__head {
+    max-width: var(--text-max);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--gap-m);
+  }
+  .svc__eyebrow { margin: 0; }
+  .svc__headtext {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  /* Karten-Grid: mobil 1 / tablet+desktop 2 Spalten */
+  .svc__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: var(--gutter);
+    row-gap: var(--gutter);
+  }
+  @media (min-width: 701px) {
+    .svc__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Karte: 1px moos-Rahmen, transparent, keine runden Ecken */
+  .svc-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;              /* Link rechtsbündig */
+    gap: var(--gap-s);                  /* Inhalt → Link */
+    border: 1px solid var(--moos);
+    padding: var(--gap-ml) var(--gap-sm) var(--gap-m);  /* pt ML · px SM · pb M */
+  }
+  .svc-card__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-xs);                 /* Icon → Text */
+    width: 100%;
+  }
+  .svc-card__icon { color: var(--text); }
+  .svc-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);                 /* Lead → Body */
+  }
+  .svc-card__lead { color: var(--text); }
+  .svc-card__text .t-body { color: var(--text); }
+
+  /* Textlink (dunkel, nicht bronze) */
+  .svc-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gutter);
+    color: var(--text);
+  }
+  .svc-card__link:hover { color: var(--bronze); }
+</style>

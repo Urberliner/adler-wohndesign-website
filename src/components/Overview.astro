@@ -1,0 +1,113 @@
+---
+// Overview.astro — "Übersicht" F&B-Spezifikations-Block (Figma V4 6416:21314 desktop / 6416:21276 mobil).
+// Zwei Spalten: links Spec-Liste, rechts Beschreibung (Heading + Fließtext).
+//   Spec (Frame 6416:21315): ALLES titel-Stil (uppercase, 11px desktop) — Label grau,
+//     Wert dunkel; Zeilen direkt gestapelt (kein Gap), Zeile→Zeile = spacing/XS.
+//   Beschreibung: Heading = Montserrat Medium (Figma "H2": mobil 28/40 · desktop 32/52,
+//     NICHT Playfair — design_context ist maßgeblich) + Body; gap XS.
+// Responsive (echte Frames): desktop 2 Spalten nebeneinander/Gutter · mobil+tablet gestapelt/ML.
+//   (Franzis Annotations-Wortlaut ist vertauscht; Frame gewinnt — CLAUDE.md.)
+
+interface SpecRow {
+  label: string;
+  /** Ein Wert oder mehrere Werte (je eigene Zeile). */
+  value: string | string[];
+}
+
+interface Props {
+  title: string;
+  specs: SpecRow[];
+  /** Beschreibung: ein oder mehrere Absätze. */
+  body: string | string[];
+  /** H-Stufe (Seite hat genau ein <h1>). */
+  as?: 'h1' | 'h2';
+  bg?: 'default' | 'moos' | 'nature';
+  pad?: 'section' | 'related' | 'none';
+  id?: string;
+  class?: string;
+}
+
+const {
+  title, specs, body, as: Heading = 'h2',
+  bg = 'default', pad = 'section', id, class: className = '',
+} = Astro.props;
+
+const paras = Array.isArray(body) ? body : [body];
+---
+
+<section class:list={['overview', `overview--bg-${bg}`, `overview--pad-${pad}`, className]} id={id}>
+  <div class="overview__inner container">
+    <dl class="overview__spec">
+      {specs.map((row) => {
+        const values = Array.isArray(row.value) ? row.value : [row.value];
+        return (
+          <div class="overview__row">
+            <dt class="t-titel overview__label">{row.label}</dt>
+            {values.map((v) => <dd class="t-titel overview__value">{v}</dd>)}
+          </div>
+        );
+      })}
+    </dl>
+
+    <div class="overview__text">
+      <Heading class="overview__heading">{title}</Heading>
+      {paras.map((p) => <p class="t-body" set:html={p} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .overview--bg-default { background: var(--white); }
+  .overview--bg-moos    { background: var(--moos); color: var(--white); }
+  .overview--bg-nature  { background: var(--nature); }
+
+  .overview--pad-section { padding-block: var(--gap-xxl) var(--gap-xl); }
+  .overview--pad-related { padding-block: var(--gap-l); }
+  .overview--pad-none    { padding-block: 0; }
+
+  /* mobil+tablet: gestapelt, Abstand ML · desktop: 2 Spalten, Abstand Gutter */
+  .overview__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-ml);
+    align-items: flex-start;
+  }
+  @media (min-width: 992px) {
+    .overview__inner { flex-direction: row; gap: var(--gutter); }
+    .overview__spec,
+    .overview__text { flex: 1 1 0; min-width: 0; }
+  }
+
+  /* Spec-Liste — alles titel-Stil; Zeile→Zeile = XS */
+  .overview__spec {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    width: 100%;
+  }
+  .overview__row { display: flex; flex-direction: column; }  /* Werte direkt unter Label */
+  .overview__label { margin: 0; }                            /* grau (t-titel default) */
+  .overview__value { margin: 0; color: var(--text); }        /* Wert dunkel */
+
+  /* Beschreibung */
+  .overview__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    width: 100%;
+  }
+  .overview__text .t-body { max-width: 70ch; }
+
+  /* Heading: Montserrat Medium (Figma "H2": 28/40 mobil → 32/52 desktop) */
+  .overview__heading {
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--text);
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
+  @media (min-width: 701px) { .overview__heading { font-size: 30px; line-height: 46px; } } /* Tablet interpoliert — gegen Tablet-Frame prüfen */
+  @media (min-width: 992px) { .overview__heading { font-size: 32px; line-height: 52px; } }
+</style>

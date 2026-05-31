@@ -1,0 +1,85 @@
+---
+// ImageText.astro — "image-text" Teaser (Figma V4 6319:53199).
+// Full-bleed Bild oben (image-vertical 585) + ZENTRIERTER Text (eyebrow + H3 + Button).
+// Layout identisch über mobil/tablet/desktop (nur Token-skaliert).
+//   Bild → Text: gap spacing/L (Franzi: "Zusammengehörende Abschnitte")
+//   Text-Container: padding-inline margin · Text-Stack gap M (Heading-Gruppe → Button)
+//   Überschrift = H3 (Playfair 28/40 mobil) · Button = bronze Pill, OHNE Icon.
+//   Sektion: Bild bündig oben, unten Padding XL (Figma hat kein pt).
+import Button from './Button.astro';
+
+interface Props {
+  image: string;
+  alt: string;
+  title: string;
+  eyebrow?: string;
+  body?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+  bg?: 'default' | 'moos' | 'nature';
+  /** Vertikales Padding: default = Figma (unten XL) · section = XXL/XL · none. */
+  pad?: 'default' | 'section' | 'none';
+  id?: string;
+  class?: string;
+}
+
+const {
+  image, alt, title, eyebrow, body, buttonLabel, buttonHref,
+  bg = 'default', pad = 'default', id, class: className = '',
+} = Astro.props;
+---
+
+<section class:list={['imgtext', `imgtext--bg-${bg}`, `imgtext--pad-${pad}`, className]} id={id}>
+  <div class="imgtext__media">
+    <img src={image} alt={alt} loading="lazy" />
+  </div>
+  <div class="imgtext__textwrap">
+    <div class="imgtext__text">
+      <div class="imgtext__lede">
+        {eyebrow && <p class="t-titel imgtext__eyebrow">{eyebrow}</p>}
+        <h2 class="t-h3 imgtext__heading">{title}</h2>
+        {body && <p class="t-body" set:html={body} />}
+      </div>
+      {buttonLabel && <Button href={buttonHref}>{buttonLabel}</Button>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .imgtext {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-l);                  /* Bild → Text (spacing/L) */
+  }
+  .imgtext--bg-default { background: var(--white); }
+  .imgtext--bg-moos    { background: var(--moos); color: var(--white); }
+  .imgtext--bg-nature  { background: var(--nature); }
+
+  .imgtext--pad-default { padding-block: 0 var(--gap-xl); }   /* Figma: Bild bündig oben */
+  .imgtext--pad-section { padding-block: var(--gap-xxl) var(--gap-xl); }
+  .imgtext--pad-none    { padding-block: 0; }
+
+  /* Full-bleed Bild (image-vertical 585) */
+  .imgtext__media { width: 100%; height: 585px; overflow: hidden; }
+  .imgtext__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Zentrierter Text mit Seiten-Margin */
+  .imgtext__textwrap { padding-inline: var(--layout-margin); }
+  .imgtext__text {
+    max-width: var(--text-max);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--gap-m);                  /* Heading-Gruppe → Button */
+  }
+  .imgtext__lede {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-sm);                 /* eyebrow → H → Body */
+  }
+  .imgtext__eyebrow { margin: 0; }
+  .imgtext__heading { color: var(--text); }
+</style>

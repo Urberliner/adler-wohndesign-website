@@ -1,0 +1,153 @@
+---
+// Hero.astro — Seiten-Hero (Figma V4 "Hero Sections" 6319:51925, Desktop-Benefits 6416:20957).
+// Drei Varianten, automatisch aus den Props abgeleitet:
+//   text   : Eyebrow/Breadcrumb + H1 + Body                       (Service-/Kategorie-Intro)
+//   cards  : + Benefit-Grid (1/2/3-spaltig mobil/tablet/desktop)  ("Alles aus einer Hand")
+//   image  : + randlose Bilder (1. hoch 585 / 2. quer 240) + Caption (Farbkonzept-Detail)
+// Variante: images → image, benefits → cards, sonst text.
+//
+// Layout/Spacing 1:1 aus get_variable_defs (alle Breakpoints) = global.css-Tokens:
+//   Section-Padding XXL/XL · Text→Grid XL · Text→Media ML · H1→Body SM · Eyebrow→Lede M
+//   Benefits: row-gap ML, column-gap Gutter · Bilder full-bleed (nur Text/Caption mit margin).
+// Franzi-Annotation: bei Farrow & Ball den Section-Hintergrund einfärben → Prop `bgColor`.
+import Benefit from './Benefit.astro';
+
+interface BenefitItem { icon: string; title: string; }
+interface ImageItem { src: string; alt: string; }
+
+interface Props {
+  /** H1 der Seite (genau ein <h1> pro Seite). */
+  title: string;
+  /** .t-titel-Zeile: Label (z. B. "Service") oder Breadcrumb. */
+  eyebrow?: string;
+  /** Fließtext unter H1 — ein String oder mehrere Absätze. */
+  body?: string | string[];
+  /** cards-Variante: Benefit-Grid unter dem Text. */
+  benefits?: BenefitItem[];
+  /** image-Variante: 1. Bild hoch (585), 2. Bild quer (240). */
+  images?: ImageItem[];
+  /** Bild-Caption (Small Text, grau). Nur image-Variante. */
+  caption?: string;
+  /** Bekannter Sektions-Hintergrund. */
+  bg?: 'default' | 'moos' | 'nature';
+  /** Frei wählbarer Hintergrund (F&B-Farbe) — überschreibt bg. */
+  bgColor?: string;
+  id?: string;
+  class?: string;
+}
+
+const {
+  title, eyebrow, body, benefits, images, caption,
+  bg = 'default', bgColor, id, class: className = '',
+} = Astro.props;
+
+const variant = images?.length ? 'image' : benefits?.length ? 'cards' : 'text';
+const paragraphs = body == null ? [] : Array.isArray(body) ? body : [body];
+const style = bgColor ? `background:${bgColor}` : undefined;
+---
+
+<section
+  class:list={['hero', `hero--${variant}`, `hero--bg-${bg}`, className]}
+  id={id}
+  style={style}
+>
+  <div class="hero__inner">
+    <div class="hero__text">
+      <div class="hero__textinner">
+        {eyebrow && <p class="t-titel hero__eyebrow" set:html={eyebrow} />}
+        <div class="hero__lede">
+          <h1 class="t-h1">{title}</h1>
+          {paragraphs.map((p) => <p class="t-body" set:html={p} />)}
+          <slot />
+        </div>
+      </div>
+    </div>
+
+    {variant === 'cards' && (
+      <ul class="hero__benefits">
+        {benefits!.map((b) => (
+          <Benefit icon={b.icon}>{b.title}</Benefit>
+        ))}
+      </ul>
+    )}
+
+    {variant === 'image' && (
+      <div class="hero__media">
+        <div class="hero__images">
+          {images!.map((img, i) => (
+            <div class:list={['hero__img', i === 0 ? 'hero__img--tall' : 'hero__img--wide']}>
+              <img src={img.src} alt={img.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+            </div>
+          ))}
+        </div>
+        {caption && (
+          <div class="hero__caption-wrap">
+            <p class="t-small hero__caption" set:html={caption} />
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* Asymmetrisches Section-Padding (Tokens sind je Breakpoint gesetzt) */
+  .hero { padding-block: var(--gap-xxl) var(--gap-xl); }
+  .hero--bg-default { background: var(--white); }
+  .hero--bg-moos    { background: var(--moos); color: var(--white); }
+  .hero--bg-nature  { background: var(--nature); }
+
+  .hero__inner {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero--cards .hero__inner { gap: var(--gap-xl); }   /* Text → Grid */
+  .hero--image .hero__inner { gap: var(--gap-ml); }   /* Text → Media */
+
+  /* Text-Block (alle Varianten) */
+  .hero__text { padding-inline: var(--layout-margin); }
+  .hero__textinner {
+    max-width: var(--text-max);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);                /* Eyebrow → Lede */
+  }
+  .hero__eyebrow { margin: 0; }
+  .hero__lede {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);               /* H1 → Body / Absätze */
+  }
+  .hero__lede :global(p) { max-width: 70ch; }
+
+  /* --- cards: Benefit-Grid 1 / 2 / 3 Spalten --- */
+  .hero__benefits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline: var(--layout-margin);
+    display: grid;
+    grid-template-columns: 1fr;                 /* Mobil: 1 Spalte */
+    column-gap: var(--gutter);
+    row-gap: var(--gap-ml);
+  }
+  @media (min-width: 701px) {
+    .hero__benefits { grid-template-columns: repeat(2, 1fr); }  /* Tablet: 2 */
+  }
+  @media (min-width: 992px) {
+    .hero__benefits { grid-template-columns: repeat(3, 1fr); }  /* Desktop: 3 */
+  }
+
+  /* --- image: randlose Bilder + Caption mit Margin --- */
+  .hero__media { display: flex; flex-direction: column; gap: var(--gap-xs); }
+  .hero__images { display: flex; flex-direction: column; }
+  .hero__img { width: 100%; overflow: hidden; }
+  .hero__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero__img--tall img { height: 585px; }
+  .hero__img--wide img { height: 240px; }
+  .hero__caption-wrap { padding-inline: var(--layout-margin); }
+  .hero__caption { color: var(--grey); max-width: var(--text-max); }
+</style>
