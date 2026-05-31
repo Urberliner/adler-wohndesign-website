@@ -1,0 +1,209 @@
+---
+// /projekte — Projekt-Übersicht. 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn),
+// Section 5660:15971 „003-Projekte". Drei Breakpoint-Frames:
+//   L 5660:16038 · M 5976:33165 · S 5660:15972
+// Aufbau (alle BP): Hero (Eyebrow + H1 + Body) → Project Overview (Filter „Filter Nach"
+//   collapsible + Card-Masonry-Grid + „Mehr Projekte"-Button).
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+// Annotation (Card Container, alle BP identisch): „Grid - responsive flex grid … Images sind ins
+//   Flexgrid eingebunden … die Cards mit dem Text Container bilden den mindest Abstand zu den
+//   weiteren Cards … Cards sind flexibel ins grid eingebaut." → umgesetzt als 2-spaltiges
+//   Masonry-Grid (L+M), 1-spaltig (S), Karten unterschiedlicher Höhe, Gutter = layout/gutter.
+//
+// Filter: Der Default-Frame zeigt NUR „Filter Nach" + Chevron (Sub-Filter/Tabs eingeklappt).
+//   → FilterMenu mit leerem Selection-Slot (collapsible). Echte Filter-Logik/-Tabs = Folgeaufgabe
+//   mit echten Projektdaten (Flag).
+// Projekt-Inhalte (Eyebrow/Titel/Bild) = PLATZHALTER (wie Figma: alle „Penthouse Berlin /
+//   Leichtes Raum & Licht Konzept"); Bilder = vorhandene Assets als benannte Platzhalter.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import FilterMenu from "../components/FilterMenu.astro";
+
+// PLATZHALTER-Projekte. Reihenfolge/Mischung der Karten-Höhen wie im Figma-Masonry.
+// ratio steuert nur die Bildhöhe der Karte (tall = hochformat, wide = querformat).
+// Bilder: vorhandene Site-Assets als Platzhalter, bis echte Projektbilder vorliegen.
+// Karten im 12-Spalten-Grid (Franzi-Annotation Card Container: „grid grid-cols-12 gap-sm …
+// Cards sind flexibel ins grid eingebaut"). span = Spaltenbreite (12er-Raster), aus der echten
+// Frame-Geometrie abgeleitet: voll ≈ 6 Spalten (768px), schmal ≈ 4 (~500px), mittel ≈ 5 (~633px).
+// ratio = Bild-Seitenverhältnis (wide/tall). Muster wiederholt sich → beliebig viele Projekte.
+const COLS = [
+  { span: 6, ratio: "wide" }, { span: 4, ratio: "tall" }, { span: 4, ratio: "tall" }, { span: 6, ratio: "wide" },
+  { span: 6, ratio: "wide" }, { span: 4, ratio: "tall" }, { span: 5, ratio: "wide" }, { span: 4, ratio: "tall" },
+];
+const projektDaten = [
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/project-1.jpg", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/project-2.jpg", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/team.jpg", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/komplettloesung/card1.png", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/komplettloesung/card2.png", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/komplettloesung/card3.png", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/home/blog-akustik.jpg", href: "#" },
+  { eyebrow: "Penthouse Berlin", title: "Leichtes Raum & Licht Konzept", img: "/images/hero-beratung.jpg", href: "#" },
+];
+const projekte = projektDaten.map((p, i) => ({ ...p, ...COLS[i % COLS.length] }));
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projekte — Verwirklichte Wohnträume | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Projekte von ADLER Wohndesign: Vom gemütlichen Wohnzimmer bis zur stilvollen Loftgestaltung – maßgeschneidertes Design und höchste Handwerkskunst aus Berlin-Charlottenburg."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 6319:53453 / 6319:53394 / 6319:53346 -->
+      <section class="hero container">
+        <div class="hero__text">
+          <p class="t-titel hero__over">Projekte</p>
+          <h1 class="t-h1">Wie unsere Kunden Ihre Wohnträume verwirklichen</h1>
+          <p class="t-body hero__lead">
+            Vom gemütlichen Wohnzimmer bis zur stilvollen Loftgestaltung – wir schaffen Räume zum
+            wohlfühlen. Mit maßgeschneidertem Design und höchster Handwerkskunst lassen wir Ihre
+            Vision Wirklichkeit werden und sorgen dafür, dass Ihr Zuhause Ihre Persönlichkeit
+            widerspiegelt.
+          </p>
+        </div>
+      </section>
+
+      <!-- PROJECT OVERVIEW — Frame 6319:53455 / 6319:53396 / 5660:17085 -->
+      <section class="overview container" aria-label="Projektübersicht">
+        <!-- Filter — Frame zeigt nur „Filter Nach" + Chevron (Sub-Filter eingeklappt).
+             Echte Filter-Tabs/-Logik = Folgeaufgabe mit Projektdaten. -->
+        <div class="overview__filter">
+          <FilterMenu label="Filter Nach" layout="wrap" open={false} name="projekte" />
+        </div>
+
+        <!-- Card-Masonry (Annotation: responsive flex grid, Cards flexibel, Bilder eingebunden) -->
+        <div class="projects">
+          {projekte.map((p) => (
+            <a class:list={["pcard", `pcard--${p.ratio}`]} href={p.href} style={`--span:${p.span}`}>
+              <div class="pcard__media"><img src={p.img} alt={p.title} loading="lazy" /></div>
+              <div class="pcard__body">
+                <p class="t-titel pcard__eyebrow">{p.eyebrow}</p>
+                <p class="t-h4 pcard__title">{p.title}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <Button href="#" class="overview__more">Mehr Projekte</Button>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      /* Frame: padding-top XXL (spacing/xxl), kein eigenes Bottom — Abstand macht die Overview. */
+      .hero {
+        padding-top: var(--gap-xxl);
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        /* Container Text: gap spacing/m zwischen Eyebrow-Block und … hier flach: gap sm */
+        gap: var(--gap-sm);
+        max-width: var(--text-max); /* component/width/text-container-max 652/927/1056 */
+      }
+      .hero__over {
+        color: var(--grey);
+      }
+      .hero__lead {
+        color: var(--text);
+      }
+
+      /* ---- PROJECT OVERVIEW ---- */
+      /* Frame „Project Overview": py XXL, gap ML zwischen Filter / Grid / Button. */
+      .overview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-ml); /* spacing/ml 40/56/78 */
+        padding-block: var(--gap-xxl);
+      }
+      .overview__filter {
+        width: 100%;
+      }
+
+      /* Card-Grid — Franzi-Annotation: „grid grid-cols-12 gap-sm … Cards flexibel ins grid
+         eingebaut". Mobil (≤700): gestapelt (1 Spalte). Ab 701: 12-Spalten-Grid, Karten
+         überspannen unterschiedlich viele Spalten (--span), dense-Flow füllt Lücken. */
+      .projects {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* spacing/sm 24/32/44 */
+      }
+      .pcard {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxs); /* spacing/xxs 8/10/14 (Card-interner Abstand Bild→Text) */
+        color: var(--text);
+      }
+      .pcard__media {
+        overflow: hidden; /* keine runden Ecken */
+      }
+      .pcard__media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .pcard:hover .pcard__media img {
+        transform: scale(1.03);
+      }
+      /* Bildhöhen approximieren die Figma-Mischung (hoch-/querformatige Projektbilder). */
+      .pcard--wide .pcard__media {
+        aspect-ratio: 769 / 496;
+      }
+      .pcard--tall .pcard__media {
+        aspect-ratio: 501 / 628;
+      }
+      .pcard__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* spacing/xxxs 4/4/6 (Eyebrow→Titel) */
+      }
+      .pcard__eyebrow {
+        color: var(--grey);
+      }
+      /* Frame-Stil „H4 Link": H4 (Montserrat Medium) mit letter-spacing 0 (statt H4 0.03em). */
+      .pcard__title {
+        color: var(--text);
+        letter-spacing: 0;
+      }
+
+      .overview__more {
+        align-self: center;
+      }
+
+      /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      @media (min-width: 701px) {
+        .projects {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: var(--gap-sm);
+          grid-auto-flow: row dense;
+          align-items: start;
+        }
+        .pcard {
+          grid-column: span var(--span, 6);
+        }
+      }
+    </style>
+  </body>
+</html>
+</content>
+</invoke>
