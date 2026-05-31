@@ -1,0 +1,111 @@
+---
+// Bild-Galerie (V4) — 1:1 aus Figma 000-MISC/008-ImagePreview (6179:22525)
+//  · variant="uniform"  → ImagePreview1 (6179:22601): full-bleed / inset / full-bleed / 4er-Reihe
+//  · variant="varied"   → ImagePreview2 (6201:36605): asymmetrische Collage (gepolsterte Insets)
+// Reihen-Gap = spacing/L (--gap-l 104/80/56), Container-Padding = spacing/ml (--gap-ml 78/56/40),
+// Inset-px = layout/margin (--layout-margin 80/32/24), 4er-Gutter = --gutter. Keine runden Ecken.
+// Tokens aus get_design_context/get_variable_defs. Bilder = Platzhalter.
+const PLACEHOLDERS = [
+  "/images/home/project-1.jpg",
+  "/images/home/project-2.jpg",
+  "/images/home/team.jpg",
+  "/images/hero-beratung.jpg",
+  "/images/home/hero.jpg",
+  "/images/home/blog-akustik.jpg",
+  "/images/home/blog-wassertage.jpg",
+  "/images/home/blog-thumbnail.jpg",
+];
+
+interface Props {
+  variant?: "uniform" | "varied";
+  images?: string[];
+  alt?: string;
+  class?: string;
+}
+const { variant = "uniform", images = PLACEHOLDERS, alt = "Projekteindruck ADLER Wohndesign", class: cls = "" } = Astro.props;
+const img = (i: number) => images[i % images.length];
+---
+
+<section class:list={["gallery", `gallery--${variant}`, cls]} aria-label="Bildergalerie">
+  {variant === "uniform" ? (
+    <>
+      <div class="gallery__row gallery__full"><img src={img(0)} alt={alt} loading="lazy" /></div>
+      <div class="gallery__row gallery__inset"><img src={img(1)} alt={alt} loading="lazy" /></div>
+      <div class="gallery__row gallery__full"><img src={img(2)} alt={alt} loading="lazy" /></div>
+      <div class="gallery__row gallery__quad">
+        <img src={img(3)} alt={alt} loading="lazy" />
+        <img src={img(4)} alt={alt} loading="lazy" />
+        <img src={img(5)} alt={alt} loading="lazy" />
+        <img src={img(6)} alt={alt} loading="lazy" />
+      </div>
+    </>
+  ) : (
+    <>
+      <div class="gallery__row gallery__split gallery__split--a">
+        <div class="gallery__pad gallery__pad--b"><img src={img(0)} alt={alt} loading="lazy" /></div>
+        <div class="gallery__cell"><img src={img(1)} alt={alt} loading="lazy" /></div>
+      </div>
+      <div class="gallery__row gallery__split gallery__split--b">
+        <div class="gallery__cell"><img src={img(2)} alt={alt} loading="lazy" /></div>
+        <div class="gallery__pad gallery__pad--t"><img src={img(3)} alt={alt} loading="lazy" /></div>
+      </div>
+      <div class="gallery__row gallery__duo">
+        <img src={img(4)} alt={alt} loading="lazy" />
+        <img src={img(5)} alt={alt} loading="lazy" />
+      </div>
+      <div class="gallery__row gallery__full"><img src={img(6)} alt={alt} loading="lazy" /></div>
+    </>
+  )}
+</section>
+
+<style>
+  .gallery {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-l);              /* spacing/L: 104 · 80 · 56 */
+    padding-block: var(--gap-ml);   /* spacing/ml: 78 · 56 · 40 */
+    width: 100%;
+  }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery__row { width: 100%; }
+
+  /* full-bleed Reihe — Desktop-Verhältnis 1728:700, mobil flacher */
+  .gallery__full { aspect-ratio: 1728 / 700; }
+  /* inset Reihe — horizontaler Margin-Abstand */
+  .gallery__inset { padding-inline: var(--layout-margin); }
+  .gallery__inset img { aspect-ratio: 1568 / 700; }
+
+  /* 4er-Reihe, unten-bündig, Breiten 160/360/360/160 */
+  .gallery__quad {
+    display: grid;
+    grid-template-columns: 160fr 360fr 360fr 160fr;
+    gap: var(--gutter);
+    align-items: end;
+    height: clamp(200px, 24vw, 412px);
+  }
+  .gallery__quad img { height: 100%; }
+
+  /* —— variabel (Collage) —— */
+  .gallery__split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+  .gallery__duo { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .gallery__duo img { aspect-ratio: 864 / 700; }
+  .gallery__cell { align-self: stretch; }
+  .gallery__cell img { aspect-ratio: 864 / 1117; }
+  /* gepolsterte Insets erzeugen den „schwebenden" Versatz */
+  .gallery__pad { display: flex; flex-direction: column; }
+  .gallery__pad img { aspect-ratio: 300 / 200; }
+  .gallery__pad--b { padding-bottom: var(--gap-l); padding-inline: var(--gap-l); }
+  .gallery__pad--t { padding-top: var(--gap-l); padding-inline: var(--gap-l); }
+
+  /* Mobil: alles einspaltig (S-Frame), variable Höhen */
+  @media (max-width: 700px) {
+    .gallery__inset { padding-inline: 0; }
+    .gallery__full, .gallery__inset img { aspect-ratio: 390 / 240; }
+    .gallery__quad { grid-template-columns: 1fr 1fr; height: auto; gap: var(--gutter); }
+    .gallery__quad img { aspect-ratio: 1; }
+    .gallery__split, .gallery__duo { grid-template-columns: 1fr; }
+    .gallery__pad--b, .gallery__pad--t { padding-inline: 0; }
+    .gallery__cell img, .gallery__duo img { aspect-ratio: 390 / 240; }
+  }
+</style>
