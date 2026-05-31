@@ -71,6 +71,28 @@ Services-Seite (`12307:37383` ff.). **Konflikt:**
 → Aktuell gebaut: **wie der Frame** (Bild + vertikale Linkliste, Pfeil = `arrow_upward` 90°, bronze; Desktop/Tablet 2-spaltig Bild|Liste, Mobil gestapelt). Regel „Frame gewinnt".
 **Frage:** Bleibt es die Linkliste (Frame), oder sollen es echte **Karten mit Bild/Vorschau** im 4/2/1-Karussell werden (Notiz)? Falls Karten: brauche ich das Card-Design + echte Inhalte.
 
+## 8. Farrow & Ball — Color-Navigation + „Mein Farbkonzept"-Favoriten (presentational gebaut)
+Für den F&B-Bereich gibt es bislang **keine Seiten/Routen und keine echten Farbdaten**. Die
+Komponenten sind daher **presentational** mit Platzhalter-Props gebaut und **keiner Seite zugebunden**:
+- `ColorNavigation.astro` — prev/„Zur Übersicht"/next (Figma „Navigation Color" 12471:27030,
+  desktop/tablet 12471:27029 · mobil 12471:27031). Farbname-Hover = Unterstrich + Farbwechsel
+  (Franzi-Notiz). Pfeil = `arrow_upward` 90°/-90° (wie Frame, kein bronze Kreis), Swatch 22px,
+  Titel-Style, gap 14, py 14.
+- `FavoriteButton.astro` — runder Icon-Button 32px, natur-Hintergrund, Herz outline↔filled
+  (aria-pressed), `variant="add"` = Plus (Figma „Button-function" 12416:36802).
+- `ColorListItem.astro` — „Mein Farbkonzept öffnen (n) →" (Herz-filled + Pfeil) und
+  „Meinem Farbkonzept hinzufügen"/„Bereits in meinem Farbkonzept" (Herz-Button) — Figma
+  „List My Color" 12506:20106.
+- Neue Icons: `heart.svg` (outline) + `heart-filled.svg` (gefüllt), Material-Symbols-Stil.
+- Konsistenz-Fix: das Text-Glyph `♥` in `ArticleOverview.astro` (`.ao-card__fav`) durch das echte
+  `heart`/`heart-filled`-Icon ersetzt.
+
+**Als Folgeaufgabe offen (mit echtem Produktinhalt → vorher abstimmen):**
+- echte **F&B-Farbdaten** (Farbname, Nummer, echte Swatch-Hex-Werte, prev/next-Reihenfolge),
+- **F&B-Seiten/Route** (Übersicht + Farbdetailseite) mit echtem Inhalt,
+- **„Mein Farbkonzept"-Persistenz** (localStorage und/oder CMS) — aktuell nur Client-Toggle ohne Speicherung,
+- Mengen-/Zähler-Logik („öffnen (n)") an echte gespeicherte Favoriten anbinden.
+
 ## 7. Services — Hero-Video & Card-Inhalte (bestätigt, zur Info)
 - **Hero-Video**: Als `<video autoplay muted loop>` mit Poster-Bild (Platzhalter) gebaut — **Videodatei fehlt noch**. Bitte liefern (Franzi-Notiz: „fertige Komplettlösungen, Emotionen aufbauen").
 - **Teilleistungs-Links** sind bei Stoffe/Boden/Wand/Einrichtung aktuell **Platzhalter** (dieselbe Gardinen-Liste wie im Frame, auf deinen Wunsch „Platzhalter wie Figma"). Echte Unterpunkte je Kategorie bitte nachliefern.

@@ -1,0 +1,107 @@
+---
+// ColorNavigation — Farb-Navigation (prev / „Zur Übersicht" / next) für den Farrow-&-Ball-Bereich.
+// PRESENTATIONAL: F&B-Seiten/Daten existieren noch nicht → Platzhalter-Defaults, keiner Seite zugebunden.
+// Figma „Navigation Color" 12471:27030 (desktop+tablet 12471:27029 / mobil 12471:27031),
+// Einheit „Color" 12471:26987 (left 12454:26986 / right 12471:26988).
+//
+// Tokens (aus get_design_context der Frames):
+//  - Color-Einheit: gap = spacing/xs (14 = --gap-xs), Pfeil arrow-open 32, Swatch-Kreis 22px.
+//  - Texte (Farbname + „Zur Übersicht"): Titel-Style (Montserrat 9/17, ls 1.08px = 0.12em, uppercase,
+//    color/titel+tab #8e8f93 = --grey) → .t-titel.
+//  - Leiste: py = spacing/xs (14). Desktop/Tablet: justify-between. Mobil: Spalte, gap = spacing/xxs (8),
+//    „Zur Übersicht" oben zentriert, darunter prev links / next rechts (justify-between).
+// Franzi-Kommentar „hover Farbwechsel/Unterstrich" → Farbname wird beim Hover unterstrichen.
+import Icon from "./Icon.astro";
+interface Props {
+  prevName?: string;
+  prevHref?: string;
+  prevSwatch?: string;
+  nextName?: string;
+  nextHref?: string;
+  nextSwatch?: string;
+  overviewLabel?: string;
+  overviewHref?: string;
+  class?: string;
+}
+const {
+  prevName = "Color Name Nr. 110",
+  prevHref = "#",
+  prevSwatch = "#cbb9a3",
+  nextName = "Color Name Nr. 112",
+  nextHref = "#",
+  nextSwatch = "#8aa0a6",
+  overviewLabel = "Zur Übersicht",
+  overviewHref = "#",
+  class: cls = "",
+} = Astro.props;
+---
+<nav class:list={["colornav", cls]} aria-label="Farb-Navigation">
+  <a class="colornav__item colornav__item--prev" href={prevHref} rel="prev">
+    <Icon name="arrow_upward" size={32} class="colornav__arrow colornav__arrow--prev" />
+    <span class="colornav__swatch" style={`--swatch:${prevSwatch}`}></span>
+    <span class="colornav__name t-titel">{prevName}</span>
+  </a>
+
+  <a class="colornav__overview t-titel" href={overviewHref}>{overviewLabel}</a>
+
+  <a class="colornav__item colornav__item--next" href={nextHref} rel="next">
+    <span class="colornav__name t-titel">{nextName}</span>
+    <span class="colornav__swatch" style={`--swatch:${nextSwatch}`}></span>
+    <Icon name="arrow_upward" size={32} class="colornav__arrow colornav__arrow--next" />
+  </a>
+</nav>
+
+<style>
+  .colornav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-xs);
+    padding-block: var(--gap-xs); /* spacing/xs = 14 */
+    width: 100%;
+  }
+  .colornav__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-xs); /* spacing/xs = 14 */
+    min-height: 32px;
+  }
+  .colornav__overview {
+    text-align: center;
+    transition: color 0.2s ease;
+  }
+  .colornav__overview:hover { color: var(--bronze); }
+
+  .colornav__swatch {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--swatch, var(--light-grey));
+  }
+  /* arrow_upward (Aufwärtspfeil) → next 90° (rechts), prev -90° (links). Wie Figma „Color". */
+  .colornav__arrow { color: var(--text); }
+  .colornav__arrow--next :global(svg) { transform: rotate(90deg); }
+  .colornav__arrow--prev :global(svg) { transform: rotate(-90deg); }
+
+  .colornav__name {
+    text-decoration: underline transparent;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
+  }
+  /* Franzi: hover Farbwechsel/Unterstrich */
+  .colornav__item:hover .colornav__name { text-decoration-color: currentColor; }
+
+  /* Mobil: gestapelt — „Zur Übersicht" oben, prev/next in einer Zeile darunter (Figma 12471:27031).
+     Grid: Zeile 1 = Übersicht über beide Spalten, Zeile 2 = prev | next. */
+  @media (max-width: 700px) {
+    .colornav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap-xxs); /* spacing/xxs = 8 */
+    }
+    .colornav__overview { grid-column: 1 / -1; grid-row: 1; }
+    .colornav__item--prev { grid-column: 1; grid-row: 2; justify-self: start; }
+    .colornav__item--next { grid-column: 2; grid-row: 2; justify-self: end; }
+  }
+</style>
