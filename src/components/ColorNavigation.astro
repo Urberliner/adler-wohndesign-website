@@ -97,11 +97,23 @@ const {
   @media (max-width: 700px) {
     .colornav {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      /* minmax(0,1fr): Spalten-Minimum 0 statt auto → Spalten dürfen schrumpfen,
+         sonst sprengt der nowrap-/lange Farbname die Leiste nach rechts. */
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: var(--gap-xxs); /* spacing/xxs = 8 */
     }
     .colornav__overview { grid-column: 1 / -1; grid-row: 1; }
     .colornav__item--prev { grid-column: 1; grid-row: 2; justify-self: start; }
     .colornav__item--next { grid-column: 2; grid-row: 2; justify-self: end; }
+    /* Overflow-Schutz: Grid-Spalten dürfen unter ihre Inhaltsbreite schrumpfen,
+       Farbname bricht/umbricht statt rechts überzulaufen (Figma 12471:27031:
+       Name = [word-break:break-word]). */
+    .colornav__item { min-width: 0; }
+    .colornav__name {
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
   }
 </style>
