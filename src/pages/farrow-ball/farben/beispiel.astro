@@ -1,0 +1,360 @@
+---
+// /farrow-ball/farben/beispiel — Farrow-&-Ball Farb-Detailseite (Template für die spätere
+// dynamische [farbe]-Route). 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn),
+// Section 14004:23246 „004-Farrow&Ball/002-Farben/001-Artikel". Drei Breakpoint-Frames:
+//   L 14004:23247 · M 14004:23288 · S 14004:23331
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+//
+// Aufbau (alle BP):
+//   Navigation Color (prev / „Zur Übersicht" / next) → Hero (H1 Farbname + Body Nr. + großes
+//   Farb-Swatch-/Sfeer-Bild mit „… Farbkonzept hinzufügen"-Overlay) → Artikel (Übersicht-Spezifikation
+//   links + Beschreibungstext rechts; darunter Bild-Reihe) → Related Articles (nature-BG, Karten-
+//   Karussell „Passendes Farbkonzept") → Kontakt (Cta).
+//
+// Layout „Text Container" (Artikel): Desktop (≥992) zweispaltig nebeneinander, gap = layout/gutter
+//   (32); Tablet/Mobil gestapelt, gap = spacing/ML (56/40). (Aus echter Frame-Geometrie:
+//   L = flex-row gutter, M+S = flex-col ML. Die internen Frame-Annotations-Labels „Desktop:
+//   vertikal / mobil+tablet: horizontal" beschreiben die Figma-Autolayout-Achse, nicht die
+//   visuelle Spaltenlage — Frame gewinnt.)
+//
+// PLATZHALTER: Farbname „Dibber / Nr. 312", Spezifikationswerte, Beschreibung, Bilder und die
+//   Navigation (prev/next) sind Figma-Platzhalter — echte Inhalte folgen mit der dynamischen
+//   Route + Farbdaten (Flag). Favoriten/„Mein Farbkonzept" sind presentational (FavoriteButton).
+import "../../../styles/global.css";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import ColorNavigation from "../../../components/ColorNavigation.astro";
+import FavoriteButton from "../../../components/FavoriteButton.astro";
+import Carousel from "../../../components/Carousel.astro";
+import Cta from "../../../components/Cta.astro";
+
+// Spezifikations-Liste „Übersicht" (Figma 14004:23258 …): je Zeile Label (grey) + Wert.
+// (Frame-interne Namen „Kategorie/Jahr/Ort/Leistungen" sind generische Slot-Namen — echter
+//  Inhalt steht in den Textknoten.) Die Kategorie-Zeile hebt den Wert in Moos hervor.
+const spezifikation = [
+  { label: "Grundierung & Vorstreichfarbe", value: ["Dunkle Grundierungstöne"], accent: true },
+  { label: "Ergänzender Weißton", value: ["Slipper Satin"] },
+  { label: "Farbkonzepte", value: ["Auf Gelb basierende Neutraltöne", "Auf Rot basierende Neutraltöne"] },
+  {
+    label: "Finish",
+    value: [
+      "Dead Flat", "Modern Emulsion", "Estate Emulsion", "Modern Eggshell", "Estate Eggshell",
+      "Full Gloss", "Exterior Eggshell", "Exterior Masonry", "Casein Distemper",
+      "Soft Distemper", "Limewash", "Flat Eggshell",
+    ],
+  },
+];
+
+// Beschreibungstext rechts (Figma 14004:23271).
+const beschreibungAbsaetze = [
+  "Dieses erdige Grün erinnert nicht nur mit seiner Farbe, sondern auch dank seines Namens an das von Gärtnerinnen und Gärtnern gern genutzte Pflanzholz.",
+  "Jede Farbe der Farrow & Ball Palette wird idealerweise mit einem bestimmten Weißton kombiniert, der über denselben Unterton verfügt und Ihre gewählte Farbe perfekt ergänzt. Hier arbeiten wir mit Slipper Satin.",
+];
+
+// Bild-Reihe (Figma „Image" 14004:23273): drei Platzhalter, erstes hochformatig, zwei querformatig.
+// Vorhandene F&B-Platzhalter-Assets bis echte Raumbilder vorliegen.
+const artikelBilder = [
+  { src: "/images/farrow-ball/komplettloesung/related-1.png", alt: "Raumeindruck mit der Farbe Dibber", ratio: "tall" },
+  { src: "/images/farrow-ball/komplettloesung/related-2.png", alt: "Raumeindruck mit der Farbe Dibber", ratio: "wide" },
+  { src: "/images/farrow-ball/komplettloesung/related-3.png", alt: "Raumeindruck mit der Farbe Dibber", ratio: "wide" },
+];
+
+// Passendes Farbkonzept (Figma „Project Cards Carousel" 14004:23277): 5 Karten (square).
+const related = [
+  { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card1.png", href: "#" },
+  { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card2.png", href: "#" },
+  { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card3.png", href: "#" },
+  { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card4.png", href: "#" },
+  { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card5.png", href: "#" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dibber Nr. 312 — Farrow &amp; Ball Farben | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Dibber Nr. 312 von Farrow & Ball: ein erdiges, bodenständiges Grün. Ergänzender Weißton, passende Farbkonzepte und Finish-Empfehlungen – ausgewählt von ADLER Wohndesign."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main class="page">
+      <!-- NAVIGATION COLOR — Frame „Navigation Color" 14004:23250 / 23292 / 23335 -->
+      <div class="container">
+        <ColorNavigation
+          prevName="Color Name Nr. 111"
+          prevHref="#"
+          prevSwatch="#cbb9a3"
+          nextName="Color Name Nr. 111"
+          nextHref="#"
+          nextSwatch="#cbb9a3"
+          overviewLabel="Zur Übersicht"
+          overviewHref="/farrow-ball/farben"
+        />
+      </div>
+
+      <!-- HERO — Frame „Hero" 14004:23251 / 23293 / 23336 -->
+      <section class="hero container" aria-label="Farbe">
+        <div class="hero__intro">
+          <h1 class="t-h1 hero__name">Dibber</h1>
+          <p class="t-body hero__nr">Nr. 312</p>
+        </div>
+
+        <!-- Card Link: großes Farb-/Stimmungsbild + „Farbkonzept hinzufügen"-Overlay -->
+        <div class="hero__card">
+          <div class="hero__swatch" style="--swatch:#7c7a5e"></div>
+          <div class="hero__add">
+            <span class="t-titel hero__add-label">meinem Farbkonzept hinzufügen</span>
+            <FavoriteButton variant="add" label="Dibber Nr. 312 zum Farbkonzept hinzufügen" />
+          </div>
+        </div>
+      </section>
+
+      <!-- ARTIKEL — Frame „Artikel" 14004:23256 / 23299 / 23342 -->
+      <section class="article container" aria-label="Über diese Farbe">
+        <!-- Text Container: Desktop 2-spaltig (gutter), Tablet/Mobil gestapelt (ML) -->
+        <div class="article__text">
+          <!-- Übersicht — Spezifikation (14004:23258 …) -->
+          <dl class="spec">
+            {spezifikation.map((s) => (
+              <div class="spec__row">
+                <dt class="t-titel spec__label">{s.label}</dt>
+                {s.value.map((v) => (
+                  <dd class:list={["t-titel", "spec__value", { "spec__value--accent": s.accent }]}>{v}</dd>
+                ))}
+              </div>
+            ))}
+          </dl>
+
+          <!-- Beschreibung (14004:23271) -->
+          <div class="article__body">
+            <h2 class="t-h2 article__head">Ein bodenständiges Grün</h2>
+            {beschreibungAbsaetze.map((p) => <p class="t-body article__para">{p}</p>)}
+          </div>
+        </div>
+
+        <!-- Bild-Reihe (14004:23272 / „Image" 14004:23273) -->
+        <div class="article__gallery" role="list" aria-label="Raumeindrücke">
+          {artikelBilder.map((b) => (
+            <div class:list={["gallery__item", `gallery__item--${b.ratio}`]} role="listitem">
+              <img src={b.src} alt={b.alt} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- RELATED ARTICLES — Frame 14004:23274 / 23317 / 23360 (nature-BG) -->
+      <section class="related" aria-label="Passendes Farbkonzept">
+        <div class="related__inner container">
+          <p class="t-titel related__eyebrow">
+            <span class="related__dot" aria-hidden="true"></span>Passendes Farbkonzept: Neutraltöne
+          </p>
+          <Carousel tone="dark" label="Passendes Farbkonzept" perMobile={1} perTablet={2} perDesktop={4} class="related__carousel">
+            {related.map((r) => (
+              <li class="related__item">
+                <a class="relcard" href={r.href}>
+                  <div class="relcard__media">
+                    <img src={r.img} alt={r.titel} loading="lazy" />
+                  </div>
+                  <div class="relcard__body">
+                    <p class="t-h5 relcard__title">{r.titel}</p>
+                    <p class="t-small relcard__text">{r.text}</p>
+                  </div>
+                </a>
+                <div class="relcard__fav">
+                  <FavoriteButton pressed={true} label={`${r.titel} aus dem Farbkonzept entfernen`} />
+                </div>
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
+      <!-- KONTAKT — Frame „Kontakt" 14004:23284 / 23327 / 23370 (weißer Hintergrund) -->
+      <Cta
+        bg="default"
+        over="SERVICES"
+        heading="Sie haben eine Vision für Ihr individuelles Farbkonzept?"
+        lead={undefined}
+        buttonLabel="Mein Projekt starten"
+        buttonHref="/kontakt"
+      />
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ===== NAVIGATION COLOR ===== */
+      /* In .container eingebettet → volle Content-Breite wie im Frame (max 1600 via container). */
+
+      /* ===== HERO ===== Frame: pt XXL, gap ML zwischen Intro und Card. */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml); /* spacing/ml 40/56/78 */
+        padding-top: var(--gap-xxl); /* spacing/xxl 120/164/222 */
+      }
+      .hero__intro {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* spacing/m 32/44/56 */
+        max-width: var(--text-max);
+      }
+      .hero__name { color: var(--text); }
+      .hero__nr {
+        color: var(--text);
+        letter-spacing: 0.03em;
+      }
+
+      /* Card Link — Farb-Stimmungsbild (Platzhalter: Farbfläche), Overlay rechts oben. */
+      .hero__card {
+        position: relative;
+        width: 100%;
+      }
+      .hero__swatch {
+        width: 100%;
+        height: 400px; /* Frame: Placeholder h 400 */
+        background: var(--swatch, #d9c8bc);
+      }
+      .hero__add {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        gap: var(--gap-xs); /* spacing/xs 14/18/20 */
+      }
+      .hero__add-label { color: var(--grey); white-space: nowrap; }
+
+      /* ===== ARTIKEL ===== */
+      .article {
+        display: flex;
+        flex-direction: column;
+      }
+      /* Text Container: pt XXL, pb XL, gestapelt (Mobil/Tablet) mit gap ML. */
+      .article__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml); /* spacing/ml */
+        padding-top: var(--gap-xxl); /* spacing/xxl */
+        padding-bottom: var(--gap-xl); /* spacing/xl 72/104/142 */
+      }
+
+      /* Spezifikation (Titel-Style: grey Label, dunkler Wert). */
+      .spec {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* spacing/xs */
+        max-width: 512px; /* component/width/text-small-max (Desktop) */
+      }
+      .spec__row { display: flex; flex-direction: column; }
+      .spec__label { color: var(--grey); }
+      .spec__value { color: var(--text); }
+      .spec__value--accent { color: var(--moos); }
+
+      /* Beschreibung. */
+      .article__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      /* H2 hier in Montserrat-Medium (Frame-Stil „H2"): t-h2 nutzt Montserrat 600 — angleichen auf 500. */
+      .article__head { color: var(--text); font-weight: 500; }
+      .article__para { color: var(--text); }
+
+      /* Bild-Reihe — Höhe je Breakpoint (Frame component/height/image-horizontal 240/500/700). */
+      .article__gallery {
+        display: flex;
+        gap: var(--gutter); /* layout/gutter 16/24/32 */
+        align-items: center;
+        height: 240px;
+        padding-bottom: var(--gap-xxl); /* spacing/xxl */
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .article__gallery::-webkit-scrollbar { display: none; }
+      .gallery__item { height: 100%; flex: none; overflow: hidden; }
+      .gallery__item img { width: 100%; height: 100%; object-fit: cover; }
+      .gallery__item--tall { aspect-ratio: 160 / 240; }
+      .gallery__item--wide { aspect-ratio: 360 / 240; }
+
+      /* ===== RELATED ARTICLES ===== nature-BG, pt XL / pb XXL. */
+      .related {
+        background: var(--nature); /* #f6f3f2 */
+      }
+      .related__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* spacing/sm 24/32/44 */
+        padding-top: var(--gap-xl); /* spacing/xl */
+        padding-bottom: var(--gap-xxl); /* spacing/xxl */
+      }
+      .related__eyebrow {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-xs);
+        color: var(--grey);
+      }
+      .related__dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--bronze);
+        flex: none;
+      }
+
+      /* Related-Karte: Bild (square) + Titel + Text; Favorit-Overlay rechts oben. */
+      .related__item { position: relative; }
+      .relcard {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* spacing/xs */
+        color: var(--text);
+        height: 100%;
+      }
+      .relcard__media { aspect-ratio: 1 / 1; overflow: hidden; }
+      .relcard__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .relcard:hover .relcard__media img { transform: scale(1.03); }
+      .relcard__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* spacing/xxxs 4/4/6 */
+      }
+      .relcard__title { color: var(--text); }
+      .relcard__text { color: var(--grey); }
+      .relcard__fav {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      }
+
+      /* ===== Breakpoints (kanonisch 701 / 992) ===== */
+      @media (min-width: 701px) {
+        .article__gallery { height: 500px; }
+      }
+      @media (min-width: 992px) {
+        /* Desktop: Übersicht + Beschreibung nebeneinander, gap = layout/gutter (32). */
+        .article__text {
+          flex-direction: row;
+          gap: var(--gutter);
+          align-items: flex-start;
+        }
+        .spec { flex: 1 1 0; max-width: 512px; }
+        .article__body { flex: 1 1 0; }
+        .article__gallery { height: 700px; }
+      }
+    </style>
+  </body>
+</html>
