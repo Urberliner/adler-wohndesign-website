@@ -32,20 +32,33 @@ import Button from "../components/Button.astro";
 import Card from "../components/Card.astro";
 import FilterMenu from "../components/FilterMenu.astro";
 import Icon from "../components/Icon.astro";
+import blogJson from "../data/blog.json";
 
-// PLATZHALTER-Artikel. eyebrow = Kategorie (links), meta = Status/Datum (rechts),
-// title = Artikel-Überschrift. ratio="auto" → natürliche Bildhöhe (Masonry-Mischung wie Figma).
-// Bilder: vorhandene Assets als Platzhalter, bis echte Blogbilder vorliegen.
-const artikel = [
-  { eyebrow: "Handwerk", meta: "Aktueller Artikel", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/home/blog-thumbnail.jpg", href: "#" },
-  { eyebrow: "Design", meta: "12.04.2026", title: "Wassertage – Inspiration aus dem Element", img: "/images/home/blog-wassertage.jpg", href: "#" },
-  { eyebrow: "Material", meta: "28.03.2026", title: "Akustikstoffe für mehr Ruhe im Raum", img: "/images/home/blog-akustik.jpg", href: "#" },
-  { eyebrow: "Partner", meta: "15.03.2026", title: "Farrow & Ball – Farben mit Charakter", img: "/images/komplettloesung/card1.png", href: "#" },
-  { eyebrow: "Geschichten", meta: "02.03.2026", title: "Die Trüffelsuche nach dem richtigen Ton", img: "/images/komplettloesung/card2.png", href: "#" },
-  { eyebrow: "Handwerk", meta: "20.02.2026", title: "Handwerk, das man spüren kann", img: "/images/komplettloesung/card3.png", href: "#" },
-  { eyebrow: "Projekte", meta: "08.02.2026", title: "Leichtes Raum- & Lichtkonzept im Penthouse", img: "/images/home/project-1.jpg", href: "#" },
-  { eyebrow: "Beratung", meta: "25.01.2026", title: "Der Weg zur perfekten Raumausstattung", img: "/images/home/project-2.jpg", href: "#" },
-];
+// Echte Blogdaten aus src/data/blog.json (25 Artikel).
+// Bilder lokal nach /public/images/blog/<slug>.webp; Einträge ohne bildUrl → Platzhalter-Asset.
+// eyebrow = Kategorie (links), meta = Datum/Status (rechts), title = Überschrift.
+// ratio="auto" → natürliche Bildhöhe (Masonry-Mischung wie Figma).
+const PLATZHALTER = "/images/home/blog-thumbnail.jpg";
+const slugFromHref = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
+const localPath = (href: string) => {
+  const i = href.indexOf("/blog/");
+  return i >= 0 ? href.slice(i) : href;
+};
+const imgFor = (b: { href: string; bildUrl: string }) =>
+  b.bildUrl ? `/images/blog/${slugFromHref(b.href)}.webp` : PLATZHALTER;
+
+const eintraege = blogJson.map((b) => ({
+  eyebrow: b.kategorie,
+  meta: b.datum || b.kategorie,
+  title: b.titel,
+  auszug: b.auszug,
+  img: imgFor(b),
+  href: localPath(b.href),
+}));
+
+// Erster Eintrag = Featured (Hero-Card), Rest in die Masonry-Liste.
+const featured = eintraege[0];
+const artikel = eintraege.slice(1);
 ---
 
 <!doctype html>
@@ -78,15 +91,15 @@ const artikel = [
 
         <!-- Featured Card Link 6414:43711 — querliegend: Bild links + Text rechts
              (Header mit Datum, H4-Titel, Lead, „Zum Artikel"). S: gestapelt. -->
-        <a class="feature" href="#">
+        <a class="feature" href={featured.href}>
           <div class="feature__media">
-            <img src="/images/home/blog-thumbnail.jpg" alt="Flächenvorhänge – variable Paneele zur Licht- und Raumgestaltung" loading="lazy" />
+            <img src={featured.img} alt={featured.title} loading="lazy" />
           </div>
           <div class="feature__text">
-            <p class="t-small feature__date">Aktueller Artikel</p>
+            <p class="t-small feature__date">{featured.meta}</p>
             <div class="feature__head">
-              <p class="t-h4 feature__title">Flächenvorhänge</p>
-              <p class="t-body feature__lead">Variable Paneele zur flexiblen Licht- und Raumgestaltung.</p>
+              <p class="t-h4 feature__title">{featured.title}</p>
+              {featured.auszug && <p class="t-body feature__lead">{featured.auszug}</p>}
             </div>
             <!-- Featured-CTA: borderloser Text+Pfeil-Link (Figma: small-body text-color + rotierter
                  arrow_upward, gap layout/gutter). Button-Component hat keine „text-link"-Variante
