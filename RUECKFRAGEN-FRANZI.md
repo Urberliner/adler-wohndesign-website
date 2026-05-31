@@ -101,6 +101,19 @@ Komponenten sind daher **presentational** mit Platzhalter-Props gebaut und **kei
 
 ---
 
+## 9. Projekte-Übersicht (& alle Listing-Seiten) — Card-Layout: Editorial-Collage vs. flexibles Grid
+**Konflikt zwischen Frame-Geometrie und deiner Annotation.** Betrifft als Template auch Blog, F&B-Farben, Farbkonzepte, Karriere-Artikel.
+- Der **L-Frame** (`5660:16038`, Card Container `6319:53457`) ist ein **handgesetztes Collage**: 2 Spalten à 768px (Gutter 32), aber Karten mit **gemischten Breiten** (mal 768 voll, mal ~500 schmal), **horizontalen Einrückungen** (Karten bei x=135/269 innerhalb der Spalte), **rechte Spalte 132px nach unten versetzt**, feste ~100px-Abstände zwischen Karten.
+- Deine **Annotation** am Card Container sagt dagegen: „**responsive flex grid … Cards sind flexibel ins grid eingebaut**" → klingt nach flexiblem Masonry, Frame = nur gefülltes Beispiel.
+
+→ Aktuell gebaut (NICHT committet, hält): 2-spaltiges gleichbreites CSS-Masonry (1-spaltig mobil). Das bildet die **Einrückungen/Versätze/gemischten Breiten** des Frames **nicht** ab.
+**Frage:** Soll die Listing-Optik
+- (a) das **flexible, gleichmäßige Masonry** sein (deiner Annotation folgend, generalisierbar für CMS-Inhalte), oder
+- (b) der **bespoke Versatz-/Mischbreiten-Look** des Frames (dann brauche ich die Regel dahinter — z. B. „jede 2./3. Karte schmaler + eingerückt" — damit es mit beliebig vielen Projekten funktioniert)?
+Sobald entschieden, rolle ich es einheitlich auf alle Listing-Seiten aus.
+
+---
+
 ## Hinweise (keine Rückfrage, nur zur Info)
 - **Aufbau-Accordion** (Startseite): „neue Card öffnet → vorherige schließt; Start: alle zu" → **umgesetzt & browser-verifiziert, committet**.
 - **Blog-Quadrat-Karten**: „Hover-Zoom im Bildrahmen" → **umgesetzt & committet**.
