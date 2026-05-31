@@ -22,7 +22,6 @@ import Section from "../components/Section.astro";
 import Quote from "../components/Quote.astro";
 import Cta from "../components/Cta.astro";
 import Carousel from "../components/Carousel.astro";
-import ImageText from "../components/ImageText.astro";
 
 // --- Team (PLATZHALTER: Figma-Karten haben „Vor- Nachname"/„Jobtitel"; echte Personen folgen) ---
 const team = Array.from({ length: 6 }, () => ({
@@ -250,18 +249,25 @@ const verantwortung = Array.from({ length: 3 }, (_, i) => ({
         gerne weiter und freuen uns auf weitere Zusammenarbeit."
       </Quote>
 
-      <!-- 9 — KARRIERE (image-text Karte, dunkel/moos) -->
-      <ImageText
-        bg="moos"
-        eyebrow="Karriere"
-        title="Werde Teil von ADLER Wohndesign"
-        image="/images/home/team.jpg"
-        alt="Arbeiten bei ADLER Wohndesign"
-        body="Bei ADLER Wohndesign erwarten Sie vielseitige Projekte und ein eingespieltes Team, das mit Leidenschaft Räume gestaltet. Hier können Sie Ihre Kreativität einbringen, mitdenken und Verantwortung übernehmen. Sie lernen viel, erleben viel und gestalten aktiv mit. Das klingt spannend?"
-        buttonLabel="Unsere Jobangebote"
-        buttonHref="/kontakt"
-        class="karriere"
-      />
+      <!-- 9 — KARRIERE (Card image-text, dunkel/moos: Bild links, Text rechts, weiß) -->
+      <Section bg="moos" class="karriere">
+        <div class="kcard">
+          <div class="kcard__media">
+            <!-- PLATZHALTER: kein dediziertes Karriere-Asset vorhanden -->
+            <img src="/images/home/team.jpg" alt="Arbeiten bei ADLER Wohndesign" loading="lazy" />
+          </div>
+          <div class="kcard__body">
+            <p class="t-titel kcard__eyebrow">Karriere</p>
+            <h2 class="t-h3 kcard__title">Werde Teil von ADLER Wohndesign</h2>
+            <p class="t-body kcard__text">
+              Bei ADLER Wohndesign erwarten Sie vielseitige Projekte und ein eingespieltes Team, das mit Leidenschaft
+              Räume gestaltet. Hier können Sie Ihre Kreativität einbringen, mitdenken und Verantwortung übernehmen. Sie
+              lernen viel, erleben viel und gestalten aktiv mit. Das klingt spannend?
+            </p>
+            <Button href="/kontakt" class="kcard__btn">Unsere Jobangebote</Button>
+          </div>
+        </div>
+      </Section>
 
       <!-- 10 — KONTAKT (CTA) -->
       <Cta
@@ -296,7 +302,7 @@ const verantwortung = Array.from({ length: 3 }, (_, i) => ({
 
       /* ---- 3 TEAM ---- */
       .team :global(.section__inner) { display: flex; flex-direction: column; gap: var(--gap-l); }
-      .team__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); }
+      .team__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); margin-inline: auto; align-items: center; text-align: center; }
       .team__title { color: var(--text); }
       .team__btn { align-self: center; }
       .tcard { display: flex; flex-direction: column; gap: var(--gap-xs); background: var(--white); }
@@ -318,7 +324,7 @@ const verantwortung = Array.from({ length: 3 }, (_, i) => ({
 
       /* ---- 5 PARTNER (Logo-Laufband) ---- */
       .partner :global(.section__inner) { display: flex; flex-direction: column; gap: var(--gap-l); }
-      .partner__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); }
+      .partner__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); margin-inline: auto; align-items: center; text-align: center; }
       .partner__title { color: var(--text); }
       .partner__btn { align-self: center; }
       .logos { overflow: hidden; width: 100%; }
@@ -354,6 +360,16 @@ const verantwortung = Array.from({ length: 3 }, (_, i) => ({
       .tradition__over { color: rgba(255,255,255,0.82); }
       .tradition__head, .tradition__lead { color: var(--white); max-width: var(--text-max); }
 
+      /* ---- 9 KARRIERE (Card image-text: Bild links, Text rechts, weiß auf Moos) ---- */
+      .kcard { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: stretch; min-height: clamp(360px, 40vw, 700px); }
+      .kcard__media { aspect-ratio: 300 / 400; justify-self: start; height: 100%; overflow: hidden; }
+      .kcard__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .kcard__body { justify-content: center; }
+      .kcard__body { display: flex; flex-direction: column; gap: var(--gap-sm); align-items: flex-start; text-align: left; padding-inline: var(--gap-m); }
+      .kcard__eyebrow { color: rgba(255,255,255,0.82); }
+      .kcard__title, .kcard__text { color: var(--white); }
+      .kcard__btn { margin-top: var(--gap-xs); }
+
       /* ---- Responsive ---- */
       @media (max-width: 991px) {
         .intro :global(.section__inner) { grid-template-columns: 1fr; gap: var(--gap-l); }
@@ -362,6 +378,9 @@ const verantwortung = Array.from({ length: 3 }, (_, i) => ({
         .rcard { grid-template-columns: 1fr; min-height: 0; gap: var(--gap-s); }
         .rcard__media { aspect-ratio: 4 / 3; }
         .rcard__body { padding-inline: 0; }
+        .kcard { grid-template-columns: 1fr; min-height: 0; gap: var(--gap-m); }
+        .kcard__media { aspect-ratio: 300 / 400; justify-self: stretch; }
+        .kcard__body { padding-inline: 0; }
       }
     </style>
   </body>
