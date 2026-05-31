@@ -1,0 +1,37 @@
+---
+// Checkbox — eckige Box, bronze gefüllt bei Auswahl (Figma V4 „Checkbox" 2088:4697).
+// Label-Inhalt via <slot> (HTML erlaubt, z. B. Link). Farbe folgt currentColor.
+interface Props {
+  name: string;
+  id?: string;
+  required?: boolean;
+  checked?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  name,
+  id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+  required = false,
+  checked = false,
+  class: cls = "",
+  ...rest
+} = Astro.props;
+---
+<label class:list={["checkbox", cls]} for={id}>
+  <input id={id} type="checkbox" name={name} required={required} checked={checked} class="checkbox__box" {...rest} />
+  <span class="checkbox__mark" aria-hidden="true"></span>
+  <span class="t-body checkbox__text"><slot /></span>
+</label>
+
+<style>
+  .checkbox { display: flex; align-items: flex-start; gap: var(--gutter); cursor: pointer; }
+  .checkbox__box { position: absolute; opacity: 0; width: 25px; height: 25px; margin: 0; }
+  .checkbox__mark { flex: none; width: 25px; height: 25px; border: 1.2px solid var(--light-grey); display: grid; place-items: center; transition: background 0.2s, border-color 0.2s; }
+  .checkbox__mark::after { content: ""; width: 13px; height: 8px; border-left: 2px solid var(--white); border-bottom: 2px solid var(--white); transform: rotate(-45deg) scale(0); transition: transform 0.15s ease; margin-top: -3px; }
+  .checkbox__box:checked + .checkbox__mark { background: var(--bronze); border-color: var(--bronze); }
+  .checkbox__box:checked + .checkbox__mark::after { transform: rotate(-45deg) scale(1); }
+  .checkbox__box:focus-visible + .checkbox__mark { outline: 2px solid var(--bronze); outline-offset: 2px; }
+  .checkbox__text { color: currentColor; }
+  .checkbox__text :global(a) { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+</style>

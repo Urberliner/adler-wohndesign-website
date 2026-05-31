@@ -22,6 +22,14 @@ liegen zentral in `src/styles/global.css`. Icons als echte SVG-Exporte in `src/i
 | `Button.astro` | Pill-Button (bronze) | `href`, `variant` (primary/ghost), `icon`, `iconPosition`, `iconOnly`, `label` | 2088:4677 | ✅ in Nutzung |
 | `Icon.astro` | Icon-Registry, lädt echte SVGs aus `src/icons/` (currentColor) | `name`, `size`, `label` | 6319:51565 (32 Icons) | ✅ in Nutzung |
 
+## Formular-Elemente (currentColor → auf moos & weiß nutzbar)
+
+| Komponente | Zweck | Wichtige Props | Figma | Status |
+|---|---|---|---|---|
+| `Input.astro` | Unterstrich-Eingabefeld (Text oder Textarea) | `name`, `label`, `type`, `placeholder`, `required`, `textarea`, `rows` | 2088:4684 | ✅ Kontakt |
+| `Checkbox.astro` | Eckige Box, bronze bei Auswahl; Label via slot | `name`, `required`, `checked` | 2088:4697 | ✅ Kontakt |
+| `Upload.astro` | „Dateien hochladen" + File-uploaded-State (bronze Balken + X) | `name`, `label`, `buttonText`, `multiple` | 2475:4367 / 8022:19199 | ✅ Kontakt |
+
 ## Inhalts- & Kartenblöcke
 
 | Komponente | Zweck | Wichtige Props | Figma | Status |
@@ -56,7 +64,3 @@ Erst im Seitenkontext bauen, nicht auf Vorrat raten.
 - **Button-function** (12416:36802) — Favorit/Add → F&B
 - **Navigation Display** (2907:7130) — Karussell-Punkte (Review-/Related-Karussell)
 
-## Inline (noch nicht als Komponente extrahiert)
-
-In `src/pages/kontakt.astro` enthalten, da bisher nur ein Einsatzort. Bei zweitem Einsatz extrahieren:
-- **Input** (Unterstrich-Feld), **Checkbox** (eckig, bronze), **Upload** inkl. File-uploaded-State (bronze Balken + X)

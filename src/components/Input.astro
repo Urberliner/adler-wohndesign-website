@@ -1,0 +1,49 @@
+---
+// Input — Unterstrich-Eingabefeld (Figma V4 „Input" 2088:4684). Text- oder Textarea-Variante.
+// Farbe folgt currentColor (nutzbar auf moos UND weiß). Label visuell versteckt (Placeholder zeigt Text),
+// bleibt aber für Screenreader vorhanden.
+interface Props {
+  name: string;
+  label: string;
+  id?: string;
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+  textarea?: boolean;
+  rows?: number;
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  name, label,
+  id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+  type = "text",
+  placeholder,
+  required = false,
+  textarea = false,
+  rows = 4,
+  class: cls = "",
+  ...rest
+} = Astro.props;
+const ph = placeholder ?? label;
+---
+<div class:list={["field", { "field--message": textarea }, cls]}>
+  <label for={id}>{label}</label>
+  {textarea ? (
+    <textarea id={id} name={name} rows={rows} placeholder={ph} required={required} {...rest}></textarea>
+  ) : (
+    <input id={id} name={name} type={type} placeholder={ph} required={required} {...rest} />
+  )}
+</div>
+
+<style>
+  .field label { position: absolute; left: -9999px; }
+  .field input, .field textarea {
+    width: 100%; background: transparent; border: 0; border-bottom: 1.2px solid var(--light-grey);
+    color: currentColor; font-family: var(--font-body); font-size: 15px; line-height: 27px; letter-spacing: 0.03em;
+    padding: 6px 0; transition: border-color 0.2s ease;
+  }
+  .field textarea { resize: vertical; min-height: 120px; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--grey); }
+  .field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--bronze); }
+</style>

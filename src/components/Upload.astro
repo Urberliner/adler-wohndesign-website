@@ -1,0 +1,73 @@
+---
+// Upload — Datei-Upload mit „Dateien hochladen"-Button + File-uploaded-State
+// (bronze Balken + X zum Entfernen). Figma V4 „Upload" 2475:4367 / „File-uploaded" 8022:19199.
+// Selbst-initialisierend (Script greift alle .upload-Instanzen). Farbe folgt currentColor.
+interface Props {
+  name?: string;
+  label?: string;
+  buttonText?: string;
+  multiple?: boolean;
+  class?: string;
+}
+const {
+  name = "attachment",
+  label = "Zusätzliche Dokumente (max. 10MB)",
+  buttonText = "Dateien hochladen",
+  multiple = true,
+  class: cls = "",
+} = Astro.props;
+---
+<div class:list={["upload", cls]}>
+  {label && <p class="t-body upload__label">{label}</p>}
+  <label class="upload__btn">
+    <span class="upload__text" data-default={buttonText}>{buttonText}</span>
+    <input type="file" name={name} multiple={multiple} class="upload__input" />
+  </label>
+  <ul class="upload__files" aria-live="polite"></ul>
+</div>
+
+<style>
+  .upload { display: flex; flex-direction: column; gap: var(--gap-xs); }
+  .upload__label { color: var(--nature-75); }
+  .upload__btn { display: inline-flex; align-items: center; justify-content: center; max-width: 320px; width: 100%; height: 60px; padding: 20px; border: 1.2px solid var(--light-grey); color: currentColor; cursor: pointer; transition: border-color 0.2s ease; }
+  .upload__btn:hover { border-color: var(--bronze); }
+  .upload__input { position: absolute; left: -9999px; }
+  /* File-uploaded: bronze Balken + X */
+  .upload__files { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: 320px; }
+  .upload__file { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-s); height: 60px; padding: 0 20px; background: var(--bronze); color: var(--white); }
+  .upload__name { font-size: 15px; line-height: 27px; letter-spacing: 0.03em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload__remove { flex: none; display: grid; place-items: center; width: 28px; height: 28px; color: var(--white); }
+  .upload__remove:hover { color: var(--moos); }
+</style>
+
+<script>
+  document.querySelectorAll(".upload").forEach((root) => {
+    const input = root.querySelector(".upload__input") as HTMLInputElement | null;
+    const list = root.querySelector(".upload__files") as HTMLElement | null;
+    if (!input || !list) return;
+    const render = () => {
+      list.textContent = "";
+      Array.from(input.files ?? []).forEach((file, idx) => {
+        const li = document.createElement("li");
+        li.className = "upload__file";
+        const name = document.createElement("span");
+        name.className = "upload__name";
+        name.textContent = file.name;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "upload__remove";
+        btn.setAttribute("aria-label", "Datei entfernen: " + file.name);
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>';
+        btn.addEventListener("click", () => {
+          const dt = new DataTransfer();
+          Array.from(input.files ?? []).forEach((f, i) => { if (i !== idx) dt.items.add(f); });
+          input.files = dt.files;
+          render();
+        });
+        li.append(name, btn);
+        list.append(li);
+      });
+    };
+    input.addEventListener("change", render);
+  });
+</script>
