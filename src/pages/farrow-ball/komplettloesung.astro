@@ -1,0 +1,279 @@
+---
+// /farrow-ball/komplettloesung — Farrow & Ball Komplettlösung.
+// 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn), Section 6053:35059
+// „004-Farrow&Ball/001-Komplettlösung". Drei Breakpoint-Frames:
+//   L 6053:35134 · M 6053:35097 · S 6053:35060
+// Aufbau (alle BP, identisch zur /komplettloesung-Struktur, aber F&B-Texte):
+//   Hero (Breadcrumb + H1 + Lead + full-bleed Bild)
+//   → Benefits (Eyebrow mit Punkt + 3×2-Raster Icon + H5)
+//   → Services (Eyebrow + H2 + Lead + 5 image-text-Karten, abwechselnd Bild links/rechts)
+//   → Kontakt (Cta, weiß)
+//   → Related Articles Carousel (3 Card-Link-Karten, BG natur)
+//   → Zitat (Quote, weiß, mit Pfeilen)
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der 3 Frames.
+// Annotationen (alle BP identisch):
+//   Text Container: „Eine prägnante Headline, die den Hauptvorteil (Benefit) nennt, unterstützt
+//     durch eine Subline, die das Angebot präzisiert." → H1 + Lead-Subline umgesetzt.
+//   Hero-Bild: „Video (Bild) - fertige Komplettlösungen (Emotionen aufbauen)" → full-bleed
+//     Bild-Platzhalter (später ggf. Video).
+//
+// Layout je BP (aus Frames):
+//   Hero-Bild: L 700 / M 500 / S 240 (height/image-horizontal-Token = 700 auf L).
+//   Services-Karten: L+M nebeneinander (Bild + Text, abwechselnd Bild links/rechts),
+//     S gestapelt (Bild oben 400/300, Text unten). Bild-links = Hochformat 300/400,
+//     Bild-rechts = Querformat 400/300 (wie im Frame: „Bild 1" vs „Placeholder").
+//   Benefits-Raster: L+M 3 Spalten / S 1 Spalte.
+//   Related-Karten: 3-spaltiges Karussell.
+//
+// Bilder = benannte Platzhalter unter /images/farrow-ball/komplettloesung/ (FLAG: echte
+//   Assets/Video fehlen noch). Related-Karten-Texte sind Platzhalter (Figma: „Category" /
+//   „Sie haben einen Wunschtraum?").
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Benefit from "../../components/Benefit.astro";
+import Cta from "../../components/Cta.astro";
+import Quote from "../../components/Quote.astro";
+import Card from "../../components/Card.astro";
+import Carousel from "../../components/Carousel.astro";
+
+// Benefits — Frame „Benefits" (benefit01–06). Icon-Namen aus den Frame-Instanzen
+// (data-name) auf die vorhandenen src/icons-Dateien gemappt.
+const benefits = [
+  { icon: "square",      text: "Ganzheitliches Farbkonzept" },
+  { icon: "light-bulb",  text: "Farben werden auf Raum, Licht und Nutzung abgestimmt." },
+  { icon: "person",      text: "Persönliche Beratung vor Ort." },
+  { icon: "settings",    text: "Fachwissen aus Gestaltung, Farbe und Handwerk vereint." },
+  { icon: "square-four", text: "Präzise Umsetzung durch unser eigenes Team." },
+  { icon: "grid_4x4",    text: "Verwendung hochwertiger, langlebiger Materialien." },
+];
+
+// Services — Frame „NO SLIDER - CLICK CARUSEL" (5 Karten image-text).
+// side: "left" = Bild links (Hochformat), "right" = Bild rechts (Querformat).
+const cards = [
+  { img: "/images/farrow-ball/komplettloesung/card1.png", side: "left",  title: "Sprechen Sie mit unseren Farbexperten",      text: "Im persönlichen Gespräch klären wir Wünsche, Anforderungen und den gestalterischen Rahmen Ihres Projekts." },
+  { img: "/images/farrow-ball/komplettloesung/card2.png", side: "right", title: "Entdecken Sie das Potenzial Ihrer Räume",      text: "Wir analysieren Lichtverhältnisse, Architektur, Nutzung und bestehende Materialien direkt vor Ort." },
+  { img: "/images/farrow-ball/komplettloesung/card3.png", side: "left",  title: "Erleben Sie Farben im Zusammenspiel",          text: "Auf dieser Basis entwickeln wir ein abgestimmtes Farbkonzept mit Farrow & Ball Farben – das Räume verbindet und Atmosphäre schafft." },
+  { img: "/images/farrow-ball/komplettloesung/card4.png", side: "right", title: "Erhalten Sie Klarheit und Sicherheit",          text: "Ein transparentes Angebot gibt Ihnen Planungssicherheit für die Umsetzung." },
+  { img: "/images/farrow-ball/komplettloesung/card5.png", side: "left",  title: "Sehen Sie Ihr Konzept Realität werden",        text: "Unser hauseigenes Team setzt das Farbkonzept fachgerecht und zuverlässig um." },
+];
+
+// Related Articles — Frame „Project Cards Carousel" (Platzhalter-Karten wie im Figma).
+const related = [
+  { eyebrow: "Category", title: "Sie haben einen Wunschtraum?", img: "/images/farrow-ball/komplettloesung/related-1.png", href: "#" },
+  { eyebrow: "Category", title: "Sie haben einen Wunschtraum?", img: "/images/farrow-ball/komplettloesung/related-2.png", href: "#" },
+  { eyebrow: "Category", title: "Sie haben einen Wunschtraum?", img: "/images/farrow-ball/komplettloesung/related-3.png", href: "#" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Farrow &amp; Ball Komplettlösung — Farbe als Teil eines Raumkonzepts | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Farrow & Ball Komplettlösung von ADLER Wohndesign: ganzheitliche Farbkonzepte, die Räume strukturieren und Atmosphären schaffen – von der ersten Idee bis zur fachgerechten Umsetzung."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 12355:31177 / 12355:31274 / 12355:31325 -->
+      <section class="hero">
+        <div class="container hero__text">
+          <p class="t-titel breadcrumb">
+            <span class="bc-muted">Farrow &amp; Ball</span> &nbsp;&gt;&nbsp; Komplettlösung
+          </p>
+          <h1 class="t-h1">Farbe als Teil eines durchdachten Raumkonzepts</h1>
+          <p class="t-body hero__lead">
+            Farben prägen Räume – ihre Wirkung entfaltet sich jedoch erst im Zusammenspiel mit Licht,
+            Architektur und Materialien. Mit unserer Farrow &amp; Ball Komplettlösung entwickeln wir
+            ganzheitliche Farbkonzepte, die Räume strukturieren, Atmosphären schaffen und dauerhaft
+            überzeugen. Von der ersten Idee bis zur fachgerechten Umsetzung begleiten wir Sie
+            zuverlässig und mit geschultem Blick fürs Ganze.
+          </p>
+        </div>
+        <!-- Annotation: „Video (Bild) - fertige Komplettlösungen (Emotionen aufbauen)" -->
+        <div class="hero__image">
+          <img
+            src="/images/farrow-ball/komplettloesung/hero.png"
+            alt="Mit Farrow & Ball Farben gestalteter Wohnraum von ADLER Wohndesign"
+            fetchpriority="high"
+          />
+        </div>
+      </section>
+
+      <!-- BENEFITS — Frame „Benefits" 12355:31181 / 12355:31278 / 12355:31329 -->
+      <section class="benefits container">
+        <p class="t-titel benefits__title">
+          <span class="dot" aria-hidden="true"></span>Aus diesen Gründen wählen Sie eine Komplettlösung
+        </p>
+        <ul class="benefits__grid">
+          {benefits.map((b) => (
+            <Benefit icon={b.icon}>{b.text}</Benefit>
+          ))}
+        </ul>
+      </section>
+
+      <!-- SERVICES — Frame „Services" 6053:35152 / 6060:36422 / 6060:36482 -->
+      <section class="services container">
+        <div class="services__intro">
+          <p class="t-titel services__over">Services</p>
+          <h2 class="t-h2">Ihr Weg zur passenden Lösung</h2>
+          <div class="services__lead">
+            <p class="t-body">Sie möchten einzelne Räume gezielt verändern oder ein konkretes Element neu gestalten? Sie wünschen sich klare Abläufe, transparente Angebote und eine fachlich fundierte Beratung?</p>
+            <p class="t-body">Wir begleiten Sie von der ersten Anfrage bis zur präzisen Umsetzung – strukturiert, zuverlässig und abgestimmt auf Ihr Projekt.</p>
+          </div>
+        </div>
+
+        <div class="cards">
+          {cards.map((c) => (
+            <article class={`card card--${c.side}`}>
+              <div class="card__media">
+                <img src={c.img} alt={c.title} loading="lazy" />
+              </div>
+              <div class="card__body">
+                <p class="t-titel card__over">Services</p>
+                <h3 class="t-h4 card__heading">{c.title}</h3>
+                <p class="t-body">{c.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- KONTAKT — Frame „Kontakt" 6053:35161 / 6060:36400 / 6060:36410 (BG weiß) -->
+      <Cta
+        bg="default"
+        over="Services"
+        heading="Lassen Sie sich jetzt von unserem Expertenteam beraten."
+        lead="Entdecken Sie das gesamte Farrow & Ball Farbarchiv bei uns und lassen Sie daraus ein durchdachtes Raumkonzept entstehen. Vereinbaren Sie einfach einen Beratungstermin – wir begleiten Sie von der Idee bis zur Umsetzung."
+        buttonLabel="Mein Projekt starten"
+      />
+
+      <!-- RELATED ARTICLES — Frame „Related Articles Carousel" 6312:50195 / 6312:50170 / 6312:50145 (BG natur #f6f3f2) -->
+      <section class="related">
+        <div class="container related__inner">
+          <p class="t-titel related__title">
+            <span class="dot" aria-hidden="true"></span>Unsere Komplettlösungen
+          </p>
+          <Carousel tone="dark" label="Unsere Komplettlösungen" perMobile={1} perTablet={2} perDesktop={3}>
+            {related.map((r) => (
+              <li>
+                <Card href={r.href} image={r.img} alt={r.title} eyebrow={r.eyebrow} title={r.title} ratio="landscape" />
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
+      <!-- ZITAT — Frame „Zitat" 6053:35165 / 6053:35128 / 6053:35090 (BG weiß, Pfeile) -->
+      <Quote bg="default" author="">„Diese Firma kann ich bestens empfehlen. Klasse Team mit bester fachlicher Kompetenz. Gehen ganzheitlich auf die Wünsche von Kunden ein und finden immer eine passende Lösung."</Quote>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      /* Frame: pt XXL, gap ML zwischen Text und Bild. */
+      .hero { padding-top: var(--gap-xxl); }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        max-width: var(--text-max);
+      }
+      .breadcrumb { color: var(--text); }
+      .bc-muted { color: var(--grey); }
+      .hero__lead { max-width: var(--text-max); }
+      /* Bild full-bleed; Höhen aus Frames: S 240 / M 500 / L 700. */
+      .hero__image { margin-top: var(--gap-ml); width: 100%; height: 240px; }
+      .hero__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* ---- BENEFITS ---- */
+      /* Frame: py (oben XXL, unten XL), gap XL zwischen Eyebrow und Raster. */
+      .benefits {
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+      }
+      .benefits__title { display: flex; align-items: center; gap: var(--gap-xs); color: var(--grey); }
+      .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--bronze); flex: none; }
+      .benefits__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: var(--gutter);
+        row-gap: var(--gap-m);
+      }
+
+      /* ---- SERVICES ---- */
+      /* Frame: py (oben XXL, unten XL), gap XL zwischen Intro und Karten, ML zwischen Karten. */
+      .services {
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+      }
+      .services__intro {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .services__over { color: var(--grey); }
+      .services__intro .t-h2 { color: var(--text); }
+      .services__lead { display: flex; flex-direction: column; gap: var(--gap-xxxs); margin-top: var(--gap-xs); }
+
+      /* Karten: S gestapelt (Bild oben Querformat, Text unten). */
+      .cards { display: flex; flex-direction: column; gap: var(--gap-ml); }
+      .card {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--gap-sm);
+        align-items: center;
+      }
+      .card__media { overflow: hidden; aspect-ratio: 400 / 300; }
+      .card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .card__body { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .card__over { color: var(--grey); }
+      .card__heading { color: var(--text); }
+
+      /* ---- RELATED ARTICLES (BG natur, explizit gesetzt) ---- */
+      .related { background: var(--nature); padding-block: var(--gap-xxl) var(--gap-xl); }
+      .related__inner { display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .related__title { display: flex; align-items: center; gap: var(--gap-xs); color: var(--grey); }
+
+      /* ---- Tablet (701–991) ---- */
+      @media (min-width: 701px) {
+        .hero__image { height: 500px; }
+        .benefits__grid { grid-template-columns: repeat(3, 1fr); row-gap: var(--gap-ml); }
+
+        /* Karten nebeneinander, abwechselnd Bild links/rechts. */
+        .card {
+          grid-template-columns: 1fr 1fr;
+          gap: var(--gutter);
+          align-items: center;
+        }
+        .card__media { height: 100%; aspect-ratio: auto; }
+        .card__body { padding-inline: var(--gap-m); }
+        /* Bild rechts: Reihenfolge tauschen, Querformat. */
+        .card--right .card__media { order: 2; }
+        /* Bild links = Hochformat, Bild rechts = Querformat (wie Frame). */
+        .card--left .card__media { aspect-ratio: 300 / 400; }
+        .card--right .card__media { aspect-ratio: 400 / 300; }
+      }
+
+      /* ---- Desktop (≥992) ---- */
+      @media (min-width: 992px) {
+        /* Frame-Token component/height/image-horizontal = 700. */
+        .hero__image { height: 700px; }
+      }
+    </style>
+  </body>
+</html>
