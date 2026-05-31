@@ -1,25 +1,14 @@
 ---
-// /farrow-ball/farben/beispiel — Farrow-&-Ball Farb-Detailseite (Template für die spätere
-// dynamische [farbe]-Route). 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn),
-// Section 14004:23246 „004-Farrow&Ball/002-Farben/001-Artikel". Drei Breakpoint-Frames:
-//   L 14004:23247 · M 14004:23288 · S 14004:23331
-// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+// /farrow-ball/farben/[farbe] — dynamische Farrow-&-Ball Farb-Detailroute.
+// Struktur/Layout/Tokens 1:1 aus dem verifizierten Muster „farben/beispiel.astro"
+// (Figma V4 AryB7Db9AeJFgXmfBEsvpn, Section 14004:23246), aber mit den ECHTEN Farbdaten
+// aus src/data/farben.json gefüllt: Farbname/Nummer, Hero-Swatch = CSS-Hintergrund mit `hex`,
+// ColorNavigation prev/next = vorherige/nächste Farbe in JSON-Reihenfolge (lokaler href),
+// „Zur Übersicht" → /farrow-ball/farben.
 //
-// Aufbau (alle BP):
-//   Navigation Color (prev / „Zur Übersicht" / next) → Hero (H1 Farbname + Body Nr. + großes
-//   Farb-Swatch-/Sfeer-Bild mit „… Farbkonzept hinzufügen"-Overlay) → Artikel (Übersicht-Spezifikation
-//   links + Beschreibungstext rechts; darunter Bild-Reihe) → Related Articles (nature-BG, Karten-
-//   Karussell „Passendes Farbkonzept") → Kontakt (Cta).
-//
-// Layout „Text Container" (Artikel): Desktop (≥992) zweispaltig nebeneinander, gap = layout/gutter
-//   (32); Tablet/Mobil gestapelt, gap = spacing/ML (56/40). (Aus echter Frame-Geometrie:
-//   L = flex-row gutter, M+S = flex-col ML. Die internen Frame-Annotations-Labels „Desktop:
-//   vertikal / mobil+tablet: horizontal" beschreiben die Figma-Autolayout-Achse, nicht die
-//   visuelle Spaltenlage — Frame gewinnt.)
-//
-// PLATZHALTER: Farbname „Dibber / Nr. 312", Spezifikationswerte, Beschreibung, Bilder und die
-//   Navigation (prev/next) sind Figma-Platzhalter — echte Inhalte folgen mit der dynamischen
-//   Route + Farbdaten (Flag). Favoriten/„Mein Farbkonzept" sind presentational (FavoriteButton).
+// PLATZHALTER (Flag): Spezifikationswerte (Finish, Weißton, Farbkonzepte …), Beschreibungstext,
+//   Bild-Reihe und „Passendes Farbkonzept"-Karten stehen NICHT in der JSON → bleiben als
+//   benannte Figma-Platzhalter bestehen, bis echte Farbinhalte vorliegen.
 import "../../../styles/global.css";
 import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
@@ -27,10 +16,42 @@ import ColorNavigation from "../../../components/ColorNavigation.astro";
 import FavoriteButton from "../../../components/FavoriteButton.astro";
 import Carousel from "../../../components/Carousel.astro";
 import Cta from "../../../components/Cta.astro";
+import farbenData from "../../../data/farben.json";
 
-// Spezifikations-Liste „Übersicht" (Figma 14004:23258 …): je Zeile Label (grey) + Wert.
-// (Frame-interne Namen „Kategorie/Jahr/Ort/Leistungen" sind generische Slot-Namen — echter
-//  Inhalt steht in den Textknoten.) Die Kategorie-Zeile hebt den Wert in Moos hervor.
+type Farbe = {
+  name: string; nummer: string; hex: string; farbwelt: string; archiviert: boolean; href: string;
+};
+
+// Slug = letzter Pfadteil der Staging-href (z. B. „317-kakelugn").
+export function getStaticPaths() {
+  const liste = farbenData as Farbe[];
+  const localHref = (href: string) =>
+    `/farrow-ball/farben/${href.replace(/\/+$/, "").split("/").pop() ?? ""}`;
+  return liste.map((farbe, i) => {
+    const prev = liste[(i - 1 + liste.length) % liste.length];
+    const next = liste[(i + 1) % liste.length];
+    return {
+      params: { farbe: href2slug(farbe.href) },
+      props: {
+        farbe,
+        prev: { name: prev.name, nummer: prev.nummer, hex: prev.hex, href: localHref(prev.href) },
+        next: { name: next.name, nummer: next.nummer, hex: next.hex, href: localHref(next.href) },
+      },
+    };
+  });
+  function href2slug(href: string) {
+    return href.replace(/\/+$/, "").split("/").pop() ?? "";
+  }
+}
+
+interface Nachbar { name: string; nummer: string; hex: string; href: string; }
+interface Props { farbe: Farbe; prev: Nachbar; next: Nachbar; }
+const { farbe, prev, next } = Astro.props as Props;
+
+const farbName = farbe.name;
+const farbNr = `Nr. ${farbe.nummer}`;
+
+// PLATZHALTER — Spezifikations-Liste „Übersicht" (steht nicht in der JSON, Figma-Default).
 const spezifikation = [
   { label: "Grundierung & Vorstreichfarbe", value: ["Dunkle Grundierungstöne"], accent: true },
   { label: "Ergänzender Weißton", value: ["Slipper Satin"] },
@@ -45,21 +66,20 @@ const spezifikation = [
   },
 ];
 
-// Beschreibungstext rechts (Figma 14004:23271).
+// PLATZHALTER — Beschreibungstext (steht nicht in der JSON, Figma-Default).
 const beschreibungAbsaetze = [
-  "Dieses erdige Grün erinnert nicht nur mit seiner Farbe, sondern auch dank seines Namens an das von Gärtnerinnen und Gärtnern gern genutzte Pflanzholz.",
-  "Jede Farbe der Farrow & Ball Palette wird idealerweise mit einem bestimmten Weißton kombiniert, der über denselben Unterton verfügt und Ihre gewählte Farbe perfekt ergänzt. Hier arbeiten wir mit Slipper Satin.",
+  "Jede Farbe der Farrow & Ball Palette entfaltet durch hochwertige Inhaltsstoffe eine besondere Tiefe und ein lebendiges Zusammenspiel mit dem Licht im Raum.",
+  "Jede Farbe wird idealerweise mit einem bestimmten Weißton kombiniert, der über denselben Unterton verfügt und Ihre gewählte Farbe perfekt ergänzt. Hier arbeiten wir mit Slipper Satin.",
 ];
 
-// Bild-Reihe (Figma „Image" 14004:23273): drei Platzhalter, erstes hochformatig, zwei querformatig.
-// Vorhandene F&B-Platzhalter-Assets bis echte Raumbilder vorliegen.
+// PLATZHALTER — Bild-Reihe (steht nicht in der JSON, Figma-Default-Assets).
 const artikelBilder = [
-  { src: "/images/farrow-ball/komplettloesung/related-1.png", alt: "Raumeindruck mit der Farbe Dibber", ratio: "tall" },
-  { src: "/images/farrow-ball/komplettloesung/related-2.png", alt: "Raumeindruck mit der Farbe Dibber", ratio: "wide" },
-  { src: "/images/farrow-ball/komplettloesung/related-3.png", alt: "Raumeindruck mit der Farbe Dibber", ratio: "wide" },
+  { src: "/images/farrow-ball/komplettloesung/related-1.png", alt: `Raumeindruck mit der Farbe ${farbName}`, ratio: "tall" },
+  { src: "/images/farrow-ball/komplettloesung/related-2.png", alt: `Raumeindruck mit der Farbe ${farbName}`, ratio: "wide" },
+  { src: "/images/farrow-ball/komplettloesung/related-3.png", alt: `Raumeindruck mit der Farbe ${farbName}`, ratio: "wide" },
 ];
 
-// Passendes Farbkonzept (Figma „Project Cards Carousel" 14004:23277): 5 Karten (square).
+// PLATZHALTER — Passendes Farbkonzept (steht nicht in der JSON, Figma-Default).
 const related = [
   { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card1.png", href: "#" },
   { titel: "Flächenvorhänge", text: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", img: "/images/farrow-ball/komplettloesung/card2.png", href: "#" },
@@ -74,10 +94,10 @@ const related = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dibber Nr. 312 — Farrow &amp; Ball Farben | ADLER Wohndesign</title>
+    <title>{farbName} {farbNr} — Farrow &amp; Ball Farben | ADLER Wohndesign</title>
     <meta
       name="description"
-      content="Dibber Nr. 312 von Farrow & Ball: ein erdiges, bodenständiges Grün. Ergänzender Weißton, passende Farbkonzepte und Finish-Empfehlungen – ausgewählt von ADLER Wohndesign."
+      content={`${farbName} ${farbNr} von Farrow & Ball: ergänzender Weißton, passende Farbkonzepte und Finish-Empfehlungen – ausgewählt von ADLER Wohndesign.`}
     />
     <link rel="icon" href="/favicon.svg" />
   </head>
@@ -88,12 +108,12 @@ const related = [
       <!-- NAVIGATION COLOR — Frame „Navigation Color" 14004:23250 / 23292 / 23335 -->
       <div class="container">
         <ColorNavigation
-          prevName="Color Name Nr. 111"
-          prevHref="#"
-          prevSwatch="#cbb9a3"
-          nextName="Color Name Nr. 111"
-          nextHref="#"
-          nextSwatch="#cbb9a3"
+          prevName={`${prev.name} Nr. ${prev.nummer}`}
+          prevHref={prev.href}
+          prevSwatch={prev.hex}
+          nextName={`${next.name} Nr. ${next.nummer}`}
+          nextHref={next.href}
+          nextSwatch={next.hex}
           overviewLabel="Zur Übersicht"
           overviewHref="/farrow-ball/farben"
         />
@@ -102,16 +122,16 @@ const related = [
       <!-- HERO — Frame „Hero" 14004:23251 / 23293 / 23336 -->
       <section class="hero container" aria-label="Farbe">
         <div class="hero__intro">
-          <h1 class="t-h1 hero__name">Dibber</h1>
-          <p class="t-body hero__nr">Nr. 312</p>
+          <h1 class="t-h1 hero__name">{farbName}</h1>
+          <p class="t-body hero__nr">{farbNr}</p>
         </div>
 
         <!-- Card Link: großes Farb-/Stimmungsbild + „Farbkonzept hinzufügen"-Overlay -->
         <div class="hero__card">
-          <div class="hero__swatch" style="--swatch:#7c7a5e"></div>
+          <div class="hero__swatch" style={`--swatch:${farbe.hex}`}></div>
           <div class="hero__add">
             <span class="t-titel hero__add-label">meinem Farbkonzept hinzufügen</span>
-            <FavoriteButton variant="add" label="Dibber Nr. 312 zum Farbkonzept hinzufügen" />
+            <FavoriteButton variant="add" label={`${farbName} ${farbNr} zum Farbkonzept hinzufügen`} />
           </div>
         </div>
       </section>
@@ -134,7 +154,7 @@ const related = [
 
           <!-- Beschreibung (14004:23271) -->
           <div class="article__body">
-            <h2 class="t-h2 article__head">Ein bodenständiges Grün</h2>
+            <h2 class="t-h2 article__head">{farbName}</h2>
             {beschreibungAbsaetze.map((p) => <p class="t-body article__para">{p}</p>)}
           </div>
         </div>

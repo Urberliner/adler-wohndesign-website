@@ -45,6 +45,8 @@ import FavoriteButton from "../../components/FavoriteButton.astro";
 import farbenData from "../../data/farben.json";
 
 // Echte F&B-Farben. Karte: Swatch (hex) + Name + „Nr. XXX".
+// Slug = letzter Pfadteil der Staging-href (z. B. „317-kakelugn") → lokale Detail-Route.
+const slugOf = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
 const farben = (farbenData as Array<{
   name: string; nummer: string; hex: string; farbwelt: string; archiviert: boolean; href: string;
 }>).map((c) => ({
@@ -53,7 +55,7 @@ const farben = (farbenData as Array<{
   hex: c.hex,
   farbwelt: c.farbwelt,
   archiviert: c.archiviert,
-  href: c.href,
+  href: `/farrow-ball/farben/${slugOf(c.href)}`,
 }));
 
 // Farbwelten (Sub-Filter „Filter nach Farbe") aus den echten `farbwelt`-Werten, in fester Reihenfolge.
