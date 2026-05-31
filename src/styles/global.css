@@ -130,22 +130,31 @@ button { font: inherit; cursor: pointer; background: none; border: none; color: 
   font-weight: 500;
   font-size: 36px; line-height: 50px;
   letter-spacing: 0;
+  /* Lange dt. Wörter mobil umbrechen + Silbentrennung (html lang="de") — verhindert Viewport-Overflow */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .t-h2 {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 36px; line-height: 50px;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .t-h3 {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 28px; line-height: 40px;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .t-h4 {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 20px; line-height: 30px;
   letter-spacing: 0.03em;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 .t-h5 {
   font-family: var(--font-body);
