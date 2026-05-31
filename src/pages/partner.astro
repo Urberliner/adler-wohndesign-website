@@ -1,0 +1,278 @@
+---
+// /partner — „005-DasSindWir / 004-Partner". 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn).
+// Drei Breakpoint-Frames (default-State, der zweite S-State 5661:28745 ist ein Interaktions-
+// state und wird ignoriert):
+//   S 5661:28713 · M 5661:28778 · L 5661:28818
+// Aufbau (alle BP identisch): Hero (Breadcrumb „Das sind wir > Partner" + H1 + Body)
+//   → Card Container (Filter menu „Filter" + Partner-Karten-Raster + Button „Zeigen Sie mir mehr").
+//   Footer enthält bereits BackToTop.
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+// Spalten je BP: S=1 · M=2 · L=4 (aus get_metadata: Kartenbreiten 343 / 373,5 / 368, gleiche Karte).
+//
+// Annotation (Franzi, Card Partner, alle BP): „On Click - sobald eine neue Card geöffnet wird
+//   schließt sich die letzte automatisch" → die Karten klappen wie ein Akkordeon auf (Pfeil unten
+//   rechts), und es ist immer höchstens eine Karte geöffnet. Umgesetzt mit nativem <details> +
+//   kleinem Script, das beim Öffnen einer Karte die übrigen schließt (respektiert die Vorgabe).
+//   Der konkrete aufgeklappte Inhalt liegt im Figma-default-State nicht vor → Platzhalter-Inhalt
+//   (Flag). Tippfehler „schießt" → „schließt" korrigiert (Default „Tippfehler korrigieren").
+//
+// Karten-Inhalte = PLATZHALTER (Figma zeigt durchgehend „Partner Firma Name" / „beziehende
+//   Produkte" + Logo-Placeholder). Logos = benannte Bild-Platzhalter. Listing-Layout-Detail
+//   (Masonry vs. gleichmäßiges Raster) projektweit offen → schlichtes, gleichmäßiges Raster,
+//   siehe RUECKFRAGEN #9 (Flag).
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import FilterMenu from "../components/FilterMenu.astro";
+import Icon from "../components/Icon.astro";
+
+// PLATZHALTER-Partner. Anzahl wie im Figma-default (6 Karten). Logo + Name + bezogene Produkte
+// sowie der aufgeklappte Inhalt sind Platzhalter, bis echte Partnerdaten vorliegen.
+const partner = Array.from({ length: 6 }, () => ({
+  name: "Partner Firma Name",
+  products: "beziehende Produkte",
+  logo: "", // benannter Platzhalter — echte Marken-Logos folgen
+  detail:
+    "Hier folgt eine kurze Beschreibung des Partners und der Produkte, die wir von dieser Marke beziehen.",
+}));
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Partner — Ausgesuchte &amp; exklusive Marken | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Ausgesuchte und exklusive Marken bei ADLER Wohndesign: Dekorations-, Polster- und Gardinenstoffe, Tapeten, Bodenbeläge und mehr – ein Überblick über unsere wichtigsten Kollektionen und Partner."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" (L 6414:42944 / M 12138:20608 / S 12138:20628) -->
+      <section class="hero container">
+        <div class="hero__text">
+          <Breadcrumb
+            items={[
+              { label: "Das sind wir", href: "#" },
+              { label: "Partner" },
+            ]}
+            class="hero__crumbs"
+          />
+          <div class="hero__copy">
+            <h1 class="t-h1">Ausgesuchte &amp; exklusive Marken</h1>
+            <p class="t-body hero__lead">
+              Wir führen eine Vielzahl an Marken für Dekorations-, Polster- und Gardinenstoffe,
+              Tapeten, Bodenbeläge und vieles mehr. Hier bekommen Sie einen Überblick über unsere
+              wichtigsten Kollektionen und Partner.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARD CONTAINER — Frame „Card Container" (L 6414:42946 / M 6414:42791 / S 6414:42601) -->
+      <section class="partner container" aria-label="Partner & Marken">
+        <!-- Filter — Frame zeigt nur „Filter" + Chevron (Sub-Filter eingeklappt).
+             Echte Filter-Tabs/-Logik = Folgeaufgabe mit Partnerdaten (Flag). -->
+        <div class="partner__filter">
+          <FilterMenu label="Filter" layout="wrap" open={false} name="partner" />
+        </div>
+
+        <!-- Partner-Raster: S 1 / M 2 / L 4 Spalten. Karten = Akkordeon (Annotation). -->
+        <ul class="partner-grid" data-partner-grid>
+          {partner.map((p) => (
+            <li class="partner-grid__item">
+              <details class="pcard" name="partner-cards">
+                <summary class="pcard__head">
+                  <div class="pcard__logo" aria-hidden="true">
+                    {p.logo
+                      ? <img src={p.logo} alt={p.name} loading="lazy" />
+                      : <span class="pcard__logo-ph">Logo</span>}
+                  </div>
+                  <div class="pcard__intro">
+                    <div class="pcard__text">
+                      <p class="t-h5 pcard__name">{p.name}</p>
+                      <p class="t-small pcard__products">{p.products}</p>
+                    </div>
+                    <span class="pcard__toggle" aria-hidden="true">
+                      <Icon name="arrow-down" size={40} class="pcard__chev" />
+                    </span>
+                  </div>
+                </summary>
+                <p class="t-body pcard__detail">{p.detail}</p>
+              </details>
+            </li>
+          ))}
+        </ul>
+
+        <Button href="#" class="partner__more">Zeigen Sie mir mehr</Button>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- (pt XXL, px margin, Text max 1056/927/652, gap M zw. Breadcrumb-Block + Copy) */
+      .hero {
+        padding-top: var(--gap-xxl);
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* spacing/M 56·44·32 (Container Text) */
+        max-width: var(--text-max);
+      }
+      .hero__copy {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* spacing/SM 44·32·24 (H1 → Body) */
+        color: var(--text);
+      }
+      .hero__lead {
+        color: var(--text);
+      }
+
+      /* ---- CARD CONTAINER ---- (py XXL, px margin, gap ML zwischen Filter / Raster / Button, zentriert) */
+      .partner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-ml); /* spacing/ML 78·56·40 */
+        padding-block: var(--gap-xxl);
+      }
+      .partner__filter {
+        width: 100%;
+      }
+
+      /* Partner-Raster: flexibles Grid. Spalten S 1 / M 2 / L 4.
+         Reihen-Abstand = spacing/ML, Spalten-Abstand = layout/gutter (aus Frame: gap 78 / 32). */
+      .partner-grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr; /* S: 1 Spalte */
+        column-gap: var(--gutter);  /* layout/gutter 16·24·32 */
+        row-gap: var(--gap-ml);     /* spacing/ML 40·56·78 */
+      }
+      .partner-grid__item {
+        display: flex;
+      }
+
+      /* ---- Card Partner ---- (bg natur, pt L / pb M / px SM, gap ML, keine runden Ecken) */
+      .pcard {
+        width: 100%;
+        background: var(--nature);
+        padding: var(--gap-l) var(--gap-sm) var(--gap-m); /* pt L · px SM · pb M */
+        display: flex;
+        flex-direction: column;
+      }
+      .pcard__head {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-ml); /* spacing/ML zwischen Logo und Text */
+      }
+      .pcard__head::-webkit-details-marker { display: none; }
+
+      /* Logo: 120px in 180-breitem Container (Frame). Platzhalter bis echte Logos vorliegen. */
+      .pcard__logo {
+        width: 180px;
+        max-width: 100%;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .pcard__logo img {
+        max-width: 120px;
+        max-height: 120px;
+        object-fit: contain;
+      }
+      .pcard__logo-ph {
+        width: 120px;
+        height: 120px;
+        display: grid;
+        place-items: center;
+        color: var(--grey);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border: 1px dashed var(--light-grey);
+      }
+
+      /* Text-Intro: Name + bezogene Produkte links, Aufklapp-Pfeil rechts unten. */
+      .pcard__intro {
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--gap-sm);
+      }
+      .pcard__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* spacing/xxxs */
+        color: var(--text);
+        text-align: left;
+      }
+      .pcard__name { color: var(--text); }
+      .pcard__products { color: var(--text); }
+
+      .pcard__toggle {
+        display: inline-flex;
+        flex: none;
+        color: var(--text);
+      }
+      .pcard__chev :global(svg) { transition: transform 0.25s ease; }
+      .pcard[open] .pcard__toggle .pcard__chev :global(svg) { transform: rotate(180deg); }
+
+      .pcard__detail {
+        margin-top: var(--gap-sm);
+        color: var(--text);
+      }
+
+      .partner__more {
+        align-self: center;
+      }
+
+      /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      @media (min-width: 701px) {
+        .partner-grid { grid-template-columns: repeat(2, 1fr); } /* M: 2 Spalten */
+      }
+      @media (min-width: 992px) {
+        .partner-grid { grid-template-columns: repeat(4, 1fr); } /* L: 4 Spalten */
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pcard__chev :global(svg) { transition: none; }
+      }
+    </style>
+
+    <!-- Annotation: „sobald eine neue Card geöffnet wird, schließt sich die letzte automatisch".
+         name="partner-cards" auf <details> erzwingt das bereits in modernen Browsern; das Script
+         ist Fallback für ältere Browser ohne native Exclusive-Accordion-Unterstützung. -->
+    <script>
+      const grid = document.querySelector("[data-partner-grid]");
+      if (grid) {
+        const cards = Array.from(grid.querySelectorAll<HTMLDetailsElement>("details.pcard"));
+        cards.forEach((card) => {
+          card.addEventListener("toggle", () => {
+            if (card.open) {
+              cards.forEach((other) => {
+                if (other !== card) other.open = false;
+              });
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
