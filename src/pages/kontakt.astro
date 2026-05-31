@@ -70,8 +70,9 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
                 <p class="t-body upload__label">Zusätzliche Dokumente (max. 10MB)</p>
                 <label class="upload__btn">
                   <span class="upload__text">Dateien hochladen</span>
-                  <input type="file" name="attachment" multiple class="upload__input" />
+                  <input type="file" name="attachment" multiple class="upload__input" id="uploadInput" />
                 </label>
+                <ul class="upload__files" id="uploadFiles" aria-live="polite"></ul>
               </div>
 
               <!-- Datenschutz -->
@@ -158,6 +159,12 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
       .upload__btn { display: inline-flex; align-items: center; justify-content: center; max-width: 320px; width: 100%; height: 60px; padding: 20px; border: 1.2px solid var(--light-grey); color: var(--white); cursor: pointer; transition: border-color 0.2s ease; }
       .upload__btn:hover { border-color: var(--bronze); }
       .upload__input { position: absolute; left: -9999px; }
+      /* File-uploaded: bronze Balken + X (Figma 8022:19199) */
+      .upload__files { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: 320px; }
+      .upload__file { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-s); height: 60px; padding: 0 20px; background: var(--bronze); color: var(--white); }
+      .upload__name { font-size: 15px; line-height: 27px; letter-spacing: 0.03em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .upload__remove { flex: none; display: grid; place-items: center; width: 28px; height: 28px; color: var(--white); }
+      .upload__remove:hover { color: var(--moos); }
 
       /* Consent (eckig, bronze bei Auswahl) — Gap = gutter 32 */
       .consent { display: flex; align-items: flex-start; gap: var(--gutter); cursor: pointer; }
@@ -212,12 +219,34 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
         if (subjEl) subjEl.value = val + " – Anfrage über adler-wohndesign.de";
       }));
 
-      const fileInput = document.querySelector(".upload__input");
-      const fileText = document.querySelector(".upload__text");
-      fileInput?.addEventListener("change", () => {
-        const n = fileInput.files?.length || 0;
-        if (fileText) fileText.textContent = n === 0 ? "Dateien hochladen" : (n === 1 ? fileInput.files[0].name : n + " Dateien ausgewählt");
-      });
+      // Upload mit Datei-Liste (bronze Balken + X zum Entfernen)
+      const fileInput = document.getElementById("uploadInput");
+      const fileList = document.getElementById("uploadFiles");
+      const renderFiles = () => {
+        if (!fileList || !fileInput) return;
+        fileList.textContent = "";
+        Array.from(fileInput.files).forEach((file, idx) => {
+          const li = document.createElement("li");
+          li.className = "upload__file";
+          const name = document.createElement("span");
+          name.className = "upload__name";
+          name.textContent = file.name;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "upload__remove";
+          btn.setAttribute("aria-label", "Datei entfernen: " + file.name);
+          btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>';
+          btn.addEventListener("click", () => {
+            const dt = new DataTransfer();
+            Array.from(fileInput.files).forEach((f, i) => { if (i !== idx) dt.items.add(f); });
+            fileInput.files = dt.files;
+            renderFiles();
+          });
+          li.append(name, btn);
+          fileList.append(li);
+        });
+      };
+      fileInput?.addEventListener("change", renderFiles);
 
       const form = document.getElementById("kontaktForm");
       const status = document.getElementById("formStatus");
