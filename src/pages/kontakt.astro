@@ -1,0 +1,243 @@
+---
+// Kontaktseite (V4) — 1:1 aus Figma (5661:33241 desktop / 6416:19691 tablet / 5661:33175 mobil).
+// Intro (Hero + Formular) auf moos (grün), Standort auf weiß mit full-bleed Bild.
+// Backend: Web3Forms — Access-Key aus Umgebungsvariable PUBLIC_WEB3FORMS_KEY.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "";
+
+const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"];
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kontakt — Termin vereinbaren | ADLER Wohndesign</title>
+    <meta name="description" content="Vereinbaren Sie einen Termin im Atelier ADLER Wohndesign in Berlin-Charlottenburg. Rufen Sie uns an oder schreiben Sie uns – wir starten gemeinsam." />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- INTRO: HERO + FORMULAR (moos) -->
+      <section class="kontakt">
+        <div class="kontakt__inner">
+          <div class="kontakt__head">
+            <p class="t-titel kontakt__over">Service</p>
+            <h1 class="t-h1 kontakt__title">Weil wir Ihnen gefallen,<br />vereinbaren Sie einen Termin!</h1>
+            <p class="t-body kontakt__lead"><a href="tel:+49303054711" class="kontakt__link">Rufen Sie uns an</a> oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
+          </div>
+
+          <form class="form" id="kontaktForm" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+            <input type="hidden" name="subject" id="formSubject" value="Beratungstermin vereinbaren – Anfrage über adler-wohndesign.de" />
+            <input type="hidden" name="anliegen" id="formAnliegen" value="Beratungstermin vereinbaren" />
+            <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <!-- Anliegen-Chips -->
+            <div class="chips" role="group" aria-label="Anliegen wählen">
+              {anliegen.map((a, i) => (
+                <button type="button" class:list={["chip", { "chip--active": i === 0 }]} data-anliegen={a} aria-pressed={i === 0 ? "true" : "false"}>{a}</button>
+              ))}
+            </div>
+
+            <div class="form__fields">
+              <div class="form__grid">
+                <div class="form__col">
+                  <div class="field"><label for="f-vorname">Vorname *</label><input id="f-vorname" name="Vorname" type="text" placeholder="Vorname *" required /></div>
+                  <div class="field"><label for="f-name">Name *</label><input id="f-name" name="Name" type="text" placeholder="Name *" required /></div>
+                  <div class="field"><label for="f-mail">E-Mail *</label><input id="f-mail" name="E-Mail" type="email" placeholder="E-Mail *" required /></div>
+                  <div class="field"><label for="f-tel">Telefon *</label><input id="f-tel" name="Telefon" type="tel" placeholder="Telefon *" required /></div>
+                </div>
+                <div class="form__col">
+                  <p class="t-body form__hint">Bei Firmenanfrage: *</p>
+                  <div class="field"><label for="f-firma">Firma</label><input id="f-firma" name="Firma" type="text" placeholder="Firma *" /></div>
+                  <div class="field"><label for="f-job">Jobtitel</label><input id="f-job" name="Jobtitel" type="text" placeholder="Jobtitel *" /></div>
+                </div>
+              </div>
+
+              <div class="field field--message">
+                <label for="f-msg">Ihre Nachricht *</label>
+                <textarea id="f-msg" name="Nachricht" rows="4" placeholder="Ihre Nachricht *" required></textarea>
+              </div>
+
+              <!-- Upload -->
+              <div class="upload">
+                <p class="t-body upload__label">Zusätzliche Dokumente (max. 10MB)</p>
+                <label class="upload__btn">
+                  <span class="upload__text">Dateien hochladen</span>
+                  <input type="file" name="attachment" multiple class="upload__input" />
+                </label>
+              </div>
+
+              <!-- Datenschutz -->
+              <label class="consent">
+                <input type="checkbox" name="datenschutz" required class="consent__box" />
+                <span class="consent__mark" aria-hidden="true"></span>
+                <span class="t-body consent__text">*Ich habe die <a href="/datenschutz">Datenschutzrichtlinien</a> gelesen und stimme zu, dass meine Kontaktdaten und Anfragen gespeichert werden.</span>
+              </label>
+
+              <button type="submit" class="btn form__submit">Versenden meiner Nachricht</button>
+              <p class="form__status" id="formStatus" role="status" aria-live="polite" hidden></p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- STANDORT (weiß) -->
+      <section class="standort">
+        <p class="t-titel standort__over">Unser Standort</p>
+        <div class="standort__media"><img src="/images/home/hero.jpg" alt="Ladengeschäft ADLER Wohndesign in Berlin-Charlottenburg" loading="lazy" /></div>
+        <div class="standort__text">
+          <div class="standort__cols">
+            <div class="standort__col">
+              <p class="t-body">ADLER Wohndesign Ladengeschäft<br />Reichsstraße 100<br />14052 Berlin-Charlottenburg</p>
+            </div>
+            <div class="standort__col">
+              <p class="t-body">Finden Sie Ihren Weg einfach &amp; unkompliziert zu unserem Geschäft in Berlin.</p>
+              <a class="standort__link t-body" href="https://www.google.com/maps?q=Reichsstra%C3%9Fe+100,+14052+Berlin" target="_blank" rel="noopener">Ihr Anfahrtsweg</a>
+            </div>
+            <div class="standort__col">
+              <a class="standort__link t-body" href="mailto:info@adler-wohndesign.de">info@adler-wohndesign.de</a>
+              <a class="standort__link t-body" href="tel:+49303054711">+49 30 305 47 11</a>
+            </div>
+          </div>
+          <div class="standort__hours">
+            <p class="t-titel standort__hours-over">Unsere Öffnungszeiten</p>
+            <p class="t-body">Mo. – Fr. 10.00 Uhr bis 19.00 Uhr<br />Samstag 10.00 Uhr bis 14.00 Uhr</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ===== INTRO: HERO + FORMULAR (moos) ===== */
+      .kontakt { background: var(--moos); color: var(--white); }
+      .kontakt__inner { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--layout-margin); padding-block: var(--gap-xxl) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); }
+      .kontakt__head { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 1056px; }
+      .kontakt__over { color: var(--white); }
+      .kontakt__title, .kontakt__lead { color: var(--white); }
+      .kontakt__lead { max-width: 70ch; }
+      .kontakt__link { color: #f9f6f4; text-decoration: underline; text-underline-offset: 3px; }
+
+      /* Chips (Figma Filter tab) */
+      .chips { display: flex; flex-wrap: wrap; gap: var(--gap-s); }
+      .chip { border: 1.2px solid var(--light-grey); border-radius: 40px; padding: 12px 30px; color: var(--white); font-size: 12px; letter-spacing: 0.01em; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+      .chip:hover { border-color: var(--bronze); }
+      .chip--active { background: var(--bronze); border-color: var(--bronze); }
+
+      /* Formular */
+      .form { display: flex; flex-direction: column; gap: var(--gap-l); }
+      .form__fields { display: flex; flex-direction: column; gap: var(--gap-m); }
+      .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-m) 62px; }
+      .form__col { display: flex; flex-direction: column; gap: var(--gap-s); }
+      .form__hint { color: var(--nature-75); }
+      .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+      /* Unterstrich-Felder */
+      .field label { position: absolute; left: -9999px; }
+      .field input, .field textarea {
+        width: 100%; background: transparent; border: 0; border-bottom: 1.2px solid var(--light-grey);
+        color: var(--white); font-family: var(--font-body); font-size: 15px; line-height: 27px; letter-spacing: 0.03em;
+        padding: 6px 0; transition: border-color 0.2s ease;
+      }
+      .field--message { margin-top: var(--gap-s); }
+      .field textarea { resize: vertical; min-height: 120px; }
+      .field input::placeholder, .field textarea::placeholder { color: var(--grey); }
+      .field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--bronze); }
+
+      /* Upload */
+      .upload { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .upload__label { color: var(--nature-75); }
+      .upload__btn { display: inline-flex; align-items: center; justify-content: center; max-width: 320px; width: 100%; height: 60px; padding: 20px; border: 1.2px solid var(--light-grey); color: var(--white); cursor: pointer; transition: border-color 0.2s ease; }
+      .upload__btn:hover { border-color: var(--bronze); }
+      .upload__input { position: absolute; left: -9999px; }
+
+      /* Consent (eckig, bronze bei Auswahl) — Gap = gutter 32 */
+      .consent { display: flex; align-items: flex-start; gap: var(--gutter); cursor: pointer; }
+      .consent__box { position: absolute; opacity: 0; width: 25px; height: 25px; margin: 0; }
+      .consent__mark { flex: none; width: 25px; height: 25px; border: 1.2px solid var(--light-grey); display: grid; place-items: center; transition: background 0.2s, border-color 0.2s; }
+      .consent__mark::after { content: ""; width: 13px; height: 8px; border-left: 2px solid var(--white); border-bottom: 2px solid var(--white); transform: rotate(-45deg) scale(0); transition: transform 0.15s ease; margin-top: -3px; }
+      .consent__box:checked + .consent__mark { background: var(--bronze); border-color: var(--bronze); }
+      .consent__box:checked + .consent__mark::after { transform: rotate(-45deg) scale(1); }
+      .consent__box:focus-visible + .consent__mark { outline: 2px solid var(--bronze); outline-offset: 2px; }
+      .consent__text { color: var(--nature); }
+      .consent__text a { color: #f9f6f4; text-decoration: underline; }
+
+      .form__submit { align-self: center; }
+      .form__status { text-align: center; font-size: 14px; }
+      .form__status.is-error { color: #ffb4a2; }
+      .form__status.is-ok { color: var(--bronze); }
+
+      /* ===== STANDORT (weiß) ===== */
+      .standort { background: var(--white); color: var(--text); padding-block: var(--gap-xxl); display: flex; flex-direction: column; gap: var(--gap-l); }
+      .standort__over { color: var(--text); text-align: center; }
+      .standort__media { width: 100%; height: 700px; }       /* full-bleed */
+      .standort__media img { width: 100%; height: 100%; object-fit: cover; }
+      .standort__text { max-width: var(--container-max); margin-inline: auto; width: 100%; padding-inline: var(--layout-margin); display: flex; flex-direction: column; gap: var(--gap-l); }
+      .standort__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap-m); }
+      .standort__col { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .standort__col .t-body { color: var(--text); }
+      .standort__link { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+      .standort__link:hover { color: var(--bronze); }
+      .standort__hours { display: flex; flex-direction: column; gap: var(--gap-s); }
+      .standort__hours-over { color: var(--text); }
+
+      /* ===== Responsive ===== */
+      @media (max-width: 991px) {
+        .form__grid { grid-template-columns: 1fr; gap: var(--gap-l); }
+        .standort__cols { grid-template-columns: 1fr; gap: var(--gap-m); }
+        .standort__media { height: 500px; }
+      }
+      @media (max-width: 700px) {
+        .standort__media { height: 585px; }
+      }
+    </style>
+
+    <script define:vars={{ hasKey: WEB3FORMS_KEY !== "" }}>
+      const chips = document.querySelectorAll(".chip");
+      const subjEl = document.getElementById("formSubject");
+      const anlEl = document.getElementById("formAnliegen");
+      chips.forEach((c) => c.addEventListener("click", () => {
+        chips.forEach((x) => { x.classList.remove("chip--active"); x.setAttribute("aria-pressed", "false"); });
+        c.classList.add("chip--active"); c.setAttribute("aria-pressed", "true");
+        const val = c.dataset.anliegen;
+        if (anlEl) anlEl.value = val;
+        if (subjEl) subjEl.value = val + " – Anfrage über adler-wohndesign.de";
+      }));
+
+      const fileInput = document.querySelector(".upload__input");
+      const fileText = document.querySelector(".upload__text");
+      fileInput?.addEventListener("change", () => {
+        const n = fileInput.files?.length || 0;
+        if (fileText) fileText.textContent = n === 0 ? "Dateien hochladen" : (n === 1 ? fileInput.files[0].name : n + " Dateien ausgewählt");
+      });
+
+      const form = document.getElementById("kontaktForm");
+      const status = document.getElementById("formStatus");
+      form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!hasKey) {
+          status.hidden = false; status.className = "form__status is-error";
+          status.textContent = "Formular noch nicht aktiv: Web3Forms-Key fehlt (PUBLIC_WEB3FORMS_KEY).";
+          return;
+        }
+        status.hidden = false; status.className = "form__status"; status.textContent = "Senden …";
+        try {
+          const res = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+          const data = await res.json();
+          if (data.success) { form.reset(); status.className = "form__status is-ok"; status.textContent = "Vielen Dank! Ihre Nachricht wurde versendet."; }
+          else { status.className = "form__status is-error"; status.textContent = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."; }
+        } catch {
+          status.className = "form__status is-error"; status.textContent = "Netzwerkfehler. Bitte versuchen Sie es später erneut.";
+        }
+      });
+    </script>
+  </body>
+</html>
