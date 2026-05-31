@@ -17,3 +17,7 @@ dist/
 
 # Figma-Referenz-Screenshots (nur lokal)
 .figma-ref/
+
+# Editor-/Tool-Backups
+*.bak
+*.bak*
