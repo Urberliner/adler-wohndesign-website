@@ -49,8 +49,8 @@ Notiz auf allen drei Startseiten-Frames (Desktop `12242:22419`, Tablet `12242:22
 → So gebaut: Header 96 (Desktop/Tablet) / Mobil offen (siehe 4b).
 
 **Frage 4a:** Richtig interpretiert (Hero = voller sichtbarer Bereich unter dem Header)?
-**Frage 4b:** Welche **Header-Höhe auf Mobil**? Im Mockup wirkt die Statusleiste wie ~64px,
-das echte Menü ist aber 96px hoch. Bitte Soll-Höhe der Mobil-Navigation bestätigen.
+**Frage 4b:** ~~Header-Höhe Mobil?~~ **Geklärt:** Header ist auf allen Breakpoints 96px (im
+Browser gemessen); die ~64px im Mockup waren die OS-Statusleiste. Umgesetzt: `calc(100vh − 96px)` überall.
 
 ---
 
@@ -59,11 +59,28 @@ Alle neuen Bausteine (Hero-Image, image-text, Service-Karten, Übersicht) sowie 
 Startseite nutzen aktuell **Platzhalter** (recyceltes Foto).
 
 **Frage:** Sind die finalen Bilder schon in Figma exportierbar, oder kommen sie separat?
+(Betrifft auch das **Services-Hero-Video**, s. #7.)
+
+---
+
+## 6. Services — Teilleistungen: Linkliste vs. Karten (Frame ↔ Notiz)
+Services-Seite (`12307:37383` ff.). **Konflikt:**
+- Der **gezeichnete Frame** zeigt je Kategorie: Bild links + **vertikale Linkliste** rechts (7 „Card Link"-Zeilen: Label H4 + Pfeil).
+- Die **Entwicklungs-Notiz** an jeder Kategorie sagt dagegen: „Anordnung: desktop **4 in einer Reihe** (mehrere Reihen), tablet **2 Cards** (horizontal scrollen), mobil **1 Card** (horizontal scrollen)" + Design-Notiz „**Individuelle & größere Vorschau**".
+
+→ Aktuell gebaut: **wie der Frame** (Bild + vertikale Linkliste, Pfeil = `arrow_upward` 90°, bronze; Desktop/Tablet 2-spaltig Bild|Liste, Mobil gestapelt). Regel „Frame gewinnt".
+**Frage:** Bleibt es die Linkliste (Frame), oder sollen es echte **Karten mit Bild/Vorschau** im 4/2/1-Karussell werden (Notiz)? Falls Karten: brauche ich das Card-Design + echte Inhalte.
+
+## 7. Services — Hero-Video & Card-Inhalte (bestätigt, zur Info)
+- **Hero-Video**: Als `<video autoplay muted loop>` mit Poster-Bild (Platzhalter) gebaut — **Videodatei fehlt noch**. Bitte liefern (Franzi-Notiz: „fertige Komplettlösungen, Emotionen aufbauen").
+- **Teilleistungs-Links** sind bei Stoffe/Boden/Wand/Einrichtung aktuell **Platzhalter** (dieselbe Gardinen-Liste wie im Frame, auf deinen Wunsch „Platzhalter wie Figma"). Echte Unterpunkte je Kategorie bitte nachliefern.
+- **Chips-Labels**: Im Frame Platzhalter („Verantwortung" mehrfach) → ich nutze sinnvolle Sprung-Labels (Komplettes Wohnkonzept / Gardinen & Rollos / Stoffe / Boden / Wand / Einrichtung). OK so?
+- **Tippfehler im Frame** („Raffrol**l**los", „Lamellenvor**hönge**") **nicht** übernommen — korrekte Schreibweise genutzt.
 
 ---
 
 ## Hinweise (keine Rückfrage, nur zur Info)
-- **Aufbau-Accordion** (Startseite): „neue Card öffnet → vorherige schließt; Start: alle zu" → **umgesetzt**.
-- **Blog-Quadrat-Karten**: „Hover-Zoom im Bildrahmen" → **umgesetzt**.
-- Diese Startseiten-Änderungen sind gebaut, aber **noch nicht im Browser final geprüft**
-  (Preview-Server hing) und **noch nicht committet**.
+- **Aufbau-Accordion** (Startseite): „neue Card öffnet → vorherige schließt; Start: alle zu" → **umgesetzt & browser-verifiziert, committet**.
+- **Blog-Quadrat-Karten**: „Hover-Zoom im Bildrahmen" → **umgesetzt & committet**.
+- **Startseite-Hero** „Header+Bildschirm füllend" → **umgesetzt & committet** (`calc(100vh − 96px)`).
+- **Services-Seite** an Frames angeglichen → **umgesetzt & browser-verifiziert** (Desktop+Mobil), noch **nicht committet**.
