@@ -1,0 +1,38 @@
+---
+// Filter tab (V4) — 1:1 aus Figma „Filter tab" (5333:8693), in Kontext 6319:52504 verifiziert.
+// Pill: Default (1,2px-Rahmen light-grey) · active (bronze/weiß) · optional „+"-Icon (Kategorie,
+// öffnet Sub-Filter) · optional Count „(n)". Padding py=10 px=22, small-body 12, Radius 40.
+// Tokens aus get_design_context/variable_defs.
+import Icon from "./Icon.astro";
+interface Props {
+  label: string;
+  active?: boolean;
+  icon?: "add" | null;
+  count?: number | null;
+  name?: string;
+  class?: string;
+}
+const { label, active = false, icon = null, count = null, name, class: cls = "" } = Astro.props;
+---
+<button type="button" class:list={["filter-tab", active && "is-active", cls]} aria-pressed={active} data-filter={name}>
+  <span>{label}</span>
+  {count != null && <span class="filter-tab__count">({count})</span>}
+  {icon === "add" && <Icon name="add" size={22} class="filter-tab__icon" />}
+</button>
+
+<style>
+  .filter-tab {
+    display: inline-flex; align-items: center; gap: var(--gap-xxxs); /* 6 · 4 · 4 */
+    border: 1.2px solid var(--light-grey);
+    border-radius: 40px;
+    padding: 10px 22px; /* button+filter top/bottom-s · left/right-s */
+    font-family: var(--font-body); font-size: 12px; line-height: 22px; letter-spacing: 0.01em;
+    color: var(--text); background: none; white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .filter-tab:has(.filter-tab__icon) { padding-right: 20px; } /* pr=spacing/xs 20 mit Icon */
+  .filter-tab__icon { color: currentColor; }
+  .filter-tab:hover { border-color: var(--bronze); }
+  .filter-tab.is-active { background: var(--bronze); color: var(--white); border-color: transparent; }
+  .filter-tab.is-active:hover { filter: brightness(1.07); border-color: transparent; }
+</style>
