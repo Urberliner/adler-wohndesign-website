@@ -1,7 +1,7 @@
 ---
-// Button — Figma V4 „Button"-Komponente
+// Button — Figma V4 „Button"-Komponente (Frame 2088:4677).
 // Basis-Styles (bronze Pill) liegen in global.css (.btn); hier kommen Varianten,
-// Icon-Anordnung und Zustände (:active) dazu.
+// Icon-Anordnung und Zustände (:active, :hover) dazu.
 //
 // Props:
 //  - href:         wenn gesetzt → <a>, sonst <button>
@@ -11,6 +11,16 @@
 //  - iconOnly:     nur Icon (rund) — `label` für Barrierefreiheit nicht vergessen
 //  - type:         button | submit (nur ohne href)
 //  - label:        aria-label (Pflicht bei iconOnly)
+//
+// Figma-States:
+//  - Text+Icon (Pfeil rechts): default 2718:6455 / hover 5361:9936 — arrow-open (Rechtspfeil,
+//    arrow_upward 90° gedreht), Icon-Größe 32, gap 16 (layout/gutter).
+//    Franzi-Motion „Hover, small movement in arrow: Pfeil ist kürzer und wird länger" → beim
+//    Hover bewegt sich der rechts stehende Pfeil dezent nach rechts und „wächst" (scaleX).
+//    Respektiert prefers-reduced-motion. Nur für die Pfeil-Variante (icon="arrow-open" rechts).
+//  - Icon+Text (Drucker links): 12429:25022 — print-Icon 20px links, gap 4 (spacing/xxxs),
+//    Text small-body, padding py8 px20. Über variant nicht nötig — entsteht aus icon="print" + left.
+//  - „No change in design for dark or light mode" → keine modusabhängigen Styles nötig.
 import Icon from "./Icon.astro";
 interface Props {
   href?: string;
@@ -35,17 +45,31 @@ const {
   ...rest
 } = Astro.props;
 const Tag = href ? "a" : "button";
+
+// Pfeil-Variante: rechts stehender Pfeil (arrow-open) → Hover-Motion + größeres Icon (32, gap 16).
+const isArrow = icon === "arrow-open" && iconPosition === "right" && !iconOnly;
+// Drucker-Variante: Icon links (z. B. print) → kleineres Icon (20) + enger gap (4).
+const isLeftIcon = !!icon && iconPosition === "left" && !iconOnly;
+const inlineIconSize = isArrow ? 32 : isLeftIcon ? 20 : 18;
+// Pfeil-Variante nutzt den BLANKEN arrow_upward (90° gedreht via CSS) — NICHT arrow-open
+// (das ist ein Kreis-Hintergrund-Icon und würde als weiße Scheibe rendern).
+const rightIconName = isArrow ? "arrow_upward" : icon;
 ---
 <Tag
-  class:list={["btn", `btn--${variant}`, { "btn--icon-only": iconOnly }, cls]}
+  class:list={[
+    "btn",
+    `btn--${variant}`,
+    { "btn--icon-only": iconOnly, "btn--arrow": isArrow, "btn--icon-left": isLeftIcon },
+    cls,
+  ]}
   href={href}
   type={href ? undefined : type}
   aria-label={iconOnly ? label : undefined}
   {...rest}
 >
-  {icon && iconPosition === "left" && !iconOnly && <Icon name={icon} size={18} />}
+  {icon && iconPosition === "left" && !iconOnly && <Icon name={icon} size={inlineIconSize} class="btn__icon btn__icon--left" />}
   {iconOnly && icon ? <Icon name={icon} size={20} /> : <span class="btn__label"><slot /></span>}
-  {icon && iconPosition === "right" && !iconOnly && <Icon name={icon} size={18} />}
+  {icon && iconPosition === "right" && !iconOnly && <Icon name={rightIconName} size={inlineIconSize} class="btn__icon btn__icon--right" />}
 </Tag>
 
 <style>
@@ -64,5 +88,29 @@ const Tag = href ? "a" : "button";
     width: 44px;
     height: 44px;
     border-radius: 50%;
+  }
+
+  /* Drucker-Variante: Icon 20 links, gap 4 (spacing/xxxs), padding py8 px20 — Figma 12429:25022. */
+  .btn--icon-left { gap: var(--gap-xxxs); padding: 8px 20px; }
+
+  /* Pfeil-Variante: gap 16 (layout/gutter), Pfeil rechts. Figma 2718:6455 / 5361:9936.
+     arrow_upward 90° gedreht (zeigt nach rechts) — Rotation am inneren SVG, Hover-Motion am Span. */
+  .btn--arrow { gap: 16px; }
+  .btn--arrow .btn__icon--right :global(svg) { transform: rotate(90deg); }
+  /* Franzi-Motion: Pfeil ist im Ruhezustand kürzer und wird beim Hover länger
+     (translateX + dezentes scaleX) — tasteful, ~0.25s, transform-origin links am Schaft. */
+  .btn--arrow .btn__icon--right {
+    transform-origin: left center;
+    transition: transform 0.25s ease;
+  }
+  .btn--arrow:hover .btn__icon--right,
+  .btn--arrow:focus-visible .btn__icon--right {
+    transform: translateX(4px) scaleX(1.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn--arrow .btn__icon--right { transition: none; }
+    .btn--arrow:hover .btn__icon--right,
+    .btn--arrow:focus-visible .btn__icon--right { transform: none; }
   }
 </style>
