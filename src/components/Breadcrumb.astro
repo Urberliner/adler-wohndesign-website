@@ -1,0 +1,26 @@
+---
+// Breadcrumb (V4) — 1:1 aus Figma „Title/Breadcrumps" (2647:5253, Hover 6420:26622).
+// Franzi-Vorgabe: erster/mittlerer Teil = Überseite (Link, Hover-Farbwechsel bronze),
+// letzter Teil = aktuelle Unterseite (kein Link). currentColor → auf weiß UND moos nutzbar.
+interface Crumb { label: string; href?: string; }
+interface Props { items: Crumb[]; class?: string; }
+const { items, class: cls = "" } = Astro.props;
+---
+<nav class:list={["breadcrumb t-titel", cls]} aria-label="Brotkrumen-Navigation">
+  {items.map((c, i) => (
+    <>
+      {i > 0 && <span class="breadcrumb__sep" aria-hidden="true">&gt;</span>}
+      {c.href && i < items.length - 1
+        ? <a class="breadcrumb__parent" href={c.href}>{c.label}</a>
+        : <span class="breadcrumb__current" aria-current="page">{c.label}</span>}
+    </>
+  ))}
+</nav>
+
+<style>
+  .breadcrumb { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--gap-xxs); }
+  .breadcrumb__parent { color: var(--grey); transition: color 0.2s ease; }
+  .breadcrumb__parent:hover { color: var(--bronze); }
+  .breadcrumb__current { color: currentColor; }
+  .breadcrumb__sep { color: var(--grey); }
+</style>
