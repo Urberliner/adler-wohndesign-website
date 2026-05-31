@@ -1,0 +1,2418 @@
+[
+  {
+    "name": "Kakelugn",
+    "nummer": "317",
+    "hex": "#C5D1D8",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/317-kakelugn/"
+  },
+  {
+    "name": "Scallop",
+    "nummer": "311",
+    "hex": "#D9C8BA",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/311-scallop/"
+  },
+  {
+    "name": "Dibber",
+    "nummer": "312",
+    "hex": "#D9C8BA",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/312-dibber/"
+  },
+  {
+    "name": "Reduced Green",
+    "nummer": "313",
+    "hex": "#7E775B",
+    "farbwelt": "Dunkel",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/313-reduced-green/"
+  },
+  {
+    "name": "Sizing",
+    "nummer": "314",
+    "hex": "#5C594B",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/314-sizing/"
+  },
+  {
+    "name": "Naperon",
+    "nummer": "315",
+    "hex": "#DFE6EA",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/315-naperon/"
+  },
+  {
+    "name": "Marmelo",
+    "nummer": "316",
+    "hex": "#D7A287",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/316-marmelo/"
+  },
+  {
+    "name": "Douter",
+    "nummer": "318",
+    "hex": "#A36E4C",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/318-douter/"
+  },
+  {
+    "name": "Duster",
+    "nummer": "319",
+    "hex": "#636F68",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/319-duster/"
+  },
+  {
+    "name": "Sap Green",
+    "nummer": "199",
+    "hex": "#BA9C69",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/199-sap-green/"
+  },
+  {
+    "name": "Broccoli Brown",
+    "nummer": "198",
+    "hex": "#7C857A",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/198-broccoli-brown/"
+  },
+  {
+    "name": "Etruscan Red",
+    "nummer": "56",
+    "hex": "#827462",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/56-etruscan-red/"
+  },
+  {
+    "name": "Wevet",
+    "nummer": "273",
+    "hex": "#EEE9E7",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/273-wevet/"
+  },
+  {
+    "name": "All White",
+    "nummer": "2005",
+    "hex": "#FBF8F4",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2005-all-white/"
+  },
+  {
+    "name": "Ammonite",
+    "nummer": "274",
+    "hex": "#DDD8CF",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/274-ammonite/"
+  },
+  {
+    "name": "Blackened",
+    "nummer": "2011",
+    "hex": "#DDDBD9",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2011-blackened/"
+  },
+  {
+    "name": "Cornforth White",
+    "nummer": "228",
+    "hex": "#D1CBC3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/228-cornforth-white/"
+  },
+  {
+    "name": "Dimpse",
+    "nummer": "277",
+    "hex": "#D9D8D3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/277-dimpse/"
+  },
+  {
+    "name": "Purbeck Stone",
+    "nummer": "275",
+    "hex": "#C4BEB4",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/275-purbeck-stone/"
+  },
+  {
+    "name": "Pavilion Gray",
+    "nummer": "242",
+    "hex": "#C8C3BC",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/242-pavilion-gray/"
+  },
+  {
+    "name": "Strong White",
+    "nummer": "2001",
+    "hex": "#E5E0DB",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2001-strong-white/"
+  },
+  {
+    "name": "School House White",
+    "nummer": "291",
+    "hex": "#E6DFD1",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/291-school-house-white/"
+  },
+  {
+    "name": "Skimming Stone",
+    "nummer": "241",
+    "hex": "#DFD6CB",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/241-skimming-stone/"
+  },
+  {
+    "name": "Shadow White",
+    "nummer": "282",
+    "hex": "#DED8C6",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/282-shadow-white/"
+  },
+  {
+    "name": "Elephant's Breath",
+    "nummer": "229",
+    "hex": "#CCBFB3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/229-elephants-breath/"
+  },
+  {
+    "name": "Shaded White",
+    "nummer": "201",
+    "hex": "#D9D2C1",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/201-shaded-white/"
+  },
+  {
+    "name": "Dove Tale",
+    "nummer": "267",
+    "hex": "#BBB1AB",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/267-dove-tale/"
+  },
+  {
+    "name": "Drop Cloth",
+    "nummer": "283",
+    "hex": "#C9BEAB",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/283-drop-cloth/"
+  },
+  {
+    "name": "Pointing",
+    "nummer": "2003",
+    "hex": "#F7F1E3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2003-pointing/"
+  },
+  {
+    "name": "Slipper Satin",
+    "nummer": "2004",
+    "hex": "#E8E0D1",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2004-slipper-satin/"
+  },
+  {
+    "name": "Dimity",
+    "nummer": "2008",
+    "hex": "#EEE3D3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2008-dimity/"
+  },
+  {
+    "name": "Lime White",
+    "nummer": "1",
+    "hex": "#E8DEC9",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/1-lime-white/"
+  },
+  {
+    "name": "Joa's White",
+    "nummer": "226",
+    "hex": "#DECFB9",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/226-joas-white/"
+  },
+  {
+    "name": "Off-White",
+    "nummer": "3",
+    "hex": "#E0D5BE",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/3-off-white/"
+  },
+  {
+    "name": "Oxford Stone",
+    "nummer": "264",
+    "hex": "#D6C2AC",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/264-oxford-stone/"
+  },
+  {
+    "name": "Old White",
+    "nummer": "4",
+    "hex": "#CFC3AD",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/4-old-white/"
+  },
+  {
+    "name": "Wimborne White",
+    "nummer": "239",
+    "hex": "#F7F3E8",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/239-wimborne-white/"
+  },
+  {
+    "name": "Stirabout",
+    "nummer": "300",
+    "hex": "#805348",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/300-stirabout/"
+  },
+  {
+    "name": "James White",
+    "nummer": "2010",
+    "hex": "#EDE9D8",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2010-james-white/"
+  },
+  {
+    "name": "Jitney",
+    "nummer": "293",
+    "hex": "#C4B2A2",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/293-jitney/"
+  },
+  {
+    "name": "White Tie",
+    "nummer": "2002",
+    "hex": "#F5ECD9",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2002-white-tie/"
+  },
+  {
+    "name": "London Stone",
+    "nummer": "6",
+    "hex": "#B6A38F",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/6-london-stone/"
+  },
+  {
+    "name": "New White",
+    "nummer": "59",
+    "hex": "#F5E8D0",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/59-new-white/"
+  },
+  {
+    "name": "Dead Salmon",
+    "nummer": "28",
+    "hex": "#B49D8D",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/28-dead-salmon/"
+  },
+  {
+    "name": "Matchstick",
+    "nummer": "2013",
+    "hex": "#E4D5BC",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2013-matchstick/"
+  },
+  {
+    "name": "Stony Ground",
+    "nummer": "211",
+    "hex": "#CEC1AD",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/211-stony-ground/"
+  },
+  {
+    "name": "String",
+    "nummer": "8",
+    "hex": "#DDCDAE",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/8-string/"
+  },
+  {
+    "name": "Light Gray",
+    "nummer": "17",
+    "hex": "#B4A693",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/17-light-gray/"
+  },
+  {
+    "name": "Cord",
+    "nummer": "16",
+    "hex": "#D6C39E",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/16-cord/"
+  },
+  {
+    "name": "Mouse's Back",
+    "nummer": "40",
+    "hex": "#998976",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/40-mouses-back/"
+  },
+  {
+    "name": "Cromarty",
+    "nummer": "285",
+    "hex": "#CFCEC0",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/285-cromarty/"
+  },
+  {
+    "name": "Bone",
+    "nummer": "15",
+    "hex": "#CEC3AD",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/15-bone/"
+  },
+  {
+    "name": "Mizzle",
+    "nummer": "266",
+    "hex": "#C0C2B3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/266-mizzle/"
+  },
+  {
+    "name": "Hardwick White",
+    "nummer": "5",
+    "hex": "#B5AFA0",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/5-hardwick-white/"
+  },
+  {
+    "name": "Blue Gray",
+    "nummer": "91",
+    "hex": "#B4B4A3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/91-blue-gray/"
+  },
+  {
+    "name": "Lamp Room Gray",
+    "nummer": "88",
+    "hex": "#B2B1A9",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/88-lamp-room-gray/"
+  },
+  {
+    "name": "Pigeon",
+    "nummer": "25",
+    "hex": "#A1A093",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/25-pigeon/"
+  },
+  {
+    "name": "Manor House Gray",
+    "nummer": "265",
+    "hex": "#A2A29D",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/265-manor-house-gray/"
+  },
+  {
+    "name": "Eddy",
+    "nummer": "301",
+    "hex": "#D9CFC2",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/301-eddy/"
+  },
+  {
+    "name": "Plummett",
+    "nummer": "272",
+    "hex": "#8D8D8B",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/272-plummett/"
+  },
+  {
+    "name": "French Gray",
+    "nummer": "18",
+    "hex": "#B5B19A",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/18-french-gray/"
+  },
+  {
+    "name": "Treron",
+    "nummer": "292",
+    "hex": "#8B8A77",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/292-treron/"
+  },
+  {
+    "name": "Worsted",
+    "nummer": "284",
+    "hex": "#D3CFCD",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/284-worsted/"
+  },
+  {
+    "name": "Mole's Breath",
+    "nummer": "276",
+    "hex": "#8B857F",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/276-moles-breath/"
+  },
+  {
+    "name": "Great White",
+    "nummer": "2006",
+    "hex": "#E7DEDB",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2006-great-white/"
+  },
+  {
+    "name": "Tailor Tack",
+    "nummer": "302",
+    "hex": "#AAACAA",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/302-tailor-tack/"
+  },
+  {
+    "name": "Peignoir",
+    "nummer": "286",
+    "hex": "#D6C8C3",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/286-peignoir/"
+  },
+  {
+    "name": "Middleton Pink",
+    "nummer": "245",
+    "hex": "#FDE7E5",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/245-middleton-pink/"
+  },
+  {
+    "name": "Calluna",
+    "nummer": "270",
+    "hex": "#CCC8CE",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/270-calluna/"
+  },
+  {
+    "name": "Calamine",
+    "nummer": "230",
+    "hex": "#E6D1CB",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/230-calamine/"
+  },
+  {
+    "name": "Brassica",
+    "nummer": "271",
+    "hex": "#8D8089",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/271-brassica/"
+  },
+  {
+    "name": "Cinder Rose",
+    "nummer": "246",
+    "hex": "#C7A4A6",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/246-cinder-rose/"
+  },
+  {
+    "name": "Pelt",
+    "nummer": "254",
+    "hex": "#50414C",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/254-pelt/"
+  },
+  {
+    "name": "Sulking Room Pink",
+    "nummer": "295",
+    "hex": "#A0837F",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/295-sulking-room-pink/"
+  },
+  {
+    "name": "Paean Black",
+    "nummer": "294",
+    "hex": "#494248",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/294-paean-black/"
+  },
+  {
+    "name": "Charleston Gray",
+    "nummer": "243",
+    "hex": "#9F9389",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/243-charleston-gray/"
+  },
+  {
+    "name": "Tanner's Brown",
+    "nummer": "255",
+    "hex": "#4D4746",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/255-tanners-brown/"
+  },
+  {
+    "name": "London Clay",
+    "nummer": "244",
+    "hex": "#786963",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/244-london-clay/"
+  },
+  {
+    "name": "Pink Ground",
+    "nummer": "202",
+    "hex": "#EFD6C7",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/202-pink-ground/"
+  },
+  {
+    "name": "Red Earth",
+    "nummer": "64",
+    "hex": "#C57B67",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/64-red-earth/"
+  },
+  {
+    "name": "Setting Plaster",
+    "nummer": "231",
+    "hex": "#DFC2AF",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/231-setting-plaster/"
+  },
+  {
+    "name": "Picture Gallery Red",
+    "nummer": "42",
+    "hex": "#A15A4D",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/42-picture-gallery-red/"
+  },
+  {
+    "name": "Templeton Pink",
+    "nummer": "303",
+    "hex": "#F4E7DD",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/303-templeton-pink/"
+  },
+  {
+    "name": "Bamboozle",
+    "nummer": "304",
+    "hex": "#CDB19D",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/304-bamboozle/"
+  },
+  {
+    "name": "Nancy's Blushes",
+    "nummer": "278",
+    "hex": "#ECB7B8",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/278-nancys-blushes/"
+  },
+  {
+    "name": "Charlotte's Locks",
+    "nummer": "268",
+    "hex": "#D65F3D",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/268-charlottes-locks/"
+  },
+  {
+    "name": "Rangwali",
+    "nummer": "296",
+    "hex": "#BF7A8F",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/296-rangwali/"
+  },
+  {
+    "name": "Eating Room Red",
+    "nummer": "43",
+    "hex": "#8F4E4D",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/43-eating-room-red/"
+  },
+  {
+    "name": "Rectory Red",
+    "nummer": "217",
+    "hex": "#A53C49",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/217-rectory-red/"
+  },
+  {
+    "name": "Preference Red",
+    "nummer": "297",
+    "hex": "#6D4247",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/297-preference-red/"
+  },
+  {
+    "name": "Incarnadine",
+    "nummer": "248",
+    "hex": "#A04344",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/248-incarnadine/"
+  },
+  {
+    "name": "Brinjal",
+    "nummer": "222",
+    "hex": "#5D3B42",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/222-brinjal/"
+  },
+  {
+    "name": "Stiffkey Blue",
+    "nummer": "281",
+    "hex": "#4D5B6A",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/281-stiffkey-blue/"
+  },
+  {
+    "name": "Borrowed Light",
+    "nummer": "235",
+    "hex": "#D5DBDB",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/235-borrowed-light/"
+  },
+  {
+    "name": "Hague Blue",
+    "nummer": "30",
+    "hex": "#3D4E57",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/30-hague-blue/"
+  },
+  {
+    "name": "Skylight",
+    "nummer": "205",
+    "hex": "#CCD0CD",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/205-skylight/"
+  },
+  {
+    "name": "Down Pipe",
+    "nummer": "26",
+    "hex": "#666498",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/26-down-pipe/"
+  },
+  {
+    "name": "Light Blue",
+    "nummer": "22",
+    "hex": "#B8BCB5",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/22-light-blue/"
+  },
+  {
+    "name": "Hopper Head",
+    "nummer": "305",
+    "hex": "#A75346",
+    "farbwelt": "Dunkel",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/305-hopper-head/"
+  },
+  {
+    "name": "Oval Room Blue",
+    "nummer": "85",
+    "hex": "#8B9D9B",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/85-oval-room-blue/"
+  },
+  {
+    "name": "Railings",
+    "nummer": "31",
+    "hex": "#45484B",
+    "farbwelt": "Dunkel",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/31-railings/"
+  },
+  {
+    "name": "Selvedge",
+    "nummer": "306",
+    "hex": "#505456",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/306-selvedge/"
+  },
+  {
+    "name": "Off-Black",
+    "nummer": "57",
+    "hex": "#454668",
+    "farbwelt": "Dunkel",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/57-off-black/"
+  },
+  {
+    "name": "De Nimes",
+    "nummer": "299",
+    "hex": "#6A7C80",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/299-de-nimes/"
+  },
+  {
+    "name": "Pitch Black",
+    "nummer": "256",
+    "hex": "#3B3938",
+    "farbwelt": "Dunkel",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/256-pitch-black/"
+  },
+  {
+    "name": "Inchyra Blue",
+    "nummer": "289",
+    "hex": "#586768",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/289-inchyra-blue/"
+  },
+  {
+    "name": "Cabbage White",
+    "nummer": "269",
+    "hex": "#E8EEEA",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/269-cabbage-white/"
+  },
+  {
+    "name": "Blue Ground",
+    "nummer": "210",
+    "hex": "#A1C5C8",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/210-blue-ground/"
+  },
+  {
+    "name": "Pale Powder",
+    "nummer": "204",
+    "hex": "#D9DCD2",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/204-pale-powder/"
+  },
+  {
+    "name": "Parma Gray",
+    "nummer": "27",
+    "hex": "#B2BFC5",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/27-parma-gray/"
+  },
+  {
+    "name": "Teresa's Green",
+    "nummer": "236",
+    "hex": "#C0CDC2",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/236-teresas-green/"
+  },
+  {
+    "name": "Lulworth Blue",
+    "nummer": "89",
+    "hex": "#A1B8CA",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/89-lulworth-blue/"
+  },
+  {
+    "name": "Green Blue",
+    "nummer": "84",
+    "hex": "#ADBDB2",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/84-green-blue/"
+  },
+  {
+    "name": "Kittiwake",
+    "nummer": "307",
+    "hex": "#7C8E96",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/307-kittiwake/"
+  },
+  {
+    "name": "Dix Blue",
+    "nummer": "82",
+    "hex": "#99B0AB",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/82-dix-blue/"
+  },
+  {
+    "name": "Cook's Blue",
+    "nummer": "237",
+    "hex": "#6A90B4",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/237-cooks-blue/"
+  },
+  {
+    "name": "Arsenic",
+    "nummer": "214",
+    "hex": "#84B59C",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/214-arsenic/"
+  },
+  {
+    "name": "Wine Dark",
+    "nummer": "308",
+    "hex": "#98ACBA",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/308-wine-dark/"
+  },
+  {
+    "name": "Vardo",
+    "nummer": "288",
+    "hex": "#427E83",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/288-vardo/"
+  },
+  {
+    "name": "Stone Blue",
+    "nummer": "86",
+    "hex": "#7997A1",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/86-stone-blue/"
+  },
+  {
+    "name": "Whirlybird",
+    "nummer": "309",
+    "hex": "#5C6576",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/309-whirlybird/"
+  },
+  {
+    "name": "Green Ground",
+    "nummer": "206",
+    "hex": "#DBDAB6",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/206-green-ground/"
+  },
+  {
+    "name": "Breakfast Room Green",
+    "nummer": "81",
+    "hex": "#94A68A",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/81-breakfast-room-green/"
+  },
+  {
+    "name": "Cooking Apple Green",
+    "nummer": "32",
+    "hex": "#C4C6A5",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/32-cooking-apple-green/"
+  },
+  {
+    "name": "Yeabridge Green",
+    "nummer": "287",
+    "hex": "#919F70",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/287-yeabridge-green/"
+  },
+  {
+    "name": "Ball Green",
+    "nummer": "75",
+    "hex": "#BCB596",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/75-ball-green/"
+  },
+  {
+    "name": "Calke Green",
+    "nummer": "34",
+    "hex": "#768769",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/34-calke-green/"
+  },
+  {
+    "name": "Vert de Terre",
+    "nummer": "234",
+    "hex": "#BABBA5",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/234-vert-de-terre/"
+  },
+  {
+    "name": "Beverly",
+    "nummer": "310",
+    "hex": "#8B8F86",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/310-beverly/"
+  },
+  {
+    "name": "Lichen",
+    "nummer": "19",
+    "hex": "#A1A189",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/19-lichen/"
+  },
+  {
+    "name": "Bancha",
+    "nummer": "298",
+    "hex": "#686A47",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/298-bancha/"
+  },
+  {
+    "name": "Card Room Green",
+    "nummer": "79",
+    "hex": "#899081",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/79-card-room-green/"
+  },
+  {
+    "name": "Studio Green",
+    "nummer": "93",
+    "hex": "#464C49",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/93-studio-green/"
+  },
+  {
+    "name": "Green Smoke",
+    "nummer": "47",
+    "hex": "#737C70",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/47-green-smoke/"
+  },
+  {
+    "name": "Tallow",
+    "nummer": "203",
+    "hex": "#FDEDD7",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/203-tallow/"
+  },
+  {
+    "name": "Dayroom Yellow",
+    "nummer": "233",
+    "hex": "#F7E29D",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/233-dayroom-yellow/"
+  },
+  {
+    "name": "Farrow's Cream",
+    "nummer": "67",
+    "hex": "#EFDBB3",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/67-farrows-cream/"
+  },
+  {
+    "name": "Citron",
+    "nummer": "74",
+    "hex": "#F5D27B",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/74-citron/"
+  },
+  {
+    "name": "Dorset Cream",
+    "nummer": "68",
+    "hex": "#EFD5A1",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/68-dorset-cream/"
+  },
+  {
+    "name": "Yellow Ground",
+    "nummer": "218",
+    "hex": "#F2CF86",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/218-yellow-ground/"
+  },
+  {
+    "name": "Hay",
+    "nummer": "37",
+    "hex": "#DFC795",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/37-hay/"
+  },
+  {
+    "name": "Babouche",
+    "nummer": "223",
+    "hex": "#ECC363",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/223-babouche/"
+  },
+  {
+    "name": "Sudbury Yellow",
+    "nummer": "51",
+    "hex": "#DCB771",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/51-sudbury-yellow/"
+  },
+  {
+    "name": "India Yellow",
+    "nummer": "66",
+    "hex": "#CB9E59",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/66-india-yellow/"
+  },
+  {
+    "name": "Au Lait",
+    "nummer": "CB9",
+    "hex": "#D8CCBA",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB9-au-lait/"
+  },
+  {
+    "name": "Blue Maize",
+    "nummer": "CB11",
+    "hex": "#3A4E6E",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB11-blue-maize/"
+  },
+  {
+    "name": "Cardamom",
+    "nummer": "CB5",
+    "hex": "#6B5840",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB5-cardamom/"
+  },
+  {
+    "name": "Hog Plum",
+    "nummer": "CB1",
+    "hex": "#C4B060",
+    "farbwelt": "Gelb",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB1-hog-plum/"
+  },
+  {
+    "name": "Liquorice",
+    "nummer": "CB10",
+    "hex": "#2E2E2E",
+    "farbwelt": "Dunkel",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB10-liquorice/"
+  },
+  {
+    "name": "Lobster",
+    "nummer": "CB7",
+    "hex": "#3B6B99",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB7-lobster/"
+  },
+  {
+    "name": "Pea Flower Tea",
+    "nummer": "CB12",
+    "hex": "#5B74B5",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB12-pea-flower-tea/"
+  },
+  {
+    "name": "Raw Tomatillo",
+    "nummer": "CB6",
+    "hex": "#7A9B4A",
+    "farbwelt": "Grün",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB6-raw-tomatillo/"
+  },
+  {
+    "name": "Roasted Macadamia",
+    "nummer": "CB2",
+    "hex": "#B9A88E",
+    "farbwelt": "Neutral",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB2-roasted-macadamia/"
+  },
+  {
+    "name": "Romesco",
+    "nummer": "CB4",
+    "hex": "#A5453B",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB4-romesco/"
+  },
+  {
+    "name": "Sardine",
+    "nummer": "CB8",
+    "hex": "#8FA4AC",
+    "farbwelt": "Blau",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB8-sardine/"
+  },
+  {
+    "name": "Shallot",
+    "nummer": "CB3",
+    "hex": "#D4768A",
+    "farbwelt": "Rot",
+    "archiviert": false,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CB3-shallot/"
+  },
+  {
+    "name": "Clunch",
+    "nummer": "2009",
+    "hex": "#E3DCCB",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2009-clunch/"
+  },
+  {
+    "name": "Farrow's White",
+    "nummer": "9812",
+    "hex": "#DBD6CA",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9812-farrows-white/"
+  },
+  {
+    "name": "Blanc De Treillage",
+    "nummer": "G1",
+    "hex": "#DCD5C4",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G1-blanc-de-treillage/"
+  },
+  {
+    "name": "Turret White",
+    "nummer": "G2",
+    "hex": "#C6BFAF",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G2-turret-white/"
+  },
+  {
+    "name": "Ringwold Ground",
+    "nummer": "208",
+    "hex": "#EADCC3",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/208-ringwold-ground/"
+  },
+  {
+    "name": "Archive",
+    "nummer": "227",
+    "hex": "#D6C5B0",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/227-archive/"
+  },
+  {
+    "name": "Single Cream",
+    "nummer": "9901",
+    "hex": "#D4C5B1",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9901-single-cream/"
+  },
+  {
+    "name": "Light Sand",
+    "nummer": "CC2",
+    "hex": "#E2D7C1",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC2-light-sand/"
+  },
+  {
+    "name": "Orange Coloured White",
+    "nummer": "W5",
+    "hex": "#E4D5B7",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W5-orange-coloured-white/"
+  },
+  {
+    "name": "Double Cream",
+    "nummer": "9907",
+    "hex": "#D1BEA1",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9907-double-cream/"
+  },
+  {
+    "name": "Salt",
+    "nummer": "CC5",
+    "hex": "#E6E4E1",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC5-salt/"
+  },
+  {
+    "name": "Blanc De Chine",
+    "nummer": "9814",
+    "hex": "#CDD1C7",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9814-blanc-de-chine/"
+  },
+  {
+    "name": "Shadow Gray",
+    "nummer": "9904",
+    "hex": "#C1BEB4",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9904-shadow-gray/"
+  },
+  {
+    "name": "Vichyssoise",
+    "nummer": "9909",
+    "hex": "#F4F4F4",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9909-vichyssoise/"
+  },
+  {
+    "name": "Fawn",
+    "nummer": "10",
+    "hex": "#C7BDA4",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/10-fawn/"
+  },
+  {
+    "name": "Vitty Green",
+    "nummer": "G3",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G3-vitty-green/"
+  },
+  {
+    "name": "Wall White",
+    "nummer": "58",
+    "hex": "#C3BBA6",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/58-wall-white/"
+  },
+  {
+    "name": "Skimmed Milk White",
+    "nummer": "W7",
+    "hex": "#CFCAB5",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W7-skimmed-milk-white/"
+  },
+  {
+    "name": "Chemise",
+    "nummer": "216",
+    "hex": "#989188",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/216-chemise/"
+  },
+  {
+    "name": "Stoke",
+    "nummer": "CC7",
+    "hex": "#93908A",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC7-stoke/"
+  },
+  {
+    "name": "Savage Ground",
+    "nummer": "213",
+    "hex": "#D8C4A8",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/213-savage-ground/"
+  },
+  {
+    "name": "Light Stone",
+    "nummer": "9",
+    "hex": "#9F937A",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9-light-stone/"
+  },
+  {
+    "name": "Templa White",
+    "nummer": "G4",
+    "hex": "#DCC8A5",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G4-templa-white/"
+  },
+  {
+    "name": "Cream",
+    "nummer": "44",
+    "hex": "#DFCDA6",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/44-cream/"
+  },
+  {
+    "name": "Cats Paw",
+    "nummer": "240",
+    "hex": "#C4AE89",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/240-cats-paw/"
+  },
+  {
+    "name": "Biscuit",
+    "nummer": "38",
+    "hex": "#AE9A7A",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/38-biscuit/"
+  },
+  {
+    "name": "Buff",
+    "nummer": "20",
+    "hex": "#9F988A",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/20-buff/"
+  },
+  {
+    "name": "Planter",
+    "nummer": "G5",
+    "hex": "#AE9C87",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G5-planter/"
+  },
+  {
+    "name": "Ash Grey",
+    "nummer": "W9",
+    "hex": "#F4F4F4",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W9-ash-grey/"
+  },
+  {
+    "name": "Stone White",
+    "nummer": "11",
+    "hex": "#C2C2A0",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/11-stone-white/"
+  },
+  {
+    "name": "Olive",
+    "nummer": "13",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/13-olive/"
+  },
+  {
+    "name": "Green Stone",
+    "nummer": "12",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/12-green-stone/"
+  },
+  {
+    "name": "Drab",
+    "nummer": "41",
+    "hex": "#8F826B",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/41-drab/"
+  },
+  {
+    "name": "Tack Room Door",
+    "nummer": "G6",
+    "hex": "#6F5B4C",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G6-tack-room-door/"
+  },
+  {
+    "name": "Dauphin",
+    "nummer": "54",
+    "hex": "#75756D",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/54-dauphin/"
+  },
+  {
+    "name": "Salon Drab",
+    "nummer": "290",
+    "hex": "#726454",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/290-salon-drab/"
+  },
+  {
+    "name": "Pantalon",
+    "nummer": "221",
+    "hex": "#6E6656",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/221-pantalon/"
+  },
+  {
+    "name": "Wainscot",
+    "nummer": "55",
+    "hex": "#7C6146",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/55-wainscot/"
+  },
+  {
+    "name": "Sugared Almond",
+    "nummer": "9913",
+    "hex": "#CFBCC3",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9913-sugared-almond/"
+  },
+  {
+    "name": "Pink Drab",
+    "nummer": "207",
+    "hex": "#A29A99",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/207-pink-drab/"
+  },
+  {
+    "name": "Blooth Pink",
+    "nummer": "9806",
+    "hex": "#895342",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9806-blooth-pink/"
+  },
+  {
+    "name": "Fruit Fool",
+    "nummer": "9911",
+    "hex": "#C5827C",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9911-fruit-fool/"
+  },
+  {
+    "name": "Crimson Red",
+    "nummer": "W93",
+    "hex": "#A97576",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W93-crimson-red/"
+  },
+  {
+    "name": "Book Room Red",
+    "nummer": "50",
+    "hex": "#A6675A",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/50-book-room-red/"
+  },
+  {
+    "name": "Lake Red",
+    "nummer": "W92",
+    "hex": "#BC4C68",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W92-lake-red/"
+  },
+  {
+    "name": "Bisque",
+    "nummer": "9811",
+    "hex": "#A0715C",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9811-bisque/"
+  },
+  {
+    "name": "Copenhagen Roof",
+    "nummer": "9816",
+    "hex": "#5D180C",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9816-copenhagen-roof/"
+  },
+  {
+    "name": "Harissa",
+    "nummer": "9916",
+    "hex": "#A85A4E",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9916-harissa/"
+  },
+  {
+    "name": "Blazer",
+    "nummer": "212",
+    "hex": "#B64F48",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/212-blazer/"
+  },
+  {
+    "name": "Terre d' Egypte",
+    "nummer": "247",
+    "hex": "#A3574D",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/247-terre-d-egypte/"
+  },
+  {
+    "name": "Radicchio",
+    "nummer": "96",
+    "hex": "#994A50",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/96-radicchio/"
+  },
+  {
+    "name": "Potted Shrimp",
+    "nummer": "9906",
+    "hex": "#D7BCAC",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9906-potted-shrimp/"
+  },
+  {
+    "name": "Smoked Trout",
+    "nummer": "60",
+    "hex": "#BDA794",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/60-smoked-trout/"
+  },
+  {
+    "name": "Pink Cup",
+    "nummer": "9801",
+    "hex": "#9D8E77",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9801-pink-cup/"
+  },
+  {
+    "name": "Dutch Pink",
+    "nummer": "62",
+    "hex": "#A57C59",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/62-dutch-pink/"
+  },
+  {
+    "name": "Mortar Pink",
+    "nummer": "G13",
+    "hex": "#CAAF92",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G13-mortar-pink/"
+  },
+  {
+    "name": "Faded Terracotta",
+    "nummer": "CC8",
+    "hex": "#DFB797",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC8-faded-terracotta/"
+  },
+  {
+    "name": "Fake Tan",
+    "nummer": "9912",
+    "hex": "#C5A389",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9912-fake-tan/"
+  },
+  {
+    "name": "Entrance Hall Pink",
+    "nummer": "61",
+    "hex": "#A26943",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/61-entrance-hall-pink/"
+  },
+  {
+    "name": "Fowler Pink",
+    "nummer": "39",
+    "hex": "#929589",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/39-fowler-pink/"
+  },
+  {
+    "name": "Ointment Pink",
+    "nummer": "21",
+    "hex": "#4F4338",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/21-ointment-pink/"
+  },
+  {
+    "name": "Menagerie",
+    "nummer": "63",
+    "hex": "#99765A",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/63-menagerie/"
+  },
+  {
+    "name": "Folly Pink",
+    "nummer": "G14",
+    "hex": "#B78772",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G14-folly-pink/"
+  },
+  {
+    "name": "Porphyry Pink",
+    "nummer": "49",
+    "hex": "#D6A696",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/49-porphyry-pink/"
+  },
+  {
+    "name": "Loggia",
+    "nummer": "232",
+    "hex": "#7A5131",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/232-loggia/"
+  },
+  {
+    "name": "Singed Red",
+    "nummer": "G15",
+    "hex": "#976055",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G15-singed-red/"
+  },
+  {
+    "name": "Fox Red",
+    "nummer": "48",
+    "hex": "#84735C",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/48-fox-red/"
+  },
+  {
+    "name": "Deep Reddish Brown",
+    "nummer": "W101",
+    "hex": "#6A453F",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W101-deep-reddish-brown/"
+  },
+  {
+    "name": "House White",
+    "nummer": "2012",
+    "hex": "#F1E6C8",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2012-house-white/"
+  },
+  {
+    "name": "Pale Hound",
+    "nummer": "71",
+    "hex": "#EADFB7",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/71-pale-hound/"
+  },
+  {
+    "name": "Bombazine",
+    "nummer": "9902",
+    "hex": "#D9C8A3",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9902-bombazine/"
+  },
+  {
+    "name": "Hound Lemon",
+    "nummer": "2",
+    "hex": "#E4D5A6",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/2-hound-lemon/"
+  },
+  {
+    "name": "Gervase Yellow",
+    "nummer": "72",
+    "hex": "#8D8B72",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/72-gervase-yellow/"
+  },
+  {
+    "name": "Churlish Green",
+    "nummer": "251",
+    "hex": "#C8BD83",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/251-churlish-green/"
+  },
+  {
+    "name": "Lancaster Yellow",
+    "nummer": "249",
+    "hex": "#F3DC8B",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/249-lancaster-yellow/"
+  },
+  {
+    "name": "Butterweed",
+    "nummer": "9802",
+    "hex": "#DCD591",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9802-butterweed/"
+  },
+  {
+    "name": "Citrona",
+    "nummer": "CC3",
+    "hex": "#DACB7B",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC3-citrona/"
+  },
+  {
+    "name": "Yellowcake",
+    "nummer": "279",
+    "hex": "#E9DF63",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/279-yellowcake/"
+  },
+  {
+    "name": "Sherbert Lemon",
+    "nummer": "9914",
+    "hex": "#E4CF88",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9914-sherbert-lemon/"
+  },
+  {
+    "name": "Ciara Yellow",
+    "nummer": "73",
+    "hex": "#E8CA7D",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/73-ciara-yellow/"
+  },
+  {
+    "name": "Corngold",
+    "nummer": "9915",
+    "hex": "#D3B673",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9915-corngold/"
+  },
+  {
+    "name": "Orangery",
+    "nummer": "70",
+    "hex": "#D1A880",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/70-orangery/"
+  },
+  {
+    "name": "Straw",
+    "nummer": "52",
+    "hex": "#8B7F5D",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/52-straw/"
+  },
+  {
+    "name": "Print Room Yellow",
+    "nummer": "69",
+    "hex": "#DCB97A",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/69-print-room-yellow/"
+  },
+  {
+    "name": "Octagon Yellow",
+    "nummer": "7",
+    "hex": "#B19C77",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/7-octagon-yellow/"
+  },
+  {
+    "name": "Cane",
+    "nummer": "53",
+    "hex": "#CAA36C",
+    "farbwelt": "Gelb",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/53-cane/"
+  },
+  {
+    "name": "Dutch Orange",
+    "nummer": "W76",
+    "hex": "#E69F43",
+    "farbwelt": "Rot",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W76-dutch-orange/"
+  },
+  {
+    "name": "Sand",
+    "nummer": "45",
+    "hex": "#614329",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/45-sand/"
+  },
+  {
+    "name": "Wet Sand",
+    "nummer": "46",
+    "hex": "#674A34",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/46-wet-sand/"
+  },
+  {
+    "name": "Tunsgate Green",
+    "nummer": "250",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/250-tunsgate-green/"
+  },
+  {
+    "name": "Acid Drop",
+    "nummer": "9908",
+    "hex": "#B9BA6C",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9908-acid-drop/"
+  },
+  {
+    "name": "Emerald Green",
+    "nummer": "W53",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W53-emerald-green/"
+  },
+  {
+    "name": "Palm",
+    "nummer": "CC4",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC4-palm/"
+  },
+  {
+    "name": "Pea Green",
+    "nummer": "33",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/33-pea-green/"
+  },
+  {
+    "name": "Suffield Green",
+    "nummer": "77",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/77-suffield-green/"
+  },
+  {
+    "name": "Folly Green",
+    "nummer": "76",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/76-folly-green/"
+  },
+  {
+    "name": "Saxon Green",
+    "nummer": "80",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/80-saxon-green/"
+  },
+  {
+    "name": "Sutcliffe Green",
+    "nummer": "78",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/78-sutcliffe-green/"
+  },
+  {
+    "name": "Dyrehaven",
+    "nummer": "9819",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9819-dyrehaven/"
+  },
+  {
+    "name": "Minster Green",
+    "nummer": "224",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/224-minster-green/"
+  },
+  {
+    "name": "Danish Lawn",
+    "nummer": "9817",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9817-danish-lawn/"
+  },
+  {
+    "name": "Verdigris Green",
+    "nummer": "W50",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W50-verdigris-green/"
+  },
+  {
+    "name": "Pond Green",
+    "nummer": "G7",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G7-pond-green/"
+  },
+  {
+    "name": "Chappell Green",
+    "nummer": "83",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/83-chappell-green/"
+  },
+  {
+    "name": "Castle Gray",
+    "nummer": "92",
+    "hex": "#F4F4F4",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/92-castle-gray/"
+  },
+  {
+    "name": "Pavilion Blue",
+    "nummer": "252",
+    "hex": "#E5E7DC",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/252-pavilion-blue/"
+  },
+  {
+    "name": "Middle Ground",
+    "nummer": "209",
+    "hex": "#575850",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/209-middle-ground/"
+  },
+  {
+    "name": "Ancona Blue",
+    "nummer": "9805",
+    "hex": "#A2B6B3",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9805-ancona-blue/"
+  },
+  {
+    "name": "Powder Blue",
+    "nummer": "23",
+    "hex": "#A6BAB3",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/23-powder-blue/"
+  },
+  {
+    "name": "Ballroom Blue",
+    "nummer": "24",
+    "hex": "#747B79",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/24-ballroom-blue/"
+  },
+  {
+    "name": "Sugar Bag Light",
+    "nummer": "29",
+    "hex": "#7E9E9B",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/29-sugar-bag-light/"
+  },
+  {
+    "name": "Mere Green",
+    "nummer": "219",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/219-mere-green/"
+  },
+  {
+    "name": "Coppice Blue",
+    "nummer": "G9",
+    "hex": "#527884",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G9-coppice-blue/"
+  },
+  {
+    "name": "Sloe Blue",
+    "nummer": "87",
+    "hex": "#5B7984",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/87-sloe-blue/"
+  },
+  {
+    "name": "Berrington Blue",
+    "nummer": "14",
+    "hex": "#7A9396",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/14-berrington-blue/"
+  },
+  {
+    "name": "Barrow Blue",
+    "nummer": "G8",
+    "hex": "#727E83",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G8-barrow-blue/"
+  },
+  {
+    "name": "Yonder",
+    "nummer": "9810",
+    "hex": "#7C888A",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9810-yonder/"
+  },
+  {
+    "name": "St Giles Blue",
+    "nummer": "280",
+    "hex": "#599EC4",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/280-st-giles-blue/"
+  },
+  {
+    "name": "Graupel",
+    "nummer": "G10",
+    "hex": "#99889A",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G10-graupel/"
+  },
+  {
+    "name": "Hazy",
+    "nummer": "CC6",
+    "hex": "#AFC2C9",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC6-hazy/"
+  },
+  {
+    "name": "Bay Area Blue",
+    "nummer": "9815",
+    "hex": "#7695AB",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9815-bay-area-blue/"
+  },
+  {
+    "name": "Bothy Blue",
+    "nummer": "G11",
+    "hex": "#929AAF",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G11-bothy-blue/"
+  },
+  {
+    "name": "Pitch Blue",
+    "nummer": "220",
+    "hex": "#636E8F",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/220-pitch-blue/"
+  },
+  {
+    "name": "Chinese Blue",
+    "nummer": "90",
+    "hex": "#766B61",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/90-chinese-blue/"
+  },
+  {
+    "name": "Yard Blue",
+    "nummer": "G12",
+    "hex": "#6D90A0",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G12-yard-blue/"
+  },
+  {
+    "name": "Belvedere Blue",
+    "nummer": "215",
+    "hex": "#797879",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/215-belvedere-blue/"
+  },
+  {
+    "name": "Ultra Marine Blue",
+    "nummer": "W29",
+    "hex": "#57779B",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W29-ultra-marine-blue/"
+  },
+  {
+    "name": "Dinnerware",
+    "nummer": "9820",
+    "hex": "#808A8F",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9820-dinnerware/"
+  },
+  {
+    "name": "Drawing Room Blue",
+    "nummer": "253",
+    "hex": "#465172",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/253-drawing-room-blue/"
+  },
+  {
+    "name": "Imperial Purple",
+    "nummer": "W40",
+    "hex": "#51516A",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W40-imperial-purple/"
+  },
+  {
+    "name": "Serge",
+    "nummer": "9919",
+    "hex": "#414B67",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9919-serge/"
+  },
+  {
+    "name": "Bible Black",
+    "nummer": "225",
+    "hex": "#6C6765",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/225-bible-black/"
+  },
+  {
+    "name": "Titmouse Blue",
+    "nummer": "W24",
+    "hex": "#3F3E4C",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W24-titmouse-blue/"
+  },
+  {
+    "name": "Mahogany",
+    "nummer": "36",
+    "hex": "#534644",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/36-mahogany/"
+  },
+  {
+    "name": "Cola",
+    "nummer": "9918",
+    "hex": "#4D403D",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9918-cola/"
+  },
+  {
+    "name": "Tar",
+    "nummer": "CC1",
+    "hex": "#535353",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/CC1-tar/"
+  },
+  {
+    "name": "Smelt Black",
+    "nummer": "G18",
+    "hex": "#494949",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G18-smelt-black/"
+  },
+  {
+    "name": "Beetle Black",
+    "nummer": "G16",
+    "hex": "#616465",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G16-beetle-black/"
+  },
+  {
+    "name": "Grate Black",
+    "nummer": "9920",
+    "hex": "#654F43",
+    "farbwelt": "Dunkel",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/9920-grate-black/"
+  },
+  {
+    "name": "Black Blue",
+    "nummer": "95",
+    "hex": "#56605D",
+    "farbwelt": "Blau",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/95-black-blue/"
+  },
+  {
+    "name": "Duck Green",
+    "nummer": "W55",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W55-duck-green/"
+  },
+  {
+    "name": "Monkey Puzzle",
+    "nummer": "238",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/238-monkey-puzzle/"
+  },
+  {
+    "name": "Grove Green",
+    "nummer": "G17",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/G17-grove-green/"
+  },
+  {
+    "name": "Chine Green",
+    "nummer": "35",
+    "hex": "#F4F4F4",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/35-chine-green/"
+  },
+  {
+    "name": "Carriage Green",
+    "nummer": "94",
+    "hex": "#444E48",
+    "farbwelt": "Grün",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/94-carriage-green/"
+  },
+  {
+    "name": "Snow White",
+    "nummer": "W1",
+    "hex": "#EFE9D9",
+    "farbwelt": "Neutral",
+    "archiviert": true,
+    "href": "https://master.adler-wohndesign-staging.pages.dev/farrow-and-ball/farben/W1-snow-white/"
+  }
+]
