@@ -45,5 +45,9 @@ const ph = placeholder ?? label;
   }
   .field textarea { resize: vertical; min-height: 120px; }
   .field input::placeholder, .field textarea::placeholder { color: var(--grey); }
+  /* Hover-State (Frame „Hover"): Unterstrich kräftiger */
+  .field input:hover, .field textarea:hover { border-bottom-color: var(--grey); }
+  /* Type/Focus + Filled: bronze Unterstrich */
   .field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--bronze); }
+  .field input:not(:placeholder-shown), .field textarea:not(:placeholder-shown) { border-bottom-color: var(--grey); }
 </style>
