@@ -1,0 +1,288 @@
+---
+// /blog — Blog-Übersicht (Listing). 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn),
+// „006-Blog". Drei Breakpoint-Frames:
+//   S 5661:24395 · M 5661:27549 · L 5661:26115
+// Aufbau (alle BP): Hero (Eyebrow „Blog" + H1 „Neuigkeiten & Einblicke" + Lead-Body
+//   + ein großer, querliegender „Aktueller Artikel"-Card-Link) → Article Container
+//   (Filter „Filter" collapsible + Masonry-Card-Grid + „Mehr Artikel"-Button).
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+// Annotationen (REST /annotations, alle BP):
+//   · thumbnail (Karten-Bild): „Hover: Zoom image innerhalb des Bild Rahmens"
+//       → Bild-Zoom im überlauf-geclippten Rahmen (Card/Hero-Media), Karte hebt nicht ab.
+//   · Hero-Card-Button: „Button hover: arrow leichte Bewegung nach rechts"
+//       → Featured-CTA als borderloser Text+Pfeil-Link (Icon arrow_upward 90° gedreht) mit
+//         dezenter Hover-Bewegung. Button-Component hat keine „text-link"-Variante → Flag.
+//
+// Card-Raster = Franzi-Annotation „grid grid-cols-12 … Cards flexibel ins grid eingebaut"
+//   (wie projekte.astro). Frame zeigt ein Masonry: L 3 Spalten · M 2 Spalten · S 1 Spalte,
+//   Karten unterschiedlicher Bildhöhe. Umgesetzt als CSS-Columns-Masonry (Spaltenzahl je BP),
+//   Karten = Card.astro (eyebrow=Kategorie links, eyebrowRight=Status/Datum rechts, H5-Titel,
+//   ratio="auto" → natürliche Bildhöhe ergibt die Masonry-Mischung). Mobil 1-spaltig gestapelt.
+//
+// Filter: Default-Frame zeigt NUR „Filter" + Chevron (Sub-Filter/Tabs eingeklappt).
+//   → FilterMenu mit leerem Selection-Slot (collapsible). Echte Filter-Logik/-Tabs +
+//   S-OnClick-State 5661:26083 (Filter offen) = Folgeaufgabe mit echten Blogdaten (Flag).
+// Blog-Inhalte (Kategorie/Status/Titel/Bild) = PLATZHALTER (wie Figma); Bilder = vorhandene
+//   Site-Assets als benannte Platzhalter, bis echte Artikelbilder/CMS vorliegen.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import FilterMenu from "../components/FilterMenu.astro";
+import Icon from "../components/Icon.astro";
+
+// PLATZHALTER-Artikel. eyebrow = Kategorie (links), meta = Status/Datum (rechts),
+// title = Artikel-Überschrift. ratio="auto" → natürliche Bildhöhe (Masonry-Mischung wie Figma).
+// Bilder: vorhandene Assets als Platzhalter, bis echte Blogbilder vorliegen.
+const artikel = [
+  { eyebrow: "Handwerk", meta: "Aktueller Artikel", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/home/blog-thumbnail.jpg", href: "#" },
+  { eyebrow: "Design", meta: "12.04.2026", title: "Wassertage – Inspiration aus dem Element", img: "/images/home/blog-wassertage.jpg", href: "#" },
+  { eyebrow: "Material", meta: "28.03.2026", title: "Akustikstoffe für mehr Ruhe im Raum", img: "/images/home/blog-akustik.jpg", href: "#" },
+  { eyebrow: "Partner", meta: "15.03.2026", title: "Farrow & Ball – Farben mit Charakter", img: "/images/komplettloesung/card1.png", href: "#" },
+  { eyebrow: "Geschichten", meta: "02.03.2026", title: "Die Trüffelsuche nach dem richtigen Ton", img: "/images/komplettloesung/card2.png", href: "#" },
+  { eyebrow: "Handwerk", meta: "20.02.2026", title: "Handwerk, das man spüren kann", img: "/images/komplettloesung/card3.png", href: "#" },
+  { eyebrow: "Projekte", meta: "08.02.2026", title: "Leichtes Raum- & Lichtkonzept im Penthouse", img: "/images/home/project-1.jpg", href: "#" },
+  { eyebrow: "Beratung", meta: "25.01.2026", title: "Der Weg zur perfekten Raumausstattung", img: "/images/home/project-2.jpg", href: "#" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blog — Neuigkeiten & Einblicke | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Der Blog von ADLER Wohndesign: Wir teilen unser Wissen über Inneneinrichtung und Raumausstattung – von Handwerk über Design bis zu Gestaltungsprozessen."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 6414:43709 / 6414:43439 / 6079:40360 -->
+      <section class="hero container">
+        <div class="hero__text">
+          <p class="t-titel hero__over">Blog</p>
+          <h1 class="t-h1">Neuigkeiten & Einblicke</h1>
+          <p class="t-body hero__lead">
+            Wir wissen einiges über die Welt der Inneneinrichtung und Raumausstattung, von
+            Handwerk über Design und Gestaltungsprozesse. Wir teilen gerne unser Wissen. Finden
+            Sie mehr heraus.
+          </p>
+        </div>
+
+        <!-- Featured Card Link 6414:43711 — querliegend: Bild links + Text rechts
+             (Header mit Datum, H4-Titel, Lead, „Zum Artikel"). S: gestapelt. -->
+        <a class="feature" href="#">
+          <div class="feature__media">
+            <img src="/images/home/blog-thumbnail.jpg" alt="Flächenvorhänge – variable Paneele zur Licht- und Raumgestaltung" loading="lazy" />
+          </div>
+          <div class="feature__text">
+            <p class="t-small feature__date">Aktueller Artikel</p>
+            <div class="feature__head">
+              <p class="t-h4 feature__title">Flächenvorhänge</p>
+              <p class="t-body feature__lead">Variable Paneele zur flexiblen Licht- und Raumgestaltung.</p>
+            </div>
+            <!-- Featured-CTA: borderloser Text+Pfeil-Link (Figma: small-body text-color + rotierter
+                 arrow_upward, gap layout/gutter). Button-Component hat keine „text-link"-Variante
+                 (nur bronze Pill / Outline) → hier inline; siehe Flag. Hover: Pfeil nach rechts. -->
+            <span class="feature__cta">
+              <span class="t-small">Zum Artikel</span>
+              <Icon name="arrow_upward" size={32} class="feature__cta-arrow" />
+            </span>
+          </div>
+        </a>
+      </section>
+
+      <!-- ARTICLE CONTAINER — Frame 6414:43712 / 12003:20973 / 12003:21322 -->
+      <section class="overview container" aria-label="Blog-Artikel">
+        <!-- Filter — Frame zeigt nur „Filter" + Chevron (Sub-Filter eingeklappt).
+             Echte Filter-Tabs/-Logik + S-OnClick-State (5661:26083) = Folgeaufgabe. -->
+        <div class="overview__filter">
+          <FilterMenu label="Filter" layout="wrap" open={false} name="blog" />
+        </div>
+
+        <!-- Masonry-Card-Grid (Annotation: Cards flexibel ins grid eingebaut; thumbnail Hover-Zoom).
+             CSS-Columns: L 3 · M 2 · S 1. Karten = Card.astro mit natürlicher Bildhöhe. -->
+        <div class="articles">
+          {artikel.map((a) => (
+            <Card
+              class="articles__card"
+              href={a.href}
+              image={a.img}
+              alt={a.title}
+              eyebrow={a.eyebrow}
+              eyebrowRight={a.meta}
+              title={a.title}
+              ratio="auto"
+            />
+          ))}
+        </div>
+
+        <Button href="#" class="overview__more">Mehr Artikel</Button>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      /* Frame: padding-top XXL (spacing/xxl); Abstand nach unten macht die Overview.
+         gap zwischen Textblock und Featured-Card = spacing/m (Frame „Hero" gap). */
+      .hero {
+        padding-top: var(--gap-xxl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* spacing/m 32·44·56 */
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* Container Text 1: spacing/sm zwischen H1 und Lead */
+        max-width: var(--text-max); /* component/width/text-container-max 652·927·1056 */
+      }
+      .hero__over {
+        color: var(--grey);
+      }
+      .hero__lead {
+        color: var(--text);
+      }
+
+      /* ---- FEATURED CARD (Hero) — Frame 6414:43711: Bild links + Text rechts, gap spacing/sm ---- */
+      .feature {
+        display: flex;
+        gap: var(--gap-sm); /* spacing/sm 24·32·44 */
+        align-items: stretch;
+        color: var(--text);
+      }
+      .feature__media {
+        flex: 1 1 0;
+        min-width: 0;
+        overflow: hidden; /* Hover-Zoom im Rahmen, keine runden Ecken */
+      }
+      .feature__media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .feature:hover .feature__media img {
+        transform: scale(1.03);
+      }
+      .feature__text {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 512px; /* component/width/text-small-max (Featured Text Container) */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Text-Container items-end */
+        gap: var(--gap-s); /* spacing/s 22·24·32 */
+        padding-top: var(--gap-s);
+      }
+      .feature__date {
+        color: var(--grey);
+        align-self: stretch;
+      }
+      .feature__head {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* spacing/xxxs 4·4·6 */
+        align-self: stretch;
+      }
+      .feature__title {
+        color: var(--text);
+      }
+      .feature__lead {
+        color: var(--text);
+      }
+      /* Text+Pfeil-Link (kein Pill/Outline). gap = layout/gutter. Pfeil = arrow_upward 90° gedreht. */
+      .feature__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--gutter);
+        color: var(--text);
+      }
+      .feature__cta :global(.feature__cta-arrow svg) {
+        transform: rotate(90deg);
+        transition: transform 0.25s ease;
+        transform-origin: center;
+      }
+      /* Annotation „arrow leichte Bewegung nach rechts": dezente Bewegung beim Hover. */
+      .feature:hover .feature__cta :global(.feature__cta-arrow svg),
+      .feature:focus-visible .feature__cta :global(.feature__cta-arrow svg) {
+        transform: rotate(90deg) translateY(-4px);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .feature__cta :global(.feature__cta-arrow svg) { transition: none; }
+        .feature:hover .feature__cta :global(.feature__cta-arrow svg),
+        .feature:focus-visible .feature__cta :global(.feature__cta-arrow svg) { transform: rotate(90deg); }
+      }
+
+      /* ---- ARTICLE OVERVIEW ---- */
+      /* Frame „Article Container": py XXL, gap ML zwischen Filter / Grid / Button. */
+      .overview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-ml); /* spacing/ml 40·56·78 */
+        padding-block: var(--gap-xxl);
+      }
+      .overview__filter {
+        width: 100%;
+      }
+
+      /* Card-Masonry — Franzi-Annotation „Cards flexibel ins grid eingebaut".
+         Mobil (≤700): 1 Spalte (gestapelt). Ab 701: 2 Spalten. Ab 992: 3 Spalten.
+         CSS-Columns ergeben die Masonry-Mischung (Karten unterschiedlicher Bildhöhe). */
+      .articles {
+        width: 100%;
+        column-count: 1;
+        column-gap: var(--gutter); /* layout/gutter 16·24·32 */
+      }
+      .articles :global(.articles__card) {
+        break-inside: avoid;
+        margin-bottom: var(--gutter);
+        display: block; /* in column-Flow: Block statt Flex-Stretch */
+        height: auto; /* nicht auf Spaltenhöhe strecken */
+      }
+
+      .overview__more {
+        align-self: center;
+      }
+
+      /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      @media (min-width: 701px) {
+        .articles {
+          column-count: 2;
+        }
+      }
+      @media (min-width: 992px) {
+        .articles {
+          column-count: 3;
+        }
+      }
+
+      /* S: Featured Card stapelt (Bild oben, Text unten) — Frame S 6079:40362 vertikal. */
+      @media (max-width: 700px) {
+        .feature {
+          flex-direction: column;
+        }
+        .feature__media {
+          flex: none;
+          aspect-ratio: 343 / 280;
+        }
+        .feature__text {
+          max-width: none;
+          align-items: flex-start;
+          padding-top: 0;
+        }
+      }
+    </style>
+  </body>
+</html>
