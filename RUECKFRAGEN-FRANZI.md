@@ -1,121 +1,96 @@
-# Rückfragen an Franzi
+# Rückfragen & offene Punkte an Franzi
 
-Offene Design-Entscheidungen, die ich beim Umsetzen **nicht** allein treffen möchte
-(Regel: keine eigenen Design-Entscheidungen). Bitte je Punkt kurz bestätigen oder korrigieren.
-
-Figma V4 · fileKey `AryB7Db9AeJFgXmfBEsvpn`.
-Stand: 2026-05-31.
-
----
-
-## 1. Service-Karten (text-cards) — Spaltenzahl auf Tablet
-**Konflikt zwischen Frame und Notiz.**
-- Der Frame heißt **„tablet, desktop"** (node `6319:53243`) und zeigt die Karten **2-spaltig**.
-- Die Entwicklungs-Notiz am Karten-Container sagt aber **„Anpassung bei mobil+tablet – vertikale Anordnung"** (= 1-spaltig).
-
-→ Aktuell gebaut: **mobil 1 · tablet 2 · desktop 2** (ich bin dem Frame gefolgt).
-**Frage:** Soll Tablet **2-spaltig** (wie Frame) oder **1-spaltig** (wie Notiz) sein?
+**Stand: 2026-06-01.** Figma V4 · fileKey `AryB7Db9AeJFgXmfBEsvpn`.
+Umsetzungsstand: kompletter V4-Seitensatz gebaut, gegen Figma (S/M/L) geprüft, committet auf
+Branch **`V4`** (Pull Request #1). Vorschau via Cloudflare-Preview-URL (kommt vom Owner).
+Regel: Figma V4 ist die alleinige Design-Wahrheit; keine eigenen Design-Entscheidungen → daher diese Liste.
 
 ---
 
-## 2. Übersicht-Block (Farrow & Ball Spec) — Überschriftgröße auf Tablet
-- Mobil (`6416:21276`) und Desktop (`6416:21314`) sind aus echten Frame-Variablen gebaut:
-  Überschrift **Montserrat Medium**, mobil 28/40 → desktop 32/52.
-- Für **Tablet** habe ich **30/46 interpoliert** (kein eigener Tablet-Wert geprüft).
+## A. Design-Entscheidungen (bitte bestätigen/korrigieren)
 
-**Frage:** Stimmt 30/46 für Tablet, oder gibt es einen festen Wert im Tablet-Frame?
+**A1 · Farrow & Ball – Seitenstruktur/Routing.** Der Frame „Mein Farbkonzept" (`12558:28525`) ist
+inhaltlich eine Konzept-**Übersicht** (Karten + 3-Punkte-Menü), „Farbkonzepte" (`6034:34564` ff.)
+eher eine Konzept-**Detailseite** („Einfache Grautöne") — die Navigation verlinkt es aber umgekehrt.
+Wie ist die IA gedacht? Und **/tapeten** (Menüpunkt) hat **kein Design** bekommen.
 
----
+**A2 · Zwei Projekt-Artikel-Templates.** Es gibt zwei verschiedene Artikel-Frames
+(`5660:17423` und `10078:18204`). War das Absicht (zwei Varianten zur Auflockerung)? Aktuell ist
+nur die erste als Template gebaut, die zweite **geparkt**.
 
-## 3. Kontakt-Block — Abstand 160px
-Notiz am Kontakt/Text-Container (Startseite Desktop + im Kategorie-Kit):
-> „Bei Text Container **new Category**, Abstand zu letztem Block und Footer erhöhen auf **160px**."
+**A3 · Projekt-/Listing-Galerie flexibel (war #9, jetzt umgesetzt — Freigabe nötig).** Auf deinen
+Wunsch wurde die Projekt-Detail-Galerie **flexibel** gebaut (gemischte Formate, variable Anzahl
+3–50, frei kombinierbar) statt der starren fünf Querformat-Bilder. Das ist eine **bewusste
+Abweichung vom Frame**. Bitte den visuellen Ansatz freigeben/justieren.
+(Listing-Raster generell = 12-Spalten-Grid, gemäß deiner Annotation „grid grid-cols-12 … Cards flexibel".)
 
-- Die Notiz nennt ausdrücklich **„new Category"** — also die Kategorie-Seite, nicht die Startseite.
-- Der Kontakt-Block (`Cta`-Komponente) wird **auf allen Seiten geteilt** (Startseite, Komplettlösung, Services, Vorhänge).
+**A4 · Service-Karten (text-cards) – Tablet-Spalten.** Frame „tablet, desktop" (`6319:53243`) zeigt
+**2-spaltig**, die Dev-Notiz sagt „mobil+tablet vertikal" (= 1-spaltig). Gebaut: mobil 1 / tablet 2 /
+desktop 2 (Frame). **Tablet 2- oder 1-spaltig?**
 
-→ Aktuell **nicht angewandt** (abwartend).
-**Frage:** Gilt die 160px-Regel
-- (a) nur für die Kategorie-Seite,
-- (b) auch für die Startseite, oder
-- (c) global für alle Kontakt-Blöcke?
+**A5 · Übersicht-Block (F&B-Spec) – Heading Tablet.** Mobil 28/40, Desktop 32/52 aus Frame; **Tablet
+30/46 interpoliert** (kein eigener Tablet-Wert). Stimmt 30/46 oder gibt es einen festen Wert?
 
----
+**A6 · Kontakt-Block – 160px-Abstand.** Notiz „bei new Category Abstand zu letztem Block/Footer auf
+160px". Cta-Block ist auf allen Seiten geteilt. Aktuell **nicht angewandt**. Gilt das (a) nur
+Kategorie-Seite, (b) auch Startseite, (c) global?
 
-## 4. Startseite-Hero — „Header und Bildschirm füllend"
-Notiz auf allen drei Startseiten-Frames (Desktop `12242:22419`, Tablet `12242:22501`, Mobil `12242:22576`).
+**A7 · Services – Teilleistungen: Linkliste vs. Karten.** Frame zeigt Bild + vertikale **Linkliste**;
+Dev-Notiz sagt **Karten-Karussell** (desktop 4 / tablet 2 / mobil 1). Gebaut wie Frame (Linkliste).
+Bleibt Linkliste oder echte Karten mit Vorschau? (Falls Karten: Card-Design + Inhalte nötig.)
 
-→ Verstanden als: Hero füllt **einen Viewport abzüglich Header-Höhe** (`100vh − Header`).
-→ So gebaut: Header 96 (Desktop/Tablet) / Mobil offen (siehe 4b).
+**A8 · Eyebrow-/Kicker-Texte.** Stehen vielerorts noch auf dem Figma-Platzhalter „Service/Services"
+(z. B. /team, /ueber-uns, F&B). Bitte die finalen Begriffe je Sektion.
 
-**Frage 4a:** Richtig interpretiert (Hero = voller sichtbarer Bereich unter dem Header)?
-**Frage 4b:** ~~Header-Höhe Mobil?~~ **Geklärt:** Header ist auf allen Breakpoints 96px (im
-Browser gemessen); die ~64px im Mockup waren die OS-Statusleiste. Umgesetzt: `calc(100vh − 96px)` überall.
+**A9 · Startseite-Hero „Header + Bildschirm füllend".** Interpretiert als `100vh − Header (96px)`.
+Korrekt so?
 
----
+**A10 · Historie – Variante 2 (Animation).** Variante 1 ist gebaut; V2 mit der Animation ist
+**zurückgestellt**. Soll sie noch umgesetzt werden (dann Motion-Detail klären)?
 
-## 5. Bilder
-Alle neuen Bausteine (Hero-Image, image-text, Service-Karten, Übersicht) sowie die
-Startseite nutzen aktuell **Platzhalter** (recyceltes Foto).
-
-**Frage:** Sind die finalen Bilder schon in Figma exportierbar, oder kommen sie separat?
-(Betrifft auch das **Services-Hero-Video**, s. #7.)
-
----
-
-## 6. Services — Teilleistungen: Linkliste vs. Karten (Frame ↔ Notiz)
-Services-Seite (`12307:37383` ff.). **Konflikt:**
-- Der **gezeichnete Frame** zeigt je Kategorie: Bild links + **vertikale Linkliste** rechts (7 „Card Link"-Zeilen: Label H4 + Pfeil).
-- Die **Entwicklungs-Notiz** an jeder Kategorie sagt dagegen: „Anordnung: desktop **4 in einer Reihe** (mehrere Reihen), tablet **2 Cards** (horizontal scrollen), mobil **1 Card** (horizontal scrollen)" + Design-Notiz „**Individuelle & größere Vorschau**".
-
-→ Aktuell gebaut: **wie der Frame** (Bild + vertikale Linkliste, Pfeil = `arrow_upward` 90°, bronze; Desktop/Tablet 2-spaltig Bild|Liste, Mobil gestapelt). Regel „Frame gewinnt".
-**Frage:** Bleibt es die Linkliste (Frame), oder sollen es echte **Karten mit Bild/Vorschau** im 4/2/1-Karussell werden (Notiz)? Falls Karten: brauche ich das Card-Design + echte Inhalte.
-
-## 8. Farrow & Ball — Color-Navigation + „Mein Farbkonzept"-Favoriten (presentational gebaut)
-Für den F&B-Bereich gibt es bislang **keine Seiten/Routen und keine echten Farbdaten**. Die
-Komponenten sind daher **presentational** mit Platzhalter-Props gebaut und **keiner Seite zugebunden**:
-- `ColorNavigation.astro` — prev/„Zur Übersicht"/next (Figma „Navigation Color" 12471:27030,
-  desktop/tablet 12471:27029 · mobil 12471:27031). Farbname-Hover = Unterstrich + Farbwechsel
-  (Franzi-Notiz). Pfeil = `arrow_upward` 90°/-90° (wie Frame, kein bronze Kreis), Swatch 22px,
-  Titel-Style, gap 14, py 14.
-- `FavoriteButton.astro` — runder Icon-Button 32px, natur-Hintergrund, Herz outline↔filled
-  (aria-pressed), `variant="add"` = Plus (Figma „Button-function" 12416:36802).
-- `ColorListItem.astro` — „Mein Farbkonzept öffnen (n) →" (Herz-filled + Pfeil) und
-  „Meinem Farbkonzept hinzufügen"/„Bereits in meinem Farbkonzept" (Herz-Button) — Figma
-  „List My Color" 12506:20106.
-- Neue Icons: `heart.svg` (outline) + `heart-filled.svg` (gefüllt), Material-Symbols-Stil.
-- Konsistenz-Fix: das Text-Glyph `♥` in `ArticleOverview.astro` (`.ao-card__fav`) durch das echte
-  `heart`/`heart-filled`-Icon ersetzt.
-
-**Als Folgeaufgabe offen (mit echtem Produktinhalt → vorher abstimmen):**
-- echte **F&B-Farbdaten** (Farbname, Nummer, echte Swatch-Hex-Werte, prev/next-Reihenfolge),
-- **F&B-Seiten/Route** (Übersicht + Farbdetailseite) mit echtem Inhalt,
-- **„Mein Farbkonzept"-Persistenz** (localStorage und/oder CMS) — aktuell nur Client-Toggle ohne Speicherung,
-- Mengen-/Zähler-Logik („öffnen (n)") an echte gespeicherte Favoriten anbinden.
-
-## 7. Services — Hero-Video & Card-Inhalte (bestätigt, zur Info)
-- **Hero-Video**: Als `<video autoplay muted loop>` mit Poster-Bild (Platzhalter) gebaut — **Videodatei fehlt noch**. Bitte liefern (Franzi-Notiz: „fertige Komplettlösungen, Emotionen aufbauen").
-- **Teilleistungs-Links** sind bei Stoffe/Boden/Wand/Einrichtung aktuell **Platzhalter** (dieselbe Gardinen-Liste wie im Frame, auf deinen Wunsch „Platzhalter wie Figma"). Echte Unterpunkte je Kategorie bitte nachliefern.
-- **Chips-Labels**: Im Frame Platzhalter („Verantwortung" mehrfach) → ich nutze sinnvolle Sprung-Labels (Komplettes Wohnkonzept / Gardinen & Rollos / Stoffe / Boden / Wand / Einrichtung). OK so?
-- **Tippfehler im Frame** („Raffrol**l**los", „Lamellenvor**hönge**") **nicht** übernommen — korrekte Schreibweise genutzt.
+**A11 · Karussell-Navigation: Pfeile vs. Punkte.** Mehrere Karussells (Facts, Verantwortung,
+Related-Artikel, Blog-Preview) sind mit **Punkt-Navigation** umgesetzt (vorhandene Carousel-Komponente);
+einige Frames zeigen **Pfeil-Slider**. Pfeile gewünscht? → dann Pfeil-Variante der Komponente.
 
 ---
 
-## 9. Projekte-Übersicht (& alle Listing-Seiten) — Card-Layout: Editorial-Collage vs. flexibles Grid
-**Konflikt zwischen Frame-Geometrie und deiner Annotation.** Betrifft als Template auch Blog, F&B-Farben, Farbkonzepte, Karriere-Artikel.
-- Der **L-Frame** (`5660:16038`, Card Container `6319:53457`) ist ein **handgesetztes Collage**: 2 Spalten à 768px (Gutter 32), aber Karten mit **gemischten Breiten** (mal 768 voll, mal ~500 schmal), **horizontalen Einrückungen** (Karten bei x=135/269 innerhalb der Spalte), **rechte Spalte 132px nach unten versetzt**, feste ~100px-Abstände zwischen Karten.
-- Deine **Annotation** am Card Container sagt dagegen: „**responsive flex grid … Cards sind flexibel ins grid eingebaut**" → klingt nach flexiblem Masonry, Frame = nur gefülltes Beispiel.
+## B. Fehlende Inhalte / Assets (aktuell klar benannte Platzhalter)
 
-→ Aktuell gebaut (NICHT committet, hält): 2-spaltiges gleichbreites CSS-Masonry (1-spaltig mobil). Das bildet die **Einrückungen/Versätze/gemischten Breiten** des Frames **nicht** ab.
-**Frage:** Soll die Listing-Optik
-- (a) das **flexible, gleichmäßige Masonry** sein (deiner Annotation folgend, generalisierbar für CMS-Inhalte), oder
-- (b) der **bespoke Versatz-/Mischbreiten-Look** des Frames (dann brauche ich die Regel dahinter — z. B. „jede 2./3. Karte schmaler + eingerückt" — damit es mit beliebig vielen Projekten funktioniert)?
-Sobald entschieden, rolle ich es einheitlich auf alle Listing-Seiten aus.
+- **Bilder** generell: Hero-Bilder, Projekt-/Blog-Bilder (Projekt/Blog teils echt aus Alt-Seite),
+  F&B-Stimmungsbilder, Historie-Scans, **Partner-Logos**, **GDA-Award-Logo**, ueber-uns/Karriere-Bilder.
+- **Hero-Video** für Services/Komplettlösung („Emotionen aufbauen") — Datei fehlt.
+- **Detail-Fließtexte:** Projekt-**Beschreibungen** und Blog-**Artikeltexte** (die Listen der Alt-Seite
+  hatten keine; nur per Tiefen-Fetch der Detailseiten zu holen — auf Wunsch mache ich das).
+- **Team-Bios:** aktuell **sinngemäß/gekürzt** (nicht wortgleich). Name/Rolle/Zitat/„Meine Farbe" sind echt.
+- **Kennzahlen** der „In Zahlen"-Sektion (/ueber-uns) — echte Werte fehlen.
+- **F&B-Farben:** Namen/Nummern/Hex sind **echt (302)**; die Spezifikationen pro Farbe (Finish,
+  ergänzender Weißton etc.) sind noch Platzhalter.
 
 ---
 
-## Hinweise (keine Rückfrage, nur zur Info)
-- **Aufbau-Accordion** (Startseite): „neue Card öffnet → vorherige schließt; Start: alle zu" → **umgesetzt & browser-verifiziert, committet**.
-- **Blog-Quadrat-Karten**: „Hover-Zoom im Bildrahmen" → **umgesetzt & committet**.
-- **Startseite-Hero** „Header+Bildschirm füllend" → **umgesetzt & committet** (`calc(100vh − 96px)`).
-- **Services-Seite** an Frames angeglichen → **umgesetzt & browser-verifiziert** (Desktop+Mobil), noch **nicht committet**.
+## C. Folgeaufgaben (Funktion / CMS)
+
+- **Filter / Sortierung / Favoriten / „Mein Farbkonzept"** sind **presentational** (nur Client-Toggle,
+  keine echte Logik/Persistenz). Echte Filterung + Speicherung via localStorage und/oder **Sanity-CMS**.
+- **Dynamische Routen** (Projekte/Blog/Farben) werden aus `src/data/*.json` generiert → später ans CMS anbinden.
+- **Kontaktformular:** funktionsfähig (Web3Forms); der Key `PUBLIC_WEB3FORMS_KEY` muss als
+  **Umgebungsvariable** gesetzt werden (sonst sendet das Formular nicht).
+- **Google Maps:** DSGVO-konform per Klick-zum-Laden (schlüsselloser Embed). Offen: Anbindung an ein
+  zentrales **Consent-Tool** / ggf. eigener Maps-API-Key.
+- **Text-Link-Button-Variante** (borderloser Text + Pfeil, z. B. Blog-Featured-CTA) als Komponente,
+  falls das Muster öfter vorkommt.
+
+---
+
+## D. Erledigt / zur Info (keine Rückfrage)
+
+- **#9 Listing-Card-Layout geklärt:** via Annotation „grid grid-cols-12 … flexibel" → 12-Spalten-Grid
+  umgesetzt; Projekt-Galerie flexibel (siehe A3).
+- **Mobil-Overflow** großer Serif-Überschriften systemisch behoben (Umbruch/Silbentrennung).
+- **19 Seiten + dynamische Detailrouten** (302 Farb-, 26 Projekt-, 25 Blog-Seiten) gebaut, gegen Figma
+  geprüft, committet.
+- **Echte Inhalte** übernommen: 302 F&B-Farben (+ Hex), 26 Projekte, 25 Blogbeiträge, aktuelles Team
+  (Kimberly Hart entfernt).
+- **Kontakt** an V4 angeglichen (Formular erhalten), **Google Maps** DSGVO-konform ergänzt.
+- Startseite-Hero, Aufbau-Accordion (exklusiv), Blog-Hover-Zoom, Services-Seite → umgesetzt & committet.
+- **Breakpoints** kanonisch 701/992; **keine runden Ecken**; **Schriften self-hosted** (DSGVO ✅).
