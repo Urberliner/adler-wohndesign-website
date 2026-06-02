@@ -1,0 +1,358 @@
+---
+// /farrow-ball/farbkonzepte — Farrow-&-Ball „Farbkonzepte"-Übersicht (Detail eines Konzepts:
+// „Einfache Grautöne"). 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn). Drei Breakpoint-Frames:
+//   S 6034:34564 · M 6034:34608 · L 6034:34651
+// Aufbau (alle BP): Hero (Breadcrumb-Titel + H1 + Body → zwei Bilder + Caption) →
+//   Services (zwei „Text + Card Container"-Blöcke: Kopf + Karten-Raster aus Farb-Karten) →
+//   Kontakt (Eyebrow „SERVICES" + H3 + Button).
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+//
+// Annotation „Card Container" (alle BP, beide Blöcke):
+//   „Anordnung — mobil: horizontal scrollen, 1 Card komplett sichtbar · tablet: horizontal
+//    scrollen, 2 Cards komplett sichtbar · desktop: 4 in einer Reihe, mehrere Reihen untereinander."
+//   → Desktop: 4-Spalten-Raster (flex-wrap, Karte flex-[1_0_0] min272/max652, Gutter).
+//     Tablet/Mobil: horizontales Scroll-Snap-Band (2 bzw. 1 Karte sichtbar).
+//   HINWEIS (Flag): Der Auftrag nennt „12-Spalten-Grid wie projekte.astro". Die echte
+//     Frame-Geometrie + die Dev-Annotation widersprechen dem (Scroll-Band mobil/tablet,
+//     4er-Reihe desktop). Per CLAUDE.md GATE 0 „Frame gewinnt" → Frame umgesetzt.
+//
+// Annotation „Headline" (S, zweiter Block): „Headline kleiner, da an zweiter Stelle. Thema nicht
+//   höchste Gewichtung." → 1. Block Kopf = H2, 2. Block Kopf = H4.
+//
+// Karten: Farb-Karte = quadratisches Platzhalterbild (Farbfläche) + H5-Name + Small-„No."-Text,
+//   oben rechts FavoriteButton (Herz, hier im „on"-Zustand wie Figma 12613:9571).
+// Bilder/Farben = benannte Platzhalter (siehe Flags). Texte 1:1 aus den Frames.
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Button from "../../components/Button.astro";
+import FavoriteButton from "../../components/FavoriteButton.astro";
+
+// Karten-Daten = PLATZHALTER (Texte 1:1 aus L-Frame). „swatch" = Platzhalter-Farbfläche,
+// bis echte Farbkachel-Bilder vorliegen (Flag). pressed=true bildet den Figma-„on-click"-State ab.
+const blockEins = {
+  // 1. Block: Kopf H2 (höchste Gewichtung)
+  heading: "Ein beruhigender und schlichter Standard von Farrow and Ball.",
+  body:
+    "Diese Farrow and Ball Neutraltöne sind zart und eignen sich perfekt als beruhigender, " +
+    "schlichter Standard, sind sie doch weder zu kühl noch zu warm. Diese Tatsache erlaubt den " +
+    "spannungsvollen Einsatz von starken Akzentfarben wie Stiffkey Blue, Mole’s Breath und " +
+    "Railings für mehr Eindruck und Charakter in den Räumlichkeiten.",
+  cards: [
+    { name: "Flächenvorhänge", code: "Variable Paneele zur flexiblen Licht- und Raumgestaltung.", swatch: "#e7e3dc" },
+    { name: "Ammonite", code: "No. 274", swatch: "#dcd7cc" },
+    { name: "Cornforth White", code: "No. 228", swatch: "#d6d2c8" },
+    { name: "Purbeck Stone", code: "No. 275", swatch: "#c7c1b4" },
+  ],
+};
+const blockZwei = {
+  // 2. Block: Kopf H4 (kleiner, da an zweiter Stelle — Figma-Annotation „Headline")
+  heading: "Harmonisierende Akzentfarben",
+  body:
+    "Mit den einfachen Grautönen harmonieren intensivere, üppige Farben wie Radicchio, Babouche " +
+    "und Breakfast Room Green, die in quasi allen Lichtverhältnissen eine bleibende Wirkung " +
+    "hinterlassen, ohne sich dabei in den Vordergrund zu spielen.",
+  cards: [
+    { name: "Wevet", code: "No. 273", swatch: "#eceae3" },
+    { name: "Ammonite", code: "No. 274", swatch: "#dcd7cc" },
+    { name: "Cornforth White", code: "No. 228", swatch: "#d6d2c8" },
+    { name: "Purbeck Stone", code: "No. 275", swatch: "#c7c1b4" },
+  ],
+};
+const bloecke = [blockEins, blockZwei];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Einfache Grautöne — Farbkonzepte | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Farbkonzept „Einfache Grautöne" von Farrow & Ball: beruhigende Neutraltöne wie Wevet, Ammonite, Cornforth White und Purbeck Stone – kuratiert von ADLER Wohndesign in Berlin-Charlottenburg."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 6076:39490 / 6076:39702 / 6079:39761 -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__text container">
+          <div class="hero__textinner">
+            <p class="t-titel hero__crumb">
+              Farbkonzepte <span class="hero__crumb-sep">&gt;</span> Einfache Grautöne
+            </p>
+            <div class="hero__copy">
+              <h1 class="t-h1" id="hero-title">Einfache Grautöne</h1>
+              <p class="t-body">
+                Die Familie der einfachen Grautöne entfaltet eine beruhigende Atmosphäre und galt
+                als Mittel der Wahl in der gustavianischen Zeit, die sich wiederum in aktuellen
+                skandinavischen Stilen widerspiegelt.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__imageblock">
+          <!-- Zwei Bilder: Desktop/Tablet nebeneinander, Mobil gestapelt (Figma S). -->
+          <div class="hero__images">
+            <div class="hero__img hero__img--a">
+              <img src="/images/farbkonzepte/hero-1.jpg" alt="Wohnraum in einfachen Grautönen, Wandfläche und Kamin" loading="eager" />
+            </div>
+            <div class="hero__img hero__img--b">
+              <img src="/images/farbkonzepte/hero-2.jpg" alt="Sitzbereich mit Tageslicht in skandinavischer Farbstimmung" loading="eager" />
+            </div>
+          </div>
+          <div class="hero__caption container">
+            <p class="t-small hero__captiontext">
+              Hier wurden <span class="hero__color">Wevet</span> als Estate Emulsion für die Wände,
+              <span class="hero__color">Purbeck Stone</span> als Estate Eggshell für die Lackierungen
+              und <span class="hero__color">Down Pipe</span> als Modern Eggshell für den Boden kombiniert.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES — Frame „Services" 6076:39500 / 6050:33478 / 6050:33557 -->
+      <section class="services container" aria-label="Farben dieses Farbkonzepts">
+        {bloecke.map((block, bi) => (
+          <div class="svc-block">
+            <header class="svc-block__head">
+              {bi === 0 ? (
+                <h2 class="t-h2 svc-block__title">{block.heading}</h2>
+              ) : (
+                /* Annotation „Headline kleiner, da an zweiter Stelle" → H4-Optik */
+                <h2 class="t-h4 svc-block__title svc-block__title--sub">{block.heading}</h2>
+              )}
+              <p class="t-body svc-block__body">{block.body}</p>
+            </header>
+
+            {/* Card Container — Annotation: desktop 4er-Reihe · tablet/mobil horizontal scrollen */}
+            <ul class="cards" aria-label="Farben">
+              {block.cards.map((c) => (
+                <li class="ccard">
+                  <div class="ccard__media" style={`--swatch:${c.swatch}`}>
+                    <FavoriteButton pressed={true} class="ccard__fav" />
+                  </div>
+                  <div class="ccard__text">
+                    <p class="t-h5 ccard__name">{c.name}</p>
+                    <p class="t-small ccard__code">{c.code}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <!-- KONTAKT — Frame „Kontakt" 6076:39515 / 6076:39722 / 6050:33572 -->
+      <section class="contact container">
+        <div class="contact__inner">
+          <p class="t-titel contact__eyebrow">Services</p>
+          <h2 class="t-h3 contact__title">Sie haben eine Vision für Ihr individuelles Farbkonzept?</h2>
+        </div>
+        <Button href="/kontakt">Mein Projekt starten</Button>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* Sektions-Hintergründe explizit (alle weiß = color/background #FFFFFF). */
+      .hero,
+      .services,
+      .contact {
+        background: var(--white);
+      }
+
+      /* ---- HERO ---- */
+      /* Frame: flex-col, gap ML; py XXL oben / XL unten. */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml); /* spacing/ml 78/56/40 */
+        padding-block: var(--gap-xxl) var(--gap-xl); /* XXL oben, XL unten */
+      }
+      .hero__textinner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* Container Text: spacing/m 56/44/32 */
+        max-width: var(--text-max); /* text-container-max 1056/927/652 */
+      }
+      .hero__copy {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* H1 → Body: spacing/sm 44/32/24 */
+        color: var(--text);
+      }
+      .hero__crumb {
+        color: var(--grey);
+      }
+      .hero__crumb-sep {
+        margin-inline: 0.25em;
+      }
+
+      .hero__imageblock {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* Bilder → Caption: spacing/xs 20/18/14 */
+      }
+      /* Bilder randlos (full-bleed). Mobil gestapelt: 585 + 240 (image-vertical/-horizontal).
+         Ab Tablet: nebeneinander, je 100% Höhe = image-vertical (500/700). */
+      .hero__images {
+        display: flex;
+        flex-direction: column;
+      }
+      .hero__img {
+        overflow: hidden; /* keine runden Ecken */
+      }
+      .hero__img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero__img--a {
+        height: 585px; /* component/height/image-vertical (Mobil) */
+      }
+      .hero__img--b {
+        height: 240px; /* component/height/image-horizontal (Mobil) */
+      }
+      .hero__caption {
+        /* nutzt .container (px = layout/margin); Caption max = text-container-max, linksbündig */
+      }
+      .hero__captiontext {
+        max-width: var(--text-max);
+        color: var(--grey);
+      }
+      /* Farbnamen im Caption-Text: kleiner (Figma 10px-Span auf Desktop) — über .t-small bereits klein. */
+      .hero__color {
+        white-space: nowrap;
+      }
+
+      /* ---- SERVICES ---- */
+      /* Frame: py XXL/XL, px = .container. Abstand zwischen den beiden Blöcken = XXL. */
+      .services {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxl); /* spacing/xxl 222/164/120 zwischen den Blöcken */
+        padding-block: var(--gap-xxl) var(--gap-xl);
+      }
+      .svc-block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml); /* Kopf → Karten: spacing/ml 78/56/40 */
+      }
+      .svc-block__head {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* Headline → Body: spacing/xs 20/18/14 */
+        max-width: var(--text-max);
+        color: var(--text);
+      }
+      .svc-block__title {
+        color: var(--text);
+      }
+      .svc-block__body {
+        color: var(--text);
+      }
+
+      /* ---- Card-Raster ----
+         Mobil (≤700): horizontales Scroll-Snap-Band, 1 Karte sichtbar.
+         Tablet (701–991): Scroll-Band, 2 Karten sichtbar.
+         Desktop (≥992): flex-wrap-Reihe à 4 Karten (flex-[1_0_0], min272/max652), Gutter. */
+      .cards {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 100%; /* 1 Karte sichtbar */
+        gap: var(--gutter); /* layout/gutter 32/24/16 */
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        /* Karten dürfen randlos bis an die Sektionskante scrollen, hier aber im Container. */
+      }
+      .ccard {
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* Bild → Text: spacing/xs 20/18/14 */
+        color: var(--text);
+      }
+      .ccard__media {
+        position: relative;
+        aspect-ratio: 1 / 1; /* Placeholder 800/800 */
+        background: var(--swatch, var(--nature)); /* Platzhalter-Farbfläche */
+        overflow: hidden; /* keine runden Ecken */
+      }
+      .ccard__fav {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      }
+      .ccard__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* Name → Code: spacing/xxxs 6/4/4 */
+      }
+      .ccard__name {
+        color: var(--text);
+      }
+      .ccard__code {
+        color: var(--grey);
+      }
+
+      /* Tablet (701–991): 2 Karten komplett sichtbar im Scroll-Band. */
+      @media (min-width: 701px) {
+        .cards {
+          /* 2 Karten + 1 Gutter → je (100% - gutter)/2 */
+          grid-auto-columns: calc((100% - var(--gutter)) / 2);
+        }
+      }
+
+      /* Desktop (≥992): 4er-Reihe, mehrere Reihen, kein Scroll. */
+      @media (min-width: 992px) {
+        .cards {
+          display: flex;
+          flex-wrap: wrap;
+          overflow: visible;
+          scroll-snap-type: none;
+        }
+        .ccard {
+          flex: 1 0 0;
+          min-width: 272px;
+          max-width: 652px;
+        }
+      }
+
+      /* ---- KONTAKT ---- */
+      /* Frame: zentriert, gap M (Text → Button); py XXL. */
+      .contact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m); /* spacing/m 56/44/32 */
+        text-align: center;
+        padding-block: var(--gap-xxl);
+      }
+      .contact__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m); /* Eyebrow → Titel: spacing/m */
+        max-width: var(--text-max);
+      }
+      .contact__eyebrow {
+        color: var(--grey);
+      }
+      .contact__title {
+        color: var(--text);
+      }
+    </style>
+  </body>
+</html>

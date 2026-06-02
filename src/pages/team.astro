@@ -1,0 +1,328 @@
+---
+// /team — „Unser Team" / Das sind wir. 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn).
+// Drei Breakpoint-Frames:
+//   S 5660:21568 (= Default, OnClick-Variante des Standard-S-Frames) · M 5660:21952 · L 5660:21002
+//   (zweiter S-Frame 5660:20942 bewusst ignoriert — Default = 5660:21568).
+//
+// Aufbau (alle BP): Hero (Eyebrow + H1 + Body) → Card Container (Filter „Filter" collapsible +
+//   Team-Karten-Raster). Spalten lt. Frame/Annotation: Mobil 1 · Tablet 3 · Desktop 4.
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+//
+// Annotation „All Card Team" (alle BP identisch, via REST /nodes annotations.label):
+//   „On Click - egal wo auf der Card Fläche. Öffnen und schließen."
+//   → Klick irgendwo auf die Karte öffnet/schließt das Detail-Overlay (salmon #dc837d).
+//   Overlay-Inhalt (aus S-OnClick-Frame): Name (H4) · Rolle (Body) · Zitat (H4) · Bio (Body) ·
+//   „Meine Farbe: …" (Small Bold). Hier als Grundgerüst gebaut (natives <details>, kein externes JS),
+//   Inhalte = Platzhalter aus dem Figma-Frame (Kimberly-Hart-Beispieltext) bzw. benannte Defaults.
+//
+// Filter: Frame zeigt nur „Filter" + Chevron (Sub-Filter eingeklappt) → FilterMenu mit leerem
+//   Selection-Slot. Echte Filter-Logik/-Tabs = Folgeaufgabe mit echten Team-Daten (Flag).
+//
+// Breadcrumb: Frame-Text lautet „Service" — offensichtlicher Copy-Paste-Fehler aus der
+//   Service-Vorlage (diese Seite gehört zu „Das sind wir"). Korrigiert zu „Das sind wir" (Flag).
+//
+// Team-Inhalte (Name/Rolle/Bild/Bio/Zitat/Farbe) = ECHTE Daten der Live-Seite
+//   (adler-wohndesign.de/wirueberuns/team/), gepflegt in src/data/team.json.
+//   „Kimberly Hart" ist aus dem Team ausgeschieden und bewusst NICHT enthalten.
+//   Layout/Overlay/Tokens unverändert — nur Inhalt & Anzahl der Karten.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FilterMenu from "../components/FilterMenu.astro";
+import Icon from "../components/Icon.astro";
+import teamData from "../data/team.json";
+
+// Echte Team-Mitglieder. Felder Zitat/Bio/Farbe stammen aus der Live-Seite; Foto = lokaler Pfad.
+const team = teamData;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Das sind wir — Unser Team | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Lernen Sie das Team von ADLER Wohndesign kennen: die leidenschaftlichen Menschen aus Berlin-Charlottenburg, die mit vielfältigen Fähigkeiten Wohlfühlorte schaffen."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 6428:42691 / 6411:40263 / 6428:42932 -->
+      <section class="hero container">
+        <div class="hero__text">
+          <p class="t-titel hero__over">Das sind wir</p>
+          <h1 class="t-h1">Wir, die Kreativen für Wohlfühlorte</h1>
+          <p class="t-body hero__lead">
+            Vielfältige Fähigkeiten mit einem gemeinsamen Ziel: Lebensfreude schaffen. Lernen Sie
+            die leidenschaftlichen Menschen kennen, die diese Vision Wirklichkeit werden lassen.
+          </p>
+        </div>
+      </section>
+
+      <!-- CARD CONTAINER — Frame 6428:42693 / 6428:42863 / 6428:42933 -->
+      <section class="team container" aria-label="Unser Team">
+        <!-- Filter — Frame zeigt nur „Filter" + Chevron (Sub-Filter eingeklappt).
+             Echte Filter-Tabs/-Logik = Folgeaufgabe mit Team-Daten. -->
+        <div class="team__filter">
+          <FilterMenu label="Filter" layout="wrap" open={false} name="team" />
+        </div>
+
+        <!-- Team-Raster (Annotation: Klick irgendwo auf der Karte öffnet/schließt Overlay).
+             Spalten: Mobil 1 / Tablet 3 / Desktop 4. -->
+        <ul class="team__grid">
+          {team.map((m) => (
+            <li class="tcard">
+              <details class="tcard__d">
+                <summary class="tcard__head">
+                  <!-- Geschlossener Zustand: Portrait + Name/Rolle + arrow-down -->
+                  <div class="tcard__media"><img src={m.img} alt={`Porträt ${m.name}`} loading="lazy" /></div>
+                  <div class="tcard__intro">
+                    <div class="tcard__name">
+                      <p class="t-h5 tcard__nameText">{m.name}</p>
+                      <p class="t-small tcard__role">{m.role}</p>
+                    </div>
+                    <Icon name="chevron-down" size={36} label="Mehr anzeigen" class="tcard__chev tcard__chev--down" />
+                  </div>
+                </summary>
+
+                <!-- Geöffneter Zustand (Overlay) — salmon, Detail-Text. Grundgerüst. -->
+                <div class="tcard__overlay">
+                  <div class="tcard__overlayTop">
+                    <Icon name="chevron-up" size={36} label="Schließen" class="tcard__chev tcard__chev--up" />
+                  </div>
+                  <div class="tcard__name tcard__name--open">
+                    <p class="t-h4 tcard__nameText">{m.name}</p>
+                    <p class="t-body tcard__role">{m.role}</p>
+                  </div>
+                  {(m.quote || m.bio.length > 0) && (
+                    <div class="tcard__textblock">
+                      {m.quote && <p class="tcard__quote">{m.quote}</p>}
+                      {m.bio.map((p) => <p class="t-body tcard__bio">{p}</p>)}
+                    </div>
+                  )}
+                  {m.color && <p class="tcard__color">{m.color}</p>}
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- */
+      /* Frame: padding-top XXL, kein eigenes Bottom — Abstand macht der Card Container. */
+      .hero {
+        padding-top: var(--gap-xxl);
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        /* Container Text: gap spacing/m (Breadcrumb→Block); H1→Body = spacing/sm — hier
+           Eyebrow→H1 enger, daher gestuft: gap-sm + größerer Abstand vor Lead über Margin. */
+        gap: var(--gap-sm); /* spacing/sm 24·32·44 (H1 ↔ Body) */
+        max-width: var(--text-max); /* component/width/text-container-max 652·927·1056 */
+      }
+      .hero__over {
+        color: var(--grey);
+        margin-bottom: var(--gap-xxs); /* Eyebrow sitzt enger über H1 */
+      }
+      .hero__lead {
+        color: var(--text);
+      }
+
+      /* ---- CARD CONTAINER ---- */
+      /* Frame: px margin, py XXL, gap ML zwischen Filter und Raster. */
+      .team {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml); /* spacing/ml 40·56·78 */
+        padding-block: var(--gap-xxl);
+      }
+      .team__filter {
+        width: 100%;
+      }
+
+      /* Team-Raster — Frame „All Card Team": flex-wrap, row-gap = spacing/ml, col-gap = layout/gutter.
+         Spalten lt. Annotation: Mobil 1 · Tablet 3 · Desktop 4. */
+      .team__grid {
+        width: 100%;
+        list-style: none;
+        display: grid;
+        grid-template-columns: 1fr; /* Mobil: 1 Spalte */
+        column-gap: var(--gutter); /* layout/gutter 16·24·32 */
+        row-gap: var(--gap-ml); /* spacing/ml 40·56·78 */
+        align-items: start;
+      }
+
+      /* ---- TEAM CARD ---- */
+      .tcard {
+        min-width: 0;
+      }
+      .tcard__d {
+        width: 100%;
+        overflow: hidden; /* keine runden Ecken */
+      }
+      /* Geschlossener Zustand */
+      .tcard__head {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+      }
+      .tcard__head::-webkit-details-marker {
+        display: none;
+      }
+      .tcard__media {
+        aspect-ratio: 200 / 300; /* Frame Placeholder aspect 200/300 */
+        overflow: hidden;
+      }
+      .tcard__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .tcard__d:not([open]) .tcard__head:hover .tcard__media img {
+        transform: scale(1.03);
+      }
+      .tcard__intro {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--gap-xxs);
+        /* Frame „Intro": pl spacing/sm, pr spacing/s, pt spacing/s */
+        padding-left: var(--gap-sm);
+        padding-right: var(--gap-s);
+        padding-top: var(--gap-s);
+      }
+      .tcard__name {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* spacing/xxxs 4·4·6 */
+        min-width: 0;
+      }
+      .tcard__nameText {
+        color: var(--text);
+        letter-spacing: 0.03em;
+      }
+      .tcard__role {
+        color: var(--grey);
+      }
+      .tcard__chev :global(svg) {
+        color: var(--text);
+      }
+      /* Chevron-Sichtbarkeit je Zustand */
+      .tcard__chev--up {
+        display: none;
+      }
+
+      /* ---- OVERLAY (geöffneter Zustand) ---- */
+      .tcard__overlay {
+        display: none;
+      }
+      .tcard__d[open] .tcard__head {
+        /* Im offenen Zustand zeigt der Frame das Overlay statt Bild+Intro:
+           Summary auf nur den Schließen-Bereich reduzieren. */
+      }
+      .tcard__d[open] .tcard__media,
+      .tcard__d[open] .tcard__intro {
+        display: none;
+      }
+      .tcard__d[open] .tcard__overlay {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* spacing/m 32·44·56 zwischen den Overlay-Blöcken */
+        background: #dc837d; /* Figma Overlay-BG (Card OnClick) — eigenständiger Akzent, kein Token */
+        color: var(--white);
+        /* Frame „Team Text Container": px spacing/sm, pt spacing/ml, pb spacing/m */
+        padding-left: var(--gap-sm);
+        padding-right: var(--gap-sm);
+        padding-top: var(--gap-ml);
+        padding-bottom: var(--gap-m);
+      }
+      .tcard__overlayTop {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .tcard__d[open] .tcard__chev--up {
+        display: block;
+      }
+      .tcard__overlay .tcard__chev :global(svg) {
+        color: var(--white);
+      }
+      .tcard__name--open {
+        gap: var(--gap-xxxs);
+      }
+      .tcard__overlay .tcard__nameText {
+        color: var(--white);
+        letter-spacing: 0.03em;
+      }
+      .tcard__overlay .tcard__role {
+        color: var(--white);
+      }
+      .tcard__textblock {
+        display: flex;
+        flex-direction: column;
+        gap: 16px; /* Frame: gap 16 innerhalb des Zitat/Text-Blocks */
+      }
+      /* Zitat: H4-Größe (Montserrat Medium), aber in der Overlay-Variante 14/23 */
+      .tcard__quote {
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 23px;
+        letter-spacing: 0.03em;
+        color: var(--white);
+      }
+      .tcard__bio {
+        color: var(--white);
+      }
+      /* „Meine Farbe …" — Small Text Bold (Montserrat Medium) */
+      .tcard__color {
+        font-family: var(--font-body);
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 18px;
+        letter-spacing: 0.01em;
+        color: var(--white);
+      }
+
+      /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      @media (min-width: 701px) {
+        .team__grid {
+          grid-template-columns: repeat(2, 1fr); /* Tablet: 2 Spalten */
+        }
+        .tcard__quote {
+          font-size: 15px;
+          line-height: 24px;
+        }
+        .tcard__color {
+          font-size: 11px;
+          line-height: 19px;
+        }
+      }
+      @media (min-width: 992px) {
+        .team__grid {
+          grid-template-columns: repeat(5, 1fr); /* Desktop: 5 Spalten */
+        }
+        .tcard__quote {
+          font-size: 16px;
+          line-height: 25px;
+        }
+        .tcard__color {
+          font-size: 12px;
+          line-height: 22px;
+        }
+      }
+    </style>
+  </body>
+</html>

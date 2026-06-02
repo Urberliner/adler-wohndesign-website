@@ -10,6 +10,10 @@ dist/
 .env.*
 !.env.example
 
+# Claude Code — persönliche/lokale Einstellungen nicht committen
+# (geteilte Team-Einstellungen ggf. in .claude/settings.json)
+.claude/settings.local.json
+
 # OS / editor
 .DS_Store
 *.log

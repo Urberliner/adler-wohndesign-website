@@ -1,0 +1,543 @@
+---
+// /farrow-ball — Farrow & Ball Landing/Übersicht. 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn),
+// Section 12384:34758 „004-Farrow&Ball". Drei Breakpoint-Frames:
+//   L 12384:34759 · M 12384:34850 · S 12384:34928
+//
+// Sichtbarer Aufbau (alle BP; ausgeblendete Figma-Frames „Services 12384:34763" + „Image Carousel"
+// sind hidden → nicht gebaut):
+//   1. Hero image-text (12384:34762) — full-bleed Bild + 50% Overlay, Text unten links
+//      (Eyebrow „Farrow & Ball" · H1 · Body · Button). py: oben XL (142), unten L (104), px margin.
+//   2. Projekt Aufbau (12384:34771) — 2-spaltig: links Text (Punkt-Eyebrow + H4-Lead + Button
+//      „So sieht ihr Rundum-Service aus" → /komplettloesung) · rechts Accordion (5 „Card Information",
+//      erste offen). Annotation Card Information: „Bei Öffnen einer neuen Card schließt sich die letzte
+//      automatisch. Start - alle Cards geschlossen" → natives <details name> (exklusiv).
+//      Button-Annotation: „Verbindung Komplettlösung".
+//   3. Services (12384:34781) — Eyebrow „Teilleistungen" + H2 + Body, dann Kategorie Container.
+//      Annotation Filter menu (12384:34784, hidden): „Nicht Direkt Filter Option. Hier soll der User
+//      direkt zur jeweiligen Kategorie gescrollt werden." → Sprung-Navigation (Anker-Links).
+//      Je Kategorie: Text (H2 + Body) + Card Grid. Annotation Card Container/F&B Card Carousel:
+//      „desktop: 4 in einer Reihe, mehrere Reihen untereinander · tablet: horizontal scrollen, 2 Cards
+//      sichtbar · mobil: horizontal scrollen, 1 Card sichtbar." → Desktop 4-Spalten-Grid (12er-Raster
+//      wie projekte.astro), Tablet/Mobil Carousel (per 2 / 1). Karten: 1 Feature-Card (moos, H4 + Body
+//      + Pfeil-Button) + Color-/Produktkarten (Bild + H5-Name + „Nr." + FavoriteButton oben rechts).
+//   4. Zitat (12384:34824) — Quote mit Pfeilen.
+//   5. Blog Categorie Preview (12384:34828) — bg #f9f6f5, zentrierte Karten-Reihe (Carousel):
+//      großes Feature-Blog-Card (Bild + Category/Aktueller Artikel + Titel + Button-Link) zwischen
+//      quadratischen Bild-Teasern. thumbnail-Annotation: „Hover: Zoom image im Bild-Rahmen".
+//   6. Kontakt (12384:34846) — Cta (weiß): „Sie haben eine Vision …" + „Mein Farbprojekt starten".
+//
+// Tokens/Texte AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+// Tippfehler korrigiert: „NAchhaltigkeitsmöglichkeiten" → „Nachhaltigkeitsmöglichkeiten",
+//   „unserem erstem Schritt" → „unserem ersten Schritt", „im unserem Team" → „in unserem Team".
+// Bilder = benannte PLATZHALTER (vorhandene Site-Assets), bis echte F&B-Bilder vorliegen.
+//   Neue Bildpfade siehe flags.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import Accordion from "../components/Accordion.astro";
+import Quote from "../components/Quote.astro";
+import Cta from "../components/Cta.astro";
+import Carousel from "../components/Carousel.astro";
+import FavoriteButton from "../components/FavoriteButton.astro";
+
+// --- Projekt Aufbau: Accordion-Schritte (12384:34774–34778) ---
+const aufbauSchritte = [
+  {
+    titel: "1. Beratung",
+    text: "In unserem ersten Schritt im Projekt mit Ihnen, suchen wir alle Informationen zusammen. Wir lernen Sie und Ihre Wünsche und Vorstellungen im Projekt kennen und was Sie erreichen wollen. Wir beziehen in die Überlegungen den Stil, technische und gestalterische Möglichkeiten, bauliche Änderungen, funktionale Anforderungen und das Budget mit ein.",
+  },
+  {
+    titel: "2. Raumanalyse",
+    text: "Das Konzept soll die natürliche Umgebung des Raums aufnehmen. Wie ist die Lichtgegebenheit? Wie überträgt der Raum Geräusche? Für welche Raumerfahrung/ welche Bewohner Erfahrung gestalten wir? Alle diese und mehr logistische Überlegungen werden getätigt um Ihren Raum optimal zu gestalten.",
+  },
+  {
+    titel: "3. Design- und Raumkonzeption",
+    text: "Unser talentiertes Design Team kreiert Ihr einzigartiges Raumerlebnis mit neuer und verbesserter Raumgestaltung und Einrichtung. Ein dynamisches Zusammenarbeiten in unserem Team und zielgerichtete Entscheidungen helfen uns ein rundum Wohlfühl-Ergebnis zu schaffen. Wir bedenken Nachhaltigkeitsmöglichkeiten, Budget, Design-Richtung und technologische Aspekte.",
+  },
+  {
+    titel: "4. Angebot",
+    text: "Unser talentiertes Design Team kreiert Ihr einzigartiges Raumerlebnis mit neuer und verbesserter Raumgestaltung und Einrichtung. Ein dynamisches Zusammenarbeiten in unserem Team und zielgerichtete Entscheidungen helfen uns ein rundum Wohlfühl-Ergebnis zu schaffen. Wir bedenken Nachhaltigkeitsmöglichkeiten, Budget, Design-Richtung und technologische Aspekte.",
+  },
+  {
+    titel: "5. Umsetzung",
+    text: "Mit dem fertigen und besprochenem Designkonzept, beginnen wir mit der Umsetzung. Wir arbeiten zusammen mit unserem hauseigenen Team an professionellen Handwerkern, von Wandgestaltung, Bodenbelägen, Fensterdekoration und Polsterarbeiten.",
+  },
+];
+
+// --- F&B-Farbwelt: Kategorien (12384:34785 / 34798 / 34811 / 12506:19875) ---
+// PLATZHALTER-Inhalte (Figma zeigt Wiederholungen/gemischte Demo-Texte). Jede Kategorie hat eine
+// Feature-Karte (moos) + Color-/Produktkarten. Bilder = vorhandene Assets als Platzhalter.
+const farbBild = "/images/komplettloesung/card1.png";
+const kategorien = [
+  {
+    id: "farben",
+    title: "Farrow and Ball Farben",
+    body: "Ob eleganter Sichtschutz, effektive Verdunkelung oder stilvolles Design – wir fertigen maßgeschneiderte Gardinen und Vorhänge, die Ihren Raum perfekt ergänzen.",
+    feature: { title: "Alle Farben", text: "Entdecken Sie die gesamte Farrow & Ball Farbwelt", href: "#" },
+    cards: [
+      { name: "Scallop", nr: "Nr. 311", img: farbBild },
+      { name: "Dibber", nr: "Nr. 312", img: farbBild },
+      { name: "Marmelo", nr: "Nr. 316", img: farbBild },
+      { name: "Tunsgate Green", nr: "Nr. 250", img: farbBild },
+      { name: "Stone Blue", nr: "Nr. 86", img: farbBild },
+      { name: "Pale Hound", nr: "Nr. 71", img: farbBild },
+      { name: "Setting Plaster", nr: "Nr. 231", img: farbBild },
+    ],
+  },
+  {
+    id: "farbkonzepte",
+    title: "Farbkonzepte",
+    body: [
+      "Die neutralen Farbreihen von Farrow & Ball bieten eine durchdachte Grundlage für eine harmonische Raumgestaltung. Jede der sechs Neutralgruppen ist so aufgebaut, dass die Farben innerhalb der Reihe perfekt miteinander funktionieren und sich vielseitig kombinieren lassen.",
+      "Die Wahl einer dieser Gruppen erleichtert die Entwicklung eines klaren, zusammenhängenden Farbkonzepts – ob für einzelne Räume oder ein gesamtes Zuhause. Die Neutraltöne bilden zugleich eine verlässliche Basis für Akzentfarben und ermöglichen ausgewogene, zeitlose Gestaltungen mit Tiefe und Struktur.",
+    ],
+    feature: { title: "Alle Farbkonzepte", text: "Entdecken Sie die sechs Neutralgruppen von Farrow & Ball", href: "#" },
+    cards: [
+      { name: "Ammonite Group", nr: "Neutralgruppe 1", img: farbBild },
+      { name: "Wimborne Group", nr: "Neutralgruppe 2", img: farbBild },
+      { name: "Cromarty Group", nr: "Neutralgruppe 3", img: farbBild },
+      { name: "Off-Black Group", nr: "Neutralgruppe 4", img: farbBild },
+      { name: "Drop Cloth Group", nr: "Neutralgruppe 5", img: farbBild },
+      { name: "Skimming Stone Group", nr: "Neutralgruppe 6", img: farbBild },
+    ],
+  },
+  {
+    id: "finish",
+    title: "Finish",
+    body: [
+      "Farrow & Ball Farben überzeugen durch ihre besondere Tiefe und eine charakteristische Wirkung, die sich mit dem Licht im Raum verändert. Je nach Anwendung kommen unterschiedliche Finishes zum Einsatz – von matten Wandfarben bis zu strapazierfähigen Lacken für Holz und Metall.",
+      "Die folgenden Karten zeigen eine Auswahl der verfügbaren Finishes. Wir beraten Sie gerne persönlich bei der Auswahl und unterstützen Sie dabei, das passende Finish für Ihr Raumkonzept zu finden.",
+    ],
+    feature: { title: "Alle Finishes", text: "Entdecken Sie die Oberflächen von Farrow & Ball", href: "#" },
+    cards: [
+      { name: "Estate Emulsion", nr: "Matt", img: farbBild },
+      { name: "Modern Emulsion", nr: "Strapazierfähig", img: farbBild },
+      { name: "Estate Eggshell", nr: "Seidenmatt", img: farbBild },
+      { name: "Full Gloss", nr: "Hochglanz", img: farbBild },
+    ],
+  },
+  {
+    id: "tapeten",
+    title: "Tapeten",
+    body: [
+      "Farrow & Ball Tapeten stehen für außergewöhnliches Design, hochwertige Materialien und eine handwerklich geprägte Herstellung. Gedruckt mit traditionellen Techniken, überzeugen sie durch ihre besondere Tiefe, feine Oberflächenstrukturen und eine charakteristische Farbwirkung, die sich mit dem Licht im Raum verändert. Je nach Design kommen unterschiedliche Verfahren zum Einsatz – von klassischen Blockdruckmotiven bis hin zu modernen Interpretationen mit metallischen Akzenten oder textilen Anmutungen.",
+      "Die Kollektion bietet eine große Vielfalt an Mustern und Stilen, von zurückhaltend und grafisch bis ausdrucksstark und dekorativ. Die folgenden Produktkarten zeigen eine Auswahl unserer persönlichen Favoriten aus dem Team. Darüber hinaus steht Ihnen in unserem Geschäft ein umfangreiches Portfolio zur Verfügung. Wir beraten Sie gerne persönlich bei der Auswahl und unterstützen Sie dabei, die passende Tapete für Ihr Raumkonzept zu finden.",
+    ],
+    feature: { title: "Alle Tapeten", text: "Entdecken Sie die Tapeten-Kollektion von Farrow & Ball", href: "#" },
+    cards: [
+      { name: "Tessella", nr: "BP 3603", img: farbBild },
+      { name: "Lotus", nr: "BP 2050", img: farbBild },
+      { name: "Hegemone", nr: "BP 5704", img: farbBild },
+      { name: "Renaissance", nr: "BP 2812", img: farbBild },
+      { name: "Brockhampton Star", nr: "BP 506", img: farbBild },
+    ],
+  },
+];
+
+// --- Blog Categorie Preview: Karten (12384:34831–34843) ---
+// Feature-Card (groß) + quadratische Bild-Teaser. Bilder = Platzhalter.
+const blogTeaser = [
+  { type: "image", img: "/images/home/blog-akustik.jpg", alt: "Blogartikel" },
+  { type: "image", img: "/images/komplettloesung/card2.png", alt: "Blogartikel" },
+  {
+    type: "feature",
+    img: "/images/home/team.jpg",
+    alt: "Aktueller Artikel: Gesellenprüfung zur Raumausstatterin Kimberly Fischer",
+    category: "Category",
+    meta: "Aktueller Artikel",
+    title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer",
+    href: "/blog",
+  },
+  { type: "image", img: "/images/komplettloesung/card3.png", alt: "Blogartikel" },
+  { type: "image", img: "/images/home/blog-akustik.jpg", alt: "Blogartikel" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Farrow & Ball — Farben, Farbkonzepte & Tapeten | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Farrow & Ball bei ADLER Wohndesign: Entdecken Sie die Farrow & Ball Farbwelt – Farben, harmonische Farbkonzepte, Finishes und Tapeten. Persönliche Farbberatung aus Berlin-Charlottenburg."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO image-text — Frame 12384:34762: full-bleed Bild + 50% Overlay, Text unten links -->
+      <section class="fbhero">
+        <div class="fbhero__media" aria-hidden="true">
+          <img src="/images/hero-beratung.jpg" alt="" fetchpriority="high" />
+          <span class="fbhero__overlay"></span>
+        </div>
+        <div class="container fbhero__inner">
+          <div class="fbhero__text">
+            <p class="t-titel fbhero__eyebrow">Farrow &amp; Ball</p>
+            <h1 class="t-h1 fbhero__title">Wir wollen für unsere Mitarbeiter mehr sein als ein Arbeitsplatz</h1>
+            <p class="t-body fbhero__lead">
+              Ob ganzheitliche Wohnkonzepte oder gezielte Einzelleistungen – wir bieten Ihnen
+              passgenaue Lösungen für Ihre Räume. Von der Beratung über die Planung bis zur Umsetzung
+              stehen wir Ihnen mit Fachwissen und handwerklicher Präzision zur Seite. Sie entscheiden
+              den Umfang, wir kümmern uns um die perfekte Ausführung.
+            </p>
+            <Button href="/kontakt" class="fbhero__btn">Mein Projekt starten</Button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJEKT AUFBAU — Frame 12384:34771: Text links + Accordion rechts -->
+      <section class="aufbau container">
+        <div class="aufbau__text">
+          <p class="t-titel aufbau__over"><span class="dot" aria-hidden="true"></span>Ganzheitliche Farbkonzepte</p>
+          <p class="t-h4 aufbau__lead">
+            Wir gestalten Ihre Räume individuell, harmonisch und funktional – ob einzelne Zimmer,
+            ganze Wohnungen oder komplette Häuser. Von der ersten Idee bis zur letzten Handbewegung
+            begleiten wir Sie mit Kreativität, Erfahrung und handwerklicher Präzision.
+          </p>
+          <!-- Button-Annotation: „Verbindung Komplettlösung" -->
+          <Button href="/komplettloesung" variant="ghost" class="aufbau__btn">So sieht ihr Rundum-Service aus</Button>
+        </div>
+        <div class="aufbau__cards">
+          <Accordion items={aufbauSchritte} name="fb-aufbau" openFirst={true} dividers={true} />
+        </div>
+      </section>
+
+      <!-- SERVICES / F&B-FARBWELT — Frame 12384:34781 -->
+      <section class="services container" aria-labelledby="fb-services-title">
+        <div class="services__intro">
+          <p class="t-titel">Teilleistungen</p>
+          <h2 class="t-h2" id="fb-services-title">Individuelle Einzelleistungen</h2>
+          <p class="t-body">
+            Nicht immer ist eine Komplettlösung erforderlich. Sie benötigen eine Farbberatung, neue
+            Vorhänge oder einen effektiven Sicht- und Sonnenschutz? Wir bieten Ihnen gezielte
+            Einzelleistungen, die sich exakt an Ihren Wünschen orientieren. Ob kleines Detail oder
+            gezielte Anpassung – Sie entscheiden, wir setzen es fachgerecht um.
+          </p>
+        </div>
+
+        <!-- Filter-Annotation: keine echte Filterung, sondern Sprung-Navigation zu den Kategorien -->
+        <nav class="services__jump" aria-label="Zu den Kategorien springen">
+          {kategorien.map((k) => (
+            <a class="t-titel services__jumplink" href={`#${k.id}`}>{k.title}</a>
+          ))}
+        </nav>
+
+        <div class="services__kategorien">
+          {kategorien.map((k) => {
+            const bodyParts = Array.isArray(k.body) ? k.body : [k.body];
+            return (
+              <section class="kategorie" id={k.id} aria-labelledby={`${k.id}-title`}>
+                <div class="kategorie__text">
+                  <h3 class="t-h2 kategorie__title" id={`${k.id}-title`}>{k.title}</h3>
+                  {bodyParts.map((p) => <p class="t-body">{p}</p>)}
+                </div>
+
+                {/* Desktop: 4-Spalten-Grid · Tablet/Mobil: Carousel (per 2 / 1) */}
+                <Carousel tone="dark" perMobile={1} perTablet={2} perDesktop={4} label={`${k.title} — Karten`} class="kategorie__cards">
+                  <li class="fbcard fbcard--feature">
+                    <a class="fbcard__feature" href={k.feature.href}>
+                      <span class="fbcard__feature-text">
+                        <span class="t-h4 fbcard__feature-title">{k.feature.title}</span>
+                        <span class="t-body fbcard__feature-body">{k.feature.text}</span>
+                      </span>
+                      <span class="fbcard__arrow" aria-hidden="true">
+                        <Icon name="arrow_upward" size={32} />
+                      </span>
+                    </a>
+                  </li>
+                  {k.cards.map((c) => (
+                    <li class="fbcard">
+                      <a class="fbcard__link" href="#">
+                        <span class="fbcard__media"><img src={c.img} alt={c.name} loading="lazy" /></span>
+                        <span class="fbcard__body">
+                          <span class="t-h5 fbcard__name">{c.name}</span>
+                          <span class="t-small fbcard__nr">{c.nr}</span>
+                        </span>
+                      </a>
+                      <FavoriteButton class="fbcard__fav" label={`${c.name} zu meinem Farbkonzept`} />
+                    </li>
+                  ))}
+                </Carousel>
+              </section>
+            );
+          })}
+        </div>
+      </section>
+
+      <!-- ZITAT — Frame 12384:34824 -->
+      <Quote author="Friedbert Bleile,<br />Kunde" bg="nature">„Diese Firma kann ich bestens empfehlen. Klasse Team mit bester fachlicher Kompetenz. Gehen ganzheitlich auf die Wünsche von Kunden ein und finden immer eine passende Lösung."</Quote>
+
+      <!-- BLOG CATEGORIE PREVIEW — Frame 12384:34828 (bg #f9f6f5) -->
+      <section class="blogprev">
+        <div class="container blogprev__head">
+          <p class="t-titel blogprev__over">Blog</p>
+          <p class="t-h3 blogprev__title">
+            Wissen, Erfahrung und Inspiration – entdecken Sie Tipps und Neuigkeiten aus unserer Welt
+            der Raumgestaltung.
+          </p>
+        </div>
+        <div class="blogprev__cards container">
+          {blogTeaser.map((b) =>
+            b.type === "feature" ? (
+              <article class="blogcard blogcard--feature">
+                <a class="blogcard__media" href={b.href}><img src={b.img} alt={b.alt} loading="lazy" /></a>
+                <div class="blogcard__body">
+                  <div class="blogcard__head">
+                    <span class="t-titel blogcard__cat">{b.category}</span>
+                    <span class="t-small blogcard__meta">{b.meta}</span>
+                  </div>
+                  <p class="t-h5 blogcard__title">{b.title}</p>
+                  <a class="blogcard__link" href={b.href}>
+                    <span class="t-small">Weiterlesen</span>
+                    <Icon name="arrow_upward" size={32} class="blogcard__arrow" />
+                  </a>
+                </div>
+              </article>
+            ) : (
+              <article class="blogcard blogcard--teaser" aria-hidden="true">
+                <span class="blogcard__media"><img src={b.img} alt="" loading="lazy" /></span>
+              </article>
+            )
+          )}
+        </div>
+      </section>
+
+      <!-- KONTAKT — Frame 12384:34846 (weiß) -->
+      <Cta
+        bg="default"
+        over="Kontakt"
+        heading="Sie haben eine Vision für Ihr individuelles Farbkonzept?"
+        lead="Vereinbaren Sie jetzt Ihre persönliche Beratung."
+        buttonLabel="Mein Farbprojekt starten"
+        buttonHref="/kontakt"
+      />
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ============ HERO image-text ============ */
+      /* Frame 12384:34762: h 948, items-end, py XL/L, px margin, Text weiß über Bild + 50% Overlay. */
+      .fbhero {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        min-height: clamp(560px, 90vh, 948px);
+        padding-block: var(--gap-xl) var(--gap-l);
+        color: var(--white);
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .fbhero__media { position: absolute; inset: 0; z-index: -1; }
+      .fbhero__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      /* gradient/overlay-50% = rgba(31,31,39,0.5) */
+      .fbhero__overlay { position: absolute; inset: 0; background: rgba(31, 31, 39, 0.5); }
+      .fbhero__inner { width: 100%; }
+      .fbhero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* Container Text gap = spacing/m */
+        max-width: var(--text-max);
+      }
+      .fbhero__eyebrow { color: var(--white); }
+      .fbhero__title { color: var(--white); }
+      .fbhero__lead { color: var(--white); max-width: 70ch; }
+      .fbhero__btn { align-self: flex-start; margin-top: var(--gap-xs); }
+
+      /* ============ PROJEKT AUFBAU ============ */
+      /* Frame 12384:34771: py XXL/XL; 2-spaltig (Text | Cards). */
+      .aufbau {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml);
+        padding-block: var(--gap-xxl) var(--gap-xl);
+      }
+      .aufbau__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-s); /* Frame: gap spacing/s */
+        max-width: var(--text-max);
+      }
+      .aufbau__over { display: flex; align-items: center; gap: var(--gap-xs); color: var(--grey); }
+      .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bronze); flex: none; }
+      .aufbau__lead { color: var(--text); }
+      .aufbau__btn { align-self: flex-start; }
+
+      /* ============ SERVICES / F&B-FARBWELT ============ */
+      /* Frame 12384:34781: py XXL/XL, gap XL zwischen Intro / Kategorien. */
+      .services {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+        padding-block: var(--gap-xxl) var(--gap-xl);
+      }
+      .services__intro {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .services__intro .t-h2 { color: var(--text); }
+
+      /* Sprung-Navigation (statt echtem Filter) */
+      .services__jump {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gap-s);
+      }
+      .services__jumplink {
+        color: var(--grey);
+        text-decoration: underline transparent;
+        text-underline-offset: 4px;
+        transition: color 0.2s ease, text-decoration-color 0.2s ease;
+      }
+      .services__jumplink:hover { color: var(--bronze); text-decoration-color: currentColor; }
+
+      /* Kategorie-Container: gap XL zwischen Kategorien (Frame 12384:34783). */
+      .services__kategorien {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+      }
+      /* Einzelne Kategorie: gap L zwischen Text und Karten (Frame 12384:34785). */
+      .kategorie {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+        scroll-margin-top: 96px; /* Anker unter fixierter Nav */
+      }
+      .kategorie__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .kategorie__title { color: var(--text); }
+
+      /* --- F&B-Karten --- */
+      .fbcard { list-style: none; position: relative; display: flex; }
+      .fbcard__link {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        color: var(--text);
+        width: 100%;
+      }
+      .fbcard__media { display: block; aspect-ratio: 1 / 1; overflow: hidden; }
+      .fbcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+      .fbcard__link:hover .fbcard__media img { transform: scale(1.03); }
+      .fbcard__body { display: flex; flex-direction: column; gap: var(--gap-xxxs); }
+      .fbcard__name { color: var(--text); }
+      .fbcard__nr { color: var(--grey); }
+      /* FavoriteButton oben rechts auf der Karte (Figma: Button-function, Kreis + Herz). */
+      .fbcard__fav { position: absolute; top: 12px; right: 12px; z-index: 1; }
+
+      /* Feature-Karte (moos): Titel + Body oben, Pfeil-Button unten rechts. */
+      .fbcard--feature { height: auto; }
+      .fbcard__feature {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: var(--gap-sm);
+        width: 100%;
+        background: var(--moos);
+        color: var(--white);
+        /* Frame 12384:34789: pt M, pb S, px S */
+        padding: var(--gap-m) var(--gap-s) var(--gap-s);
+        aspect-ratio: 1 / 1;
+      }
+      .fbcard__feature-text { display: flex; flex-direction: column; gap: var(--gap-xxs); }
+      .fbcard__feature-title { color: var(--white); }
+      .fbcard__feature-body { color: var(--white); }
+      .fbcard__arrow {
+        align-self: flex-end;
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        color: var(--white);
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+      /* arrow_upward (Aufwärtspfeil) → 90° = nach rechts (wie Figma). */
+      .fbcard__arrow :global(svg) { transform: rotate(90deg); }
+      .fbcard__feature:hover .fbcard__arrow { color: var(--bronze); transform: translateX(4px); }
+
+      /* ============ BLOG CATEGORIE PREVIEW ============ */
+      /* Frame 12384:34828: bg #f9f6f5, py XXL, gap L zwischen Kopf und Karten, zentriert. */
+      .blogprev {
+        background: #f9f6f5;
+        padding-block: var(--gap-xxl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+      }
+      .blogprev__head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m);
+        text-align: center;
+      }
+      .blogprev__title { color: var(--text); max-width: var(--text-max); }
+
+      /* Karten-Reihe: zentriert, horizontal scrollbar (Feature groß zwischen Teasern). */
+      .blogprev__cards {
+        display: flex;
+        gap: var(--gap-l);
+        align-items: flex-start;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+        scroll-snap-type: x mandatory;
+      }
+      .blogprev__cards::-webkit-scrollbar { display: none; }
+      .blogcard { scroll-snap-align: center; flex: none; }
+      .blogcard__media { display: block; overflow: hidden; }
+      .blogcard__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+      .blogcard__media:hover img { transform: scale(1.03); }
+
+      .blogcard--teaser { width: 360px; }
+      .blogcard--teaser .blogcard__media { aspect-ratio: 1 / 1; }
+
+      .blogcard--feature { width: 744px; max-width: 100%; display: flex; flex-direction: column; gap: var(--gap-s); }
+      .blogcard--feature .blogcard__media { height: 420px; }
+      .blogcard__body { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .blogcard__head { display: flex; justify-content: space-between; gap: 16px; color: var(--grey); }
+      .blogcard__title { color: var(--text); }
+      .blogcard__link {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--gutter);
+        color: var(--text);
+        transition: color 0.2s ease;
+      }
+      .blogcard__link:hover { color: var(--bronze); }
+      .blogcard__link :global(.blogcard__arrow) :global(svg) { transform: rotate(90deg); }
+
+      /* ============ Breakpoints (kanonisch 701 / 992) ============ */
+      @media (min-width: 701px) {
+        .aufbau { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: start; }
+        .aufbau__text { max-width: none; }
+      }
+
+      @media (min-width: 992px) {
+        /* Desktop: F&B-Karten als 4-Spalten-Grid (kein Carousel-Scroll). Punkte blendet
+           Carousel.astro aus, sobald alles passt. */
+        .kategorie__cards :global(.carousel__track) {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: var(--gutter);
+          overflow: visible;
+        }
+        .kategorie__cards :global(.carousel__track) > .fbcard { width: auto; }
+      }
+    </style>
+  </body>
+</html>

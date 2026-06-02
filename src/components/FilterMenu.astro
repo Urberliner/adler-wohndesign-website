@@ -1,0 +1,31 @@
+---
+// Filter menu (V4) — 1:1 aus Figma „Filter menu" (2238:3677), in Kontext 6319:52504 verifiziert.
+// Label (titel uppercase) + Chevron (collapsible via natives <details>) + Tab-Gruppe.
+//  · layout="wrap"  → horizontale Auswahl, umbrechend (gap row=spacing/xxs, col=spacing/xs)
+//  · layout="stack" → vertikale Liste (Sortierung), gap=spacing/xs
+// Tokens aus get_design_context/variable_defs. Tabs als <slot> (FilterTab-Instanzen).
+import Icon from "./Icon.astro";
+interface Props { label: string; open?: boolean; layout?: "wrap" | "stack"; name?: string; class?: string; }
+const { label, open = true, layout = "wrap", name, class: cls = "" } = Astro.props;
+---
+<details class:list={["filter-menu", `filter-menu--${layout}`, cls]} open={open} data-filter-menu={name}>
+  <summary class="filter-menu__head">
+    <span class="t-titel">{label}</span>
+    <Icon name="chevron-down" size={24} class="filter-menu__chev" />
+  </summary>
+  <div class="filter-menu__selection"><slot /></div>
+</details>
+
+<style>
+  .filter-menu { display: flex; flex-direction: column; gap: var(--gap-xs); } /* spacing/xs 20·18·14 */
+  .filter-menu__head {
+    list-style: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: var(--gap-xs);
+  }
+  .filter-menu__head::-webkit-details-marker { display: none; }
+  .filter-menu__chev :global(svg) { color: var(--text); transition: transform 0.25s ease; }
+  details[open] > .filter-menu__head .filter-menu__chev :global(svg) { transform: rotate(180deg); }
+
+  .filter-menu__selection { display: flex; flex-wrap: wrap; align-items: center; gap: var(--gap-xxs) var(--gap-xs); }
+  .filter-menu--stack .filter-menu__selection { flex-direction: column; flex-wrap: nowrap; align-items: flex-start; gap: var(--gap-xs); }
+</style>

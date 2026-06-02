@@ -1,0 +1,104 @@
+---
+// Such-Overlay (V4) — 1:1 aus Figma 000-MISC/003-Search (8020:18682, Frame 6123:42275)
+// Scrim (--overlay-50) + weißes Panel oben: Pill-Suchfeld (Lupe links · Eingabe · X rechts) +
+// Ergebnis-Cards (Card Link, Desktop 2-sp / Mobil 1-sp). Tokens aus get_design_context/variable_defs.
+// Wird einmal global im Header eingebunden; geöffnet vom Header-Such-Icon ([data-search-toggle]).
+// ⚠ Such-Backend/Filterung folgt separat — hier Beispiel-Ergebnisse (Platzhalter).
+import Icon from "./Icon.astro";
+import Card from "./Card.astro";
+
+interface Result { href: string; image: string; eyebrow?: string; date?: string; title?: string; }
+interface Props { results?: Result[]; placeholder?: string; }
+const {
+  placeholder = "Wonach suchen Sie?",
+  results = [
+    { href: "/blog", image: "/images/home/blog-akustik.jpg", eyebrow: "Blog", date: "12.05.2026", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer" },
+    { href: "/projekte", image: "/images/home/project-1.jpg", eyebrow: "Projekt", date: "03.04.2026", title: "Dachgeschoss-Sanierung mit Sicht- und Sonnenschutz" },
+  ],
+} = Astro.props;
+---
+
+<div class="search-overlay" id="searchOverlay" hidden>
+  <div class="search-overlay__scrim" data-search-close></div>
+  <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-label="Suche">
+    <div class="search-overlay__inner">
+      <form class="search-field" role="search" data-search-form>
+        <Icon name="search" size={24} class="search-field__icon" />
+        <input type="search" class="search-field__input" name="q" placeholder={placeholder} aria-label="Suchbegriff" autocomplete="off" />
+        <button type="button" class="search-field__close" data-search-close aria-label="Suche schließen">
+          <Icon name="close" size={24} />
+        </button>
+      </form>
+
+      <div class="search-results" data-search-results>
+        {results.map((r) => (
+          <Card
+            href={r.href}
+            image={r.image}
+            alt={r.title}
+            eyebrow={r.eyebrow}
+            eyebrowRight={r.date}
+            title={r.title}
+            ratio="landscape"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .search-overlay { position: fixed; inset: 0; z-index: 70; }
+  .search-overlay[hidden] { display: none !important; }
+  .search-overlay__scrim { position: absolute; inset: 0; background: var(--overlay-50); }
+  .search-overlay__panel {
+    position: absolute; left: 0; right: 0; top: 0;
+    background: var(--white);
+    padding-block: var(--gap-ml);        /* spacing/ml: 78 · 56 · 40 */
+    padding-inline: var(--layout-margin);/* 80 · 32 · 24 */
+    max-height: 100vh; overflow-y: auto;
+  }
+  .search-overlay__inner {
+    width: 100%; max-width: var(--container-max); margin-inline: auto;
+    display: flex; flex-direction: column; gap: var(--gap-m); /* spacing/m: 56 · 44 · 32 */
+  }
+  /* Pill-Suchfeld: 1,2px-Rahmen light-grey, Radius 40, px=spacing/xs 20, py=10 */
+  .search-field {
+    display: flex; align-items: center; gap: var(--gap-xxxs); /* 6 · 4 · 4 */
+    border: 1.2px solid var(--light-grey);
+    border-radius: 40px;
+    padding: 10px 20px;
+  }
+  .search-field__icon { color: var(--grey); flex: none; }
+  .search-field__input {
+    flex: 1 1 auto; border: none; outline: none; background: none;
+    font-family: var(--font-body); font-size: 12px; line-height: 22px; letter-spacing: 0.01em;
+    color: var(--text);
+  }
+  .search-field__input::placeholder { color: var(--grey); }
+  .search-field__close { display: grid; place-items: center; width: 40px; height: 36px; color: var(--text); flex: none; transition: color 0.2s ease; }
+  .search-field__close:hover { color: var(--bronze); }
+
+  .search-results { display: grid; grid-template-columns: 1fr; gap: var(--gutter); }
+  @media (min-width: 701px) { .search-results { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<script>
+  const overlay = document.getElementById("searchOverlay");
+  const input = overlay?.querySelector<HTMLInputElement>(".search-field__input");
+  const open = () => {
+    if (!overlay) return;
+    overlay.hidden = false;
+    document.body.classList.add("nav-open");
+    input?.focus();
+  };
+  const close = () => {
+    if (!overlay) return;
+    overlay.hidden = true;
+    document.body.classList.remove("nav-open");
+  };
+  document.querySelectorAll("[data-search-toggle]").forEach((b) => b.addEventListener("click", open));
+  overlay?.querySelectorAll("[data-search-close]").forEach((b) => b.addEventListener("click", close));
+  overlay?.querySelector("[data-search-form]")?.addEventListener("submit", (e) => e.preventDefault());
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+</script>

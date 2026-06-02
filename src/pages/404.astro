@@ -1,0 +1,77 @@
+---
+// 404-Seite (V4) — 1:1 aus Figma Frame 6123:42892 (L 6123:42893 / M 6123:42911 / S 6123:42929)
+// Vollbild-Moos-Fläche, Nav blendet ein (Header ist bereits moos). Zentrierter Inhalt:
+// Eyebrow „● 404 Error" · H1 · Lead · Bronze-Button. Tokens aus get_design_context/get_variable_defs.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Seite nicht gefunden (404) | ADLER Wohndesign</title>
+    <meta name="description" content="Die aufgerufene Seite existiert nicht. Kehren Sie zurück zur Startseite von ADLER Wohndesign." />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main class="error404">
+      <div class="error404__content container">
+        <p class="error404__eyebrow">
+          <span class="error404__dot" aria-hidden="true"></span>
+          <span>404 Error</span>
+        </p>
+        <div class="error404__text">
+          <h1 class="t-h1">Etwas ist schief gegangen.</h1>
+          <p class="t-body">Wir können die Seite, nach der Sie suchen, nicht finden.</p>
+        </div>
+        <a class="btn" href="/">Zurück zur Startseite</a>
+      </div>
+    </main>
+
+    <style>
+      /* Vollbild-Moos-Fläche unter der (moos-)Nav — „Header und Bildschirm füllend" */
+      .error404 {
+        background: var(--moos);
+        color: var(--white);
+        min-height: calc(100vh - 96px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-block: var(--gap-xl);
+      }
+      .error404__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m); /* spacing/M: 56 · 44 · 32 */
+        text-align: center;
+      }
+      /* Eyebrow: 20px-Box-Bronze-Punkt + festes 13/24-Weiß-Label (Frame-Wert, kein t-class) */
+      .error404__eyebrow {
+        display: flex;
+        align-items: center;
+        gap: var(--gap-xs); /* spacing/XS: 20 · 18 · 14 */
+        font-family: var(--font-body);
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 24px;
+        letter-spacing: 0.03em;
+        color: var(--white);
+      }
+      .error404__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--bronze); flex: none; }
+      .error404__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-sm); /* spacing/SM: 44 · 32 · 24 */
+      }
+      .error404__text .t-h1 { color: var(--white); }
+      .error404__text .t-body { color: var(--white); max-width: 60ch; }
+    </style>
+  </body>
+</html>

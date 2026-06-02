@@ -1,0 +1,387 @@
+---
+// /ueber-uns — „Das sind Wir" (Figma V4 005-DasSindWir)
+// Frames: S 5705:24879 · M 5705:24924 · L 5705:24968 (alle identische Sektions-Reihenfolge).
+// Werte (Layout/Typo/Spacing/Farben/Texte) aus get_metadata + get_variable_defs + REST-Texten.
+//
+// Sektions-Reihenfolge & BG (aus Frame-Fills verifiziert):
+//  1 Hero image-text  (full-bleed Bild, Text-Overlay unten links)   — Bild
+//  2 Text Container   (Fließtext + Award-Logo)                       — weiß
+//  3 Adler Wohndesign Team (Karten-Karussell 1/3/4)                  — weiß
+//  4 Facts            (Zahlen-Karussell, Pfeil-Navigation)           — weiß
+//  5 Partner          (Marken-Logo-Karussell, auto)                  — nature
+//  6 Verantwortung    (image-text-Karten-Karussell, 3)              — weiß
+//  7 Image + Text „Eine lange Tradition" (full-bleed Bild + Overlay) — Bild
+//  8 Zitat            (Kundenzitat)                                  — weiß
+//  9 Karriere         (image-text Karte, dunkel)                     — moos
+// 10 Kontakt          (CTA)                                          — weiß
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import Section from "../components/Section.astro";
+import Quote from "../components/Quote.astro";
+import Cta from "../components/Cta.astro";
+import Carousel from "../components/Carousel.astro";
+
+// --- Team (PLATZHALTER: Figma-Karten haben „Vor- Nachname"/„Jobtitel"; echte Personen folgen) ---
+const team = Array.from({ length: 6 }, () => ({
+  name: "Vor- Nachname",
+  role: "Jobtitel",
+  img: "/images/home/team.jpg", // Platzhalter (kein dediziertes Team-Asset vorhanden)
+}));
+
+// --- Facts (aus Frame; alle 5 Karten tragen denselben Platzhalter-Text) ---
+const facts = Array.from({ length: 5 }, () => ({
+  value: "25",
+  label: "Tonnen CO2",
+  text: "Seit 2020 kompensieren wir mit Atmosfair jedes Jahr CO2.",
+}));
+
+// --- Partner-Logos (PLATZHALTER: keine echten Marken-Assets vorhanden) ---
+const partners = Array.from({ length: 8 }, (_, i) => ({
+  name: `Partnermarke ${i + 1}`,
+}));
+
+// --- Verantwortung (image-text Klick-Karussell; Frame-Texte für alle 3 Karten identisch) ---
+const verantwortung = Array.from({ length: 3 }, (_, i) => ({
+  img: `/images/komplettloesung/card${i + 1}.png`, // Platzhalter
+  eyebrow: "Verantwortung",
+  title: "Sprechen Sie mit unseren Experten",
+  text: "Wir analysieren Ihre Wünsche und Anforderungen, um die Basis für ein passendes Raumkonzept zu schaffen.",
+}));
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Das sind wir – Ihr Team für Räume zum Wohlfühlen | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Lernen Sie ADLER Wohndesign kennen: ein traditionsreiches Raumausstattungs- und Innenarchitekturunternehmen aus Berlin – Team, Werte, Partner und unsere Geschichte."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- 1 — HERO image-text (Bild bildschirmfüllend, Text-Overlay unten links) -->
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero__img"
+          src="/images/hero-beratung.jpg"
+          alt="Das Team von ADLER Wohndesign im Showroom in Berlin-Charlottenburg"
+          fetchpriority="high"
+        />
+        <div class="hero__overlay" aria-hidden="true"></div>
+        <div class="container hero__content">
+          <p class="t-titel hero__over">Das sind wir</p>
+          <h1 id="hero-title" class="t-h1">Ihre Experten für Räume, in denen Sie sich Zuhause fühlen.</h1>
+          <p class="t-body hero__lead">
+            Ob ganzheitliche Wohnkonzepte oder gezielte Einzelleistungen – wir bieten Ihnen passgenaue Lösungen für Ihre
+            Räume. Von der Beratung über die Planung bis zur Umsetzung stehen wir Ihnen mit Fachwissen und handwerklicher
+            Präzision zur Seite. Sie entscheiden den Umfang, wir kümmern uns um die perfekte Ausführung.
+          </p>
+          <Button href="/kontakt">Mein Projekt starten</Button>
+        </div>
+      </section>
+
+      <!-- 2 — TEXT CONTAINER (Fließtext + Award-Logo) -->
+      <Section bg="default" class="intro">
+        <div class="intro__text">
+          <p class="t-titel intro__over">Über uns</p>
+          <h2 class="t-h2 intro__head">Meisterhaft gestalten, individuell umsetzen – mit Professionalität und Präzision.</h2>
+          <div class="intro__body">
+            <p class="t-body">
+              Wir sind ein traditionsreiches Raumausstattungs- und Innenarchitekturunternehmen mit Sitz in Berlin,
+              spezialisiert auf maßgeschneiderte Raumkonzepte, hochwertige Materialien und meisterhaftes Handwerk.
+            </p>
+            <p class="t-body">
+              Mit jahrzehntelanger Erfahrung vereint unser Team Professionalität, Kreativität und Verlässlichkeit – und
+              bringt so Design, Funktionalität und Nachhaltigkeit in Einklang.
+            </p>
+            <p class="t-body">
+              Wir arbeiten mit privaten Auftraggeber:innen, Architekturbüros und Partnern aus Handwerk und Design
+              zusammen, um Projekte jeder Größenordnung erfolgreich umzusetzen.
+            </p>
+          </div>
+        </div>
+        <div class="intro__award" role="img" aria-label="German Design Award – Auszeichnung ADLER Wohndesign">
+          <!-- PLATZHALTER: GDA-Award-Logo (Figma „GDA_HO_K_RGB"); echtes SVG folgt -->
+          <span class="t-titel award__ph">German Design Award</span>
+        </div>
+      </Section>
+
+      <!-- 3 — TEAM (Karten-Karussell: mobil 1 · tablet 3 · desktop 4) -->
+      <Section bg="default" class="team">
+        <div class="team__head">
+          <p class="t-titel team__over">Unser Team</p>
+          <h2 class="t-h2 team__title">Hinter jedem Projekt steht ein starkes Team – wir stellen uns vor.</h2>
+          <p class="t-body team__lead">
+            Lernen Sie die Menschen hinter ADLER Wohndesign kennen: unsere Beraterinnen und Berater, Planerinnen und
+            Planer, Handwerkerinnen und Handwerker – das Team, das Ihre Räume zum Leben erweckt.
+          </p>
+        </div>
+
+        <Carousel tone="dark" label="Unser Team" perMobile={1} perTablet={3} perDesktop={4} class="team__carousel">
+          {team.map((m) => (
+            <li>
+              <article class="tcard">
+                <div class="tcard__media">
+                  <img src={m.img} alt={`${m.name} – ${m.role} bei ADLER Wohndesign`} loading="lazy" />
+                </div>
+                <div class="tcard__intro">
+                  <div class="tcard__name">
+                    <p class="t-h5 tcard__person">{m.name}</p>
+                    <p class="t-small tcard__role">{m.role}</p>
+                  </div>
+                </div>
+              </article>
+            </li>
+          ))}
+        </Carousel>
+
+        <Button href="/ueber-uns" class="team__btn">Lernen Sie das Team kennen</Button>
+      </Section>
+
+      <!-- 4 — FACTS (Zahlen-Karussell) -->
+      <Section bg="default" class="facts">
+        <div class="facts__head">
+          <p class="t-titel facts__over">In Zahlen</p>
+          <h2 class="t-h2 facts__title">ADLER Wohndesign in Zahlen</h2>
+          <p class="t-body facts__lead">
+            In unseren Fakten zeigen wir, wie wir Verantwortung leben – im täglichen Handeln, in unseren Prozessen und in
+            der Auswahl unserer Partner. Wir arbeiten bewusst ressourcenschonend, setzen auf nachhaltige Lösungen und
+            prüfen jedes Detail, um Qualität, Umweltbewusstsein und Langlebigkeit in Einklang zu bringen.
+          </p>
+        </div>
+
+        <Carousel tone="dark" label="Fakten" perMobile={1} perTablet={2} perDesktop={3} class="facts__carousel">
+          {facts.map((f) => (
+            <li>
+              <article class="fact">
+                <p class="fact__value">{f.value}</p>
+                <div class="fact__body">
+                  <p class="t-h4 fact__label">{f.label}</p>
+                  <p class="t-small fact__text">{f.text}</p>
+                </div>
+              </article>
+            </li>
+          ))}
+        </Carousel>
+      </Section>
+
+      <!-- 5 — PARTNER (Marken-Logo-Karussell, auto) -->
+      <Section bg="nature" class="partner">
+        <div class="partner__head">
+          <p class="t-titel partner__over">Marken</p>
+          <h2 class="t-h2 partner__title">Ausgesuchte &amp; exklusive Marken</h2>
+          <p class="t-body partner__lead">
+            Entdecken Sie unsere vielfältige Auswahl an Marken für Dekorations- und Polsterstoffe, Gardinen, Tapeten,
+            Bodenbeläge und mehr. Verschaffen Sie sich einen Überblick über unsere exklusiven Kollektionen und Partner –
+            klicken Sie hier und lassen Sie sich inspirieren!
+          </p>
+        </div>
+
+        <!-- Logo-Laufband: automatisch, nach links, unendlich (Franzi: transition 20000ms) -->
+        <div class="logos" aria-label="Partnermarken">
+          <ul class="logos__track" role="list">
+            {[...partners, ...partners].map((p) => (
+              <li class="logos__item" aria-hidden="false">
+                <span class="t-titel logo__ph">{p.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <Button href="/projekte" class="partner__btn">Unsere Partner</Button>
+      </Section>
+
+      <!-- 6 — VERANTWORTUNG (image-text Klick-Karussell, 3 Karten) -->
+      <Section bg="default" class="resp">
+        <p class="t-titel resp__over">Unsere Verantwortung</p>
+
+        <Carousel tone="dark" label="Unsere Verantwortung" perMobile={1} perTablet={1} perDesktop={1} class="resp__carousel">
+          {verantwortung.map((c) => (
+            <li>
+              <article class="rcard">
+                <div class="rcard__media">
+                  <img src={c.img} alt={c.title} loading="lazy" />
+                </div>
+                <div class="rcard__body">
+                  <p class="t-titel rcard__eyebrow">{c.eyebrow}</p>
+                  <h3 class="t-h4 rcard__title">{c.title}</h3>
+                  <p class="t-body">{c.text}</p>
+                </div>
+              </article>
+            </li>
+          ))}
+        </Carousel>
+      </Section>
+
+      <!-- 7 — IMAGE + TEXT „Eine lange Tradition" (full-bleed Bild + Text-Overlay) -->
+      <section class="tradition" aria-labelledby="tradition-title">
+        <img
+          class="tradition__img"
+          src="/images/komplettloesung/hero.png"
+          alt="Werkstatt und Showroom von ADLER Wohndesign"
+          loading="lazy"
+        />
+        <div class="tradition__overlay" aria-hidden="true"></div>
+        <div class="container tradition__content">
+          <p class="t-titel tradition__over">Unsere Geschichte</p>
+          <h2 id="tradition-title" class="t-h2 tradition__head">Eine lange Tradition</h2>
+          <p class="t-body tradition__lead">
+            ADLER Wohndesign blickt auf eine traditionsreiche Geschichte zurück, die von handwerklicher Leidenschaft,
+            stetiger Weiterentwicklung und dem Anspruch an höchste Qualität geprägt ist.
+          </p>
+          <Button href="/ueber-uns">Einblick in unsere Geschichte</Button>
+        </div>
+      </section>
+
+      <!-- 8 — ZITAT -->
+      <Quote bg="default" author="Andrea Hofmeier,<br />Kundin">
+        „Wir sind vollends begeistert über die Zusammenarbeit mit der Firma Adler. Freundlich, kompetent, zuverlässig und
+        eine hervorragende Umsetzung des Auftrags. Dazu kommt eine unglaublich freundliche Mannschaft, der man anmerkt,
+        wie stolz sie auf ihre Arbeit sind. Von der Beratung bis zum Verlassen des Objekts: perfekt. Wir empfehlen Sie
+        gerne weiter und freuen uns auf weitere Zusammenarbeit."
+      </Quote>
+
+      <!-- 9 — KARRIERE (Card image-text, dunkel/moos: Bild links, Text rechts, weiß) -->
+      <Section bg="moos" class="karriere">
+        <div class="kcard">
+          <div class="kcard__media">
+            <!-- PLATZHALTER: kein dediziertes Karriere-Asset vorhanden -->
+            <img src="/images/home/team.jpg" alt="Arbeiten bei ADLER Wohndesign" loading="lazy" />
+          </div>
+          <div class="kcard__body">
+            <p class="t-titel kcard__eyebrow">Karriere</p>
+            <h2 class="t-h3 kcard__title">Werde Teil von ADLER Wohndesign</h2>
+            <p class="t-body kcard__text">
+              Bei ADLER Wohndesign erwarten Sie vielseitige Projekte und ein eingespieltes Team, das mit Leidenschaft
+              Räume gestaltet. Hier können Sie Ihre Kreativität einbringen, mitdenken und Verantwortung übernehmen. Sie
+              lernen viel, erleben viel und gestalten aktiv mit. Das klingt spannend?
+            </p>
+            <Button href="/kontakt" class="kcard__btn">Unsere Jobangebote</Button>
+          </div>
+        </div>
+      </Section>
+
+      <!-- 10 — KONTAKT (CTA) -->
+      <Cta
+        bg="default"
+        heading="Sie haben einen Wunschtraum?"
+        lead="Ob ganzheitliche Wohnkonzepte oder gezielte Einzelleistungen – wir bieten Ihnen passgenaue Lösungen für Ihre Räume."
+      />
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- 1 HERO (vgl. index.astro: Bild + Header füllen einen Viewport) ---- */
+      .hero { position: relative; min-height: calc(100vh - 96px); display: flex; align-items: flex-end; overflow: hidden; }
+      .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+      .hero__overlay { position: absolute; inset: 0; background:
+        linear-gradient(180deg, rgba(31,31,39,0.28) 0%, rgba(31,31,39,0.08) 28%, rgba(31,31,39,0.32) 62%, rgba(31,31,39,0.72) 100%); }
+      .hero__content { position: relative; z-index: 1; padding-block: clamp(40px, 7vh, 96px); display: flex; flex-direction: column; gap: var(--gap-m); align-items: flex-start; color: var(--white); }
+      .hero__over { color: rgba(255,255,255,0.82); }
+      .hero .t-h1 { color: var(--white); max-width: 22ch; }
+      .hero__lead { color: rgba(255,255,255,0.92); max-width: var(--text-max); }
+
+      /* ---- 2 TEXT CONTAINER + AWARD ---- */
+      .intro :global(.section__inner) {
+        display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: center;
+      }
+      .intro__text { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); }
+      .intro__head { color: var(--text); margin-bottom: var(--gap-xxs); }
+      .intro__body { display: flex; flex-direction: column; gap: var(--gap-s); }
+      .intro__award { display: grid; place-items: center; min-height: clamp(180px, 26vw, 408px); background: var(--nature); }
+      .award__ph { color: var(--grey); }
+
+      /* ---- 3 TEAM ---- */
+      .team :global(.section__inner) { display: flex; flex-direction: column; gap: var(--gap-l); }
+      .team__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); margin-inline: auto; align-items: center; text-align: center; }
+      .team__title { color: var(--text); }
+      .team__btn { align-self: center; }
+      .tcard { display: flex; flex-direction: column; gap: var(--gap-xs); background: var(--white); }
+      .tcard__media { aspect-ratio: 376 / 564; overflow: hidden; }
+      .tcard__media img { width: 100%; height: 100%; object-fit: cover; }
+      .tcard__intro { display: flex; align-items: center; justify-content: space-between; gap: var(--gap-xs); }
+      .tcard__person { color: var(--text); }
+      .tcard__role { color: var(--grey); }
+
+      /* ---- 4 FACTS ---- */
+      .facts :global(.section__inner) { display: flex; flex-direction: column; gap: var(--gap-l); }
+      .facts__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); }
+      .facts__title { color: var(--text); }
+      .fact { display: flex; flex-direction: column; gap: var(--gap-s); }
+      .fact__value { font-family: "Montserrat", sans-serif; font-weight: 600; font-size: clamp(72px, 8vw, 128px); line-height: 1; color: var(--bronze); }
+      .fact__body { display: flex; flex-direction: column; gap: var(--gap-xs); padding-top: var(--gap-xs); border-top: 1px solid var(--moos); }
+      .fact__label { color: var(--text); }
+      .fact__text { color: var(--text); }
+
+      /* ---- 5 PARTNER (Logo-Laufband) ---- */
+      .partner :global(.section__inner) { display: flex; flex-direction: column; gap: var(--gap-l); }
+      .partner__head { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-max); margin-inline: auto; align-items: center; text-align: center; }
+      .partner__title { color: var(--text); }
+      .partner__btn { align-self: center; }
+      .logos { overflow: hidden; width: 100%; }
+      .logos__track {
+        display: flex; align-items: center; gap: clamp(40px, 8vw, 96px);
+        list-style: none; margin: 0; padding: 0; width: max-content;
+        animation: logos-scroll 20000ms linear infinite;
+      }
+      .logos__item { flex: none; height: 160px; display: grid; place-items: center; min-width: clamp(120px, 14vw, 200px); }
+      .logo__ph { color: var(--grey); white-space: nowrap; }
+      @keyframes logos-scroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .logos__track { animation: none; flex-wrap: wrap; width: 100%; justify-content: center; }
+      }
+
+      /* ---- 6 VERANTWORTUNG (image-text Karte) ---- */
+      .resp :global(.section__inner) { display: flex; flex-direction: column; gap: var(--gap-m); }
+      .resp__over { color: var(--text); }
+      .rcard { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: center; min-height: clamp(360px, 40vw, 700px); }
+      .rcard__media { height: 100%; }
+      .rcard__media img { width: 100%; height: 100%; object-fit: cover; }
+      .rcard__body { display: flex; flex-direction: column; gap: var(--gap-xs); padding-inline: clamp(0px, 3vw, 56px); }
+      .rcard__title { color: var(--text); }
+
+      /* ---- 7 TRADITION (full-bleed Bild + Overlay, zentrierter Text) ---- */
+      .tradition { position: relative; min-height: clamp(520px, 52vw, 933px); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+      .tradition__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .tradition__overlay { position: absolute; inset: 0; background: rgba(31,31,39,0.55); }
+      .tradition__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--gap-m); color: var(--white); }
+      .tradition__over { color: rgba(255,255,255,0.82); }
+      .tradition__head, .tradition__lead { color: var(--white); max-width: var(--text-max); }
+
+      /* ---- 9 KARRIERE (Card image-text: Bild links, Text rechts, weiß auf Moos) ---- */
+      .kcard { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); align-items: stretch; min-height: clamp(360px, 40vw, 700px); }
+      .kcard__media { aspect-ratio: 300 / 400; justify-self: start; height: 100%; overflow: hidden; }
+      .kcard__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .kcard__body { justify-content: center; }
+      .kcard__body { display: flex; flex-direction: column; gap: var(--gap-sm); align-items: flex-start; text-align: left; padding-inline: var(--gap-m); }
+      .kcard__eyebrow { color: rgba(255,255,255,0.82); }
+      .kcard__title, .kcard__text { color: var(--white); }
+      .kcard__btn { margin-top: var(--gap-xs); }
+
+      /* ---- Responsive ---- */
+      @media (max-width: 991px) {
+        .intro :global(.section__inner) { grid-template-columns: 1fr; gap: var(--gap-l); }
+      }
+      @media (max-width: 700px) {
+        .rcard { grid-template-columns: 1fr; min-height: 0; gap: var(--gap-s); }
+        .rcard__media { aspect-ratio: 4 / 3; }
+        .rcard__body { padding-inline: 0; }
+        .kcard { grid-template-columns: 1fr; min-height: 0; gap: var(--gap-m); }
+        .kcard__media { aspect-ratio: 300 / 400; justify-self: stretch; }
+        .kcard__body { padding-inline: 0; }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,388 @@
+---
+// /farrow-ball/farben — Farrow & Ball Farben-Übersicht (Listing).
+// 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn), Section 5940:34093 „004-Farrow&Ball/002-Farben".
+// Drei Breakpoint-Frames:
+//   L 5940:34221 · M 5940:34158 · S 5940:34094
+//
+// Aufbau (alle BP):
+//   Hero (Breadcrumb „Farrow & Ball > Farben" + H1 + Body)
+//   → Artikel Container (py XXL, gap ML):
+//       Filter + Sortierung
+//         · Nav Container: „List My Color" (Mein Farbkonzept öffnen (n)) → ColorListItem type="open"
+//         · Desktop: Main Filter (inline, FilterMenu „Filter Nach" offen) + Sortierung (rechts)
+//         · Mobil/Tablet (Annotation „page overlay"): Filter-/Sortier-Trigger + FilterSort-Overlay
+//       Card Container (Farb-Karten-Raster) — desktop 5/Reihe, tablet 2, mobil 1 (aus Frame-Geometrie)
+//       „Mehr Farben"-Button (zentriert)
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+//
+// Annotationen (REST /v1/files .../nodes, label umgesetzt):
+//   · Hero (6312:50263 / 5948:17859 / 5948:18004) „Wenn doppeltes padding mit weißer Fläche, dann
+//     bottom padding von oberer Section löschen (Hero bottom padding)." → Hero ohne padding-bottom;
+//     den Abstand zur Card-Übersicht macht das Artikel-Container-padding-top (XXL).
+//   · Main Filter (5952:18148 / 6319:51444 / 12429:23199) „Filter menu type: Mobil + tablet = page
+//     overlay, desktop = filter menu dropdown" + „Main Filter is open. Klick auf Tab öffnet Sub-Filter."
+//     → Desktop: FilterMenu inline (offen). Mobil/Tablet: FilterSort-Overlay (vorhandene Komponente).
+//   · Card Container (6319:51503 / 12416:36052 / 6319:51310) „Anordnung: mobil 1 Card sichtbar,
+//     tablet 2, desktop 5/4 in einer Reihe; horizontal scrollen mobil/tablet". → Die echten S/M-Frames
+//     zeigen ein GESTAPELTES Raster (mobil 1, tablet 2 Spalten), kein Horizontal-Scroll → „Frame gewinnt",
+//     Raster gestapelt umgesetzt. Horizontal-Scroll-Notiz siehe Flags.
+//   · Filter tab „Einsatz" (5770:27437): „Wand, Boden, Holz, Metall, …" / „Eigenschaft" (12298:34342):
+//     „Robust, matt, …" → Inhalts-Hinweise für künftige Filterwerte (Folgeaufgabe), als Default-Tabs gesetzt.
+//
+// Inhalte = ECHTE Farrow-&-Ball-Farbdaten aus src/data/farben.json (302 Einträge).
+// Swatch = CSS-Farbfläche aus `hex` (kein Bild). Layout/Markup/CSS unverändert (V4-Frame).
+// Filter „Filter nach Farbe" = client-seitiges Ein-/Ausblenden über `data-farbwelt` (presentational).
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Button from "../../components/Button.astro";
+import FilterMenu from "../../components/FilterMenu.astro";
+import FilterTab from "../../components/FilterTab.astro";
+import FilterSort from "../../components/FilterSort.astro";
+import ColorListItem from "../../components/ColorListItem.astro";
+import FavoriteButton from "../../components/FavoriteButton.astro";
+import farbenData from "../../data/farben.json";
+
+// Echte F&B-Farben. Karte: Swatch (hex) + Name + „Nr. XXX".
+// Slug = letzter Pfadteil der Staging-href (z. B. „317-kakelugn") → lokale Detail-Route.
+const slugOf = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
+const farben = (farbenData as Array<{
+  name: string; nummer: string; hex: string; farbwelt: string; archiviert: boolean; href: string;
+}>).map((c) => ({
+  name: c.name,
+  nr: `Nr. ${c.nummer}`,
+  hex: c.hex,
+  farbwelt: c.farbwelt,
+  archiviert: c.archiviert,
+  href: `/farrow-ball/farben/${slugOf(c.href)}`,
+}));
+
+// Farbwelten (Sub-Filter „Filter nach Farbe") aus den echten `farbwelt`-Werten, in fester Reihenfolge.
+const FARBWELT_ORDER = ["Neutral", "Blau", "Grün", "Rot", "Gelb", "Dunkel"];
+const farbwelten = FARBWELT_ORDER.filter((w) => farben.some((f) => f.farbwelt === w));
+// Sub-Filter-Chips: „Alle" (Default aktiv) + je Farbwelt + „Archiv" (archivierte Farben).
+const farbUnterTabs = [
+  { label: "Alle", value: "alle", active: true },
+  ...farbwelten.map((w) => ({ label: w, value: w, active: false })),
+  { label: "Archiv", value: "archiv", active: false },
+];
+
+// Desktop-Filter-Hauptgruppe (Frame: „Filter Nach" offen mit Sub-Filter „Filter nach Farbe").
+// Übrige Tabs = Platzhalter-Kategorien (echte Filterwerte/-logik Folgeaufgabe).
+const farbTabs = [
+  { label: "Alles" },
+  { label: "Farbe", active: true, icon: "add" as const },
+  { label: "Finish", count: 1 },
+  { label: "Intensität", icon: "add" as const },
+  { label: "Farbreihe", icon: "add" as const },
+  { label: "Einsatz", icon: "add" as const },
+  { label: "Eigenschaft", icon: "add" as const },
+];
+const sortTabs = [
+  { label: "Alles", active: true },
+  { label: "Farbnummern" },
+  { label: "Handwerk" },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Farben — Das Farb-Archiv von Farrow &amp; Ball | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Entdecken Sie das vollständige Farb-Archiv von Farrow & Ball bei ADLER Wohndesign in Berlin-Charlottenburg – von zeitlosen Grüntönen bis zu ausdrucksstarken Akzentfarben."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 6312:50263 / 5948:17859 / 5948:18004.
+           Annotation: kein bottom-padding (Doppel-Padding vermeiden) → Abstand macht Artikel-Container. -->
+      <section class="hero container">
+        <div class="hero__text">
+          <p class="t-titel hero__breadcrumb">
+            <span class="hero__crumb hero__crumb--muted">Farrow &amp; Ball</span>
+            <span class="hero__sep" aria-hidden="true">&gt;</span>
+            <span class="hero__crumb">Farben</span>
+          </p>
+          <div class="hero__body">
+            <h1 class="t-h1">Entdecken Sie das Farb-Archiv von Farrow &amp; Ball</h1>
+            <div class="t-body hero__lead">
+              <p>
+                Ob hell und leicht oder dunkel und ausdrucksstark, ob zeitlose Grüntöne oder moderne
+                Akzentfarben – das Farb-Archiv von Farrow &amp; Ball eröffnet eine außergewöhnliche
+                Vielfalt. Die Farben werden mit hochwertigen Inhaltsstoffen gefertigt und entwickeln
+                dadurch eine besondere Tiefe sowie ein lebendiges Zusammenspiel mit dem Licht im Raum.
+              </p>
+              <p>Bei ADLER Wohndesign können Sie das vollständige Farb-Archiv entdecken.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARTIKEL CONTAINER — Frame 6312:50264 / 6319:51442 / 5948:18006 -->
+      <section class="archive container" aria-label="Farben-Übersicht">
+        <!-- Filter + Sortierung — Frame 12429:23193 / 12429:23192 / 12429:23194 -->
+        <div class="filterbar">
+          <!-- Nav Container: „List My Color" (Mein Farbkonzept öffnen (n)) -->
+          <div class="filterbar__nav">
+            <ColorListItem type="open" count={5} href="#" />
+          </div>
+
+          <!-- Desktop: Main Filter inline (offen) + Sortierung rechts.
+               Mobil/Tablet (Annotation „page overlay"): Trigger öffnet FilterSort-Overlay. -->
+          <div class="filterbar__row">
+            <div class="filterbar__main">
+              <FilterMenu label="Filter Nach" layout="wrap" open={true} name="farben-filter">
+                {farbTabs.map((t) => (
+                  <FilterTab label={t.label} active={t.active} icon={t.icon ?? null} count={t.count ?? null} name={t.label} />
+                ))}
+              </FilterMenu>
+              <FilterMenu label="Filter nach Farbe" layout="wrap" open={true} name="farben-unterfilter">
+                {farbUnterTabs.map((t) => (
+                  <FilterTab label={t.label} active={t.active} name={t.value} class="js-farbwelt" />
+                ))}
+              </FilterMenu>
+            </div>
+            <div class="filterbar__sort">
+              <FilterMenu label="Sortierung" layout="stack" open={true} name="farben-sort">
+                {sortTabs.map((t) => <FilterTab label={t.label} active={t.active} name={t.label} />)}
+              </FilterMenu>
+            </div>
+          </div>
+
+          <!-- Mobil/Tablet: kompakter Filter-/Sortier-Trigger (öffnet Overlay) -->
+          <div class="filterbar__triggers">
+            <button type="button" class="t-titel filterbar__trigger" data-filtersort-toggle>Filter Nach</button>
+            <button type="button" class="t-titel filterbar__trigger" data-filtersort-toggle>Sortierung</button>
+          </div>
+        </div>
+
+        <!-- Card Container — Farb-Karten-Raster (desktop 5 / tablet 2 / mobil 1).
+             Karte: quadratisches Bild + Favoriten-Herz (oben rechts) + Titel (H5) + Nr. (Small). -->
+        <ul class="colors">
+          {farben.map((c) => (
+            <li class="colorcard" data-farbwelt={c.farbwelt} data-archiviert={c.archiviert ? "true" : "false"}>
+              <a class="colorcard__link" href={c.href}>
+                <div
+                  class="colorcard__media"
+                  style={`background:${c.hex}`}
+                  role="img"
+                  aria-label={`Farbmuster ${c.name} ${c.nr}`}
+                />
+                <div class="colorcard__text">
+                  <p class="t-h5 colorcard__title">{c.name}</p>
+                  <p class="t-small colorcard__nr">{c.nr}</p>
+                </div>
+              </a>
+              <FavoriteButton class="colorcard__fav" label={`${c.name} ${c.nr} zu meinem Farbkonzept`} />
+            </li>
+          ))}
+        </ul>
+
+        <Button href="#" class="archive__more">Mehr Farben</Button>
+      </section>
+    </main>
+
+    <Footer />
+
+    <!-- Filter-/Sortier-Overlay (mobil/tablet) — vorhandene Komponente -->
+    <FilterSort
+      title="Filter & Sortierung"
+      groups={[
+        { label: "Filter nach Farbe", tabs: farbUnterTabs.map((t) => ({ label: t.label, active: t.active, name: t.value })) },
+        { label: "Filter Nach", tabs: farbTabs.filter((t) => t.icon).map((t) => ({ label: t.label, icon: t.icon })) },
+      ]}
+      sortLabel="Sortierung"
+      sorts={sortTabs.map((t) => ({ label: t.label, active: t.active }))}
+    />
+
+    <!-- Presentational Farbwelt-Filter: blendet Karten per data-farbwelt / data-archiviert ein/aus.
+         Single-Select (wie Figma-Chips); „Alle" = alles, „Archiv" = nur archivierte. Echte Filter-/
+         Sortier-Logik (Persistenz, Mehrfachauswahl) = Folgeaufgabe. -->
+    <script is:inline>
+      (() => {
+        const cards = Array.from(document.querySelectorAll(".colors .colorcard"));
+        const apply = (value) => {
+          for (const card of cards) {
+            let show;
+            if (value === "archiv") show = card.dataset.archiviert === "true";
+            else if (!value || value === "alle") show = true;
+            else show = card.dataset.farbwelt === value;
+            card.hidden = !show;
+          }
+        };
+        document.querySelectorAll(".js-farbwelt").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const value = tab.getAttribute("data-filter") || "alle";
+            document.querySelectorAll(".js-farbwelt").forEach((t) => {
+              const on = t === tab;
+              t.classList.toggle("is-active", on);
+              t.setAttribute("aria-pressed", String(on));
+            });
+            apply(value);
+          });
+        });
+      })();
+    </script>
+
+    <style>
+      /* ---- HERO ---- (Frame: pt XXL, px margin, gap M Breadcrumb→Textblock, gap SM H1→Lead.
+         Annotation: kein bottom-padding.) */
+      .hero {
+        padding-top: var(--gap-xxl); /* spacing/XXL 120 / 164 / 222 */
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* spacing/M 32 / 44 / 56 */
+        max-width: var(--text-max); /* component/width/text-container-max 652 / 927 / 1056 */
+      }
+      .hero__breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5em;
+        color: var(--text); /* color/text — Breadcrumb-Trenner/aktuell in text */
+      }
+      .hero__crumb--muted { color: var(--grey); } /* color/titel+tab #8e8f93 */
+      .hero__sep { color: var(--text); }
+      .hero__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* spacing/SM 24 / 32 / 44 */
+        color: var(--text);
+      }
+      .hero__lead {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* Absatz-Abstand */
+        color: var(--text);
+      }
+
+      /* ---- ARTIKEL CONTAINER ---- (Frame: py XXL, gap ML, zentriert.) */
+      .archive {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-ml); /* spacing/ML 40 / 56 / 78 */
+        padding-block: var(--gap-xxl); /* spacing/XXL */
+      }
+
+      /* ---- FILTER + SORTIERUNG ---- (Frame 12429:23193: gap S zwischen Nav, Filterzeile.) */
+      .filterbar {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-s); /* spacing/S 22 / 24 / 32 */
+      }
+      .filterbar__nav {
+        width: 100%;
+      }
+      /* Desktop: Main Filter (links, wächst) + Sortierung (rechts) — justify-between, gap gutter. */
+      .filterbar__row {
+        display: none;
+        width: 100%;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--gutter); /* layout/gutter 16 / 24 / 32 */
+      }
+      .filterbar__main {
+        flex: 1 1 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gutter); /* layout/gutter zwischen Haupt- und Sub-Filter */
+        max-width: var(--text-max);
+      }
+      .filterbar__sort {
+        flex: none;
+      }
+      /* Mobil/Tablet: kompakte Trigger statt Inline-Filter. */
+      .filterbar__triggers {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--gap-xs);
+      }
+      .filterbar__trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--gap-xs);
+        color: var(--text);
+        transition: color 0.2s ease;
+      }
+      .filterbar__trigger:hover { color: var(--bronze); }
+
+      /* ---- CARD CONTAINER — Farb-Karten-Raster ----
+         Frame „Card Container": flex-wrap, gap 32(row)/20(col), Karten gleich breit.
+         Mobil 1 Spalte, Tablet 2, Desktop 5 (echte Frame-Geometrie). */
+      .colors {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr; /* mobil: 1 Spalte */
+        column-gap: var(--gap-xs);  /* spacing/XS 14 / 18 / 20 (Spaltenabstand) */
+        row-gap: var(--gap-s);      /* spacing/S 22 / 24 / 32 (Zeilenabstand) */
+      }
+      .colorcard {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      .colorcard__link {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* spacing/XS — Bild → Textblock */
+        color: var(--text);
+      }
+      .colorcard__media {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1; /* Frame Placeholder 800/800 */
+        overflow: hidden; /* keine runden Ecken */
+        background: var(--nature);
+      }
+      .colorcard__media img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .colorcard__link:hover .colorcard__media img { transform: scale(1.03); }
+      .colorcard__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xxxs); /* spacing/XXXS 4 / 4 / 6 (Titel → Nr.) */
+      }
+      .colorcard__title { color: var(--text); }
+      .colorcard__nr { color: var(--grey); } /* color/titel+tab #8e8f93 */
+      /* Favoriten-Herz oben rechts auf dem Bild (Frame „Button-function", 12px Offset). */
+      .colorcard__fav {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+      }
+
+      .archive__more { align-self: center; }
+
+      /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      @media (min-width: 701px) {
+        .colors { grid-template-columns: repeat(2, 1fr); } /* Tablet: 2 Spalten */
+      }
+      @media (min-width: 992px) {
+        /* Desktop: Inline-Filter statt Trigger/Overlay; 5 Karten je Reihe. */
+        .filterbar__row { display: flex; }
+        .filterbar__triggers { display: none; }
+        .colors { grid-template-columns: repeat(5, 1fr); }
+      }
+    </style>
+  </body>
+</html>

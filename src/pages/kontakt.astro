@@ -31,8 +31,10 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
         <div class="kontakt__inner">
           <div class="kontakt__head">
             <p class="t-titel kontakt__over">Service</p>
-            <h1 class="t-h1 kontakt__title">Weil wir Ihnen gefallen,<br />vereinbaren Sie einen Termin!</h1>
-            <p class="t-body kontakt__lead"><a href="tel:+49303054711" class="kontakt__link">Rufen Sie uns an</a> oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
+            <div class="kontakt__headtext">
+              <h1 class="t-h1 kontakt__title">Weil wir Ihnen gefallen,<br />vereinbaren Sie einen Termin!</h1>
+              <p class="t-body kontakt__lead"><a href="tel:+49303054711" class="kontakt__link">Rufen Sie uns an</a> oder schreiben Sie uns, und wir vereinbaren einen Termin im Atelier ADLER Wohndesign. Lassen Sie uns gemeinsam starten.</p>
+            </div>
           </div>
 
           <form class="form" id="kontaktForm" action="https://api.web3forms.com/submit" method="POST">
@@ -79,7 +81,7 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
       <!-- STANDORT (weiß) -->
       <section class="standort">
         <p class="t-titel standort__over">Unser Standort</p>
-        <div class="standort__media"><img src="/images/home/hero.jpg" alt="Ladengeschäft ADLER Wohndesign in Berlin-Charlottenburg" loading="lazy" /></div>
+        <div class="standort__media"><img src="/images/kontakt/standort.jpg" alt="Ladengeschäft ADLER Wohndesign in Berlin-Charlottenburg" loading="lazy" /></div>
         <div class="standort__text">
           <div class="standort__cols">
             <div class="standort__col">
@@ -100,6 +102,28 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
           </div>
         </div>
       </section>
+
+      <!-- GOOGLE MAPS (full-bleed, DSGVO: Klick-zum-Laden-Consent) -->
+      <!-- Aus Figma V4 8068:18592 (L 5661:35105 / S 5661:35037): full-bleed Karten-Sektion. -->
+      <!-- DSGVO: KEIN Auto-laden von Google. Platzhalter + Consent-Button; erst nach Klick echter Embed. -->
+      <section class="maps" aria-label="Standort auf Google Maps">
+        <div class="maps__frame" id="mapsFrame">
+          <div class="maps__consent" id="mapsConsent">
+            <div class="maps__placeholder" aria-hidden="true">
+              <svg class="maps__pin" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" role="img" aria-label="Standort-Marker">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z" fill="var(--bronze)"/>
+                <circle cx="12" cy="9" r="2.5" fill="var(--white)"/>
+              </svg>
+            </div>
+            <div class="maps__consent-box">
+              <p class="t-titel maps__over">Unser Standort</p>
+              <p class="t-body maps__addr">ADLER Wohndesign<br />Reichsstraße 100, 14052 Berlin-Charlottenburg</p>
+              <p class="t-body maps__note">Beim Laden der Karte werden Daten an Google übertragen. Mehr dazu in unserer <a href="/datenschutz">Datenschutzerklärung</a>.</p>
+              <button type="button" class="btn maps__load" id="mapsLoad">Karte laden</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <Footer />
@@ -108,22 +132,22 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
       /* ===== INTRO: HERO + FORMULAR (moos) ===== */
       .kontakt { background: var(--moos); color: var(--white); }
       .kontakt__inner { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--layout-margin); padding-block: var(--gap-xxl) var(--gap-xl); display: flex; flex-direction: column; gap: var(--gap-xl); }
-      .kontakt__head { display: flex; flex-direction: column; gap: var(--gap-m); max-width: 1056px; }
+      .kontakt__head { display: flex; flex-direction: column; gap: var(--gap-m); max-width: var(--text-max); }
+      .kontakt__headtext { display: flex; flex-direction: column; gap: var(--gap-sm); }
       .kontakt__over { color: var(--white); }
       .kontakt__title, .kontakt__lead { color: var(--white); }
-      .kontakt__lead { max-width: 70ch; }
       .kontakt__link { color: #f9f6f4; text-decoration: underline; text-underline-offset: 3px; }
 
-      /* Chips (Figma Filter tab) */
+      /* Chips (Figma Filter tab) — Größen je Breakpoint aus Seiten-Frames */
       .chips { display: flex; flex-wrap: wrap; gap: var(--gap-s); }
-      .chip { border: 1.2px solid var(--light-grey); border-radius: 40px; padding: 12px 30px; color: var(--white); font-size: 12px; letter-spacing: 0.01em; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+      .chip { border: 1.2px solid var(--light-grey); border-radius: 40px; padding: 10px 28px; color: var(--white); font-family: var(--font-body); font-size: 10px; line-height: 18px; letter-spacing: 0.01em; transition: background 0.2s, color 0.2s, border-color 0.2s; }
       .chip:hover { border-color: var(--bronze); }
       .chip--active { background: var(--bronze); border-color: var(--bronze); }
 
       /* Formular */
       .form { display: flex; flex-direction: column; gap: var(--gap-l); }
       .form__fields { display: flex; flex-direction: column; gap: var(--gap-m); }
-      .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-m) 62px; }
+      .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-s) 62px; }
       .form__col { display: flex; flex-direction: column; gap: var(--gap-s); }
       .form__hint { color: var(--nature-75); }
       .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
@@ -149,12 +173,52 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
 
       /* ===== Responsive ===== */
       @media (max-width: 991px) {
-        .form__grid { grid-template-columns: 1fr; gap: var(--gap-l); }
+        .form__grid { grid-template-columns: 1fr; gap: 62px; }
         .standort__cols { grid-template-columns: 1fr; gap: var(--gap-m); }
         .standort__media { height: 500px; }
       }
       @media (max-width: 700px) {
         .standort__media { height: 585px; }
+      }
+      /* Filter-Chips: Größen aus Tablet- (701–991) und Desktop-Frame (≥992) */
+      @media (min-width: 701px) {
+        .chip { font-size: 11px; line-height: 19px; }
+      }
+      @media (min-width: 992px) {
+        .chip { padding: 12px 30px; font-size: 12px; line-height: 22px; }
+      }
+
+      /* ===== GOOGLE MAPS (full-bleed, DSGVO-Consent) ===== */
+      .maps { background: var(--white); }
+      /* full-bleed Karten-Fläche, Höhe je Breakpoint analog standort__media */
+      .maps__frame { position: relative; width: 100%; height: 585px; overflow: hidden; background: var(--moos); }
+      /* Consent-Platzhalter: moos-Fläche mit Marker + Adresse + Button (keine Google-Ressourcen) */
+      .maps__consent {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: var(--gap-m);
+        padding: var(--layout-margin);
+        text-align: center;
+        background:
+          radial-gradient(circle at 30% 25%, rgba(191, 137, 112, 0.10), transparent 45%),
+          radial-gradient(circle at 72% 70%, rgba(191, 137, 112, 0.10), transparent 45%),
+          var(--moos);
+      }
+      .maps__placeholder { display: flex; align-items: center; justify-content: center; }
+      .maps__pin { display: block; filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3)); }
+      .maps__consent-box { display: flex; flex-direction: column; align-items: center; gap: var(--gap-s); max-width: 520px; }
+      .maps__over { color: var(--white); }
+      .maps__addr { color: var(--white); }
+      .maps__note { color: var(--nature-75); font-size: 12px; line-height: 20px; }
+      .maps__note a { color: #f9f6f4; text-decoration: underline; text-underline-offset: 3px; }
+      /* echter Embed (nach Consent injiziert) füllt den Frame */
+      .maps__frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+      @media (max-width: 700px) {
+        .maps__frame { height: 500px; }
+      }
+      @media (min-width: 992px) {
+        .maps__frame { height: 700px; }
       }
     </style>
 
@@ -190,6 +254,24 @@ const anliegen = ["Beratungstermin vereinbaren", "Projekt Anfrage", "Bewerbung"]
         } catch {
           status.className = "form__status is-error"; status.textContent = "Netzwerkfehler. Bitte versuchen Sie es später erneut.";
         }
+      });
+    </script>
+
+    <!-- DSGVO Klick-zum-Laden: Google-Maps-Embed erst nach Consent injizieren -->
+    <script>
+      const mapsLoad = document.getElementById("mapsLoad");
+      const mapsConsent = document.getElementById("mapsConsent");
+      const mapsFrame = document.getElementById("mapsFrame");
+      mapsLoad?.addEventListener("click", () => {
+        const iframe = document.createElement("iframe");
+        iframe.src =
+          "https://www.google.com/maps?q=Reichsstra%C3%9Fe%20100%2C%2014052%20Berlin&output=embed";
+        iframe.title = "Standort ADLER Wohndesign – Reichsstraße 100, 14052 Berlin";
+        iframe.loading = "lazy";
+        iframe.referrerPolicy = "no-referrer-when-downgrade";
+        iframe.allowFullscreen = true;
+        mapsConsent?.remove();
+        mapsFrame?.appendChild(iframe);
       });
     </script>
   </body>

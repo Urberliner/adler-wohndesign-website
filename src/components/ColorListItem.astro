@@ -1,0 +1,57 @@
+---
+// ColorListItem — Zeilen aus „List My Color" 12506:20106. PRESENTATIONAL.
+// Zwei Typen:
+//  - "open"  (Öffnen 12429:22460): Herz-filled + „Mein Farbkonzept öffnen (n)" + Pfeil rechts.
+//  - "add"   (Hinzufügen 12506:21058): Text „Meinem Farbkonzept hinzufügen" + FavoriteButton.
+//             onClick-Zustand (12506:23414) → „Bereits in meinem Farbkonzept" + gefülltes Herz.
+// Tokens: gap = spacing/xs (14 = --gap-xs), Texte Titel-Style (.t-titel), Pfeil arrow-open 32,
+// Icons 22px (icon/icon-xs).
+import Icon from "./Icon.astro";
+import FavoriteButton from "./FavoriteButton.astro";
+interface Props {
+  type?: "open" | "add";
+  count?: number;            // für "open": Anzahl im Farbkonzept
+  href?: string;             // für "open": Link zum Farbkonzept
+  added?: boolean;           // für "add": bereits hinzugefügt?
+  label?: string;            // für "add": überschreibbarer Text
+  class?: string;
+}
+const {
+  type = "open",
+  count = 5,
+  href = "#",
+  added = false,
+  label,
+  class: cls = "",
+} = Astro.props;
+const addLabel = label ?? (added ? "Bereits in meinem Farbkonzept" : "Meinem Farbkonzept hinzufügen");
+---
+{type === "open" ? (
+  <a class:list={["colorlist", "colorlist--open", cls]} href={href}>
+    <Icon name="heart-filled" size={22} class="colorlist__heart" />
+    <span class="colorlist__text t-titel">Mein Farbkonzept öffnen ({count})</span>
+    <Icon name="arrow_upward" size={32} class="colorlist__arrow" />
+  </a>
+) : (
+  <div class:list={["colorlist", "colorlist--add", cls]}>
+    <span class="colorlist__text t-titel">{addLabel}</span>
+    <FavoriteButton pressed={added} />
+  </div>
+)}
+
+<style>
+  .colorlist {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-xs); /* spacing/xs = 14 */
+  }
+  .colorlist__text { white-space: nowrap; }
+  .colorlist__heart { color: var(--bronze); flex: none; }
+  .colorlist__arrow { color: var(--text); flex: none; }
+  .colorlist__arrow :global(svg) { transform: rotate(90deg); } /* arrow_upward → rechts */
+
+  .colorlist--open {
+    transition: color 0.2s ease;
+  }
+  .colorlist--open:hover .colorlist__text { color: var(--bronze); }
+</style>

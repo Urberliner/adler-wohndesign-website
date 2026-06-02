@@ -3,6 +3,17 @@
 Statische Website für **ADLER Wohndesign** (Raumausstatter & Innenarchitektur, Berlin-Charlottenburg).
 Sprache: **Deutsch (Sie-Form)**. Design: Franzi (Figma). Umsetzung: **Astro**, Hosting: **Cloudflare Pages**.
 
+> **Aktueller Architektur-/Entscheidungs-Stand: siehe [`docs/STRATEGIE-ENTSCHEIDUNGEN.md`](docs/STRATEGIE-ENTSCHEIDUNGEN.md)** (lebendes Dokument: Stack, Sanity-CMS, Bild-Hosting, Publish-Modell, Roadmap, Tests/CI). Dieses CLAUDE.md beschreibt die Bau-/Design-Regeln.
+
+## Arbeitsweise / Autonomie-Vertrag (vom Inhaber freigegeben 2026-05-31)
+**Autonom — NICHT nachfragen:**
+- Bauen → **selbst im Browser verifizieren** (Chrome-Headless-Screenshots gegen Figma-Frames, Desktop+Mobil) → fixen. Chrome: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --headless=new --screenshot=… --window-size=… <url>`; `dist/` via `python3 -m http.server` servieren. Figma-Frames via `get_screenshot`. Kein „bitte in deiner Preview prüfen".
+- Wiederkehrende Design-Entscheidungen nach Defaults: **Frame gewinnt** · Tippfehler/Grammatik korrigieren · fehlende Bilder = benannte Platzhalter · Sektions-BG explizit · keine runden Ecken.
+- Strittige/offene Punkte **blockieren nicht** → in `RUECKFRAGEN-FRANZI.md` schreiben und mit sinnvollstem Default weitermachen.
+- **Pro Baustein committen** auf Branch `V4` (klare Messages, ein Baustein = ein Commit).
+
+**Weiterhin VORHER fragen — nur hier:** Deploy (Cloudflare) · Löschen/Überschreiben fremder Inhalte · neue Dependencies · neue Route **mit echtem Produktinhalt** · alles Irreversible/Außenwirksame.
+
 ## Stack & Struktur
 - **Astro** (statisch) · **Vanilla CSS + Design-Tokens** (kein Tailwind)
 - `src/styles/global.css` — **Design-Tokens (KANONISCH)**: Farben, Typo-Skala, Spacing. Immer Tokens/Utility-Klassen nutzen, **keine** hartkodierten Farben/Größen.
@@ -50,8 +61,8 @@ liefern für jeden `nodeId` Daten — der Inhaber muss **nichts** in Figma ausw�
 
 ## Konventionen / Regeln
 - Deutsch, Sie-Form. Semantisch + barrierefrei: ein `<h1>` pro Seite, `alt`-Texte, `lang="de"`, sichtbarer Fokus, guter Kontrast.
-- **Schriften selbst hosten** — NICHT vom Google-CDN laden (DSGVO/Abmahn-Risiko). ⚠️ *Aktuell noch CDN — offener Punkt, vor Launch fixen.*
-- Mobile-first. Breakpoints: Mobil < 768 · Tablet 768–1023 · Desktop ≥ 1024.
+- **Schriften selbst hosten** — NICHT vom Google-CDN laden (DSGVO/Abmahn-Risiko). ✅ *Erledigt: self-hosted via `@fontsource` (Montserrat, Playfair Display).*
+- Mobile-first. Breakpoints (kanonisch, siehe oben „Design-Quelle"): Mobil ≤ 700 · Tablet 701–991 · Desktop ≥ 992. (NICHT 768/1024.)
 - Bilder: `object-fit: cover`, große Dateien optimieren.
 - **Kontaktformular:** Web3Forms (Access-Key als Umgebungsvariable, kein eigenes Backend). Alternative: Cloudflare-Worker + E-Mail-API. DSGVO: Hinweis in Datenschutzerklärung + AVV.
 - Pre-Launch-Checkliste: siehe `README.md`.
@@ -60,12 +71,12 @@ liefern für jeden `nodeId` Daten — der Inhaber muss **nichts** in Figma ausw�
 - **GitHub:** `Urberliner/adler-wohndesign-website` (Branch `main`)
 - **Cloudflare Pages:** Projekt `adler-wohndesign-website` → https://adler-wohndesign-website.pages.dev
 - Deploy aktuell **manuell** via Wrangler. Auto-Deploy-bei-Push noch nicht eingerichtet (braucht GitHub↔Cloudflare-Freigabe durch den Inhaber).
-- **CMS (geplant): Sanity** — für Projekte, Blog, editierbare Texte.
+- **CMS: Sanity** (Projekt `hn079dlt`, Dataset `production`) — **Blog läuft seit Phase 1 live aus Sanity** (`src/lib/sanity.ts`, statisch + Build-Zeit-GROQ); Projekte & Farben folgen (Phase 2/3). Inhalte = Sanity, Design = Code/Figma. Details: `docs/STRATEGIE-ENTSCHEIDUNGEN.md`.
 
 ## Offene Punkte
-- [ ] Design-Tokens final auf V4 vereinheitlichen (`global.css`)
-- [ ] Komponentenbibliothek aus V4 ausbauen (Button, Card, Benefit, Quote, Section, Typo)
-- [ ] Schriften self-hosten (Google-CDN entfernen)
-- [ ] Sanity-CMS einbauen
-- [ ] Kontaktformular implementieren
-- [ ] Restliche Seiten aus V4 bauen
+- [x] Schriften self-hosten (Google-CDN entfernt — `@fontsource`)
+- [x] Restliche Seiten aus V4 bauen (kompletter V4-Seitensatz steht)
+- [x] Sanity-CMS: Blog angebunden (Phase 1) — Projekte/Farben offen (Phase 2/3)
+- [ ] CI/Tests aufsetzen (GitHub Actions: Build/Typecheck/Smoke/Visual)
+- [ ] Backend/Kontaktformular (Cloudflare-Funktionen statt Web3Forms)
+- [ ] Landingpage-Feinschliff + Produktions-Launch (V4)

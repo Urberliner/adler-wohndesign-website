@@ -1,0 +1,45 @@
+---
+// Back-to-top (V4) — 1:1 aus Figma „Back-Up" 2099:2971 (Default Desktop 6061:36759).
+// Bronze-Kreis 48px (#BF8970 = --bronze), weißer arrow_upward 32px. Fixed unten-rechts,
+// blendet nach etwas Scrollen ein, scrollt sanft nach oben. prefers-reduced-motion: ohne Smooth.
+// Tokens aus get_design_context/get_variable_defs (size 48, padding 6, radius 24 = Kreis).
+import Icon from "./Icon.astro";
+---
+<button class="backtotop" type="button" aria-label="Zurück nach oben" hidden>
+  <Icon name="arrow_upward" size={32} />
+</button>
+
+<style>
+  .backtotop {
+    position: fixed; right: var(--layout-margin); bottom: var(--layout-margin); z-index: 40;
+    width: 48px; height: 48px; padding: 6px; display: grid; place-items: center;
+    background: var(--bronze); color: var(--white); border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    opacity: 0; transform: translateY(8px); pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, filter 0.2s ease;
+  }
+  .backtotop.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .backtotop:hover { filter: brightness(1.06); }
+  .backtotop:active { transform: translateY(0) scale(0.94); }
+  .backtotop[hidden] { display: none; }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>(".backtotop");
+  if (btn) {
+    btn.hidden = false;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let ticking = false;
+    const update = () => {
+      btn.classList.toggle("is-visible", window.scrollY > 400);
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+  }
+</script>

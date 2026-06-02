@@ -1,0 +1,450 @@
+---
+// /karriere/beispiel — Karriere-Artikel / Stellenanzeige-DETAILSEITE (Platzhalter/Template).
+// VORLAGE für die spätere dynamische Route src/pages/karriere/[slug].astro mit CMS (Sanity).
+//   → FLAG: Inhalte (Stellentexte/Bilder/Karten) hier als Platzhalter fest verdrahtet; beim
+//     CMS-Schritt aus dem Datensatz speisen.
+//
+// 1:1 aus Figma V4 (fileKey AryB7Db9AeJFgXmfBEsvpn), „005-DasSindWir/002-Karriere/001-Artikel".
+// Drei Breakpoint-Frames (Inhalt):
+//   L 5665:40517 (≥992) · M 5665:40464 (701–991) · S 5665:40410 (≤700)
+// Werte/Texte/Tokens AUSSCHLIESSLICH aus get_design_context + get_variable_defs der drei Frames.
+// (Keine API-Annotationen auf diesen Frames vorhanden — geprüft via /v1/files/.../nodes.)
+//
+// Layout-Aufbau (alle BP, in Reihenfolge der Frames):
+//   Hero (Breadcrumb + H1 + Lead + Button, weiß)
+//   → Bewerbung Infos (3 H4-Textblöcke mit Checklisten, weiß)
+//   → Container (nature): Hero-image-text-Overlay (Service + H1) + Card-Information-Karussell
+//   → Text Container (moos): zentriert „Haben Sie sich wiedererkannt?" + Lead + Button
+//   → Zitat (weiß): zentriertes H3-Zitat mit Titel-Eyebrow
+//   → Image-Collage (full-bleed: großes Bild + zwei nebeneinander)
+//   → Blog-Category-Preview (nature): Titel + 3 Card-Link + Button
+//   → Footer.
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Button from "../../components/Button.astro";
+import Carousel from "../../components/Carousel.astro";
+import Card from "../../components/Card.astro";
+import Icon from "../../components/Icon.astro";
+
+// HERO — Frame „Hero" 12138:20737 / 12138:20726 / 12138:20654
+const hero = {
+  crumbs: [{ label: "Karriere", href: "/karriere" }, { label: "Raumausstatter" }],
+  title: "Raumausstatter",
+  lead: "Sie lieben es, Räume mit kreativen Ideen und handwerklichem Geschick in wahre Wohlfühloasen zu verwandeln? Bei ADLER Wohndesign haben Sie die Möglichkeit, hochwertige Wohnkonzepte zu gestalten und Kunden mit Ihrem Gespür für Design und Materialien zu begeistern. Werden Sie Teil unseres Teams und bringen Sie Ihre Leidenschaft für Raumausstattung in spannende Projekte ein.",
+  buttonLabel: "Mein Projekt starten",
+};
+
+// BEWERBUNG INFOS — Frame 6414:42107 / 6413:41978 / 5665:40432
+// Im Frame ist „Das" normal + Rest semibold (außer 3. Block: ganz medium). Hier als H4 mit
+// optionalem Hervorhebungs-Teil. Tippfehler-Korrektur: doppeltes Leerzeichen in „Das  erwartet".
+const infos = [
+  {
+    lead: "Das ",
+    strong: "erwartet Sie:",
+    items: [
+      "Vielfältige Projekte – von exklusiven Wohnräumen bis zu stilvollen Geschäftsräumen",
+      "Ein kreatives und kollegiales Team, das mit Leidenschaft an Einrichtungskonzepten arbeitet",
+      "Abwechslungsreiche Aufgaben: Beratung, Planung, Montage und Umsetzung hochwertiger Raumgestaltungen",
+      "Arbeit mit hochwertigen Materialien und modernen Techniken",
+      "Direkter Kontakt mit Kunden, um individuelle Wohnträume zu realisieren",
+    ],
+  },
+  {
+    lead: "Das ",
+    strong: "bringen Sie mit:",
+    items: [
+      "Abgeschlossene Ausbildung als Raumausstatter (m/w/d) oder vergleichbare Qualifikation",
+      "Gespür für Farben, Stoffe und Materialien sowie ein gutes Auge für Design",
+      "Handwerkliches Geschick und Erfahrung in der Verarbeitung hochwertiger Materialien",
+      "Selbstständige und präzise Arbeitsweise sowie Teamgeist",
+      "Freundliches Auftreten und Freude am Kundenkontakt",
+    ],
+  },
+  {
+    lead: "Das bieten wir Ihnen:",
+    strong: "",
+    items: [
+      "Einen sicheren Arbeitsplatz in einem kreativen und wachstumsorientierten Unternehmen",
+      "Abwechslungsreiche und spannende Projekte mit viel Gestaltungsspielraum",
+      "Ein motiviertes Team, das Wert auf Zusammenarbeit und gegenseitige Unterstützung legt",
+      "Moderne Werkzeuge und hochwertige Materialien für beste Ergebnisse",
+      "Weiterbildungs- und Entwicklungsmöglichkeiten zur Förderung Ihrer Fähigkeiten",
+    ],
+  },
+];
+
+// CONTAINER (nature) — Hero-image-text-Overlay 6414:42112 + Card-Karussell 8040:19554
+const imageText = {
+  eyebrow: "Service",
+  title: "Wir wollen für unsere Mitarbeiter mehr sein als ein Arbeitsplatz",
+  image: {
+    src: "/images/karriere/karriere-team-arbeitsplatz.jpg",
+    alt: "Team von ADLER Wohndesign bei der Arbeit an einem Raumkonzept",
+  },
+};
+
+// Card Information (8040:19556 …) — Icon + H4-Titel + Body, 1,2px-Rahmen, kein Radius.
+const cards = [
+  { icon: "light-bulb", title: "Beratung", body: "Wir hören genau hin, analysieren Ihre Anforderungen und schaffen die Basis für ein passgenaues Raumkonzept" },
+  { icon: "design_services", title: "Konzeption", body: "Aus Ideen wird Struktur – wir entwickeln ein durchdachtes Gestaltungskonzept, das Funktion und Design vereint." },
+  { icon: "settings", title: "Umsetzung", body: "Mit handwerklicher Präzision und einem eingespielten Team setzen wir das Konzept zuverlässig und termingerecht um." },
+  { icon: "design_services", title: "Konzeption", body: "Aus Ideen wird Struktur – wir entwickeln ein durchdachtes Gestaltungskonzept, das Funktion und Design vereint." },
+  { icon: "settings", title: "Umsetzung", body: "Mit handwerklicher Präzision und einem eingespielten Team setzen wir das Konzept zuverlässig und termingerecht um." },
+];
+
+// TEXT CONTAINER (moos) — 6414:42121
+const recap = {
+  eyebrow: "Services",
+  title: "Haben Sie sich wiedererkannt?",
+  lead: "Wenn Ihnen ein guter Teamgeist, Freude an der Arbeit und ein nachhaltigkeitsorientiertes Unternehmen wichtig sind, dann ist diese Position ideal für Sie. Sie möchten Teil des ADLER Wohndesign Teams werden? Dann senden Sie uns Ihre Bewerbung mit Starttermin.",
+  buttonLabel: "Mein Projekt starten",
+};
+
+// ZITAT (weiß) — 6414:42123
+const zitat = {
+  eyebrow: "Services",
+  text: "„Wir freuen uns auf Sie!“",
+};
+
+// IMAGE-COLLAGE (full-bleed) — 6414:42125
+const collage = {
+  top: { src: "/images/karriere/karriere-werkstatt-gross.jpg", alt: "Werkstatt von ADLER Wohndesign mit hochwertigen Materialien" },
+  left: { src: "/images/karriere/karriere-detail-stoffe.jpg", alt: "Detailaufnahme hochwertiger Stoffe und Materialien" },
+  right: { src: "/images/karriere/karriere-montage.jpg", alt: "Montage einer maßgefertigten Raumausstattung" },
+};
+
+// BLOG-CATEGORY-PREVIEW (nature) — 6414:42229
+const preview = {
+  eyebrow: "Services",
+  title: "Erfahren Sie, wie wir bei ADLER Wohndesign konzipieren und gestalten",
+  buttonLabel: "Service Übersicht",
+  buttonHref: "/services",
+  cards: [
+    { eyebrow: "Category", date: "Datum", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/karriere/preview-1.jpg", href: "/blog/gesellenpruefung-kimberly-fischer" },
+    { eyebrow: "Category", date: "Datum", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/karriere/preview-2.jpg", href: "/blog/gesellenpruefung-kimberly-fischer" },
+    { eyebrow: "Category", date: "Datum", title: "Gesellenprüfung zur Raumausstatterin Kimberly Fischer", img: "/images/karriere/preview-3.jpg", href: "/blog/gesellenpruefung-kimberly-fischer" },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Raumausstatter (m/w/d) – Karriere bei ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Werden Sie Raumausstatter (m/w/d) bei ADLER Wohndesign in Berlin-Charlottenburg: vielfältige Projekte, kreatives Team und hochwertige Materialien. Jetzt bewerben."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 12138:20737 / 12138:20726 / 12138:20654 (weiß) -->
+      <section class="hero">
+        <div class="container hero__inner">
+          <div class="hero__text">
+            <Breadcrumb items={hero.crumbs} />
+            <h1 class="t-h1 hero__title">{hero.title}</h1>
+            <p class="t-body hero__lead">{hero.lead}</p>
+          </div>
+          <Button href="/kontakt">{hero.buttonLabel}</Button>
+        </div>
+      </section>
+
+      <!-- BEWERBUNG INFOS — Frame 6414:42107 / 6413:41978 / 5665:40432 (weiß) -->
+      <section class="infos">
+        <div class="container infos__inner">
+          {infos.map((b) => (
+            <div class="info">
+              <h2 class="t-h4 info__head">
+                <span class="info__head-lead">{b.lead}</span>{b.strong && <span class="info__head-strong">{b.strong}</span>}
+              </h2>
+              <ul class="t-body info__list">
+                {b.items.map((it) => (
+                  <li class="info__item"><span class="info__check" aria-hidden="true">✔</span><span>{it}</span></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- CONTAINER (nature): Hero-image-text + Card-Karussell — 6414:42111 -->
+      <section class="container-block">
+        <!-- Hero image-text overlay — 6414:42112 -->
+        <div class="imagetext">
+          <img class="imagetext__bg" src={imageText.image.src} alt={imageText.image.alt} loading="lazy" />
+          <div class="imagetext__overlay" aria-hidden="true"></div>
+          <div class="container imagetext__inner">
+            <div class="imagetext__text">
+              <p class="t-titel imagetext__eyebrow">{imageText.eyebrow}</p>
+              <h2 class="t-h1 imagetext__title">{imageText.title}</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card-Information-Karussell — 8040:19554 -->
+        <div class="container cards">
+          <Carousel tone="dark" label="Unsere Leistungen" perMobile={1} perTablet={2} perDesktop={3} class="cards__carousel">
+            {cards.map((c) => (
+              <li class="info-card">
+                <div class="info-card__content">
+                  <Icon name={c.icon} size={44} class="info-card__icon" />
+                  <div class="info-card__text">
+                    <p class="t-h4 info-card__title">{c.title}</p>
+                    <p class="t-body info-card__body">{c.body}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
+      <!-- TEXT CONTAINER (moos): „Haben Sie sich wiedererkannt?" — 6414:42121 -->
+      <section class="recap">
+        <div class="container recap__inner">
+          <p class="t-titel recap__eyebrow">{recap.eyebrow}</p>
+          <h2 class="t-h3 recap__title">{recap.title}</h2>
+          <p class="t-body recap__lead">{recap.lead}</p>
+          <Button href="/kontakt">{recap.buttonLabel}</Button>
+        </div>
+      </section>
+
+      <!-- ZITAT (weiß): zentriertes H3-Zitat — 6414:42123 -->
+      <section class="zitat">
+        <div class="container zitat__inner">
+          <p class="t-titel zitat__eyebrow">{zitat.eyebrow}</p>
+          <p class="t-h3 zitat__text">{zitat.text}</p>
+        </div>
+      </section>
+
+      <!-- IMAGE-COLLAGE (full-bleed) — 6414:42125 -->
+      <section class="collage">
+        <div class="collage__top">
+          <img src={collage.top.src} alt={collage.top.alt} loading="lazy" />
+        </div>
+        <div class="collage__pair">
+          <div class="collage__cell"><img src={collage.left.src} alt={collage.left.alt} loading="lazy" /></div>
+          <div class="collage__cell"><img src={collage.right.src} alt={collage.right.alt} loading="lazy" /></div>
+        </div>
+      </section>
+
+      <!-- BLOG-CATEGORY-PREVIEW (nature) — 6414:42229 -->
+      <section class="preview">
+        <div class="container preview__inner">
+          <h2 class="t-h3 preview__title">{preview.title}</h2>
+          <div class="preview__cards">
+            {preview.cards.map((c) => (
+              <Card
+                href={c.href}
+                image={c.img}
+                alt={c.title}
+                eyebrow={c.eyebrow}
+                eyebrowRight={c.date}
+                title={c.title}
+                ratio="landscape"
+                class="preview__card"
+              />
+            ))}
+          </div>
+          <Button href={preview.buttonHref}>{preview.buttonLabel}</Button>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ============ HERO (weiß) ============ */
+      /* Frame: pt XXL, pb XL, px margin; Text-Stack max 1056, gap M; Button darunter (gap M). */
+      .hero { background: var(--white); }
+      .hero__inner {
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        align-items: flex-start;
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm); /* Frame Container-Text-1 gap SM zwischen H1 und Lead */
+        max-width: var(--text-max);
+        color: var(--text);
+      }
+      .hero__title { color: var(--text); }
+      .hero__lead { color: var(--text); }
+      /* Breadcrumb sitzt über H1 mit gap M — eigener Abstand via Text-Wrapper-Anpassung. */
+      .hero__text :global(.breadcrumb) { margin-bottom: var(--gap-m); }
+
+      /* ============ BEWERBUNG INFOS (weiß) ============ */
+      /* Frame: pt XXL, pb XL, px margin; Blöcke gap L; je Block H4 + Liste, gap XS. */
+      .infos { background: var(--white); }
+      .infos__inner {
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+        color: var(--text);
+      }
+      .info__head { color: var(--text); font-weight: 500; }
+      .info__head-strong { font-weight: 600; }
+      .info__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        color: var(--text);
+      }
+      .info__item { display: flex; gap: var(--gap-xxs); }
+      .info__check { color: var(--bronze); flex: none; }
+
+      /* ============ CONTAINER (nature) ============ */
+      /* Frame 6414:42111: nature-BG, gap L zwischen image-text und Karussell, pb XL. */
+      .container-block {
+        background: var(--nature);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+        padding-bottom: var(--gap-xl);
+      }
+
+      /* Hero image-text — full-bleed Bild + Gradient + Overlay-Text unten links. */
+      .imagetext {
+        position: relative;
+        height: 698px; /* component/height/header Mobil */
+        display: flex;
+        align-items: flex-end;
+      }
+      .imagetext__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .imagetext__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(31, 31, 39, 0), rgba(31, 31, 39, 0.5));
+      }
+      .imagetext__inner {
+        position: relative;
+        padding-block: var(--gap-xl) var(--gap-l); /* Frame pt XL, pb L */
+      }
+      .imagetext__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        max-width: var(--text-max);
+        color: var(--white);
+      }
+      .imagetext__eyebrow { color: var(--white); }
+      .imagetext__title { color: var(--white); }
+
+      /* Card-Information-Karussell — Karten 1,2px-Rahmen (grey-light), kein Radius. */
+      .cards__carousel :global(.carousel__track) { align-items: stretch; }
+      .info-card {
+        border: 1.2px solid var(--light-grey); /* Frame component/Line-width 1,2px, grey-light */
+        background: transparent;
+        padding: var(--gap-ml) var(--gap-sm) var(--gap-m); /* Frame pt ML, px SM, pb M */
+        display: flex;
+        height: 100%;
+      }
+      .info-card__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-s);
+        width: 100%;
+      }
+      .info-card__icon { color: var(--bronze); }
+      .info-card__text { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .info-card__title { color: var(--text); }
+      .info-card__body { color: var(--text); }
+
+      /* ============ TEXT CONTAINER (moos) ============ */
+      /* Frame 6414:42121: moos-BG, pt XXL, pb XL, zentriert; Stack gap M. */
+      .recap { background: var(--moos); color: var(--white); }
+      .recap__inner {
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: var(--gap-m);
+      }
+      .recap__eyebrow { color: var(--white); }
+      .recap__title { color: var(--white); max-width: var(--text-max); }
+      .recap__lead { color: var(--nature); max-width: var(--text-max); }
+
+      /* ============ ZITAT (weiß) ============ */
+      /* Frame 6414:42123: weiß, py XXL, zentriert; Eyebrow (grey) + H3-Zitat. */
+      .zitat { background: var(--white); }
+      .zitat__inner {
+        padding-block: var(--gap-xxl);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: var(--gap-m);
+      }
+      .zitat__eyebrow { color: var(--grey); }
+      .zitat__text { color: var(--text); max-width: var(--text-max); }
+
+      /* ============ IMAGE-COLLAGE (full-bleed) ============ */
+      /* Frame 6414:42125: großes Bild oben (h image-horizontal), darunter zwei nebeneinander. */
+      .collage { display: flex; flex-direction: column; }
+      .collage__top { width: 100%; height: 240px; }
+      .collage__top img { width: 100%; height: 100%; object-fit: cover; }
+      .collage__pair { display: flex; }
+      .collage__cell { flex: 1 1 0; height: 240px; }
+      .collage__cell img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* ============ BLOG-CATEGORY-PREVIEW (nature) ============ */
+      /* Frame 6414:42229: nature-BG, py XXL, zentriert; Titel + Karten + Button (gap L). */
+      .preview { background: var(--nature); }
+      .preview__inner {
+        padding-block: var(--gap-xxl);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-l);
+      }
+      .preview__title { color: var(--text); text-align: center; max-width: var(--text-max); }
+      /* Mobil: Karten gestapelt (S-Frame Card Container vertikal). */
+      .preview__cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--gap-sm);
+        width: 100%;
+      }
+      /* Preview-Karte: Bild-Seitenverhältnis 342/228 (≈3/2), Frame-Wert. */
+      .preview__cards :global(.card--landscape .card__media) { aspect-ratio: 342 / 228; }
+
+      /* ============ Breakpoints (kanonisch 701 / 992) ============ */
+      @media (min-width: 701px) {
+        .imagetext { height: 830px; } /* component/height/header Tablet */
+        .collage__top, .collage__cell { height: 500px; } /* image-horizontal Tablet */
+        /* Tablet: 2 Preview-Karten nebeneinander (M-Frame Card Container = 2). */
+        .preview__cards { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (min-width: 992px) {
+        .imagetext { height: 948px; } /* component/height/header Desktop */
+        .collage__top, .collage__cell { height: 700px; } /* image-horizontal Desktop */
+        /* Desktop: 3 Preview-Karten nebeneinander (L-Frame Card Container = 3). */
+        .preview__cards { grid-template-columns: repeat(3, 1fr); }
+      }
+    </style>
+  </body>
+</html>
+</content>
+</invoke>

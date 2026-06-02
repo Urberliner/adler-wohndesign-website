@@ -1,0 +1,265 @@
+---
+// /blog/[slug] — dynamische Blog-Detailroute.
+// Struktur/Layout/Tokens 1:1 aus dem verifizierten Muster „blog/beispiel.astro"
+// (Figma V4 AryB7Db9AeJFgXmfBEsvpn, Section „006-Blog/001-Artikel").
+// Datenquelle: Sanity (blogPost, Status „approved"). Slugs = slug.current → URLs unverändert.
+// Hero-Bild + Inline-Bilder via urlFor() (Sanity image-url). Body = Portable Text → toHTML.
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Carousel from "../../components/Carousel.astro";
+import Card from "../../components/Card.astro";
+import BackToTop from "../../components/BackToTop.astro";
+import { getApprovedPosts, getPostBySlug, urlFor, fmtDate } from "../../lib/sanity";
+import { toHTML } from "@portabletext/to-html";
+
+const PLATZHALTER = "/images/home/blog-thumbnail.jpg";
+
+export async function getStaticPaths() {
+  const posts = await getApprovedPosts();
+  if (!posts || posts.length === 0) return [];
+  return posts.map((post: any, i: number) => {
+    const related = [1, 2, 3].map((d) => {
+      const r = posts[(i + d) % posts.length];
+      return {
+        titel: r.title,
+        kategorie: r.kategorie ?? "",
+        datum: fmtDate(r.publishedAt),
+        href: `/blog/${r.slug}`,
+        img: r.heroImage
+          ? urlFor(r.heroImage).width(685).height(457).fit("crop").url()
+          : PLATZHALTER,
+      };
+    });
+    return {
+      params: { slug: post.slug },
+      props: { slug: post.slug, related },
+    };
+  });
+}
+
+interface RelatedItem { titel: string; kategorie: string; datum: string; href: string; img: string; }
+interface Props { slug: string; related: RelatedItem[]; }
+const { slug, related } = Astro.props as Props;
+
+const beitrag = await getPostBySlug(slug);
+if (!beitrag) return Astro.redirect("/blog");
+
+const heroBild = beitrag.heroImage ? urlFor(beitrag.heroImage).width(1400).url() : PLATZHALTER;
+const heroAlt = beitrag.heroImage?.alt ?? beitrag.title;
+
+// Lead = echter Auszug.
+const lead = beitrag.excerpt ?? "";
+
+const kategorie = beitrag.kategorie ?? "";
+const datumText = beitrag.publishedAt ? fmtDate(beitrag.publishedAt) : 'Veröffentlichung folgt';
+
+// HTML-Escape für alt-Attribute in der toHTML-Image-Komponente.
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// Body (Portable Text) → HTML. Inline-Bilder auf Textbreite begrenzt.
+const bodyHtml =
+  Array.isArray(beitrag.body) && beitrag.body.length > 0
+    ? toHTML(beitrag.body, {
+        components: {
+          types: {
+            image: ({ value }: { value: any }) => {
+              const src = escapeHtml(urlFor(value).width(1200).url());
+              const alt = escapeHtml(value?.alt ?? "");
+              return `<img src="${src}" alt="${alt}" loading="lazy" class="text-block__image" />`;
+            },
+          },
+        },
+      })
+    : "";
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{beitrag.title} | ADLER Wohndesign</title>
+    <meta name="description" content={lead} />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame 6416:18066 / 6416:18109 / 6416:18157 -->
+      <section class="hero">
+        <div class="container hero__head">
+          <div class="hero__text">
+            <Breadcrumb
+              items={[{ label: "Blog", href: "/blog" }, { label: kategorie }]}
+              class="hero__crumb"
+            />
+            <div class="hero__title">
+              <h1 class="t-h1">{beitrag.title}</h1>
+              <p class="t-body hero__lead">{lead}</p>
+            </div>
+          </div>
+        </div>
+        <figure class="hero__figure">
+          <div class="hero__image">
+            <img src={heroBild} alt={heroAlt} fetchpriority="high" />
+          </div>
+          {datumText && (
+            <figcaption class="container hero__caption">
+              <span class="t-small">{datumText}</span>
+            </figcaption>
+          )}
+        </figure>
+      </section>
+
+      <!-- ARTICLE — Frame 6416:18074 / 6416:18117 / 6416:18165 -->
+      <article class="article">
+        <!-- 1. Einleitungs-Textblock (H4 + Body aus Portable Text) -->
+        <section class="container text-block">
+          <h2 class="t-h4 text-block__heading">{beitrag.title}</h2>
+          <div class="text-block__body" set:html={bodyHtml}></div>
+        </section>
+
+        <!-- 2. Artikel-Info (Kategorie + Datum) -->
+        <section class="container article-info">
+          <div class="article-info__inner">
+            <p class="article-info__meta">
+              <span class="t-small article-info__label">Veröffentlicht</span>
+              <span class="t-small article-info__name">{datumText} · {kategorie}</span>
+            </p>
+          </div>
+        </section>
+      </article>
+
+      <!-- RELATED „Weitere Artikel" — Frame 6416:18084 / 6416:18127 / 6416:18175 (nature) -->
+      <section class="related">
+        <div class="container related__inner">
+          <p class="t-titel related__title">Weitere Artikel</p>
+          <Carousel
+            tone="dark"
+            label="Weitere Artikel"
+            perMobile={1}
+            perTablet={2}
+            perDesktop={3}
+            class="related__carousel"
+          >
+            {related.map((r) => (
+              <li>
+                <Card
+                  href={r.href}
+                  image={r.img}
+                  alt={r.titel}
+                  eyebrow={r.kategorie}
+                  eyebrowRight={r.datum}
+                  title={r.titel}
+                  ratio="landscape"
+                />
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+    <BackToTop />
+
+    <style>
+      /* ============ HERO ============ */
+      /* Frame: pt XXL, gap ML zwischen Text-Container und Bild+Subline. */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml);
+        padding-top: var(--gap-xxl);
+        background: var(--white);
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        max-width: var(--text-max); /* 652 / 771(927) / 1056 */
+      }
+      .hero__crumb { color: var(--text); }
+      .hero__title {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+      }
+      .hero__lead { color: var(--text); }
+
+      /* Bild + Subline: gap xs. */
+      .hero__figure {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        margin: 0;
+      }
+      .hero__image { width: 100%; height: 585px; } /* image-vertical Mobil 585 */
+      .hero__image img { width: 100%; height: 100%; object-fit: cover; }
+      .hero__caption { color: var(--grey); }
+      .hero__caption .t-small { color: var(--grey); display: block; max-width: var(--text-max); }
+
+      /* ============ ARTICLE ============ */
+      /* Frame: pt XXL, pb XL, gap XL zwischen den Blöcken. */
+      .article {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xl);
+        padding-block: var(--gap-xxl) var(--gap-xl);
+        background: var(--white);
+      }
+      .text-block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+      }
+      .text-block__heading { color: var(--text); max-width: var(--text-max); }
+      .text-block__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+        max-width: var(--text-max);
+      }
+      .text-block__body .t-body { color: var(--text); }
+      .text-block__body :global(.text-block__image) {
+        display: block;
+        width: 100%;
+        max-width: var(--text-max);
+        height: auto;
+      }
+
+      /* Artikel-Info — Label/Name, gap sm. */
+      .article-info__inner { display: flex; align-items: center; gap: var(--gap-sm); }
+      .article-info__meta { display: flex; flex-direction: column; }
+      .article-info__label { color: var(--grey); }
+      .article-info__name { color: var(--text); }
+
+      /* ============ RELATED (nature) ============ */
+      .related {
+        background: var(--nature);
+        padding-block: var(--gap-xxl);
+      }
+      .related__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+      }
+      .related__title { color: var(--text); }
+      /* Figma Related-Karte: Bild 342.5/228 ≈ 3:2. */
+      .related__carousel :global(.card--landscape .card__media) { aspect-ratio: 3 / 2; }
+
+      /* ============ Breakpoints (kanonisch 701 / 992) ============ */
+      @media (min-width: 701px) {
+        .hero__image { height: 500px; }   /* image-vertical Tablet 500 */
+      }
+
+      @media (min-width: 992px) {
+        .hero__image { height: 700px; }   /* image-vertical Desktop 700 */
+      }
+    </style>
+  </body>
+</html>

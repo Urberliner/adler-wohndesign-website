@@ -1,0 +1,268 @@
+---
+// /farrow-ball/mein-farbkonzept — Farrow & Ball „Meine Farbkonzepte" (gemerkte Farben).
+// 1:1 aus Figma V4 (AryB7Db9AeJFgXmfBEsvpn), Section 12558:28525
+//   „004-Farrow&Ball/002-Farben/001-MeinFarbkonzept". Drei Breakpoint-Frames:
+//   L 12558:28605 · M 12558:28658 · S 12558:28680
+//
+// Aufbau (alle BP — aus get_design_context/get_variable_defs der drei Frames):
+//   Hero (Breadcrumb „Farrow & Ball > Farben > Mein Farbkonzept" + H1 „Meine Farbkonzepte")
+//   → Artikel Container (pt XL, pb XXL, gap 78):
+//       Filter + Sortierung: ein Button „Neues Farbkonzept erstellen" (add-Icon links)
+//       Card Container: Farbkonzept-Karten (gemerkte Räume). Karte = Titel (H4) + more_vert-Menü
+//         + Reihe aus bis zu 3 Farbmuster-Platzhaltern (3:1:1); letztes Muster optional „+N"-Kachel
+//         (moos, color/card-filling) für weitere Farben.
+//
+// Tokens/Texte/Spacing AUSSCHLIESSLICH aus get_design_context/get_variable_defs der drei Frames.
+//
+// Annotation (REST /v1/files .../nodes, label umgesetzt) — Hero 12558:28608 / 12603:30243 /
+//   12603:30305: „Wenn doppeltes padding mit weißer Fläche, dann bottom padding von oberer Section
+//   löschen (Hero bottom padding)." → Hero ohne padding-bottom; den Abstand zur Übersicht macht das
+//   padding-top (XL) des Artikel-Containers.
+//
+// WICHTIG (Abweichung vom Auftrag, „Frame gewinnt"/GATE 0): Der echte Figma-Frame dieser Seite
+//   enthält WEDER ColorListItem („Mein Farbkonzept öffnen") NOCH FavoriteButton — das ist die
+//   Farbkonzept-Übersicht (gemerkte Konzepte als Karten mit more_vert-Menü), nicht die Farben-
+//   Detailliste. ColorListItem/FavoriteButton leben auf /farrow-ball/farben (Farben-Archiv).
+//   Daher hier NICHT verbaut. Siehe Flags.
+//
+// Karten-Listing = 12-Spalten-Grid wie projekte.astro (mobil gestapelt, ab 701 Grid; Karte
+//   span 6 Tablet / span 4 Desktop → 2 bzw. 3 Karten je Reihe, deckt die echte Frame-Geometrie:
+//   M flex-1 min 306.5 / max 451.5 = 2 Spalten · L Karte w 501.3 min 256 = 3 Spalten).
+//
+// Inhalte = PLATZHALTER (Raum-/Konzeptnamen wie Figma „Mein Schlafzimmer / Mein Wohnzimmer /
+//   Meine Küche"); Farbmuster = benannte Bild-Platzhalter, bis echte F&B-Swatches vorliegen (Flags).
+// Presentational: keine echte Persistenz/Logik (Erstellen, Menü, Speichern) = Folgeaufgabe mit
+//   echten Farbdaten (Flags).
+import "../../styles/global.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Button from "../../components/Button.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Icon from "../../components/Icon.astro";
+
+// PLATZHALTER-Farbmuster (Bilder = vorhandene Site-Assets als benannte Platzhalter, bis echte
+// Farrow-&-Ball-Swatches als public/images/farrow-ball/* vorliegen → Flags).
+const PLATZHALTER_BILD = [
+  "/images/komplettloesung/card1.png",
+  "/images/komplettloesung/card2.png",
+  "/images/komplettloesung/card3.png",
+  "/images/komplettloesung/card4.png",
+  "/images/komplettloesung/card5.png",
+];
+
+// PLATZHALTER-Farbkonzepte (Namen wie im Figma-Frame). swatches = Farbmuster-Bilder der Karte;
+// plus = Anzahl weiterer Farben → erzeugt eine „+N"-Kachel (moos) als drittes Muster (Figma „Card Nr.").
+const konzepte = [
+  { name: "Mein Schlafzimmer", swatches: [0, 1, 2] },
+  { name: "Mein Wohnzimmer", swatches: [3, 4], plus: 2 },
+  { name: "Meine Küche", swatches: [0] },
+];
+const farbkonzepte = konzepte.map((k) => ({
+  ...k,
+  bilder: k.swatches.map((i) => PLATZHALTER_BILD[i % PLATZHALTER_BILD.length]),
+}));
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mein Farbkonzept — Ihre gemerkten Farben | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Ihre persönlichen Farbkonzepte von Farrow & Ball bei ADLER Wohndesign in Berlin-Charlottenburg – gemerkte Farben übersichtlich nach Räumen und Projekten gesammelt."
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO — Frame „Hero" 12558:28608 / 12603:30243 / 12603:30305.
+           Annotation: kein bottom-padding (Doppel-Padding vermeiden) → Abstand macht Artikel-Container. -->
+      <section class="hero container">
+        <div class="hero__text">
+          <Breadcrumb
+            items={[
+              { label: "Farrow & Ball", href: "/farrow-ball/farben" },
+              { label: "Farben", href: "/farrow-ball/farben" },
+              { label: "Mein Farbkonzept" },
+            ]}
+          />
+          <h1 class="t-h1">Meine Farbkonzepte</h1>
+        </div>
+      </section>
+
+      <!-- ARTIKEL CONTAINER — Frame 12558:28610 / 12603:30245 / 12603:30307
+           (pt XL, pb XXL, gap 78, zentriert). -->
+      <section class="archive container" aria-label="Meine Farbkonzepte">
+        <!-- Filter + Sortierung — Frame 12558:28611 / 12603:30246 / 12603:30308.
+             Einziger Inhalt: Button „Neues Farbkonzept erstellen" (add-Icon links). -->
+        <div class="archive__actions">
+          <Button href="#" icon="add" iconPosition="left">Neues Farbkonzept erstellen</Button>
+        </div>
+
+        <!-- Card Container — Frame 12558:28621 / 12603:30248 / 12603:30310.
+             Farbkonzept-Karten im 12-Spalten-Grid (mobil 1 / tablet 2 / desktop 3). -->
+        <ul class="concepts">
+          {farbkonzepte.map((k) => (
+            <li class="concept">
+              <a class="concept__link" href="#">
+                <div class="concept__head">
+                  <p class="t-h4 concept__title">{k.name}</p>
+                  <span class="concept__menu" aria-hidden="true">
+                    <Icon name="more_vert" size={32} class="concept__menu-icon" />
+                  </span>
+                </div>
+                <div class="concept__swatches">
+                  {k.bilder.map((src, i) => (
+                    <div class="concept__swatch">
+                      <img src={src} alt={`Farbmuster ${i + 1} in ${k.name} (Platzhalter)`} loading="lazy" />
+                    </div>
+                  ))}
+                  {k.plus && (
+                    <div class="concept__swatch concept__swatch--more">
+                      <span class="t-h4 concept__more-label">+{k.plus}</span>
+                    </div>
+                  )}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* ---- HERO ---- (Frame: pt XXL, px margin, gap M Breadcrumb→H1.
+         Annotation: kein bottom-padding.) */
+      .hero {
+        padding-top: var(--gap-xxl); /* spacing/XXL 120 / 164 / 222 */
+      }
+      .hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m); /* spacing/M 32 / 44 / 56 (Breadcrumb → H1) */
+        max-width: var(--text-max); /* component/width/text-container-max 652 / 927 / 1056 */
+      }
+
+      /* ---- ARTIKEL CONTAINER ---- (Frame: pt XL, pb XXL, gap 78, zentriert.) */
+      .archive {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 78px; /* Frame Artikel-Container: fixer gap 78 (alle BP) zwischen Aktion und Grid */
+        padding-top: var(--gap-xl); /* spacing/XL 72 / 104 / 142 */
+        padding-bottom: var(--gap-xxl); /* spacing/XXL 120 / 164 / 222 */
+      }
+      /* Filter+Sortierung: links ausgerichtet (Frame: Button am Zeilenanfang). */
+      .archive__actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      /* ---- CARD CONTAINER — Farbkonzept-Karten ----
+         Frame „Card Container": flex gap-gutter, Karten gleich breit. Mobil 1 Spalte (gestapelt),
+         ab 701 12-Spalten-Grid (wie projekte.astro): Tablet span 6 (2/Reihe), Desktop span 4 (3/Reihe). */
+      .concepts {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gutter); /* layout/gutter 16 / 24 / 32 */
+      }
+      .concept {
+        display: flex;
+      }
+      /* Karte: bg natur, KEINE runden Ecken, pt M / pb S / px S, gap XS (Kopf → Muster). */
+      .concept__link {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs); /* spacing/XS 14 / 18 / 20 */
+        background: var(--nature); /* ADLER natur #F6F3F2 */
+        color: var(--text);
+        padding: var(--gap-m) var(--gap-s) var(--gap-s); /* top M · inline S · bottom S */
+      }
+      /* Kopf: Titel (H4) links, more_vert-Menü rechts (Funktionen). */
+      .concept__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--gap-xs);
+      }
+      .concept__title {
+        color: var(--text);
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .concept__menu {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text);
+        transition: color 0.2s ease;
+      }
+      .concept__link:hover .concept__menu { color: var(--bronze); }
+
+      /* Muster-Reihe: bis zu 3 quadratische Farbmuster, gap XXS. */
+      .concept__swatches {
+        display: flex;
+        gap: var(--gap-xxs); /* spacing/XXS 8 / 10 / 14 */
+        width: 100%;
+      }
+      .concept__swatch {
+        flex: 1 1 0;
+        min-width: 0;
+        position: relative;
+        aspect-ratio: 1 / 1; /* Frame Placeholder 222/222 */
+        overflow: hidden; /* keine runden Ecken */
+        background: var(--nature);
+      }
+      .concept__swatch img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .concept__link:hover .concept__swatch img { transform: scale(1.03); }
+      /* „+N"-Kachel (weitere Farben) — moos (color/card-filling), zentrierte H4 in weiß. */
+      .concept__swatch--more {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--moos); /* color/card-filling #153032 */
+      }
+      .concept__more-label {
+        color: var(--white);
+      }
+
+      /* ---- Breakpoints (kanonisch 701 / 992) ---- */
+      @media (min-width: 701px) {
+        .concepts {
+          flex-direction: row;
+          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: var(--gutter);
+        }
+        .concept {
+          grid-column: span 6; /* Tablet: 2 Karten je Reihe */
+        }
+      }
+      @media (min-width: 992px) {
+        .concept {
+          grid-column: span 4; /* Desktop: 3 Karten je Reihe */
+        }
+      }
+    </style>
+  </body>
+</html>

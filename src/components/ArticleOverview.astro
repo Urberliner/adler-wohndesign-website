@@ -1,0 +1,150 @@
+---
+// Artikel-/Produkt-Übersicht (V4) — 1:1 aus Figma 6319:52503 (Desktop-Frame 6319:52504).
+// Filter-Bar (Filter nach + optionaler Sub-Filter | Sortierung) + Card-Grid + „Mehr"-Button.
+// Verhalten (Frame-Annotation): Main-Filter-Tab öffnet Sub-Filter; mobil/tablet = Page-Overlay,
+// desktop = Dropdown. Card-Anordnung: desktop Grid (mehrere Reihen), tablet/mobil horizontal scroll
+// (2 bzw. 1 Card sichtbar). Tokens aus get_design_context/variable_defs.
+// ⚠ Filter-/Sortier-LOGIK + Favoriten (F&B „Meine Farben", Heart-Icon fehlt im Registry) = Folge-
+//   aufgabe mit echten Daten. Hier presentational mit Platzhalter-Inhalt + visuellem Tab-Toggle.
+import FilterMenu from "./FilterMenu.astro";
+import FilterTab from "./FilterTab.astro";
+import Icon from "./Icon.astro";
+
+interface Item { image: string; title: string; subtitle?: string; href?: string; }
+interface FilterDef { label: string; icon?: "add" | null; count?: number | null; active?: boolean; }
+interface Props {
+  filterLabel?: string;
+  filters?: FilterDef[];
+  subFilterLabel?: string | null;
+  subFilters?: { label: string; active?: boolean }[];
+  sortLabel?: string;
+  sorts?: { label: string; active?: boolean }[];
+  items?: Item[];
+  loadMore?: string | null;
+  favorites?: boolean;
+}
+const {
+  filterLabel = "Filter nach",
+  filters = [
+    { label: "Alles", active: false },
+    { label: "Farbe", icon: "add", active: true },
+    { label: "Finish", count: 1 },
+    { label: "Intensität", icon: "add" },
+    { label: "Farbreihe", icon: "add" },
+  ],
+  subFilterLabel = "Filter nach Farbe",
+  subFilters = [
+    { label: "Blautöne" }, { label: "Grüntöne", active: true }, { label: "Handwerk" },
+    { label: "Firma" }, { label: "Verantwortung" },
+  ],
+  sortLabel = "Sortierung",
+  sorts = [{ label: "Farbnamen", active: true }, { label: "Farbnummern" }, { label: "Position im Fächer" }],
+  items = [
+    { image: "/images/home/project-1.jpg", title: "Flächenvorhänge", subtitle: "Variable Paneele zur flexiblen Licht- und Raumgestaltung." },
+    { image: "/images/home/project-2.jpg", title: "Dibber", subtitle: "Nr. 312" },
+    { image: "/images/home/team.jpg", title: "Marmelo", subtitle: "Nr. 316" },
+    { image: "/images/hero-beratung.jpg", title: "Scallop", subtitle: "Nr. 311" },
+    { image: "/images/home/blog-akustik.jpg", title: "Dibber", subtitle: "Nr. 312" },
+  ],
+  loadMore = "Mehr anzeigen",
+  favorites = false,
+} = Astro.props;
+---
+<section class="ao container" aria-label="Übersicht">
+  <div class="ao__bar">
+    <div class="ao__main">
+      <FilterMenu label={filterLabel} layout="wrap" name="main">
+        {filters.map((f) => <FilterTab label={f.label} icon={f.icon ?? null} count={f.count ?? null} active={f.active} name={f.label} />)}
+      </FilterMenu>
+      {subFilterLabel && (
+        <FilterMenu label={subFilterLabel} layout="wrap" name="sub">
+          {subFilters.map((f) => <FilterTab label={f.label} active={f.active} name={f.label} />)}
+        </FilterMenu>
+      )}
+    </div>
+    <FilterMenu label={sortLabel} layout="stack" name="sort" class="ao__sort">
+      {sorts.map((s) => <FilterTab label={s.label} active={s.active} name={s.label} />)}
+    </FilterMenu>
+  </div>
+
+  <div class="ao__grid">
+    {items.map((it) => {
+      const Tag = it.href ? "a" : "div";
+      return (
+        <Tag class="ao-card" href={it.href}>
+          <div class="ao-card__media">
+            <img src={it.image} alt={it.title} loading="lazy" />
+            {favorites && (
+              <button type="button" class="ao-card__fav" aria-label="Zu Meine Farben hinzufügen" aria-pressed="false">
+                <Icon name="heart" size={22} class="ao-card__fav-icon ao-card__fav-icon--outline" />
+                <Icon name="heart-filled" size={22} class="ao-card__fav-icon ao-card__fav-icon--filled" />
+              </button>
+            )}
+          </div>
+          <div class="ao-card__body">
+            <p class="t-h5 ao-card__title">{it.title}</p>
+            {it.subtitle && <p class="t-small ao-card__sub">{it.subtitle}</p>}
+          </div>
+        </Tag>
+      );
+    })}
+  </div>
+
+  {loadMore && <button type="button" class="btn ao__more">{loadMore}</button>}
+</section>
+
+<style>
+  .ao { display: flex; flex-direction: column; align-items: center; gap: var(--gap-ml); padding-block: var(--pad-section); }
+  /* Filter-Bar: links Main(+Sub), rechts Sortierung */
+  .ao__bar { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--gutter); width: 100%; }
+  .ao__main { display: flex; flex-direction: column; gap: var(--gutter); flex: 1 1 0; min-width: 0; max-width: 1056px; }
+  .ao__sort { align-items: flex-end; }
+
+  /* Card-Grid — desktop umbrechend (mehrere Reihen), Card min 272 / max 652 */
+  .ao__grid { display: flex; flex-wrap: wrap; gap: var(--gap-s) var(--gap-xs); width: 100%; }
+  .ao-card { flex: 1 1 272px; min-width: 272px; max-width: 652px; display: flex; flex-direction: column; gap: var(--gap-xs); color: var(--text); }
+  .ao-card__media { position: relative; aspect-ratio: 1 / 1; overflow: hidden; }
+  .ao-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  a.ao-card:hover .ao-card__media img { transform: scale(1.03); }
+  .ao-card__fav { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--white); color: var(--bronze); line-height: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .ao-card__fav :global(.ao-card__fav-icon) { grid-area: 1 / 1; }
+  .ao-card__fav :global(.ao-card__fav-icon--filled) { display: none; }
+  .ao-card__fav[aria-pressed="true"] :global(.ao-card__fav-icon--outline) { display: none; }
+  .ao-card__fav[aria-pressed="true"] :global(.ao-card__fav-icon--filled) { display: inline-flex; }
+  .ao-card__body { display: flex; flex-direction: column; gap: var(--gap-xxxs); }
+  .ao-card__sub { color: var(--grey); }
+
+  .ao__more { align-self: center; }
+
+  /* Tablet/Mobil: horizontaler Scroll (2 bzw. 1 Card sichtbar) */
+  @media (max-width: 991px) {
+    .ao__bar { flex-direction: column; gap: var(--gap-m); }
+    .ao__sort { align-items: flex-start; }
+    .ao__grid {
+      flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory;
+      gap: var(--gutter); margin-inline: calc(-1 * var(--layout-margin)); padding-inline: var(--layout-margin);
+    }
+    .ao-card { flex: 0 0 calc((100% - var(--gutter)) / 2); min-width: 0; scroll-snap-align: start; }
+  }
+  @media (max-width: 700px) {
+    .ao-card { flex: 0 0 85%; }
+  }
+</style>
+
+<script>
+  // Visuelles Tab-Toggle (Auswahl). Echte Filter-/Sortier-Logik folgt mit Daten.
+  document.querySelectorAll(".ao [data-filter-menu] .filter-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const pressed = tab.getAttribute("aria-pressed") === "true";
+      tab.setAttribute("aria-pressed", String(!pressed));
+      tab.classList.toggle("is-active", !pressed);
+    });
+  });
+  document.querySelectorAll(".ao-card__fav").forEach((b) => {
+    b.addEventListener("click", (e) => {
+      e.preventDefault();
+      const pressed = b.getAttribute("aria-pressed") === "true";
+      b.setAttribute("aria-pressed", String(!pressed));
+    });
+  });
+</script>

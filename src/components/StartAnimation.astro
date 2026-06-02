@@ -1,0 +1,60 @@
+---
+// Start-/Intro-Animation (V4) — 1:1 aus Figma 5659:13938 (4 Stufen).
+// Intro-Overlay, das EINMAL pro Session abspielt und sich auflöst → legt die echte Seite frei
+// (Header + Hero sind bereits gerendert). Sequenz (aus Franzi-Motion-Notiz):
+//  1) Vollbild Moos · 2) Logo fliegt von oben zur Mitte · 3) Crossfade (Moos→Seite), Logo →
+//  oben-links (Header-Position) + verkleinern · 4) Header/Hero sichtbar, „bildschirmfüllend".
+// prefers-reduced-motion → übersprungen. Ohne JS → via <noscript> ausgeblendet.
+const { logo = "/images/logo-white.png" } = Astro.props;
+---
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__bg"></div>
+  <img class="intro__logo" src={logo} alt="" width="2634" height="949" />
+</div>
+<noscript><style>#intro { display: none !important; }</style></noscript>
+
+<style>
+  .intro { position: fixed; inset: 0; z-index: 9999; pointer-events: none; --ease: cubic-bezier(.22,.61,.36,1); }
+  .intro__bg { position: absolute; inset: 0; background: var(--moos); transition: opacity 0.7s ease; }
+  .intro__logo {
+    position: absolute; top: -30%; left: 50%; transform: translate(-50%, -50%);
+    height: clamp(90px, 18vw, 150px); width: auto; opacity: 0;
+    transition: top 0.85s var(--ease), left 0.85s var(--ease), height 0.85s var(--ease),
+                transform 0.85s var(--ease), opacity 0.6s ease;
+  }
+  /* Stufe 2: Logo in der Mitte */
+  .intro.is-center .intro__logo { top: 50%; opacity: 1; }
+  /* Stufe 3/4: Logo oben-links (≈ Header-Logo), Hintergrund weg */
+  .intro.is-final .intro__logo { top: 26px; left: var(--layout-margin); transform: translate(0, 0); height: 44px; }
+  .intro.is-final .intro__bg { opacity: 0; }
+  .intro.is-done { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro { display: none; }
+  }
+</style>
+
+<script>
+  const intro = document.getElementById("intro");
+  if (intro) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const seen = sessionStorage.getItem("introPlayed") === "1";
+    if (reduce || seen) {
+      intro.style.display = "none";
+    } else {
+      sessionStorage.setItem("introPlayed", "1");
+      document.body.style.overflow = "hidden";
+      // Stufe 1 → 2: Logo fliegt von oben zur Mitte
+      requestAnimationFrame(() => requestAnimationFrame(() => intro.classList.add("is-center")));
+      // Stufe 2 → 3/4: halten, dann Crossfade + Logo nach oben-links
+      const t1 = window.setTimeout(() => intro.classList.add("is-final"), 1500);
+      // Aufräumen nach dem Übergang
+      const t2 = window.setTimeout(() => {
+        intro.classList.add("is-done");
+        document.body.style.overflow = "";
+      }, 2400);
+      // Sicherheitsnetz
+      window.addEventListener("pagehide", () => { clearTimeout(t1); clearTimeout(t2); document.body.style.overflow = ""; });
+    }
+  }
+</script>

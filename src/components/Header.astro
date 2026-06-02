@@ -3,9 +3,17 @@
 // Desktop: Bar + Mega-Dropdown (Liste links, Bild rechts). Tablet/Mobil: Bar (Lupe+Telefon+Burger) + Vollbild-Overlay.
 // Motion: Bar versteckt beim Runterscrollen, erscheint beim Hochscrollen (weich).
 import Icon from "./Icon.astro";
+import Search from "./Search.astro";
 
 const tel = "+49 30 305 47 11";
 const telHref = "tel:+49303054711";
+
+// Aktuelle Seite (Figma „Navigation Tab" — active-State: bronze, kein Hover-Unterstrich).
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isActive = (href: string) => {
+  const h = href.replace(/\/+$/, "") || "/";
+  return h === "/" ? path === "/" : path === h || path.startsWith(h + "/");
+};
 
 const nav = [
   {
@@ -71,11 +79,11 @@ const nav = [
           {nav.map((item) => (
             <li>
               {item.panel ? (
-                <button type="button" class="t-titel nav-trigger" data-mega={item.id} aria-expanded="false" aria-controls={`mega-${item.id}`}>
+                <button type="button" class:list={["t-titel nav-trigger", { "is-active": isActive(item.href) }]} data-mega={item.id} aria-expanded="false" aria-controls={`mega-${item.id}`} aria-current={isActive(item.href) ? "page" : undefined}>
                   {item.label}<Icon name="chevron-down" size={16} class="nav-chev" />
                 </button>
               ) : (
-                <a class="t-titel nav-link" href={item.href}>{item.label}</a>
+                <a class:list={["t-titel nav-link", { "is-active": isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
               )}
             </li>
           ))}
@@ -83,7 +91,7 @@ const nav = [
       </nav>
 
       <div class="nav-actions">
-        <button class="icon-btn" type="button" aria-label="Suche"><Icon name="search" size={24} /></button>
+        <button class="icon-btn" type="button" aria-label="Suche" data-search-toggle><Icon name="search" size={24} /></button>
         <a class="icon-btn nav-phone" href={telHref} aria-label={`Anrufen: ${tel}`}><Icon name="phone" size={24} /></a>
         <a class="btn nav-cta" href="/kontakt">Mein Termin</a>
         <button class="icon-btn burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav"><Icon name="burger" size={24} /></button>
@@ -127,7 +135,7 @@ const nav = [
     {nav.map((item) => (
       item.panel ? (
         <details class="m-sec">
-          <summary><span class="t-h4">{item.label}</span><Icon name="chevron-down" size={24} class="m-chev" /></summary>
+          <summary><span class:list={["t-h4", { "is-active": isActive(item.href) }]}>{item.label}</span><Icon name="chevron-down" size={24} class="m-chev" /></summary>
           <div class="m-sec__body">
             {item.panel.map((entry) => (
               entry.heading ? (
@@ -146,13 +154,16 @@ const nav = [
           </div>
         </details>
       ) : (
-        <a href={item.href} class="t-h4 m-toplink">{item.label}</a>
+        <a href={item.href} class:list={["t-h4 m-toplink", { "is-active": isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
       )
     ))}
     <a href="/kontakt" class="t-h4 m-toplink">Kontakt</a>
     <a class="btn mobile-cta" href="/kontakt">Mein Termin</a>
   </nav>
 </div>
+
+<!-- Such-Overlay (global, geöffnet vom Such-Icon) -->
+<Search />
 
 <style>
   .site-header { background: var(--moos); position: sticky; top: 0; z-index: 50; transition: transform 0.3s ease; }
@@ -172,7 +183,7 @@ const nav = [
   .nav-trigger, .nav-link { display: inline-flex; align-items: center; gap: 4px; color: var(--white); padding: 8px; position: relative; transition: color 0.2s ease; }
   /* Hover/aktiv: bronze + Unterstrich (Figma Navigation Tab) */
   .nav-trigger::after, .nav-link::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 4px; height: 1px; background: var(--bronze); transform: scaleX(0); transition: transform 0.2s ease; }
-  .nav-trigger:hover, .nav-link:hover, .nav-trigger[aria-expanded="true"] { color: var(--bronze); }
+  .nav-trigger:hover, .nav-link:hover, .nav-trigger[aria-expanded="true"], .nav-trigger.is-active, .nav-link.is-active { color: var(--bronze); }
   .nav-trigger:hover::after, .nav-link:hover::after, .nav-trigger[aria-expanded="true"]::after { transform: scaleX(1); }
   .nav-chev :global(svg) { transition: transform 0.25s ease; }
   .nav-trigger[aria-expanded="true"] .nav-chev :global(svg) { transform: rotate(180deg); }
@@ -206,6 +217,7 @@ const nav = [
   .mobile-close { color: var(--white); }
   .mobile-nav__body { display: flex; flex-direction: column; gap: var(--gap-s); padding-bottom: var(--gap-l); }
   .m-toplink, .m-sec > summary { color: var(--white); }
+  .m-toplink.is-active, .m-sec > summary .t-h4.is-active { color: var(--bronze); }
   .m-sec { border: 0; }
   .m-sec > summary, .m-sub > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 6px; }
   .m-sec > summary::-webkit-details-marker, .m-sub > summary::-webkit-details-marker { display: none; }

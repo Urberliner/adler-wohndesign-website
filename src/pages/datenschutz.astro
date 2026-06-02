@@ -1,0 +1,235 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+// Rechtstext-Seite "008-Rechtliches/001-Datenschutz" (Figma V4, Section 8068:18593).
+// Layout: Hero (Eyebrow + H1 + Intro) + Text-Container (H4-Abschnitt + Fließtext).
+// Tokens/Spacing 1:1 aus get_variable_defs der 3 Breakpoint-Frames (L 6062:37069,
+// M 6416:20262, S 5661:35557) → entsprechen global.css-Tokens.
+// Texte exakt aus dem L-Frame (get_design_context) übernommen.
+//
+// HINWEIS: Der Frame enthält bewusst NUR einen Auszug des Rechtstexts und endet
+// mit dem Platzhalter "usw....." (Figma-Node 6416:20529). Der vollständige
+// Datenschutztext muss von Franzi/Inhaber bzw. aus dem rechtsgültigen Bestand
+// (adler-wohndesign.de) nachgeliefert werden. Hier 1:1 wie im Frame abgebildet.
+
+const verantwortlicherIntro =
+  "Diese Datenschutzerklärung klärt Sie über die Art, den Umfang und Zweck der Verarbeitung von personenbezogenen Daten (nachfolgend kurz „Daten“) innerhalb unseres Onlineangebotes und der mit ihm verbundenen Webseiten, Funktionen und Inhalte sowie externen Onlinepräsenzen, wie z.B. unser Social Media Profile auf (nachfolgend gemeinsam bezeichnet als „Onlineangebot“). Im Hinblick auf die verwendeten Begrifflichkeiten, wie z.B. „Verarbeitung“ oder „Verantwortlicher“ verweisen wir auf die Definitionen im Art. 4 der Datenschutzgrundverordnung (DSGVO).";
+
+const artenDaten = [
+  "Bestandsdaten (z.B., Namen, Adressen).",
+  "Kontaktdaten (z.B., E-Mail, Telefonnummern).",
+  "Inhaltsdaten (z.B., Texteingaben, Fotografien, Videos).",
+  "Nutzungsdaten (z.B., besuchte Webseiten, Interesse an Inhalten, Zugriffszeiten).",
+  "Meta-/Kommunikationsdaten (z.B., Geräte-Informationen, IP-Adressen).",
+];
+
+const zweckVerarbeitung = [
+  "Zurverfügungstellung des Onlineangebotes, seiner Funktionen und Inhalte.",
+  "Beantwortung von Kontaktanfragen und Kommunikation mit Nutzern.",
+  "Sicherheitsmaßnahmen.",
+  "Reichweitenmessung/Marketing",
+];
+
+const begrifflichkeiten = [
+  "„Personenbezogene Daten“ sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person (im Folgenden „betroffene Person“) beziehen; als identifizierbar wird eine natürliche Person angesehen, die direkt oder indirekt, insbesondere mittels Zuordnung zu einer Kennung wie einem Namen, zu einer Kennnummer, zu Standortdaten, zu einer Online-Kennung (z.B. Cookie) oder zu einem oder mehreren besonderen Merkmalen identifiziert werden kann, die Ausdruck der physischen, physiologischen, genetischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität dieser natürlichen Person sind.",
+  "„Verarbeitung“ ist jeder mit oder ohne Hilfe automatisierter Verfahren ausgeführte Vorgang oder jede solche Vorgangsreihe im Zusammenhang mit personenbezogenen Daten. Der Begriff reicht weit und umfasst praktisch jeden Umgang mit Daten.",
+  "„Pseudonymisierung“ die Verarbeitung personenbezogener Daten in einer Weise, dass die personenbezogenen Daten ohne Hinzuziehung zusätzlicher Informationen nicht mehr einer spezifischen betroffenen Person zugeordnet werden können, sofern diese zusätzlichen Informationen gesondert aufbewahrt werden und technischen und organisatorischen Maßnahmen unterliegen, die gewährleisten, dass die personenbezogenen Daten nicht einer identifizierten oder identifizierbaren natürlichen Person zugewiesen werden.",
+  "„Profiling“ jede Art der automatisierten Verarbeitung personenbezogener Daten, die darin besteht, dass diese personenbezogenen Daten verwendet werden, um bestimmte persönliche Aspekte, die sich auf eine natürliche Person beziehen, zu bewerten, insbesondere um Aspekte bezüglich Arbeitsleistung, wirtschaftliche Lage, Gesundheit, persönliche Vorlieben, Interessen, Zuverlässigkeit, Verhalten, Aufenthaltsort oder Ortswechsel dieser natürlichen Person zu analysieren oder vorherzusagen.",
+  "Als „Verantwortlicher“ wird die natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet, bezeichnet.",
+  "„Auftragsverarbeiter“ eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die personenbezogene Daten im Auftrag des Verantwortlichen verarbeitet.",
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Datenschutzerklärung | ADLER Wohndesign</title>
+    <meta
+      name="description"
+      content="Datenschutzerklärung von ADLER Wohndesign: Art, Umfang und Zweck der Verarbeitung personenbezogener Daten gemäß DSGVO."
+    />
+    <meta name="robots" content="noindex,follow" />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container hero__inner">
+          <p class="t-titel hero__over">Service</p>
+          <h1 class="t-h1 hero__title">Datenschutzerklärung</h1>
+          <p class="t-body hero__lead">{verantwortlicherIntro}</p>
+        </div>
+      </section>
+
+      <!-- TEXT-CONTAINER -->
+      <section class="legal">
+        <div class="container legal__inner">
+          <!-- Verantwortlicher -->
+          <article class="legal__block">
+            <h2 class="t-h4 legal__head">Verantwortlicher</h2>
+            <div class="t-body legal__text">
+              <p>ADLER Wohndesign GmbH</p>
+              <p>
+                Reichsstraße 100<br />
+                14052 Berlin-Charlottenburg
+              </p>
+              <p>
+                Vertreten durch<br />
+                Marco Adler
+              </p>
+              <p>
+                Prokurist<br />
+                Norman Drewitz
+              </p>
+              <p>
+                Kontakt<br />
+                Telefon: +49 30 305 47 11<br />
+                Telefax: +49 30 308 230 04
+              </p>
+              <p>
+                E-Mail:
+                <a href="mailto:info@adler-wohndesign.de">info@adler-wohndesign.de</a>
+              </p>
+              <p>
+                <a
+                  href="https://www.adler-wohndesign.de/impressum/"
+                  class="legal__link"
+                  >https://www.adler-wohndesign.de/impressum/</a
+                >
+              </p>
+            </div>
+          </article>
+
+          <!-- Arten der verarbeiteten Daten -->
+          <article class="legal__block">
+            <h2 class="t-h4 legal__head">Arten der verarbeiteten Daten</h2>
+            <ul class="t-body legal__text legal__list">
+              {artenDaten.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+
+          <!-- Kategorien betroffener Personen -->
+          <article class="legal__block">
+            <h2 class="t-h4 legal__head">Kategorien betroffener Personen</h2>
+            <div class="t-body legal__text">
+              <p>
+                Besucher und Nutzer des Onlineangebotes (Nachfolgend bezeichnen
+                wir die betroffenen Personen zusammenfassend auch als „Nutzer“).
+              </p>
+            </div>
+          </article>
+
+          <!-- Zweck der Verarbeitung -->
+          <article class="legal__block">
+            <h2 class="t-h4 legal__head">Zweck der Verarbeitung</h2>
+            <ul class="t-body legal__text legal__list">
+              {zweckVerarbeitung.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+
+          <!-- Verwendete Begrifflichkeiten -->
+          <article class="legal__block">
+            <h2 class="t-h4 legal__head">Verwendete Begrifflichkeiten</h2>
+            <div class="t-body legal__text">
+              {begrifflichkeiten.map((p) => <p>{p}</p>)}
+            </div>
+          </article>
+
+          <!-- Figma-Platzhalter: weiterer Rechtstext folgt -->
+          <p class="t-h4 legal__head legal__more">usw.....</p>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* HERO — Figma Frame "Hero": pad oben XXL (--pad-section), unten XL.
+         Text-Container max 1056/927/652 (component/width/text-container-max). */
+      .hero {
+        background: var(--white);
+        padding-block: var(--pad-section) var(--gap-xl);
+      }
+      .hero__inner {
+        display: flex;
+        flex-direction: column;
+        max-width: var(--text-max);
+        margin-inline: 0;
+        gap: var(--gap-m);
+      }
+      /* Container links bündig (margin), nicht zentriert — wie im Frame */
+      .hero .container,
+      .legal .container {
+        margin-inline: 0;
+      }
+      .hero__over {
+        color: var(--grey);
+      }
+      .hero__title {
+        color: var(--moos);
+      }
+      .hero__lead {
+        color: var(--text);
+      }
+
+      /* TEXT-CONTAINER — Figma "Text Container": pad vertikal XXL,
+         Abstand zwischen Blöcken = spacing/L; innerhalb Block = spacing/XS. */
+      .legal {
+        background: var(--white);
+        padding-block: var(--pad-section);
+      }
+      .legal__inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+        max-width: var(--text-max);
+        margin-inline: 0;
+      }
+      .legal__block {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+      }
+      .legal__head {
+        color: var(--moos);
+      }
+      .legal__text {
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-xs);
+      }
+      .legal__list {
+        list-style: disc;
+        padding-left: 1.25em;
+        gap: 0;
+      }
+      .legal__list li {
+        list-style: disc;
+      }
+      .legal__link {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        word-break: break-word;
+      }
+      .legal__text a {
+        color: var(--text);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .legal__text a:hover {
+        color: var(--bronze);
+      }
+      .legal__more {
+        color: var(--moos);
+      }
+    </style>
+  </body>
+</html>

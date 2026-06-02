@@ -1,0 +1,74 @@
+---
+// FavoriteButton — runder Icon-Button („Button-function" 12416:36802).
+// Toggelt Herz outline (♡) ↔ filled (♥) via aria-pressed. PRESENTATIONAL: keine Persistenz,
+// nur Client-Toggle (echtes „Mein Farbkonzept" via localStorage/CMS ist Folgeaufgabe).
+//
+// Figma-States:
+//  - favorit default 12416:36801 (Herz outline), favorit on-click 12613:9570 (Herz filled),
+//    add 12614:29055 (Plus → variant "add").
+// Tokens: Button 32px Kreis, Hintergrund natur #F6F3F2 (= --nature), Icon 22px (icon/icon-xs).
+import Icon from "./Icon.astro";
+interface Props {
+  pressed?: boolean;        // initialer Zustand (true = bereits im Farbkonzept)
+  variant?: "favorit" | "add";
+  label?: string;           // aria-label
+  class?: string;
+  [key: string]: unknown;
+}
+const {
+  pressed = false,
+  variant = "favorit",
+  label = variant === "add" ? "Zum Farbkonzept hinzufügen" : "Zu meinem Farbkonzept",
+  class: cls = "",
+  ...rest
+} = Astro.props;
+const isAdd = variant === "add";
+---
+<button
+  class:list={["favbtn", cls]}
+  type="button"
+  aria-pressed={isAdd ? undefined : String(pressed)}
+  aria-label={label}
+  data-variant={variant}
+  {...rest}
+>
+  {isAdd ? (
+    <Icon name="add" size={22} class="favbtn__icon" />
+  ) : (
+    <>
+      <Icon name="heart" size={22} class="favbtn__icon favbtn__icon--outline" />
+      <Icon name="heart-filled" size={22} class="favbtn__icon favbtn__icon--filled" />
+    </>
+  )}
+</button>
+
+<style>
+  .favbtn {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--nature); /* natur #F6F3F2 */
+    color: var(--text);
+    flex: none;
+    transition: filter 0.2s ease, color 0.2s ease;
+  }
+  .favbtn :global(.favbtn__icon) { grid-area: 1 / 1; }
+  .favbtn:hover { color: var(--bronze); }
+  .favbtn:active { filter: brightness(0.96); }
+
+  /* Herz-Toggle: outline sichtbar wenn nicht gedrückt, filled wenn gedrückt. */
+  .favbtn :global(.favbtn__icon--filled) { display: none; color: var(--bronze); }
+  .favbtn[aria-pressed="true"] :global(.favbtn__icon--outline) { display: none; }
+  .favbtn[aria-pressed="true"] :global(.favbtn__icon--filled) { display: inline-flex; }
+</style>
+
+<script>
+  // Reiner Presentational-Toggle (keine Persistenz).
+  document.querySelectorAll<HTMLButtonElement>(".favbtn[data-variant='favorit']").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.setAttribute("aria-pressed", btn.getAttribute("aria-pressed") === "true" ? "false" : "true");
+    });
+  });
+</script>

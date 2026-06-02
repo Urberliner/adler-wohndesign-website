@@ -1,0 +1,346 @@
+---
+// Karriere — Landing-Seite („Das sind wir > Karriere").
+// Quelle: Figma V4 (AryB7Db9AeJFgXmfBEsvpn), 3 Breakpoints
+//   S 5664:36672 · M 5664:36704 · L 5664:36743.
+// Alle Werte (Layout/Spacing/Typo/Farben/Texte) aus get_design_context + get_variable_defs.
+// Tokens/Utility-Klassen aus global.css; Bausteine aus src/components.
+// Annotation (Franzi) „Zusammengehörende Abschnitte" (itemSpacing) am Team-Block:
+//   Image + Text gehören zusammen → engerer Abstand (spacing/L), umgesetzt.
+// Die Karriere-Artikel-DETAILseite ist NICHT Teil dieser Seite (Karten verlinken Platzhalter).
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Section from "../components/Section.astro";
+import Button from "../components/Button.astro";
+import Carousel from "../components/Carousel.astro";
+import Icon from "../components/Icon.astro";
+
+// --- Job-Karten (Job Cards) — Texte exakt aus Frame ---
+const jobs = [
+  { title: "Raumausstatter",            start: "Ab März 2025", mode: "Vollzeit in Berlin", note: "(w/m/d)" },
+  { title: "Ausbildung Raumausstatter", start: "Ab März 2025", mode: "Vollzeit in Berlin", note: "(w/m/d)" },
+  { title: "Ausbildung Raumausstatter", start: "Ab März 2025", mode: "Vollzeit in Berlin", note: "(w/m/d)" },
+  { title: "Polsterer",                 start: "Ab März 2025", mode: "Vollzeit in Berlin", note: "(w/m/d)" },
+];
+
+// --- Arbeitsphilosophie (Card Carousel) — Icon + Titel + Text exakt aus Frame ---
+const philosophy = [
+  {
+    icon: "rocket",
+    title: "Kreativ – Räume neu denken",
+    text: "Wir lieben es, individuelle Wohnkonzepte zu gestalten und mit Farben, Materialien und Formen einzigartige Atmosphären zu schaffen. Jedes Projekt ist für uns eine neue Leinwand, auf der wir kreative Ideen zum Leben erwecken.",
+  },
+  {
+    icon: "bolt",
+    title: "Innovativ – Zukunftsweisendes Design",
+    text: "Wir verbinden traditionelles Handwerk mit modernen Techniken, um innovative Lösungen für anspruchsvolle Raumgestaltung zu bieten. Unsere Konzepte orientieren sich an aktuellen Trends, ohne dabei zeitlose Eleganz aus den Augen zu verlieren.",
+  },
+  {
+    icon: "light-bulb",
+    title: "Inspiriert – Leidenschaft für Räume",
+    text: "Jede Umgebung erzählt eine Geschichte – wir lassen uns von Architektur, Natur und den individuellen Wünschen unserer Kunden inspirieren. Unser Ziel ist es, Wohnräume zu schaffen, die nicht nur schön, sondern auch erlebbar sind.",
+  },
+  {
+    icon: "target",
+    title: "Anspruchsvoll – Höchste Qualität als Standard",
+    text: "Wir setzen auf hochwertige Materialien, präzise Verarbeitung und durchdachte Konzepte. Unser hoher Anspruch an Design und Handwerk sorgt dafür, dass jedes Projekt unseren Kunden langfristig Freude bereitet.",
+  },
+  {
+    icon: "shield-person",
+    title: "Zuverlässig – Verbindlichkeit in jeder Phase",
+    text: "Von der ersten Idee bis zur finalen Umsetzung stehen wir für eine professionelle und verlässliche Arbeitsweise. Unsere Kunden können sich darauf verlassen, dass wir ihre Vorstellungen mit Sorgfalt und Termintreue realisieren.",
+  },
+];
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Karriere — Werde Teil von ADLER Wohndesign</title>
+    <meta name="description" content="Karriere bei ADLER Wohndesign: vielseitige Projekte, ein eingespieltes Team und Raum für Kreativität. Offene Stellen, Ausbildung und Initiativbewerbung in Berlin-Charlottenburg." />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header />
+
+    <main>
+      <!-- HERO (weiß) -->
+      <Section bg="default" pad="none" class="kar-hero">
+        <div class="kar-hero__text">
+          <p class="t-titel kar-hero__crumb">
+            <span class="kar-hero__crumb-parent">Das sind wir</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;Karriere
+          </p>
+          <div class="kar-hero__lede">
+            <h1 class="t-h1">Werde Teil von ADLER Wohndesign</h1>
+            <p class="t-body">Bei ADLER Wohndesign erwarten Sie vielseitige Projekte und ein eingespieltes Team, das mit Leidenschaft Räume gestaltet. Hier können Sie Ihre Kreativität einbringen, mitdenken und Verantwortung übernehmen. Sie lernen viel, erleben viel und gestalten aktiv mit. Das klingt spannend?</p>
+          </div>
+          <Button href="/kontakt">Mein Projekt starten</Button>
+        </div>
+      </Section>
+
+      <!-- STELLEN (weiß) -->
+      <Section bg="default" pad="section" class="kar-jobs">
+        <button class="kar-filter" type="button">
+          <span class="t-titel kar-filter__label">Filter</span>
+          <Icon name="chevron-down" size={36} />
+        </button>
+        <ul class="kar-jobs__grid">
+          {jobs.map((job) => (
+            <li>
+              <article class="jobcard">
+                <h2 class="t-h4 jobcard__title">{job.title}</h2>
+                <div class="jobcard__row">
+                  <div class="t-body jobcard__meta">
+                    <p>{job.start}</p>
+                    <p>{job.mode}</p>
+                    <p>{job.note}</p>
+                  </div>
+                  <a class="jobcard__btn" href="/karriere" aria-label={`Mehr zu ${job.title}`}>
+                    <Icon name="arrow_upward" size={32} />
+                  </a>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <!-- INITIATIVBEWERBUNG (moos) -->
+      <Section bg="moos" center pad="section" class="kar-initiative">
+        <p class="t-titel kar-initiative__over">Initiativbewerbung</p>
+        <div class="kar-initiative__lede">
+          <h2 class="t-h3">Keine passende Stelle gefunden?</h2>
+          <p class="t-body">Sie sind überzeugt, dass wir gut zusammenpassen? Ergreifen Sie die Initiative und erzählen Sie uns mehr über sich.</p>
+        </div>
+        <Button href="/kontakt">Mein Projekt starten</Button>
+      </Section>
+
+      <!-- ARBEITSPHILOSOPHIE (nature): Bild-Text-Hero + Karten-Karussell -->
+      <section class="kar-philo">
+        <div class="kar-philo__hero">
+          <img class="kar-philo__bg" src="/images/komplettloesung/hero.png" alt="Team von ADLER Wohndesign bei der Arbeit (Platzhalter)" loading="lazy" />
+          <div class="kar-philo__hero-text">
+            <p class="t-titel kar-philo__over">Arbeitsphilosophie</p>
+            <h2 class="t-h1">Wir wollen für unsere Mitarbeiter mehr sein als ein Arbeitsplatz</h2>
+          </div>
+        </div>
+
+        <div class="kar-philo__carousel">
+          <Carousel tone="dark" label="Unsere Arbeitsphilosophie" perMobile={1} perTablet={2} perDesktop={3}>
+            {philosophy.map((p) => (
+              <li class="philocard">
+                <Icon name={p.icon} size={44} class="philocard__icon" />
+                <div class="philocard__text">
+                  <h3 class="t-h4 philocard__title">{p.title}</h3>
+                  <p class="t-body">{p.text}</p>
+                </div>
+              </li>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
+      <!-- TEAM (weiß) — „Zusammengehörende Abschnitte": Bild + Text eng gekoppelt -->
+      <section class="kar-team">
+        <div class="kar-team__image">
+          <img src="/images/home/team.jpg" alt="Das Team von ADLER Wohndesign (Platzhalter)" loading="lazy" />
+        </div>
+        <div class="kar-team__text">
+          <p class="t-titel kar-team__over">Services</p>
+          <div class="kar-team__lede">
+            <h2 class="t-h3">Sie haben einen Wunschtraum?</h2>
+            <p class="t-body">Unser Team aus Raumgestaltern, Handwerkern, Planern und Beratern steht für kreatives Wohndesign mit Leidenschaft. Schau vorbei und lerne uns kennen.</p>
+          </div>
+          <Button href="/team">Unser Team</Button>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+
+    <style>
+      /* =================== HERO (weiß) =================== */
+      /* Figma: pt XXL, kein pb; Text max 1056, innen-Gaps M (Block) + SM (H1↔Body). */
+      .kar-hero :global(.section__inner) { padding-top: var(--gap-xxl); }
+      .kar-hero__text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        align-items: flex-start;
+        max-width: var(--text-max);
+      }
+      .kar-hero__crumb { color: var(--text); }
+      .kar-hero__crumb-parent { color: var(--grey); }
+      .kar-hero__lede { display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .kar-hero__lede .t-h1 { color: var(--text); }
+
+      /* =================== STELLEN (weiß) =================== */
+      .kar-jobs :global(.section__inner) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-ml);
+      }
+      .kar-filter {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--gap-xs);
+        align-self: flex-start;
+      }
+      .kar-filter__label { color: var(--text); }
+      .kar-filter :global(.icon) { color: var(--text); }
+
+      .kar-jobs__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: var(--gutter);
+        row-gap: var(--gap-ml);
+      }
+
+      /* Job-Karte: Outline (1.2px light-grey), KEINE Radien, pt ML / pb M / px SM. */
+      .jobcard {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-s);
+        height: 100%;
+        border: 1.2px solid var(--light-grey);
+        padding: var(--gap-ml) var(--gap-sm) var(--gap-m);
+        background: transparent;
+      }
+      .jobcard__title { color: var(--text); }
+      .jobcard__row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--gap-xs);
+      }
+      .jobcard__meta { color: var(--text); }
+      .jobcard__btn {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        color: var(--text);
+      }
+      /* Pfeil zeigt nach rechts (arrow_upward 90° gedreht) — wie Figma „Button" in der Karte. */
+      .jobcard__btn :global(svg) { transform: rotate(90deg); transition: transform 0.25s ease; }
+      .jobcard__btn:hover :global(svg),
+      .jobcard__btn:focus-visible :global(svg) { transform: rotate(90deg) translateY(-3px); }
+
+      /* =================== INITIATIVBEWERBUNG (moos) =================== */
+      .kar-initiative__over { color: var(--white); }
+      .kar-initiative__lede {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+        max-width: var(--text-max);
+      }
+      .kar-initiative__lede .t-h3 { color: var(--white); }
+      .kar-initiative__lede .t-body { color: var(--white); }
+
+      /* =================== ARBEITSPHILOSOPHIE (nature) =================== */
+      .kar-philo {
+        background: var(--nature);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+        padding-bottom: var(--gap-xl);
+      }
+      /* Bild-Text-Hero: full-bleed Bild + Gradient-Overlay, Text unten links. */
+      .kar-philo__hero {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        min-height: 698px;
+        padding: var(--gap-xl) var(--layout-margin) var(--gap-l);
+        overflow: hidden;
+      }
+      .kar-philo__bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+      .kar-philo__hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, var(--overlay-0), var(--overlay-50));
+        z-index: 1;
+      }
+      .kar-philo__hero-text {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-m);
+        width: 100%;
+        max-width: var(--text-max);
+        color: var(--white);
+      }
+      .kar-philo__over { color: var(--white); }
+      .kar-philo__hero-text .t-h1 { color: var(--white); }
+
+      .kar-philo__carousel { padding-inline: var(--layout-margin); }
+
+      /* Philosophie-Karte: Outline, KEINE Radien, pt ML / pb M / px SM; gleich hoch. */
+      .philocard {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-s);
+        height: 100%;
+        border: 1.2px solid var(--light-grey);
+        padding: var(--gap-ml) var(--gap-sm) var(--gap-m);
+        background: transparent;
+      }
+      .philocard__icon { color: var(--bronze); }
+      .philocard__text { display: flex; flex-direction: column; gap: var(--gap-xs); }
+      .philocard__title { color: var(--text); }
+      .philocard__text .t-body { color: var(--text); }
+
+      /* =================== TEAM (weiß) =================== */
+      /* „Zusammengehörende Abschnitte": Bild + Text bilden eine Einheit (gap L). */
+      .kar-team {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-l);
+        padding-bottom: var(--gap-xxl);
+      }
+      .kar-team__image { width: 100%; height: 585px; }
+      .kar-team__image img { width: 100%; height: 100%; object-fit: cover; }
+      .kar-team__text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-m);
+        text-align: center;
+        margin-inline: auto;
+        max-width: var(--text-max);
+        padding-inline: var(--layout-margin);
+      }
+      .kar-team__over { color: var(--grey); }
+      .kar-team__lede { display: flex; flex-direction: column; gap: var(--gap-sm); }
+      .kar-team__lede .t-h3 { color: var(--text); }
+
+      /* =================== Breakpoints =================== */
+      /* Tablet (701–991): Job-Karten 2 Spalten; Bild/Hero-Höhen aus Frame. */
+      @media (min-width: 701px) {
+        .kar-jobs__grid { grid-template-columns: repeat(2, 1fr); }
+        .kar-philo__hero { min-height: 830px; }
+        .kar-team__image { height: 500px; }
+      }
+
+      /* Desktop (≥992): Job-Karten 3 Spalten; Bild/Hero-Höhen aus Frame. */
+      @media (min-width: 992px) {
+        .kar-jobs__grid { grid-template-columns: repeat(3, 1fr); }
+        .kar-philo__hero { min-height: 948px; }
+        .kar-team__image { height: 700px; }
+      }
+    </style>
+  </body>
+</html>
