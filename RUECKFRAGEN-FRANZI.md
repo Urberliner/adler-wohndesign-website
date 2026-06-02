@@ -72,7 +72,7 @@ einige Frames zeigen **Pfeil-Slider**. Pfeile gewünscht? → dann Pfeil-Variant
 
 - **Filter / Sortierung / Favoriten / „Mein Farbkonzept"** sind **presentational** (nur Client-Toggle,
   keine echte Logik/Persistenz). Echte Filterung + Speicherung via localStorage und/oder **Sanity-CMS**.
-- **Dynamische Routen** (Projekte/Blog/Farben) werden aus `src/data/*.json` generiert → später ans CMS anbinden.
+- **Dynamische Routen:** **Blog ist seit Phase 1 an Sanity angebunden** (live, statisch + Build-Zeit-GROQ). **Projekte & Farben** laufen weiterhin aus `src/data/*.json` → Anbindung in Phase 2/3 (siehe `docs/STRATEGIE-ENTSCHEIDUNGEN.md`).
 - **Kontaktformular:** funktionsfähig (Web3Forms); der Key `PUBLIC_WEB3FORMS_KEY` muss als
   **Umgebungsvariable** gesetzt werden (sonst sendet das Formular nicht).
 - **Google Maps:** DSGVO-konform per Klick-zum-Laden (schlüsselloser Embed). Offen: Anbindung an ein

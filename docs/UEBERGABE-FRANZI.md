@@ -2,6 +2,8 @@
 
 Stand: 30.05.2026. Ziel: Franzi baut die Website mit **Claude Code** Seite für Seite aus den Figma-Dateien (V4) weiter.
 
+> ⚠️ **Diese Notiz ist eine frühe Momentaufnahme (30.05.) und in Teilen überholt** (inzwischen: kompletter V4-Seitensatz gebaut, Schriften self-hosted, Blog an Sanity angebunden). Aktueller Stand: **`docs/STRATEGIE-ENTSCHEIDUNGEN.md`** + `README.md`.
+
 ## Was schon steht
 - **Astro-Projekt** mit Design-Tokens (`src/styles/global.css`), Komponenten `Header`/`Footer`.
 - **Beispielseite** `/komplettloesung` (aus Figma gebaut, als Arbeitsprobe).
