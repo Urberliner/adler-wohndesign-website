@@ -1,13 +1,9 @@
 ---
 // /blog/[slug] — dynamische Blog-Detailroute.
 // Struktur/Layout/Tokens 1:1 aus dem verifizierten Muster „blog/beispiel.astro"
-// (Figma V4 AryB7Db9AeJFgXmfBEsvpn, Section „006-Blog/001-Artikel"), aber mit den ECHTEN
-// Blogdaten aus src/data/blog.json (25) gefüllt: Titel, Datum, Kategorie (Breadcrumb),
-// Hero-Bild = lokaler Pfad /images/blog/<slug>.webp (slug = letzter Pfadteil der href).
-// „Zur Übersicht"/Breadcrumb → /blog.
-//
-// PLATZHALTER (Flag): Body/Fließtext steht (außer beim Auszug) NICHT in der JSON → Platzhalter-Body.
-//   3 Einträge ohne bildUrl → benanntes Platzhalter-Bild. Auszug wird, wo vorhanden, als Lead genutzt.
+// (Figma V4 AryB7Db9AeJFgXmfBEsvpn, Section „006-Blog/001-Artikel").
+// Datenquelle: Sanity (blogPost, Status „approved"). Slugs = slug.current → URLs unverändert.
+// Hero-Bild + Inline-Bilder via urlFor() (Sanity image-url). Body = Portable Text → toHTML.
 import "../../styles/global.css";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
@@ -15,56 +11,69 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 import Carousel from "../../components/Carousel.astro";
 import Card from "../../components/Card.astro";
 import BackToTop from "../../components/BackToTop.astro";
-import blogData from "../../data/blog.json";
-
-type Beitrag = {
-  titel: string; datum: string; kategorie: string; href: string; auszug: string; bildUrl: string;
-};
+import { getApprovedPosts, getPostBySlug, urlFor, fmtDate } from "../../lib/sanity";
+import { toHTML } from "@portabletext/to-html";
 
 const PLATZHALTER = "/images/home/blog-thumbnail.jpg";
-const href2slug = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
 
-export function getStaticPaths() {
-  const liste = blogData as Beitrag[];
-  const slug = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
-  return liste.map((beitrag, i) => {
+export async function getStaticPaths() {
+  const posts = await getApprovedPosts();
+  if (!posts || posts.length === 0) return [];
+  return posts.map((post: any, i: number) => {
     const related = [1, 2, 3].map((d) => {
-      const r = liste[(i + d) % liste.length];
+      const r = posts[(i + d) % posts.length];
       return {
-        titel: r.titel,
-        kategorie: r.kategorie,
-        datum: r.datum,
-        href: `/blog/${slug(r.href)}`,
-        img: r.bildUrl ? `/images/blog/${slug(r.href)}.webp` : "/images/home/blog-thumbnail.jpg",
+        titel: r.title,
+        kategorie: r.kategorie ?? "",
+        datum: fmtDate(r.publishedAt),
+        href: `/blog/${r.slug}`,
+        img: r.heroImage
+          ? urlFor(r.heroImage).width(685).height(457).fit("crop").url()
+          : PLATZHALTER,
       };
     });
     return {
-      params: { slug: slug(beitrag.href) },
-      props: { beitrag, slug: slug(beitrag.href), related },
+      params: { slug: post.slug },
+      props: { slug: post.slug, related },
     };
   });
 }
 
 interface RelatedItem { titel: string; kategorie: string; datum: string; href: string; img: string; }
-interface Props { beitrag: Beitrag; slug: string; related: RelatedItem[]; }
-const { beitrag, slug, related } = Astro.props as Props;
+interface Props { slug: string; related: RelatedItem[]; }
+const { slug, related } = Astro.props as Props;
 
-const heroBild = beitrag.bildUrl ? `/images/blog/${slug}.webp` : PLATZHALTER;
-const hatBild = Boolean(beitrag.bildUrl);
+const beitrag = await getPostBySlug(slug);
+if (!beitrag) return Astro.redirect("/blog");
 
-// Lead = echter Auszug, wo vorhanden; sonst Platzhalter-Lead (Flag).
-const lead = beitrag.auszug
-  || "Der vollständige Artikeltext folgt. Dieser Abschnitt zeigt bereits das Layout der Blog-Detailseite.";
+const heroBild = beitrag.heroImage ? urlFor(beitrag.heroImage).width(1400).url() : PLATZHALTER;
+const heroAlt = beitrag.heroImage?.alt ?? beitrag.title;
 
-// Body = PLATZHALTER (Fließtext steht nicht in der JSON).
-const introBlock = {
-  heading: beitrag.titel,
-  paragraphs: [
-    "Der ausführliche Artikeltext folgt mit den redaktionellen Inhalten. Bis dahin dient dieser Abschnitt als Platzhalter und zeigt das fertige Layout der Blog-Detailseite.",
-    "Sobald die Inhalte (z. B. über das CMS) vorliegen, erscheinen hier die vollständigen Absätze, Bilder und Zitate des Beitrags.",
-  ],
-};
-const datumText = beitrag.datum || "Veröffentlichung folgt";
+// Lead = echter Auszug.
+const lead = beitrag.excerpt ?? "";
+
+const kategorie = beitrag.kategorie ?? "";
+const datumText = beitrag.publishedAt ? fmtDate(beitrag.publishedAt) : 'Veröffentlichung folgt';
+
+// HTML-Escape für alt-Attribute in der toHTML-Image-Komponente.
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// Body (Portable Text) → HTML. Inline-Bilder auf Textbreite begrenzt.
+const bodyHtml =
+  Array.isArray(beitrag.body) && beitrag.body.length > 0
+    ? toHTML(beitrag.body, {
+        components: {
+          types: {
+            image: ({ value }: { value: any }) => {
+              const src = escapeHtml(urlFor(value).width(1200).url());
+              const alt = escapeHtml(value?.alt ?? "");
+              return `<img src="${src}" alt="${alt}" loading="lazy" class="text-block__image" />`;
+            },
+          },
+        },
+      })
+    : "";
 ---
 
 <!doctype html>
@@ -72,7 +81,7 @@ const datumText = beitrag.datum || "Veröffentlichung folgt";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{beitrag.titel} | ADLER Wohndesign</title>
+    <title>{beitrag.title} | ADLER Wohndesign</title>
     <meta name="description" content={lead} />
     <link rel="icon" href="/favicon.svg" />
   </head>
@@ -85,18 +94,18 @@ const datumText = beitrag.datum || "Veröffentlichung folgt";
         <div class="container hero__head">
           <div class="hero__text">
             <Breadcrumb
-              items={[{ label: "Blog", href: "/blog" }, { label: beitrag.kategorie }]}
+              items={[{ label: "Blog", href: "/blog" }, { label: kategorie }]}
               class="hero__crumb"
             />
             <div class="hero__title">
-              <h1 class="t-h1">{beitrag.titel}</h1>
+              <h1 class="t-h1">{beitrag.title}</h1>
               <p class="t-body hero__lead">{lead}</p>
             </div>
           </div>
         </div>
         <figure class="hero__figure">
           <div class="hero__image">
-            <img src={heroBild} alt={beitrag.titel} fetchpriority="high" />
+            <img src={heroBild} alt={heroAlt} fetchpriority="high" />
           </div>
           {datumText && (
             <figcaption class="container hero__caption">
@@ -108,12 +117,10 @@ const datumText = beitrag.datum || "Veröffentlichung folgt";
 
       <!-- ARTICLE — Frame 6416:18074 / 6416:18117 / 6416:18165 -->
       <article class="article">
-        <!-- 1. Einleitungs-Textblock (H4 + Absätze) — Platzhalter-Body -->
+        <!-- 1. Einleitungs-Textblock (H4 + Body aus Portable Text) -->
         <section class="container text-block">
-          <h2 class="t-h4 text-block__heading">{introBlock.heading}</h2>
-          <div class="text-block__body">
-            {introBlock.paragraphs.map((p) => <p class="t-body">{p}</p>)}
-          </div>
+          <h2 class="t-h4 text-block__heading">{beitrag.title}</h2>
+          <div class="text-block__body" set:html={bodyHtml}></div>
         </section>
 
         <!-- 2. Artikel-Info (Kategorie + Datum) -->
@@ -121,7 +128,7 @@ const datumText = beitrag.datum || "Veröffentlichung folgt";
           <div class="article-info__inner">
             <p class="article-info__meta">
               <span class="t-small article-info__label">Veröffentlicht</span>
-              <span class="t-small article-info__name">{datumText} · {beitrag.kategorie}</span>
+              <span class="t-small article-info__name">{datumText} · {kategorie}</span>
             </p>
           </div>
         </section>
@@ -218,6 +225,12 @@ const datumText = beitrag.datum || "Veröffentlichung folgt";
         max-width: var(--text-max);
       }
       .text-block__body .t-body { color: var(--text); }
+      .text-block__body :global(.text-block__image) {
+        display: block;
+        width: 100%;
+        max-width: var(--text-max);
+        height: auto;
+      }
 
       /* Artikel-Info — Label/Name, gap sm. */
       .article-info__inner { display: flex; align-items: center; gap: var(--gap-sm); }

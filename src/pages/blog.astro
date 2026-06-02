@@ -32,33 +32,37 @@ import Button from "../components/Button.astro";
 import Card from "../components/Card.astro";
 import FilterMenu from "../components/FilterMenu.astro";
 import Icon from "../components/Icon.astro";
-import blogJson from "../data/blog.json";
+import { getApprovedPosts, urlFor, fmtDate } from "../lib/sanity";
 
-// Echte Blogdaten aus src/data/blog.json (25 Artikel).
-// Bilder lokal nach /public/images/blog/<slug>.webp; Einträge ohne bildUrl → Platzhalter-Asset.
+// Blogdaten aus Sanity (freigegebene Artikel, status=='approved').
 // eyebrow = Kategorie (links), meta = Datum/Status (rechts), title = Überschrift.
 // ratio="auto" → natürliche Bildhöhe (Masonry-Mischung wie Figma).
 const PLATZHALTER = "/images/home/blog-thumbnail.jpg";
-const slugFromHref = (href: string) => href.replace(/\/+$/, "").split("/").pop() ?? "";
-const localPath = (href: string) => {
-  const i = href.indexOf("/blog/");
-  return i >= 0 ? href.slice(i) : href;
-};
-const imgFor = (b: { href: string; bildUrl: string }) =>
-  b.bildUrl ? `/images/blog/${slugFromHref(b.href)}.webp` : PLATZHALTER;
 
-const eintraege = blogJson.map((b) => ({
-  eyebrow: b.kategorie,
-  meta: b.datum || b.kategorie,
-  title: b.titel,
-  auszug: b.auszug,
-  img: imgFor(b),
-  href: localPath(b.href),
+const posts = await getApprovedPosts();
+
+// Festes Bildverhältnis (900×600, crop) verhindert Masonry-Reshuffle durch
+// unterschiedliche natürliche Bildmaße.
+const eintraege = posts.map((p) => ({
+  eyebrow: p.kategorie,
+  meta: p.publishedAt
+    ? fmtDate(p.publishedAt)
+    : p.kategorie,
+  title: p.title,
+  auszug: p.excerpt,
+  img: p.heroImage
+    ? urlFor(p.heroImage).width(900).height(600).fit("crop").url()
+    : PLATZHALTER,
+  href: "/blog/" + p.slug,
+  featured: p.featured,
 }));
 
-// Erster Eintrag = Featured (Hero-Card), Rest in die Masonry-Liste.
-const featured = eintraege[0];
-const artikel = eintraege.slice(1);
+// Featured = explizit markierter Eintrag, sonst erster Eintrag. Bei leerer
+// Liste null (Seite rendert ohne Crash, „bald wieder mehr"-Zustand).
+const featured = eintraege.find((e) => e.featured) ?? eintraege[0] ?? null;
+const artikel = featured
+  ? eintraege.filter((e) => e !== featured)
+  : [];
 ---
 
 <!doctype html>
@@ -90,26 +94,29 @@ const artikel = eintraege.slice(1);
         </div>
 
         <!-- Featured Card Link 6414:43711 — querliegend: Bild links + Text rechts
-             (Header mit Datum, H4-Titel, Lead, „Zum Artikel"). S: gestapelt. -->
-        <a class="feature" href={featured.href}>
-          <div class="feature__media">
-            <img src={featured.img} alt={featured.title} loading="lazy" />
-          </div>
-          <div class="feature__text">
-            <p class="t-small feature__date">{featured.meta}</p>
-            <div class="feature__head">
-              <p class="t-h4 feature__title">{featured.title}</p>
-              {featured.auszug && <p class="t-body feature__lead">{featured.auszug}</p>}
+             (Header mit Datum, H4-Titel, Lead, „Zum Artikel"). S: gestapelt.
+             Nur rendern, wenn ein freigegebener Eintrag existiert (sonst leerer Zustand). -->
+        {featured && (
+          <a class="feature" href={featured.href}>
+            <div class="feature__media">
+              <img src={featured.img} alt={featured.title} loading="lazy" />
             </div>
-            <!-- Featured-CTA: borderloser Text+Pfeil-Link (Figma: small-body text-color + rotierter
-                 arrow_upward, gap layout/gutter). Button-Component hat keine „text-link"-Variante
-                 (nur bronze Pill / Outline) → hier inline; siehe Flag. Hover: Pfeil nach rechts. -->
-            <span class="feature__cta">
-              <span class="t-small">Zum Artikel</span>
-              <Icon name="arrow_upward" size={32} class="feature__cta-arrow" />
-            </span>
-          </div>
-        </a>
+            <div class="feature__text">
+              <p class="t-small feature__date">{featured.meta}</p>
+              <div class="feature__head">
+                <p class="t-h4 feature__title">{featured.title}</p>
+                {featured.auszug && <p class="t-body feature__lead">{featured.auszug}</p>}
+              </div>
+              <!-- Featured-CTA: borderloser Text+Pfeil-Link (Figma: small-body text-color + rotierter
+                   arrow_upward, gap layout/gutter). Button-Component hat keine „text-link"-Variante
+                   (nur bronze Pill / Outline) → hier inline; siehe Flag. Hover: Pfeil nach rechts. -->
+              <span class="feature__cta">
+                <span class="t-small">Zum Artikel</span>
+                <Icon name="arrow_upward" size={32} class="feature__cta-arrow" />
+              </span>
+            </div>
+          </a>
+        )}
       </section>
 
       <!-- ARTICLE CONTAINER — Frame 6414:43712 / 12003:20973 / 12003:21322 -->
